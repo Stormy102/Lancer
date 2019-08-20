@@ -22,10 +22,8 @@ def test_setup():
 def test_quits_with_no_parameters():
     with pytest.raises(SystemExit):
         parse_arguments()
-        assert True
 
 
 def test_signal_handler_quits():
     with pytest.raises(SystemExit):
         signal_handler(None, None)
-        assert True

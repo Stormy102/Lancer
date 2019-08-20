@@ -9,7 +9,8 @@
 
 [![Languages](https://img.shields.io/github/languages/count/Stormy102/Lancer)]()
 [![Last Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer)]()
-[![Maintainance](https://img.shields.io/maintenance/yes/2019)]()
+[![Maintenance](https://img.shields.io/maintenance/yes/2019)]()
+[![Known Vulnerabilities](https://snyk.io//test/github/Stormy102/Lancer/badge.svg?targetFile=requirements.txt)](https://snyk.io//test/github/Stormy102/Lancer?targetFile=requirements.txt)
 [![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer)]()
 [![Languages](https://img.shields.io/github/languages/count/Stormy102/Lancer)]()
 [![Issues](https://img.shields.io/github/issues/Stormy102/Lancer)](https://github.com/Stormy102/Lancer/issues)

@@ -2,11 +2,14 @@
 os:
   - linux
   - windows
+  - osx
 
 # Windows might be a bit dodgy, allow failures on it
 matrix:
   allow_failures:
-    - os: windows
+    - os:
+      - windows
+      - osx
 
 language: python
 python:

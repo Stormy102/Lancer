@@ -34,7 +34,7 @@ Firstly, the program depends on several other programs being installed. For each
 * Nikto (Optional)
 * enum4linux (Optional, Linux only)
 
-To execute the program, ensure that you have Python 3.7 or higher installed. The program takes the following arguments:
+To execute the program, ensure that you have Python 3.5 or higher installed. The program takes the following arguments:
 
 ```text
 usage: lancer.py [-h] (-T TARGET | --target-file FILE) [-q] [-v] [-sd]

@@ -2,6 +2,7 @@ import sys
 import time
 import threading
 
+
 class Spinner:
     busy = False
     delay = 0.1
@@ -9,7 +10,8 @@ class Spinner:
     @staticmethod
     def spinning_cursor():
         while 1: 
-            for cursor in '|/-\\': yield cursor
+            for cursor in '|/-\\':
+                yield cursor
 
     def __init__(self, delay=None):
         self.spinner_generator = self.spinning_cursor()

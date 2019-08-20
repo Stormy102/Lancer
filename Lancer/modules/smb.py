@@ -1,9 +1,10 @@
 from utils import *
 
-def Smbclient(verbose):
-    print (NormalMessage(), "Using SMBClient to enumerate SMB shares...")
-    if ProgramInstalled("smbclient", False, verbose):
-        print (NormalMessage(), "Using SMBClient to list available shares...")
-        smbclientList = subprocess.check_output(['smbclient','-L', args.target]).decode('UTF-8')
-        print(smbclientList)
+
+def smb_client(verbose):
+    print(normal_message(), "Using SMBClient to enumerate SMB shares...")
+    if program_installed("smbclient", False, verbose):
+        print(normal_message(), "Using SMBClient to list available shares...")
+        smbclient_list = subprocess.check_output(['smbclient','-L', args.target]).decode('UTF-8')
+        print(smbclient_list)
         print("")

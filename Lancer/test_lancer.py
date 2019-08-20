@@ -6,11 +6,11 @@ from utils import *
 
 def test_closes_critical_program_not_installed():
     with pytest.raises(SystemExit):
-        ProgramInstalled("programthatdoesntexist", True, False)
+        program_installed("programthatdoesntexist", True, False)
         assert True
 
 def test_non_critical_program_not_installed():
-    assert ProgramInstalled("programthatdoesntexist", False, False) == False
+    assert program_installed("programthatdoesntexist", False, False) == False
 
 def test_setup():
     setup()

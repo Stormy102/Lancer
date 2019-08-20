@@ -2,7 +2,7 @@
 
 ## Tags, Statuses, etc
 
-[![Build Status](https://travis-ci.com/Stormy/Lancer.git?branch=master)](https://travis-ci.com/Stormy/Lancer) 
+[![Build Status](https://travis-ci.com/Stormy102/Lancer.git)](https://travis-ci.com/Stormy/Lancer) 
 
 ## What is this?
 

@@ -3,7 +3,12 @@
 ## Tags, Statuses, etc
 
 [![Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=master)](https://travis-ci.com/Stormy102/Lancer) 
-[![Develop Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=develop)](https://travis-ci.com/Stormy102/Lancer) 
+[![Develop Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=develop)](https://travis-ci.com/Stormy102/Lancer)
+[![Issues](https://img.shields.io/github/issues/Stormy102/Lancer)](https://github.com/Stormy102/Lancer/issues)
+[![Licence](https://img.shields.io/github/license/Stormy102/Lancer)]()
+[![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer)]()
+[![Last Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer)]()
+[![Last Commit](https://img.shields.io/maintenance/yes/2019)]()
 
 ## What is this?
 

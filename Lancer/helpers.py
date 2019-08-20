@@ -1,5 +1,9 @@
 import time, sys, platform, os
 
+# If we're on Windows, import winreg
+if platform.system().lower() == "windows" and platform.release() == "10":
+    import winreg
+
 def RunningInIDLE():
     '''
         Returns True if we are within IDLE
@@ -11,7 +15,6 @@ def IsNotVirtualTerminal():
         If we are on Windows 10, check if the VirtualTerminalLevel value is 1
     '''
     if platform.system().lower() == "windows" and platform.release() == "10":
-		import winreg
         with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Console", 0, winreg.KEY_READ) as registry_key:
             try:
                 value = winreg.QueryValueEx(registry_key, "VirtualTerminalLevel")

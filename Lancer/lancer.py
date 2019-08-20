@@ -1,143 +1,22 @@
 #!/usr/bin/env python3
 
-from utils import *
-from xml.dom import minidom
-
+# Lancer modules
 from modules.ftp import *
 from modules.smb import *
 from modules.nmap import *
-
+# Lancer utils
+from utils import *
+# Lancer config
+import config
+# Python modules
 import sys
 import argparse
 import signal
-import subprocess
-import cpe_utils
-import platform
 import time
-
-args = None
-
-
-def detect_service(openport):
-    for service in openport.getElementsByTagName('service'):
-        port = int(openport.attributes['portid'].value)
-        service_name = service.attributes['name'].value
-        print(normal_message(), service_name, "is open on port", port)
-        # Ignore the port if its in the list of ports to skip
-        if port not in args.skipPorts:
-            # Some kind of ftp service
-            if service_name == "ftp":
-                ftp(openport)
-            # Some kind of SSH server
-            if service_name == "ssh":
-                print(warning_message(), service_name, "is recognised by nmap as an ssh server")
-            # Some kind of http service
-            if service_name == "http":
-                print(warning_message(), service_name, "is recognised by nmap as a http program. Will commence"
-                                                       "enumeration using gobuster and Nikto...")
-            # Smb share
-            if port == 445:
-                print(warning_message(), service_name, "is potentially a SMB share on Windows. Will commence"
-                                                       " enumeration using smbclient...")
-                smb_client(args.verbose)
-            if service_name == "mysql":
-                print(warning_message(), service_name, "is potentially a MySQL server...")
-        else:
-            print(warning_message(), "Skipping", service_name, "(port", str(port) + ") as it has been specified as a"
-                                                                                    " port to skip")
-
-        print("")
-
-
-def searchsploit_nmap_scan(nmap_file):
-    print(normal_message(), "Checking searchsploit for detected version vulnerabilities...")
-    if program_installed("searchsploit", False, args.verbose):
-        searchsploit_output = subprocess.check_output(['searchsploit','--nmap', outFile]).decode('UTF-8')
-        print("")
-        print(searchsploit_output)
-    print("")
-
-
-def parse_nmap_scan(out_file):
-    xmldoc = minidom.parse(out_file)
-    hostslist = xmldoc.getElementsByTagName('hosts')
-    # We only scan one host at a time
-    if int(hostslist[0].attributes['down'].value) > 0:
-        print(error_message(), "Target was unreachable")
-    else:
-        portlist = xmldoc.getElementsByTagName('port')
-        print("")
-
-        print(normal_message(), len(portlist), "ports are open")
-        
-        cpelist = xmldoc.getElementsByTagName('cpe')
-        for cpe in cpelist:
-            cpe_retrieved = cpe.firstChild.nodeValue
-            cpe_osstr = "cpe:/o"
-            if cpe_retrieved.startswith(cpe_osstr):
-                print(normal_message(), "Target OS appears to be", cpe_utils.CPE(cpe_retrieved).human())
-        
-        for cpe in cpelist:
-            cpe_retrieved = cpe.firstChild.nodeValue
-            cpe_appstr = "cpe:/a"
-            if cpe_retrieved.startswith(cpe_appstr):
-                print(normal_message(), "Installed application is reported as", cpe_utils.CPE(cpe_retrieved).human())
-        
-        #if cpe.matches(cpe_utils.CPE("cpe:/o:microsoft:windows")) and platform.system() == "linux":
-        #    print (Color("[*]", "Yellow"), "Target machine is running Microsoft Windows. Will commence enumeration using enum4linux")
-
-        # New line for nicer formatting
-        print("")
-        
-        searchsploit_nmap_scan(out_file)
-        
-        for openport in portlist:
-            detect_service(openport)
-
-
-def nmap_scan(quiet):
-    print(normal_message(), "Starting scan of", args.target)
-        
-    if args.verbose:
-        print (normal_message(), "Checking that nmap is installed")
-
-    # Check if Nmap is installed - critical program
-    program_installed("nmap", True, args.verbose)
-
-    if quiet:
-        out_file = "nmap/nmap-%s-quiet.xml" % args.target
-        print(normal_message(), "Using quiet scan on", args.target, "to avoid detection")
-        print(normal_message(), "Scanning open ports on", args.target + "...", end=' ')
-
-        if args.verbose:
-            print("\n" + normal_message(), "Writing Nmap data to", out_file, end=' ')
-
-        with Spinner():
-            output = subprocess.check_output(['nmap', '-sS', '-sV', '-oX', out_file, args.target]).decode('UTF-8')
-    else:
-        out_file = "nmap/nmap-%s.xml" % args.target
-        print(normal_message(), "Scanning open ports on", args.target + "...", end=' ')
-        
-        if args.verbose:
-            print(normal_message(), "Nmap data will be written to", out_file)
-
-        with Spinner():
-            output = subprocess.check_output(['nmap','-sC', '-sV', '-oX', out_file, args.target]).decode('UTF-8')
-
-    print("")
-    
-    if args.show_output:
-        print("")
-        print(output)
-
-    print(normal_message(), "Scan complete")
-
-    parse_nmap_scan(out_file)
 
 
 def parse_arguments():
-    global args
-    
+
     example = 'Examples:\n\n'
     example += '$ python lancer.py -T 10.10.10.100 --verbose\n'
     example += '$ python lancer.py --target-file targets --skip-ports 445 8080 --show-program-output\n'
@@ -194,7 +73,7 @@ def parse_arguments():
         parser.print_help()
         sys.exit(1)
     
-    args = parser.parse_args()
+    config.args = parser.parse_args()
 
 
 def main():
@@ -248,7 +127,7 @@ def setup():
 
 
 def legal_disclaimer():
-    if args.skipDisclaimer is not True:
+    if config.args.skipDisclaimer is not True:
         print(error_message(), "Legal Disclaimer: Usage of Lancer for attacking targets without prior mutual"
                                " authorisation is illegal.\n    It is the end user's responsibility to adhere to all"
                                " local and international laws.\n    The developer(s) of this tool assume no liability"
@@ -261,11 +140,11 @@ def legal_disclaimer():
 
 def execute():
     # If we have passed an nmap xml file
-    if args.nmapFile is not None:
+    if config.args.nmapFile is not None:
         print(normal_message(), "Loading nmap file")
-        parse_nmap_scan(args.nmapFile)
+        parse_nmap_scan(config.args.nmapFile)
     else:
-        if args.quiet:
+        if config.args.quiet:
             nmap_scan(True)
         else:
             nmap_scan(False)

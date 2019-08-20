@@ -10,7 +10,7 @@ def test_closes_critical_program_not_installed():
         assert True
 
 def test_non_critical_program_not_installed():
-    assert program_installed("programthatdoesntexist", False, False) == False
+    assert program_installed("programthatdoesntexist", False, False) is False
 
 def test_setup():
     setup()

@@ -9,6 +9,7 @@
 [![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer)]()
 [![Last Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer)]()
 [![Last Commit](https://img.shields.io/maintenance/yes/2019)]()
+[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)
 
 ## What is this?
 

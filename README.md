@@ -97,4 +97,4 @@ $ python lancer.py --target 192.168.1.10 --nmap nmap/bastion.xml /
 ```
 ## License
 
-See the LICENSE file. 
+GPL-3.0. See the LICENSE file for more details.

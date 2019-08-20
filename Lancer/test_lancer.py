@@ -2,6 +2,7 @@ import pytest
 import os
 
 from lancer import *
+from utils import *
 
 def test_closes_critical_program_not_installed():
     with pytest.raises(SystemExit):

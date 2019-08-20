@@ -10,6 +10,7 @@
 [![Last Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer)]()
 [![Last Commit](https://img.shields.io/maintenance/yes/2019)]()
 [![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)
+[![codebeat badge](https://codebeat.co/badges/10ed4785-93e2-47ad-8504-827f22c74aa1)](https://codebeat.co/projects/github-com-stormy102-lancer-develop)
 
 ## What is this?
 
@@ -20,6 +21,15 @@ Lancer is a pentesting tool written in [Python 3](https://www.python.org/) which
 The aim of Lancer is to take several tools which already exist, such as [Gobuster](https://github.com/OJ/gobuster/), [Nmap](https://github.com/nmap/nmap), [SMBMap](https://github.com/ShawnDEvans/smbmap) and [many](https://github.com/portcullislabs/enum4linux) [more](https://github.com/sullo/nikto), and intelligently detect which tools should be used depending on the results of a scan. This is meant to automate enumeration of a target and make the process of finding vulnerabilities a bit easier.
 
 ## Usage
+
+Firstly, the program depends on several other programs being installed. For each of these programs, the environmental PATH variable must point to them so that they can be executed by Python.
+* Nmap (Required)
+* Gobuster (Optional)
+* Smbmap (Optional)
+* Nikto (Optional)
+* enum4linux (Optional, Linux only)
+
+To execute the program, ensure that you have Python 3.7 or higher installed. The program takes the following arguments:
 
 ```text
 usage: lancer.py [-h] (-T TARGET | --target-file FILE) [-q] [-v] [-sd]

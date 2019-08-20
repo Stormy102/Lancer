@@ -1,4 +1,4 @@
-# Lancer v0.0.1a1
+# Lancer v0.0.1 Alpha
 
 ## Badges/Statuses
 

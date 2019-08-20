@@ -107,12 +107,10 @@ def main():
     sys.exit(0)
 
 
-'''
-    Handles signal interrupts more gracefully than default behaviour
-'''
-
-
 def signal_handler(signal, frame):
+    """
+        Handles signal interrupts more gracefully than default behaviour
+    """
     print(error_message(), "Ctrl+C detected, terminating...")
     sys.exit(1)
 
@@ -121,7 +119,7 @@ def setup():
     if not os.path.exists("nmap"):
         os.makedirs("nmap")
 
-    if is_user_admin() == False:
+    if is_user_admin() is False:
         print(warning_message(), "Lancer doesn't appear to being run with elevated permissions."
                                  " Some functionality may not work\n")
 

@@ -2,9 +2,9 @@ from utils import *
 from xml.dom import minidom
 
 from modules.smb import *
+from modules.ftp import *
 
 import config
-import subprocess
 import subprocess
 import cpe_utils
 import platform
@@ -70,8 +70,10 @@ def parse_nmap_scan(out_file):
             cpe_osstr = "cpe:/o"
             if cpe_retrieved.startswith(cpe_osstr):
                 print(normal_message(), "Target OS appears to be", cpe_utils.CPE(cpe_retrieved).human())
-                if cpe_utils.CPE(cpe_retrieved).matches(cpe_utils.CPE("cpe:/o:microsoft:windows")):# and platform.system() == "linux":
-                    print(warning_message(), "Target machine is running Microsoft Windows. Will commence enumeration using enum4linux")
+                if cpe_utils.CPE(cpe_retrieved).matches(cpe_utils.CPE("cpe:/o:microsoft:windows"))\
+                        and platform.system() == "linux":
+                    print(warning_message(), "Target machine is running Microsoft Windows."
+                                             "Will commence enumeration using enum4linux")
 
         for cpe in cpelist:
             cpe_retrieved = cpe.firstChild.nodeValue
@@ -97,6 +99,7 @@ def detect_service(openport):
         if port not in config.args.skipPorts:
             # Some kind of ftp service
             if service_name == "ftp":
+                print(warning_message(), service_name, "is recognised by nmap as a ftp program")
                 ftp(openport)
             # Some kind of SSH server
             if service_name == "ssh":

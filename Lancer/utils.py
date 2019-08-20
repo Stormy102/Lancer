@@ -2,9 +2,9 @@ from datetime import datetime
 from spinner import *
 from shutil import which
 
+import config
 import time
 import sys
-import itertools
 import platform
 import os
 import ctypes
@@ -48,7 +48,7 @@ def program_installed(name, critical, verbose):
             return False
 
     if verbose:
-        print (normal_message(), name, "is installed, continuing...")
+        print(normal_message(), name, "is installed, continuing...")
     return True
 
 
@@ -73,8 +73,10 @@ def color(string, foreground=None, background=None, style=None):
         This function styles the output to the specified format, background and foreground colours
 
         style - takes either bold, underline, negative1 or negative2. If no value is supplied, it defaults to normal
-        foreground - takes either red, green, yellow, blue, purple, cyan or black. If no value is supplied, it defaults to white
-        background - takes either red, green, yellow, blue, purple, cyan or white. If no value is supplied, it defaults to black
+        foreground - takes either red, green, yellow, blue, purple, cyan or black. If no value is supplied,
+        it defaults to white
+        background - takes either red, green, yellow, blue, purple, cyan or white. If no value is supplied,
+        it defaults to black
     """
 
     attr = []
@@ -151,9 +153,6 @@ def get_background_color(background):
         return "40"
 
 
-VERSION = "v0.0.1a1"
-
-
 def print_header():
     print('''                  `.--:::::::::::::::::---.                 
                `-::----.............-----::/:.              
@@ -187,8 +186,8 @@ def print_header():
 
 
 def version():
-    print(color("[+]", "Green"), "Starting Lancer", VERSION, "at", datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "on",
-          platform.system(), platform.release(), end=' ')
+    print(color("[+]", "Green"), "Starting Lancer", config.__version__, "at",
+          datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "on", platform.system(), platform.release(), end=' ')
     with Spinner():
         time.sleep(1)
     print("")
@@ -211,7 +210,8 @@ def splash_screen():
 
 
 """
-    Taken from https://stackoverflow.com/questions/1026431/cross-platform-way-to-check-admin-rights-in-a-python-script-under-windows
+    Taken from 
+    https://stackoverflow.com/questions/1026431/cross-platform-way-to-check-admin-rights-in-a-python-script-under-windows
 """
 
 

@@ -1,14 +1,18 @@
 # Lancer v0.0.1a1
 
-## Tags, Statuses, etc
+## Badges/Statuses
 
-[![Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=master)](https://travis-ci.com/Stormy102/Lancer) 
-[![Develop Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=develop)](https://travis-ci.com/Stormy102/Lancer)
-[![Issues](https://img.shields.io/github/issues/Stormy102/Lancer)](https://github.com/Stormy102/Lancer/issues)
-[![Licence](https://img.shields.io/github/license/Stormy102/Lancer)]()
-[![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer)]()
+|Branch|Status|
+|---|---|
+|Master|[![Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=master)](https://travis-ci.com/Stormy102/Lancer) |
+|Develop|[![Develop Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=develop)](https://travis-ci.com/Stormy102/Lancer)|
+
+[![Languages](https://img.shields.io/github/languages/count/Stormy102/Lancer)]()
 [![Last Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer)]()
-[![Last Commit](https://img.shields.io/maintenance/yes/2019)]()
+[![Maintainance](https://img.shields.io/maintenance/yes/2019)]()
+[![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer)]()
+[![Languages](https://img.shields.io/github/languages/count/Stormy102/Lancer)]()
+[![Issues](https://img.shields.io/github/issues/Stormy102/Lancer)](https://github.com/Stormy102/Lancer/issues)
 [![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)
 [![codebeat badge](https://codebeat.co/badges/10ed4785-93e2-47ad-8504-827f22c74aa1)](https://codebeat.co/projects/github-com-stormy102-lancer-develop)
 

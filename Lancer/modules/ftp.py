@@ -10,7 +10,9 @@ def ftp(open_port):
             print(warning_message(), "Anonymous FTP access allowed")
             if config.args.quiet is not True:
                 ftp_client = ftplib.FTP(config.args.target)
+                ftp_client.login()
                 download_files(ftp_client)
+                ftp_client.quit()
             else:
                 print(normal_message(), "Not downloading any files as currently in quiet mode")
 
@@ -19,7 +21,7 @@ def download_files(ftp_client):
     print(normal_message(), "Downloading all files under 100mb into ./ftp/...")
 
     print(warning_message(), "FTP Server banner:", ftp_client.getwelcome())
-    ftp_client.login()
+
 
     ftp_files = ftp_client.nlst()
     print(warning_message(), len(ftp_files), "files found")
@@ -35,7 +37,6 @@ def download_files(ftp_client):
         sys.stdout.flush()
         print(normal_message(), "Downloaded", filename, "to ./ftp/")
 
-    ftp_client.quit()
     print(normal_message(), "Finished downloading all files under 50mb into ./ftp/")
 
 

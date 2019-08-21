@@ -1,6 +1,8 @@
 from lancer import *
 from utils import *
 
+import lancerargs
+
 import pytest
 import platform
 import io
@@ -8,13 +10,20 @@ import sys
 import tempfile
 
 
-# def test_closes_critical_program_not_installed():
-#    with pytest.raises(SystemExit):
-#        program_installed("program_that_doesnt_exist", True)
+def test_closes_critical_program_not_installed():
+    lancerargs.parse_arguments(['-T', '127.0.0.1'])
+    with pytest.raises(SystemExit):
+        program_installed("program_that_doesnt_exist", True)
 
 
-# def test_non_critical_program_not_installed():
-#    assert program_installed("program_that_doesnt_exist", False) is False
+def test_non_critical_program_not_installed():
+    lancerargs.parse_arguments(['-T', '127.0.0.1'])
+    assert program_installed("program_that_doesnt_exist", False) is False
+
+
+def test_non_critical_program_installed():
+    lancerargs.parse_arguments(['-T', '127.0.0.1'])
+    assert program_installed("python", False) is True
 
 
 def test_setup():
@@ -25,7 +34,7 @@ def test_setup():
 
 def test_quits_with_no_parameters():
     with pytest.raises(SystemExit):
-        parse_arguments()
+        lancerargs.parse_arguments([])
 
 
 def test_signal_handler_quits():
@@ -34,7 +43,7 @@ def test_signal_handler_quits():
 
 
 def test_is_not_virtual_terminal():
-    if platform.system().lower() == "windows" and platform.release() == "10":
+    if platform.system().lower() is not "windows":
         assert is_not_virtual_terminal() is False
 
 

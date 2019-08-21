@@ -10,11 +10,9 @@ def gobuster(url):
     if config.args.verbose:
         print(normal_message(), "Using wordlist at", config.args.webWordlist)
 
-    if not os.path.exists(config.args.webWordlist):
+    if os.path.exists(config.args.webWordlist) is False:
         print(error_message(), "Wordlist file not found. Skipping enumeration")
-
-    if program_installed("gobuster", True):
-
+    elif program_installed("gobuster", True):
         out_file = 'gobuster/gobuster-' + config.args.target + '.txt.'
 
         if config.args.verbose:
@@ -23,8 +21,7 @@ def gobuster(url):
         print(normal_message(), "Enumerating directories on", url + "...")
 
         output = subprocess.check_output(['gobuster', 'dir', '-w', config.args.webWordlist, '-u', url,
-                                              '-o', out_file]).decode('UTF-8')
-
+                                                  '-o', out_file]).decode('UTF-8')
         # Clear Gobuster's Progress: X / Y (ZZ.ZZ%)
         sys.stdout.write('\x1b[2K')
 

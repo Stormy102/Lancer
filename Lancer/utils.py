@@ -1,7 +1,7 @@
 from datetime import datetime
 from spinner import *
 from shutil import which
-from http import HTTPStatus
+from http.client import responses
 
 import config
 import time
@@ -69,7 +69,8 @@ def error_message():
 
 
 def input_message(message):
-    return input(color("[>]", "Purple") + " " + message + " ")
+    print(color("[>]", "Purple") + " " + message, end=' ')
+    return input()
 
 
 def color(string, foreground=None, background=None, style=None):
@@ -210,8 +211,8 @@ def line_break(count):
 
 def get_http_code(code):
     try:
-        return HTTPStatus(code).description
-    except ValueError:
+        return responses[code]
+    except KeyError:
         return "Unknown Response"
 
 

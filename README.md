@@ -12,14 +12,14 @@
 |Master|[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)|
 |Develop|[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg?branch=develop)](https://coveralls.io/github/Stormy102/Lancer?branch=develop)|
 
-[![Languages](https://img.shields.io/github/languages/count/Stormy102/Lancer)]()
-[![Last Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer)]()
-[![Maintenance](https://img.shields.io/maintenance/yes/2019)]()
+[![Python Versions](https://img.shields.io/badge/python-3.5|3.6|3.7-blue.svg)]()
+[![Last Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer.svg)]()
+[![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)]()
 [![Known Vulnerabilities](https://snyk.io//test/github/Stormy102/Lancer/badge.svg?targetFile=requirements.txt)](https://snyk.io//test/github/Stormy102/Lancer?targetFile=requirements.txt)
-[![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer)]()
-[![Languages](https://img.shields.io/github/languages/count/Stormy102/Lancer)]()
-[![Issues](https://img.shields.io/github/issues/Stormy102/Lancer)](https://github.com/Stormy102/Lancer/issues)
-[![codebeat badge](https://codebeat.co/badges/10ed4785-93e2-47ad-8504-827f22c74aa1)](https://codebeat.co/projects/github-com-stormy102-lancer-develop)
+[![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer.svg)]()
+[![Languages](https://img.shields.io/github/languages/count/Stormy102/Lancer.svg)]()
+[![Issues](https://img.shields.io/github/issues/Stormy102/Lancer.svg)](https://github.com/Stormy102/Lancer/issues)
+[![Code Coverage](https://codebeat.co/badges/10ed4785-93e2-47ad-8504-827f22c74aa1.svg)](https://codebeat.co/projects/github-com-stormy102-lancer-develop)
 
 ## What is this?
 

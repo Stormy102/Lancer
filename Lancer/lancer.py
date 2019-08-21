@@ -98,8 +98,9 @@ def main():
     # Run the setup to make sure necessary files and permissions exist
     setup()
 
-    # Display the Legal disclaimer
-    legal_disclaimer()
+    if config.args.skipDisclaimer is not True:
+        # Display the Legal disclaimer
+        legal_disclaimer()
     
     # Run the program
     execute()
@@ -129,15 +130,15 @@ def setup():
 
 
 def legal_disclaimer():
-    if config.args.skipDisclaimer is not True:
-        print(error_message(), "Legal Disclaimer: Usage of Lancer for attacking targets without prior mutual"
-                               " authorisation is illegal.\n    It is the end user's responsibility to adhere to all"
-                               " local and international laws.\n    The developer(s) of this tool assume no liability"
-                               " and are not responsible for any misuse or damage caused by the use of this program")
-        agree = input_message("Press [Y] to agree:")
-        if agree.lower() != "y":
-            print(error_message(), "Legal disclaimer has not been accepted. Exiting...")
-            sys.exit(0)
+    print(error_message(), "Legal Disclaimer: Usage of Lancer for attacking targets without prior mutual"
+                           " authorisation is illegal.\n    It is the end user's responsibility to adhere to all"
+                           " local and international laws.\n    The developer(s) of this tool assume no liability"
+                           " and are not responsible for any misuse or damage caused by the use of this program")
+    agree = input_message("Press [Y] to agree:")
+    if agree.lower() != "y":
+        print(error_message(), "Legal disclaimer has not been accepted. Exiting...")
+        sys.exit(0)
+    print("")
 
 
 def execute():

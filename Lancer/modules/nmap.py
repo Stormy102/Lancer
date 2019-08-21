@@ -57,6 +57,7 @@ def parse_nmap_scan(out_file):
     # We only scan one host at a time
     if int(hostslist[0].attributes['down'].value) > 0:
         print(error_message(), "Target was unreachable")
+        sys.exit(1)
     else:
         portlist = xmldoc.getElementsByTagName('port')
         print("")

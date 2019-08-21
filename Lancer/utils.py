@@ -216,23 +216,16 @@ def get_http_code(code):
         return "Unknown Response"
 
 
-def splash_screen():
-    print_header()
-    version()
-
-
-"""
-    Taken from 
-    https://stackoverflow.com/questions/1026431/cross-platform-way-to-check-admin-rights-in-a-python-script-under-windows
-"""
-
-
 class AdminStateUnknownError(Exception):
     """Cannot determine whether the user is an admin."""
     pass
 
 
 def is_user_admin():
+    """
+        Taken from
+        https://stackoverflow.com/questions/1026431/cross-platform-way-to-check-admin-rights-in-a-python-script-under-windows
+    """
     # type: () -> bool
     """Return True if user has admin privileges.
 

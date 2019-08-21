@@ -8,10 +8,11 @@ import platform
 import io
 import sys
 import tempfile
+import argparse
 
 
 def test_closes_critical_program_not_installed():
-    lancerargs.parse_arguments(['-T', '127.0.0.1'])
+    lancerargs.parse_arguments(['-T', '127.0.0.1', '-v'])
     with pytest.raises(SystemExit):
         program_installed("program_that_doesnt_exist", True)
 
@@ -30,6 +31,7 @@ def test_setup():
     setup()
     assert os.path.exists("nmap")
     assert os.path.exists("gobuster")
+    assert os.path.exists("ftp")
 
 
 def test_quits_with_no_parameters():
@@ -139,3 +141,19 @@ def test_parse_down_nmap_scan():
     sys.stdout = sys.__stdout__
     os.unlink(file_path)
     assert "unreachable" in captured_output.getvalue()
+
+
+def test_print_header():
+    captured_output = io.StringIO()
+    sys.stdout = captured_output
+
+    print_header()
+
+    sys.stdout = sys.__stdout__
+    assert "`.--:::::::::::::::::---." in captured_output.getvalue()
+
+
+def test_create_parser():
+    parser = lancerargs.create_parser()
+    assert parser is not None
+

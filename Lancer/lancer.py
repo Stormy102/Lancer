@@ -31,7 +31,8 @@ def main():
     lancerargs.parse_arguments(sys.argv[1:])
     
     # Display the splash screen
-    splash_screen()
+    print_header()
+    version()
     
     # Run the setup to make sure necessary files and permissions exist
     setup()
@@ -57,10 +58,16 @@ def signal_handler(signal, frame):
 
 
 def setup():
+    """
+    TODO: Use parameters/settings file for optional overriding
+    :return: None
+    """
     if not os.path.exists("nmap"):
         os.makedirs("nmap")
     if not os.path.exists("gobuster"):
         os.makedirs("gobuster")
+    if not os.path.exists("ftp"):
+        os.makedirs("ftp")
 
     if is_user_admin() is False:
         print(warning_message(), "Lancer doesn't appear to being run with elevated permissions."

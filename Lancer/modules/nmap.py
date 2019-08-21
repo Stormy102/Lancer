@@ -31,10 +31,11 @@ def nmap_scan(quiet):
                 'UTF-8')
     else:
         out_file = "nmap/nmap-%s.xml" % config.args.target
-        print(normal_message(), "Scanning open ports on", config.args.target + "...", end=' ')
 
         if config.args.verbose:
             print(normal_message(), "Nmap data will be written to", out_file)
+
+        print(normal_message(), "Scanning open ports on", config.args.target + "...", end=' ')
 
         with Spinner():
             output = subprocess.check_output(['nmap', '-sC', '-sV', '-oX', out_file, config.args.target]).decode(

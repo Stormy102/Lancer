@@ -6,7 +6,6 @@ import time
 
 
 def parse_arguments(args):
-
     parser = create_parser()
 
     if len(args) is 0:
@@ -55,17 +54,17 @@ def create_parser():
     main_args.add_argument("--nmap", metavar="FILE", dest='nmapFile', type=str,
                            help="Skip an internal nmap scan by providing the path to an nmap XML file")
 
-    sgroup2 = parser.add_argument_group("Web Services", "Options for targeting web services")
-    sgroup2.add_argument("-wW", metavar="WORDLIST", dest='webWordlist',
-                         default='/usr/share/wordlists/dirbuster/directory-2.3-medium.txt',
-                         help="The wordlist to use. Defaults to the directory-2.3-medium.txt file found in"
-                              " /usr/share/wordlists/dirbuster")
+    web_services = parser.add_argument_group("Web Services", "Options for targeting web services")
+    web_services.add_argument("-wW", "--web-wordlist", metavar="WORDLIST", dest='webWordlist',
+                              default='/usr/share/wordlists/dirbuster/directory-2.3-medium.txt',
+                              help="The wordlist to use. Defaults to the directory-2.3-medium.txt file found in"
+                                   " /usr/share/wordlists/dirbuster")
 
-    sgroup3 = parser.add_argument_group("File Services", "Options for targeting file services")
-    sgroup3.add_argument("-fD", metavar="DOMAIN", dest='fileDomain',
-                         help="Domain to use during the enumeration of file services")
-    sgroup3.add_argument("-fU", metavar="USERNAME", dest='fileUsername',
-                         help="Username to use during the enumeration of file services")
-    sgroup3.add_argument("-fP", metavar="PASSWORD", dest='filePassword',
-                         help="Password to use during the enumeration of file services")
+    file_services = parser.add_argument_group("File Services", "Options for targeting file services")
+    file_services.add_argument("-fD", metavar="DOMAIN", dest='fileDomain',
+                               help="Domain to use during the enumeration of file services")
+    file_services.add_argument("-fU", metavar="USERNAME", dest='fileUsername',
+                               help="Username to use during the enumeration of file services")
+    file_services.add_argument("-fP", metavar="PASSWORD", dest='filePassword',
+                               help="Password to use during the enumeration of file services")
     return parser

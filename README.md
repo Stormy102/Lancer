@@ -12,14 +12,14 @@
 |Master|[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)|
 |Develop|[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg?branch=develop)](https://coveralls.io/github/Stormy102/Lancer?branch=develop)|
 
-[![Python Versions](https://img.shields.io/badge/python-3.5|3.6|3.7-blue.svg)]()
-[![Last Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer.svg)]()
+[![Python Versions](https://img.shields.io/badge/python-3.5|3.6|3.7|3.8-blue.svg)]()
+[![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
+[![Code Coverage](https://codebeat.co/badges/10ed4785-93e2-47ad-8504-827f22c74aa1.svg)](https://codebeat.co/projects/github-com-stormy102-lancer-develop)
 [![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)]()
+[![Last Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer.svg)]()
 [![Known Vulnerabilities](https://snyk.io//test/github/Stormy102/Lancer/badge.svg?targetFile=requirements.txt)](https://snyk.io//test/github/Stormy102/Lancer?targetFile=requirements.txt)
 [![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer.svg)]()
-[![Languages](https://img.shields.io/github/languages/count/Stormy102/Lancer.svg)]()
 [![Issues](https://img.shields.io/github/issues/Stormy102/Lancer.svg)](https://github.com/Stormy102/Lancer/issues)
-[![Code Coverage](https://codebeat.co/badges/10ed4785-93e2-47ad-8504-827f22c74aa1.svg)](https://codebeat.co/projects/github-com-stormy102-lancer-develop)
 
 ## What is this?
 
@@ -32,7 +32,7 @@ The aim of Lancer is to take several tools which already exist, such as [Gobuste
 ## Installation
 
 To execute the program, ensure that you have Python 3.5 or higher installed. Use Python's pip to install the necessary Python dependents
-```
+```shell script
 pip install -r requirements.txt
 ```
 ---
@@ -113,7 +113,7 @@ $ python lancer.py --target 192.168.1.10 --nmap nmap/bastion.xml /
   -fD HTB -fU L4mpje -fP P@ssw0rd
 ```
 
-## Limitations
+## Limitations & Upcoming Features
 
 As Lancer is still very much in active development, there is currently limited functionality. This is a list of 
 features which we intend to add support for.

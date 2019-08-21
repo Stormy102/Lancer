@@ -63,36 +63,24 @@ def parse_nmap_scan(out_file):
         print(utils.error_message(), "Target was unreachable")
         sys.exit(1)
     else:
-        portlist = xmldoc.getElementsByTagName('port')
+        port_list = xmldoc.getElementsByTagName('port')
         print("")
 
-        print(utils.normal_message(), len(portlist), "ports are open")
+        print(utils.normal_message(), len(port_list), "ports are open")
 
-        cpelist = xmldoc.getElementsByTagName('cpe')
-        for cpe in cpelist:
-            cpe_retrieved = cpe.firstChild.nodeValue
-            cpe_osstr = "cpe:/o"
-            if cpe_retrieved.startswith(cpe_osstr):
-                print(utils.normal_message(), "Target OS appears to be", cpe_utils.CPE(cpe_retrieved).human())
-                if cpe_utils.CPE(cpe_retrieved).matches(cpe_utils.CPE("cpe:/o:microsoft:windows"))\
-                        and platform.system() == "linux":
-                    print(utils.warning_message(), "Target machine is running Microsoft Windows."
-                                             "Will commence enumeration using enum4linux")
+        cpe_list = xmldoc.getElementsByTagName('cpe')
 
-        for cpe in cpelist:
-            cpe_retrieved = cpe.firstChild.nodeValue
-            cpe_appstr = "cpe:/a"
-            if cpe_retrieved.startswith(cpe_appstr):
-                print(utils.normal_message(), "Installed application is reported as", cpe_utils.CPE(cpe_retrieved)
-                      .human())
+        detector.detect_os(cpe_list)
+
+        detector.detect_apps(cpe_list)
 
         # New line for nicer formatting
         print("")
 
         searchsploit_nmap_scan(out_file)
 
-        for openport in portlist:
-            detector.detect_service(openport)
+        for open_port in port_list:
+            detector.detect_service(open_port)
 
 
 def searchsploit_nmap_scan(nmap_file):

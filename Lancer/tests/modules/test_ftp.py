@@ -1,5 +1,6 @@
 from modules import ftp
 
+import config
 import ftplib
 import warnings
 import os
@@ -26,7 +27,7 @@ def test_download_file():
 
     try:
         ftp.download_file(ftp_client, '1KB.zip')
-        assert os.path.exists('ftp/1KB.zip')
+        assert os.path.exists(os.path.join(os.path.join("ftp", config.args.target), "1KB.zip"))
     except ftplib.error_temp:
         warnings.warn("Unable to access FTP server from this IP")
     ftp_client.close()
@@ -39,9 +40,9 @@ def test_download_files():
 
     try:
         ftp.download_files(ftp_client)
-        assert os.path.exists('ftp/1KB.zip')
-        assert os.path.exists('ftp/1MB.zip')
-        assert os.path.exists('ftp/50MB.zip') is False
+        assert os.path.exists(os.path.join(os.path.join("ftp", config.args.target), "1KB.zip"))
+        assert os.path.exists(os.path.join(os.path.join("ftp", config.args.target), "1MB.zip"))
+        assert os.path.exists(os.path.join(os.path.join("ftp", config.args.target), "50MB.zip")) is False
     except ftplib.error_temp:
         warnings.warn("Unable to access FTP server from this IP")
     ftp_client.close()

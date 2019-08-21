@@ -5,22 +5,22 @@ import config
 
 
 def ftp(open_port):
-    for script in open_port.getElementsByTagName('script'):
-        if script.attributes['id'].value == "ftp-anon":
-            print(warning_message(), "Anonymous FTP access allowed")
-            if config.args.quiet is not True:
+    if config.args.quiet is not True:
+        for script in open_port.getElementsByTagName('script'):
+            if script.attributes['id'].value == "ftp-anon":
+                print(warning_message(), "Anonymous FTP access allowed")
                 ftp_client = ftplib.FTP(config.args.target)
                 ftp_client.login()
                 download_files(ftp_client)
                 ftp_client.quit()
-            else:
-                print(normal_message(), "Not downloading any files as currently in quiet mode")
+    else:
+        print(normal_message(), "Not downloading any files or logging on to server as currently in quiet mode")
 
 
 def download_files(ftp_client):
-    print(normal_message(), "Downloading all files under 100mb into ./ftp/...")
+    print(normal_message(), "Downloading all files under 100mb into ./ftp/" + config.args.target + "...")
 
-    print(warning_message(), "FTP Server banner:", ftp_client.getwelcome())
+    print(warning_message(), "FTP Server banner:", ftp_client.getwelcome()[4:])
 
     ftp_files = ftp_client.nlst()
     print(warning_message(), len(ftp_files), "files found")
@@ -35,7 +35,7 @@ def download_files(ftp_client):
             # Clear the "Downloading..." file line
             sys.stdout.write('\x1b[2K\r')
             sys.stdout.flush()
-            print(normal_message(), "Downloaded", filename, "to ./ftp/")
+            print(normal_message(), "Downloaded", filename, "to ./ftp/" + config.args.target)
 
         print(normal_message(), "Finished downloading all files under 50mb into ./ftp/")
     else:
@@ -45,7 +45,9 @@ def download_files(ftp_client):
 def download_file(ftp_client, filename):
     with Spinner():
         # TODO: Make ftp directory selectable
-        local_filename = os.path.join('ftp', filename)
+        if not os.path.exists(os.path.join("ftp", config.args.target)):
+            os.makedirs(os.path.join("ftp", config.args.target))
+        local_filename = os.path.join(os.path.join('ftp', config.args.target), filename)
         file = open(local_filename, 'wb')
         ftp_client.retrbinary('RETR ' + filename, file.write)
         file.close()

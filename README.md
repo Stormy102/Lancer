@@ -35,7 +35,7 @@ To execute the program, ensure that you have Python 3.5 or higher installed. Use
 ```
 pip install -r requirements.txt
 ```
-
+---
 However, Lancer depends on several other external programs being installed. For each of these programs, the environmental PATH variable must point to them so that they can be executed by Python.
 
 |Program|Version|Required|Optional|Linux|Windows|

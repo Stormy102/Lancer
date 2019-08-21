@@ -9,7 +9,7 @@
 
 |Branch|Coverage|
 |---|---|
-|Master|[[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)|
+|Master|[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)|
 |Develop|[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg?branch=develop)](https://coveralls.io/github/Stormy102/Lancer?branch=develop)|
 
 [![Languages](https://img.shields.io/github/languages/count/Stormy102/Lancer)]()
@@ -37,11 +37,16 @@ pip install -r requirements.txt
 ```
 
 However, Lancer depends on several other external programs being installed. For each of these programs, the environmental PATH variable must point to them so that they can be executed by Python.
-* [Nmap](https://github.com/nmap/nmap) (Required)
-* [Gobuster](https://github.com/OJ/gobuster/releases) (Optional but recommended)
-* [Smbmap](https://github.com/ShawnDEvans/smbmap) (Optional but recommended)
-* [Nikto](https://github.com/sullo/nikto) (Optional)
-* [enum4linux](https://github.com/portcullislabs/enum4linux) (Optional, Linux only)
+
+|Program|Version|Required|Optional|Linux|Windows|
+|---|---|---|---|---|---|
+|[Nmap](https://github.com/nmap/nmap)|7.7.0|✔| |✔|✔|
+|[Gobuster](https://github.com/OJ/gobuster/releases)|3.1| |✔*|✔|✔|
+|[Smbmap](https://github.com/ShawnDEvans/smbmap)|b55fc05| |✔*|✔|✔|
+|[Nikto](https://github.com/sullo/nikto)|2.1.6| |✔|✔|✔|
+|[enum4linux](https://github.com/portcullislabs/enum4linux)|0.8.9| |✔|✔|❌|
+
+*Recommended program
 
 ## Usage
 
@@ -107,6 +112,33 @@ $ python lancer.py --target 192.168.1.10 --nmap nmap/bastion.xml /
   -wW /usr/share/wordlists/dirbuster/directory-2.3-small.txt /
   -fD HTB -fU L4mpje -fP P@ssw0rd
 ```
+
+## Limitations
+
+As Lancer is still very much in active development, there is currently limited functionality. This is a list of 
+features which we intend to add support for.
+* ~~Nmap scanning~~ _Added in 0.0.1_
+* ~~Gobuster enumeration~~ _Added in 0.0.1_
+* ~~Searchsploit Nmap results~~ _Added in 0.0.1_
+* FTP scanning/downloading files < 100mb _Planned for 0.0.2_
+* SMB enumeration _Planned for 0.0.2_
+* Further services detection _Coming soon_
+    * SQL
+    * SSH
+    * Telnet
+    * SMTP
+    * DNS
+    * POP3
+    * RCPBind
+    * MSRPC
+    * IMAP
+    * HTTPS
+    * VNC
+	* RDP
+* enum4linux support _Coming soon_
+
+Any other features you want to see? Open a Github Issue or a pull request
+
 ## License
 
 GPL-3.0. See the LICENSE file for more details.

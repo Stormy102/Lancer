@@ -105,6 +105,7 @@ venv.bak/
 
 # Custom
 Lancer/nmap/
+Lancer/gobuster/
 
 # PyCharm
 .idea/

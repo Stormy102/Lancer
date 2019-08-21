@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 # Lancer modules
-from modules.ftp import *
-from modules.smb import *
 from modules.nmap import *
 # Lancer utils
 from utils import *
+
+__license__ = "GPL-3.0"
+
 # Lancer config
 import config
 # Python modules
@@ -118,10 +120,12 @@ def signal_handler(signal, frame):
 def setup():
     if not os.path.exists("nmap"):
         os.makedirs("nmap")
+    if not os.path.exists("gobuster"):
+        os.makedirs("gobuster")
 
     if is_user_admin() is False:
         print(warning_message(), "Lancer doesn't appear to being run with elevated permissions."
-                                 " Some functionality may not work\n")
+                                 " Some functionality may not work correctly\n")
 
 
 def legal_disclaimer():

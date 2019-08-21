@@ -1,8 +1,9 @@
 from utils import *
 from xml.dom import minidom
 
-from modules.smb import *
 from modules.ftp import *
+from modules.http import *
+from modules.smb import *
 
 import config
 import subprocess
@@ -13,19 +14,17 @@ import platform
 def nmap_scan(quiet):
     print(normal_message(), "Starting scan of", config.args.target)
 
-    if config.args.verbose:
-        print(normal_message(), "Checking that nmap is installed")
-
-    # Check if Nmap is installed - critical program
-    program_installed("nmap", True, config.args.verbose)
+    # Check if Nmap is installed - critical program. If this fails, the program will exit
+    program_installed("nmap", True)
 
     if quiet:
         out_file = "nmap/nmap-%s-quiet.xml" % config.args.target
         print(normal_message(), "Using quiet scan on", config.args.target, "to avoid detection")
-        print(normal_message(), "Scanning open ports on", config.args.target + "...", end=' ')
 
         if config.args.verbose:
-            print("\n" + normal_message(), "Writing nmap data to", out_file, end=' ')
+            print(normal_message(), "Writing nmap data to", out_file)
+
+        print(normal_message(), "Scanning open ports on", config.args.target + "...", end=' ')
 
         with Spinner():
             output = subprocess.check_output(['nmap', '-sS', '-sV', '-oX', out_file, config.args.target]).decode(
@@ -107,7 +106,13 @@ def detect_service(openport):
             # Some kind of http service
             if service_name == "http":
                 print(warning_message(), service_name, "is recognised by nmap as a http program. Will commence"
-                                                       "enumeration using gobuster and Nikto...")
+                                                       " enumeration using gobuster and Nikto...")
+                print("")
+                url = "http://" + config.args.target
+                # Scan using gobuster
+                gobuster(url)
+                # Scan using nikto
+                nikto(url)
             # Smb share
             if port == 445:
                 print(warning_message(), service_name, "is potentially a SMB share on Windows. Will commence"
@@ -124,7 +129,7 @@ def detect_service(openport):
 
 def searchsploit_nmap_scan(nmap_file):
     print(normal_message(), "Checking searchsploit for detected version vulnerabilities...")
-    if program_installed("searchsploit", False, config.args.verbose):
+    if program_installed("searchsploit", False):
         searchsploit_output = subprocess.check_output(['searchsploit', '--nmap', nmap_file]).decode('UTF-8')
         print("")
         print(searchsploit_output)

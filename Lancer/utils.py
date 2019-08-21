@@ -1,6 +1,7 @@
 from datetime import datetime
 from spinner import *
 from shutil import which
+from http import HTTPStatus
 
 import config
 import time
@@ -38,7 +39,10 @@ def set_virtual_terminal():
             winreg.SetValueEx(registry_key, "VirtualTerminalLevel", 0, winreg.REG_DWORD, 1)
 
 
-def program_installed(name, critical, verbose):
+def program_installed(name, critical):
+    if config.args.verbose:
+        print(normal_message(), "Checking if", name, "is installed...")
+
     if which(name) is None:
         if critical:
             print(error_message(), name, "is not installed, halting...\n")
@@ -47,7 +51,7 @@ def program_installed(name, critical, verbose):
             print(warning_message(), name, "is not installed, skipping...")
             return False
 
-    if verbose:
+    if config.args.verbose:
         print(normal_message(), name, "is installed, continuing...")
     return True
 
@@ -202,6 +206,13 @@ def line_break(count):
 
     for i in range(0, count):
         print("")
+
+
+def get_http_code(code):
+    try:
+        return HTTPStatus(code).description
+    except ValueError:
+        return "Unknown Response"
 
 
 def splash_screen():

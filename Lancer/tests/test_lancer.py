@@ -1,5 +1,6 @@
 from lancer import *
-from utils import *
+
+from modules.ftp import *
 
 import lancerargs
 
@@ -8,7 +9,7 @@ import platform
 import io
 import sys
 import tempfile
-import argparse
+import ftplib
 
 
 def test_closes_critical_program_not_installed():
@@ -157,3 +158,32 @@ def test_create_parser():
     parser = lancerargs.create_parser()
     assert parser is not None
 
+
+def test_remove_files_over_size():
+    ftp_client = ftplib.FTP('speedtest.tele2.net')
+    ftp_client.login()
+
+    ftp_files = ftp_client.nlst()
+    sanitised_ftp_files = remove_files_over_size(ftp_client, ftp_files, 2048) # 2048 bytes is only bigger than 1kb
+    assert len(sanitised_ftp_files) is 1
+    ftp_client.quit()
+
+
+def test_download_file():
+    ftp_client = ftplib.FTP('speedtest.tele2.net')
+    ftp_client.login()
+
+    download_file(ftp_client, '1KB.zip')
+    assert os.path.exists('ftp/1KB.zip')
+    ftp_client.quit()
+
+
+"""def test_download_files():
+    ftp_client = ftplib.FTP('speedtest.tele2.net')
+    ftp_client.login()
+
+    download_files(ftp_client)
+    assert os.path.exists('ftp/1KB.zip')
+    assert os.path.exists('ftp/1MB.zip')
+    assert os.path.exists('ftp/50MB.zip') is False
+    ftp_client.quit()"""

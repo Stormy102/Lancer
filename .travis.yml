@@ -24,7 +24,9 @@ python:
   - "3.5"
   - "3.6"
   - "3.7"
+  - "3.7-dev"
   - "3.8-dev"
+  - "nightly"
 # command to install dependencies
 install:
   - pip3 install pytest-cov

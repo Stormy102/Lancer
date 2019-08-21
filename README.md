@@ -120,7 +120,7 @@ features which we intend to add support for.
 * ~~Nmap scanning~~ _Added in 0.0.1_
 * ~~Gobuster enumeration~~ _Added in 0.0.1_
 * ~~Searchsploit Nmap results~~ _Added in 0.0.1_
-* FTP scanning/downloading files < 100mb _Planned for 0.0.2_
+* FTP scanning/downloading files < 50mb _Planned for 0.0.2_
 * SMB enumeration _Planned for 0.0.2_
 * Further services detection _Coming soon_
     * SQL

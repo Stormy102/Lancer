@@ -1,1 +1,1 @@
-import tests.test_lancer
+from tests import *

@@ -120,8 +120,9 @@ features which we intend to add support for.
 * ~~Nmap scanning~~ _Added in 0.0.1_
 * ~~Gobuster enumeration~~ _Added in 0.0.1_
 * ~~Searchsploit Nmap results~~ _Added in 0.0.1_
-* FTP scanning/downloading files < 50mb _Planned for 0.0.2_
+* FTP scanning/downloading files < 50mb _In Development - Planned for 0.0.2_
 * SMB enumeration _Planned for 0.0.2_
+* Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.3_
 * Further services detection _Coming soon_
     * SQL
     * SSH
@@ -136,6 +137,7 @@ features which we intend to add support for.
     * VNC
 	* RDP
 * enum4linux support _Coming soon_
+* Multi-language support _Coming soon_
 
 Any other features you want to see? Open a Github Issue or a pull request
 

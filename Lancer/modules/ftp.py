@@ -22,22 +22,24 @@ def download_files(ftp_client):
 
     print(warning_message(), "FTP Server banner:", ftp_client.getwelcome())
 
-
     ftp_files = ftp_client.nlst()
     print(warning_message(), len(ftp_files), "files found")
 
-    sanitised_ftp_files = remove_files_over_size(ftp_client, ftp_files)
-    print(normal_message(), len(sanitised_ftp_files), "files under 50mb")
+    if len(ftp_files) > 0:
+        sanitised_ftp_files = remove_files_over_size(ftp_client, ftp_files)
+        print(normal_message(), len(sanitised_ftp_files), "files under 50mb")
 
-    for filename in sanitised_ftp_files:
-        print(normal_message(), "Downloading", filename, end=' ')
-        download_file(ftp_client, filename)
-        # Clear the "Downloading..." file line
-        sys.stdout.write('\x1b[2K\r')
-        sys.stdout.flush()
-        print(normal_message(), "Downloaded", filename, "to ./ftp/")
+        for filename in sanitised_ftp_files:
+            print(normal_message(), "Downloading", filename, end=' ')
+            download_file(ftp_client, filename)
+            # Clear the "Downloading..." file line
+            sys.stdout.write('\x1b[2K\r')
+            sys.stdout.flush()
+            print(normal_message(), "Downloaded", filename, "to ./ftp/")
 
-    print(normal_message(), "Finished downloading all files under 50mb into ./ftp/")
+        print(normal_message(), "Finished downloading all files under 50mb into ./ftp/")
+    else:
+        print(normal_message(), "No files to download")
 
 
 def download_file(ftp_client, filename):

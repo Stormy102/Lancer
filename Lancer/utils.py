@@ -14,6 +14,15 @@ import ctypes
 if platform.system().lower() == "windows" and platform.release() == "10":
     import winreg
 
+def update_windows_virtual_terminal():
+    # Check if we are on Windows 10 and if we have the VirtualTerminalLevel set to 1
+    if is_not_virtual_terminal():
+        print("\n[>] To enable output colouring in the console, we need to set a registry value"
+              " (HKCU\\Console\\VirtualTerminalLevel). Do you wish to continue? [Y/N]", end=' ')
+
+        if input().lower() == "y":
+            set_virtual_terminal()
+
 
 def is_not_virtual_terminal():
     """

@@ -1,6 +1,6 @@
-from utils import *
-
+import utils
 import argparse
+import config
 import sys
 import time
 
@@ -9,7 +9,7 @@ def parse_arguments(args):
     parser = create_parser()
 
     if len(args) is 0:
-        print(error_message(), "No arguments supplied, showing help...\n")
+        print(utils.error_message(), "No arguments supplied, showing help...\n")
         time.sleep(0.5)
         parser.print_help()
         sys.exit(1)
@@ -51,14 +51,22 @@ def create_parser():
     main_args.add_argument("--show-output", dest='show_output', action="store_true", default='',
                            help="Show the output of the programs which are executed, such as nmap, nikto, smbclient"
                                 " and gobuster")
+    main_args.add_argument("-l", "--language", metavar="LANGUAGE", dest='language_code', default='en', type=str,
+                           help="Language you want Lancer to run in. Defaults to English !!NOT YET IMPLEMENTED!!")
     main_args.add_argument("--nmap", metavar="FILE", dest='nmapFile', type=str,
                            help="Skip an internal nmap scan by providing the path to an nmap XML file")
+    main_args.add_argument("--udp", dest='scan_udp', action="store_true", default='',
+                           help="Scan for UDP ports as well as TCP when using nmap. This will look for more ports but "
+                                "will result in a much longer scan time")
 
     web_services = parser.add_argument_group("Web Services", "Options for targeting web services")
     web_services.add_argument("-wW", "--web-wordlist", metavar="WORDLIST", dest='webWordlist',
                               default='/usr/share/wordlists/dirbuster/directory-2.3-medium.txt',
                               help="The wordlist to use. Defaults to the directory-2.3-medium.txt file found in"
                                    " /usr/share/wordlists/dirbuster")
+    web_services.add_argument("--web-scan-only", dest='web_scan_only', action="store_true", default='',
+                              help="Perform a web scan only. This runs a custom Nmap scan on ports 80, 443, 3000 and "
+                                   "8080, and runs the web modules against that target")
 
     file_services = parser.add_argument_group("File Services", "Options for targeting file services")
     file_services.add_argument("-fD", metavar="DOMAIN", dest='fileDomain',

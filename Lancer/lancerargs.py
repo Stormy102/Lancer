@@ -28,7 +28,9 @@ def create_parser():
                                      description="Lancer - system vulnerability scanner\n\nThis tool is designed to"
                                                  " aid the recon phase of a pentest or any legal & authorised attack"
                                                  " against a device or network. The author does not take any liability"
-                                                 " for use of this tool for illegal use.", epilog=example)
+                                                 " for use of this tool for illegal use.\n\n"
+                                                 "See the config.ini file for more options"
+                                                 " " + config.get_config_path(), epilog=example)
 
     main_args = parser.add_argument_group("Main arguments")
     mex_group = main_args.add_mutually_exclusive_group(required=True)

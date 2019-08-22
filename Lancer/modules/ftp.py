@@ -47,7 +47,7 @@ def download_file(ftp_client, filename):
         # TODO: Make ftp directory selectable
         if not os.path.exists(os.path.join("ftp", config.args.target)):
             os.makedirs(os.path.join("ftp", config.args.target))
-        local_filename = os.path.join(os.path.join('ftp', config.args.target), filename)
+        local_filename = os.path.join('ftp', config.args.target, filename)
         file = open(local_filename, 'wb')
         ftp_client.retrbinary('RETR ' + filename, file.write)
         file.close()

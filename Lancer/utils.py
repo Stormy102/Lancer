@@ -9,6 +9,7 @@ import sys
 import platform
 import os
 import ctypes
+import socket
 
 # If we're on Windows, import winreg
 if platform.system().lower() == "windows" and platform.release() == "10":
@@ -200,7 +201,7 @@ def print_header():
 
 
 def version():
-    print(color("[+]", "Green"), "Starting Lancer", config.__version__, "at",
+    print(color("[+]", "Green"), "Starting Lancer", config.__version__, "on", socket.gethostname(), "at",
           datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "on", platform.system(), platform.release(), end=' ')
     with Spinner():
         time.sleep(1)

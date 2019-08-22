@@ -21,11 +21,15 @@ def main():
     # Parse the arguments
     lancerargs.parse_arguments(sys.argv[1:])
 
+    # Load the config file
+    config.load_config()
+
     # Update the Windows virtual terminal if necessary
     utils.update_windows_virtual_terminal()
 
     # Display the splash screen
-    utils.print_header()
+    if config.config['Main']['Show Header'] == 'yes':
+        utils.print_header()
     utils.version()
 
     # Language warning - not yet implemented
@@ -60,8 +64,8 @@ def setup():
     TODO: Use parameters/settings file for optional overriding
     :return: None
     """
-    if not os.path.exists("nmap"):
-        os.makedirs("nmap")
+    if not os.path.exists(config.config['Main']['NmapCache']):
+        os.makedirs(config.config['Main']['NmapCache'])
     if not os.path.exists("gobuster"):
         os.makedirs("gobuster")
     if not os.path.exists("ftp"):

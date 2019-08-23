@@ -6,4 +6,4 @@
 
 [run]
  omit =
- */test/test_*.py
+ */tests/*

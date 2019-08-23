@@ -53,7 +53,7 @@ def program_installed(name, critical):
     if config.args.verbose:
         print(normal_message(), "Checking if", name, "is installed...")
 
-    if which(name) is None:
+    if which(name.lower()) is None:
         if critical:
             print(error_message(), name, "is not installed, halting...\n")
             sys.exit(1)
@@ -201,8 +201,9 @@ def print_header():
 
 
 def version():
-    print(color("[+]", "Green"), "Starting Lancer", config.__version__, "on", socket.gethostname(), "at",
-          datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "on", platform.system(), platform.release(), end=' ')
+    print(color("[+]", "Green"), "Starting Lancer", config.__version__, "on", socket.gethostname(),
+          "(" + platform.system(), platform.release() + ")", "at", datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+          end=' ')
     with Spinner():
         time.sleep(1)
     print("")

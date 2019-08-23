@@ -6,7 +6,7 @@ import subprocess
 
 def smb_client(verbose):
     print(normal_message(), "Using SMBClient to enumerate SMB shares...")
-    if program_installed("smbclient", False):
+    if program_installed("SMBClient", False):
         print(error_message(), "SMBClient is not yet supported")
         #print(normal_message(), "Using SMBClient to list available shares...")
         #smbclient_list = subprocess.check_output(['smbclient', '-L', config.args.target]).decode('UTF-8')

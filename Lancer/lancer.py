@@ -12,6 +12,7 @@ import utils
 import sys
 import signal
 import os
+import time
 
 
 def main():
@@ -28,7 +29,8 @@ def main():
     utils.update_windows_virtual_terminal()
 
     # Display the splash screen
-    if config.config['Main']['Show Header'] == 'yes':
+    show_header = config.config['Main']['Show Header']
+    if show_header != 'no':
         utils.print_header()
     utils.version()
 
@@ -43,10 +45,15 @@ def main():
         # Display the Legal disclaimer
         legal_disclaimer()
 
+    # Get start time
+    start_time = time.monotonic()
     # Run the program
     execute()
 
     print(utils.normal_message(), "Lancer has finished system scanning")
+    elapsed_time = time.monotonic() - start_time
+
+    print(utils.normal_message(), "Lancer took", time.strftime("%H:%M:%S", time.gmtime(elapsed_time)), "to complete")
 
     sys.exit(0)
 

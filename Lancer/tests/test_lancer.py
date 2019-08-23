@@ -4,8 +4,6 @@ import io
 import sys
 import os
 
-# TODO: Test text foreground/background colouring tests and styles
-
 
 def test_setup():
     lancer.setup()

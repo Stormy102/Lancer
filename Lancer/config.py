@@ -24,13 +24,15 @@ def get_config_parser():
                     'directory', None)
     cfg['Main']['NmapCache'] = 'nmap'
 
-    """cfg['Web'] = {}
+    cfg['Web'] = {}
     cfg.set('Web', '; The directory that the downloaded FTP files should be saved to. Defaults to relative ./ftp'
                    'directory', None)
     cfg['Web']['FTPCache'] = 'ftp'
     cfg.set('Web', '; The directory that the nmap output files should be saved to. Defaults to relative ./gobuster'
                    'directory', None)
-    cfg['Web']['GobusterCache'] = 'gobuster'"""
+    cfg['Web']['GobusterCache'] = 'gobuster'
+    cfg.set('Web', '; The wordlist that is used by Gobuster when enumerating a HTTP/HTTPS service', None)
+    cfg['Web']['DefaultWordlist'] = '/usr/share/wordlists/dirbuster/directory-2.3-medium.txt'
     return cfg
 
 

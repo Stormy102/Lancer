@@ -46,6 +46,9 @@ def create_parser():
     main_args.add_argument("-sd", "--skip-disclaimer", dest='skipDisclaimer', action="store_true", default='',
                            help="Skip the legal disclaimer. By using this flag, you agree to use the program for legal"
                                 " and authorised use")
+    main_args.add_argument("--cache-root", metavar="PATH", dest='cache_root', default='',
+                           help="The root of the cache. This is where all of the data for the programs run is "
+                                "stored, which may be useful if you wish to document or save all of the data cleanly.")
     main_args.add_argument("--skip-ports", nargs='+', type=int, metavar="PORTS", dest='skipPorts', default=[],
                            help="Set the ports to ignore. These ports will have no enumeration taken against them,"
                                 " except for the initial discovery via nmap. This can be used to run a custom scan and"
@@ -62,13 +65,11 @@ def create_parser():
                                 "will result in a much longer scan time")
 
     web_services = parser.add_argument_group("Web Services", "Options for targeting web services")
-    web_services.add_argument("-wW", "--web-wordlist", metavar="WORDLIST", dest='webWordlist',
-                              default='/usr/share/wordlists/dirbuster/directory-2.3-medium.txt',
-                              help="The wordlist to use. Defaults to the directory-2.3-medium.txt file found in"
-                                   " /usr/share/wordlists/dirbuster")
+    web_services.add_argument("-wW", "--web-wordlist", metavar="WORDLIST", dest='webWordlist', default='',
+                              help="The wordlist to use. The default wordlist can be changed in the config file")
     web_services.add_argument("--web-scan-only", dest='web_scan_only', action="store_true", default='',
                               help="Perform a web scan only. This runs a custom Nmap scan on ports 80, 443, 3000 and "
-                                   "8080, and runs the web modules against that target")
+                                   "8080, and runs the web modules against that target. NOT YET IMPLEMENTED")
 
     file_services = parser.add_argument_group("File Services", "Options for targeting file services")
     file_services.add_argument("-fD", metavar="DOMAIN", dest='fileDomain',

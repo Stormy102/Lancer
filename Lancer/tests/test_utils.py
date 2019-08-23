@@ -7,6 +7,8 @@ import io
 import platform
 import sys
 
+# TODO: Test text foreground/background colouring tests and styles
+
 
 def test_closes_critical_program_not_installed():
     lancerargs.parse_arguments(['-T', '127.0.0.1', '-v'])
@@ -91,3 +93,87 @@ def test_print_header():
     sys.stdout = sys.__stdout__
     # Just check the top line of the header
     assert "`.--:::::::::::::::::---." in captured_output.getvalue()
+
+
+def test_style_bold():
+    assert utils.get_text_style("bold") is "1"
+
+
+def test_style_underlined():
+    assert utils.get_text_style("underline") is "2"
+
+
+def test_style_negative1():
+    assert utils.get_text_style("negative1") is "3"
+
+
+def test_style_negative2():
+    assert utils.get_text_style("negative2") is "5"
+
+
+def test_style_invalid():
+    assert utils.get_text_style("invalid") is "0"
+
+
+def test_foreground_red():
+    assert utils.get_foreground_color("red") is "31"
+
+
+def test_foreground_green():
+    assert utils.get_foreground_color("green") is "32"
+
+
+def test_foreground_yellow():
+    assert utils.get_foreground_color("yellow") is "33"
+
+
+def test_foreground_blue():
+    assert utils.get_foreground_color("blue") is "34"
+
+
+def test_foreground_purple():
+    assert utils.get_foreground_color("purple") is "35"
+
+
+def test_foreground_cyan():
+    assert utils.get_foreground_color("cyan") is "36"
+
+
+def test_foreground_black():
+    assert utils.get_foreground_color("black") is "30"
+
+
+def test_foreground_invalid():
+    assert utils.get_foreground_color("invalid") is "37"
+
+
+def test_background_red():
+    assert utils.get_background_color("red") is "41"
+
+
+def test_background_green():
+    assert utils.get_background_color("green") is "42"
+
+
+def test_background_yellow():
+    assert utils.get_background_color("yellow") is "43"
+
+
+def test_background_blue():
+    assert utils.get_background_color("blue") is "44"
+
+
+def test_background_purple():
+    assert utils.get_background_color("purple") is "45"
+
+
+def test_background_cyan():
+    assert utils.get_background_color("cyan") is "46"
+
+
+def test_background_white():
+    assert utils.get_background_color("white") is "47"
+
+
+def test_background_invalid():
+    assert utils.get_background_color("invalid") is "40"

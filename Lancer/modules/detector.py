@@ -50,11 +50,9 @@ def detect_service(openport):
                 print(utils.warning_message(), service_name, "is recognised by nmap as an ssh server")
             # Some kind of http service
             if service_type == "http":
-                if config.args.quiet:
-                    print(utils.warning_message(), service_name, "is recognised by nmap as a http program")
-                else:
-                    print(utils.warning_message(), service_name, "is recognised by nmap as a http program. Will"
-                                                                 "commence enumeration using gobuster and Nikto...")
+                print(utils.warning_message(), service_name, "is recognised by nmap as a http program")
+                if not config.args.quiet:
+                    print(utils.normal_message(), "Will commence enumeration using gobuster and Nikto...")
                     print("")
                     url = "http://" + config.args.target + ":" + str(port)
                     # Scan using gobuster
@@ -64,12 +62,11 @@ def detect_service(openport):
             # Smb share
             # TODO: Maybe don't use hardcoded ports
             if port == 445:
-                if config.args.quiet:
-                    print(utils.warning_message(), service_name, "is potentially a SMB share on Windows")
-                else:
-                    print(utils.warning_message(), service_name, "is potentially a SMB share on Windows. Will commence"
-                                                             " enumeration using smbclient...")
+                print(utils.warning_message(), service_name, "is potentially a SMB share on Windows")
+                if not config.args.quiet:
+                    print(utils.warning_message(), service_name, "Will commence enumeration using SMBClient/SMBMap...")
                 smb.smb_client(config.args.verbose)
+            # MySQL server
             if service_name == "mysql":
                 print(utils.warning_message(), service_name, "is recognised by nmap as a MySQL server...")
         else:

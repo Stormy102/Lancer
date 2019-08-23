@@ -9,6 +9,7 @@ import tempfile
 
 
 def test_setup_config_file():
+    lancerargs.parse_arguments(["-T", "127.0.0.1"])
     lancer.setup()
     assert os.path.exists(config.nmap_cache())
     assert os.path.exists(config.gobuster_cache())

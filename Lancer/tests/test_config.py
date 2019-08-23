@@ -20,7 +20,6 @@ def test_save_config():
     assert os.path.exists(config.get_config_path())
 
 
-"""def test_load_config():
-    config.config['Main']['Language Code'] = 'en-pirate'
+def test_load_config():
     config.load_config()
-    assert config.config['Main']['Language Code'] is not 'en-pirate'"""
+    assert config.config is not None

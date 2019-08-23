@@ -53,7 +53,7 @@ def load_config():
 
 
 def get_config_path():
-    path = os.path.join(pathlib.Path.home(), ".lancer")
+    path = os.path.join(str(pathlib.Path.home()), ".lancer")
     if not os.path.exists(path):
         os.mkdir(path)
     return os.path.join(path, "config.ini")

@@ -10,6 +10,7 @@
 <!--- See for dropping Python 3.5 support https://devguide.python.org/#status-of-python-branches -->
 [![Python Versions](https://img.shields.io/badge/python-3.5|3.6|3.7|3.8-blue.svg)]()
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
+[![Releases](https://img.shields.io/github/v/release/Stormy102/Lancer?include_prereleases)]()
 [![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)]()
 [![Known Vulnerabilities](https://snyk.io//test/github/Stormy102/Lancer/badge.svg?targetFile=requirements.txt)](https://snyk.io//test/github/Stormy102/Lancer?targetFile=requirements.txt)
 [![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer.svg)]()

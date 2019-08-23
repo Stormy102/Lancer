@@ -5,4 +5,6 @@
 # =========================================================================
 
 [run]
-omit = Lancer/tests/*
+omit = 
+	Lancer/tests/*
+	Lancer/test_init.py

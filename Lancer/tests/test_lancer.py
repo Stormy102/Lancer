@@ -1,15 +1,28 @@
 import lancer
+import lancerargs
+import config
 import pytest
 import io
 import sys
 import os
+import tempfile
 
 
-def test_setup():
+def test_setup_config_file():
     lancer.setup()
-    assert os.path.exists("nmap")
-    assert os.path.exists("gobuster")
-    assert os.path.exists("ftp")
+    assert os.path.exists(config.nmap_cache())
+    assert os.path.exists(config.gobuster_cache())
+    assert os.path.exists(config.ftp_cache())
+
+
+def test_setup_args_root():
+    temp_dir = tempfile.TemporaryDirectory()
+    lancerargs.parse_arguments(["-T", "127.0.0.1", "--cache-root", temp_dir.name])
+    lancer.setup()
+    assert os.path.exists(config.nmap_cache())
+    assert os.path.exists(config.gobuster_cache())
+    assert os.path.exists(config.ftp_cache())
+    temp_dir.cleanup()
 
 
 def test_signal_handler_quits():

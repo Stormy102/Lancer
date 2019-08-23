@@ -10,6 +10,7 @@ __version__ = "0.0.2 Alpha"
 import argparse
 import os
 import configparser
+import lancerargs
 import pathlib
 
 
@@ -24,11 +25,13 @@ def get_config_parser():
                     'directory', None)
     cfg['Main']['NmapCache'] = 'nmap'
 
+    cfg['File'] = {}
+    cfg.set('File', '; The directory that the downloaded FTP files should be saved to. Defaults to relative ./ftp'
+                    'directory', None)
+    cfg['File']['FTPCache'] = 'ftp'
+
     cfg['Web'] = {}
-    cfg.set('Web', '; The directory that the downloaded FTP files should be saved to. Defaults to relative ./ftp'
-                   'directory', None)
-    cfg['Web']['FTPCache'] = 'ftp'
-    cfg.set('Web', '; The directory that the nmap output files should be saved to. Defaults to relative ./gobuster'
+    cfg.set('Web', '; The directory that the gobuster output files should be saved to. Defaults to relative ./gobuster'
                    'directory', None)
     cfg['Web']['GobusterCache'] = 'gobuster'
     cfg.set('Web', '; The wordlist that is used by Gobuster when enumerating a HTTP/HTTPS service', None)
@@ -61,6 +64,27 @@ def get_config_path():
     if not os.path.exists(path):
         os.mkdir(path)
     return os.path.join(path, "config.ini")
+
+
+def nmap_cache():
+    if args.cache_root is not None:
+        return os.path.join(args.cache_root, "nmap")
+
+    return config.config['Main']['NmapCache']
+
+
+def gobuster_cache():
+    if args.cache_root is not None:
+        return os.path.join(args.cache_root, "gobuster")
+
+    return config.config['Web']['GobusterCache']
+
+
+def ftp_cache():
+    if args.cache_root is not None:
+        return os.path.join(args.cache_root, "ftp")
+
+    return config.config['File']['FTPCache']
 
 
 args = argparse.Namespace

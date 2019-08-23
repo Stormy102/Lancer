@@ -18,7 +18,7 @@ def ftp(open_port):
 
 
 def download_files(ftp_client):
-    print(normal_message(), "Downloading all files under 100mb into ./ftp/" + config.args.target + "...")
+    print(normal_message(), "Downloading all files under 100mb into FTP cache" + config.args.target + "...")
 
     print(warning_message(), "FTP Server banner:", ftp_client.getwelcome()[4:])
 
@@ -35,9 +35,9 @@ def download_files(ftp_client):
             # Clear the "Downloading..." file line
             sys.stdout.write('\x1b[2K\r')
             sys.stdout.flush()
-            print(normal_message(), "Downloaded", filename, "to ./ftp/" + config.args.target)
+            print(normal_message(), "Downloaded", filename, "to FTP cache" + config.args.target)
 
-        print(normal_message(), "Finished downloading all files under 50mb into ./ftp/")
+        print(normal_message(), "Finished downloading all files under 50mb into FTP cache")
     else:
         print(normal_message(), "No files to download")
 
@@ -45,9 +45,9 @@ def download_files(ftp_client):
 def download_file(ftp_client, filename):
     with Spinner():
         # TODO: Make ftp directory selectable
-        if not os.path.exists(os.path.join("ftp", config.args.target)):
-            os.makedirs(os.path.join("ftp", config.args.target))
-        local_filename = os.path.join('ftp', config.args.target, filename)
+        if not os.path.exists(os.path.join(config.ftp_cache(), config.args.target)):
+            os.makedirs(os.path.join(config.ftp_cache(), config.args.target))
+        local_filename = os.path.join(config.ftp_cache(), config.args.target, filename)
         file = open(local_filename, 'wb')
         ftp_client.retrbinary('RETR ' + filename, file.write)
         file.close()

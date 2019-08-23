@@ -64,7 +64,7 @@ def detect_service(openport):
             if port == 445:
                 print(utils.warning_message(), service_name, "is potentially a SMB share on Windows")
                 if not config.args.quiet:
-                    print(utils.warning_message(), service_name, "Will commence enumeration using SMBClient/SMBMap...")
+                    print(utils.warning_message(), "Will commence enumeration using SMBClient/SMBMap...")
                 smb.smb_client(config.args.verbose)
             # MySQL server
             if service_name == "mysql":

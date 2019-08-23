@@ -16,7 +16,7 @@ def nmap_scan(quiet):
     utils.program_installed("nmap", True)
 
     if quiet:
-        out_file = os.path.join(config.config['Main']['NmapCache'], ("nmap-%s-quiet.xml" % config.args.target))
+        out_file = os.path.join(config.nmap_cache(), ("nmap-%s-quiet.xml" % config.args.target))
         print(utils.normal_message(), "Using quiet scan on", config.args.target, "to avoid detection")
 
         if config.args.verbose:
@@ -28,7 +28,7 @@ def nmap_scan(quiet):
             output = subprocess.check_output(['nmap', '-sS', '-sV', '-oX', out_file, config.args.target]).decode(
                 'UTF-8')
     else:
-        out_file = os.path.join(config.config['Main']['NmapCache'], ("nmap-%s.xml" % config.args.target))
+        out_file = os.path.join(config.nmap_cache(), ("nmap-%s.xml" % config.args.target))
 
         if config.args.verbose:
             print(utils.normal_message(), "Nmap data will be written to", out_file)

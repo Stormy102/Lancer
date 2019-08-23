@@ -71,12 +71,12 @@ def setup():
     TODO: Use parameters/settings file for optional overriding
     :return: None
     """
-    if not os.path.exists(config.config['Main']['NmapCache']):
-        os.makedirs(config.config['Main']['NmapCache'])
-    if not os.path.exists("gobuster"):
-        os.makedirs("gobuster")
-    if not os.path.exists("ftp"):
-        os.makedirs("ftp")
+    if not os.path.exists(config.nmap_cache()):
+        os.makedirs(config.nmap_cache())
+    if not os.path.exists(config.gobuster_cache()):
+        os.makedirs(config.gobuster_cache())
+    if not os.path.exists(config.ftp_cache()):
+        os.makedirs(config.ftp_cache())
 
     if utils.is_user_admin() is False:
         print(utils.warning_message(), "Lancer doesn't appear to being run with elevated permissions."

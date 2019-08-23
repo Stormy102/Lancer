@@ -30,7 +30,7 @@ python:
 # Install programs that Lancer needs to work
 before_install:
   - sudo apt update
-  - sudo apt install -y nmap exploitdb
+  #- sudo apt install -y nmap exploitdb
 # command to install dependencies
 install:
   - pip3 install pytest-cov

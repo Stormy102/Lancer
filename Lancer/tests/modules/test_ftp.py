@@ -2,8 +2,14 @@ from modules import ftp
 
 import config
 import ftplib
+import lancerargs
 import warnings
 import os
+
+
+def test_ftp_quiet():
+    lancerargs.parse_arguments(["-T", "127.0.0.1", "-q"])
+    ftp.ftp(None)
 
 
 def test_remove_files_over_size():

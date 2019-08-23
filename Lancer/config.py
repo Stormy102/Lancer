@@ -53,6 +53,10 @@ def load_config():
 
 
 def get_config_path():
+    # Convert pathlib.Path.home() to str to avoid join error
+    # as pathlib.Path.home() appears to be a PosixPath instead
+    # of a string in Python 3.5
+    # TODO: Remove str() when dropping Python 3.5 support
     path = os.path.join(str(pathlib.Path.home()), ".lancer")
     if not os.path.exists(path):
         os.mkdir(path)

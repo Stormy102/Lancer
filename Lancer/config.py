@@ -67,7 +67,7 @@ def get_config_path():
 
 
 def nmap_cache():
-    if args.cache_root is not None:
+    if args.cache_root != "":
         return os.path.join(args.cache_root, "nmap")
 
     return config.config['Main']['NmapCache']

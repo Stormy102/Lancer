@@ -23,3 +23,10 @@ def test_save_config():
 def test_load_config():
     config.load_config()
     assert config.config is not None
+
+
+def test_load_config_not_on_disk():
+    os.remove(config.get_config_path())
+    config.load_config()
+    assert config.config is not None
+    assert os.path.exists(config.get_config_path())

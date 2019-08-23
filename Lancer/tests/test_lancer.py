@@ -12,8 +12,11 @@ def test_setup_config_file():
     lancerargs.parse_arguments(["-T", "127.0.0.1"])
     lancer.setup()
     assert os.path.exists(config.nmap_cache())
+    assert os.path.exists("nmap") # Default cache path in config file
     assert os.path.exists(config.gobuster_cache())
+    assert os.path.exists("gobuster")  # Default cache path in config file
     assert os.path.exists(config.ftp_cache())
+    assert os.path.exists("ftp")  # Default cache path in config file
 
 
 def test_setup_args_root():

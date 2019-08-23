@@ -27,6 +27,9 @@ python:
   - "3.7-dev"
   - "3.8-dev"
   - "nightly"
+before_install:
+  - sudo apt update
+  - sudo apt install -y smbclient
 # command to install dependencies
 install:
   - pip3 install pytest-cov

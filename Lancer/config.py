@@ -70,21 +70,21 @@ def nmap_cache():
     if args.cache_root != "":
         return os.path.join(args.cache_root, "nmap")
 
-    return config.config['Main']['NmapCache']
+    return config['Main']['NmapCache']
 
 
 def gobuster_cache():
-    if args.cache_root is not None:
+    if args.cache_root != "":
         return os.path.join(args.cache_root, "gobuster")
 
-    return config.config['Web']['GobusterCache']
+    return config['Web']['GobusterCache']
 
 
 def ftp_cache():
-    if args.cache_root is not None:
+    if args.cache_root != "":
         return os.path.join(args.cache_root, "ftp")
 
-    return config.config['File']['FTPCache']
+    return config['File']['FTPCache']
 
 
 args = argparse.Namespace

@@ -1,7 +1,5 @@
 import platform
-
-if platform.system().lower() is "windows":
-    import winreg
+import winreg
 
 
 def update_windows_virtual_terminal():

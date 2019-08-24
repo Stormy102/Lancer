@@ -114,7 +114,13 @@ def execute():
 
 if __name__ == "__main__":
     # try:
-    main()
+    #main()
+    lancerargs.parse_arguments(['-T', '127.0.0.1'])
+    from modules import ftp
+    import ftplib
+    f = ftplib.FTP('127.0.0.1')
+    f.login()
+    ftp.download_files(f)
     # except SystemExit:
     #    print(NormalMessage(), "Lancer is shutting down")
     # except:

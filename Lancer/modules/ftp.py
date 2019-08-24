@@ -6,13 +6,20 @@ import config
 
 def ftp(open_port):
     if config.args.quiet is not True:
+        anonymous_access_allowed = False
+
         for script in open_port.getElementsByTagName('script'):
             if script.attributes['id'].value == "ftp-anon":
-                print(warning_message(), "Anonymous FTP access allowed")
-                ftp_client = ftplib.FTP(config.args.target)
-                ftp_client.login()
-                download_files(ftp_client)
-                ftp_client.quit()
+                anonymous_access_allowed = True
+
+        if anonymous_access_allowed:
+            print(warning_message(), "Anonymous FTP access allowed")
+            ftp_client = ftplib.FTP(config.args.target)
+            ftp_client.login()
+            download_files(ftp_client)
+            ftp_client.quit()
+        else:
+            print(warning_message(), "Credentials are required for FTP access")
     else:
         print(normal_message(), "Not downloading any files or logging on to server as currently in quiet mode")
 

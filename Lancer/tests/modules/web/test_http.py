@@ -19,3 +19,8 @@ def test_gobuster():
 
     url = "http://scanme.nmap.org"
     #http.gobuster(url)
+
+
+def test_nikto():
+    url = "http://scanme.nmap.org"
+    http.nikto(url)

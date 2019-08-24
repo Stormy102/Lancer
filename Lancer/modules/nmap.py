@@ -68,10 +68,9 @@ def parse_nmap_scan(out_file):
 
         print(utils.normal_message(), len(port_list), "ports are open")
 
-        cpe_list = xmldoc.getElementsByTagName('cpe')
+        cpe_list = [x.firstChild.nodeValue for x in xmldoc.getElementsByTagName('cpe')]
 
         detector.detect_os(cpe_list)
-
         detector.detect_apps(cpe_list)
 
         # New line for nicer formatting

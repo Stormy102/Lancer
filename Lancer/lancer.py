@@ -9,10 +9,12 @@ import config
 import lancerargs
 import utils
 
+
 import sys
 import signal
 import os
 import time
+import platform
 
 
 def main():
@@ -26,7 +28,10 @@ def main():
     config.load_config()
 
     # Update the Windows virtual terminal if necessary
-    utils.update_windows_virtual_terminal()
+    # If we're on Windows 10, import winutils
+    if platform.system().lower() == "windows" and platform.release() == "10":
+        import winutils
+        winutils.update_windows_virtual_terminal()
 
     # Display the splash screen
     show_header = config.config['Main']['Show Header']

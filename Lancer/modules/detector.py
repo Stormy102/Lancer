@@ -10,23 +10,21 @@ import cpe_utils
 
 def detect_os(cpe_list):
     for cpe in cpe_list:
-        cpe_retrieved = cpe.firstChild.nodeValue
         cpe_os_type = "cpe:/o"
-        if cpe_retrieved.startswith(cpe_os_type):
-            print(utils.normal_message(), "Target OS appears to be", cpe_utils.CPE(cpe_retrieved).human())
-            if cpe_utils.CPE(cpe_retrieved).matches(cpe_utils.CPE("cpe:/o:microsoft:windows")) \
+        if cpe.startswith(cpe_os_type):
+            print(utils.normal_message(), "Target OS appears to be", cpe_utils.CPE(cpe).human())
+            if cpe_utils.CPE(cpe).matches(cpe_utils.CPE("cpe:/o:microsoft:windows")) \
                     and platform.system() == "linux":
-                print(utils.warning_message(), "Target machine is running Microsoft Windows."
-                                               "Will commence enumeration using enum4linux")
-                print(utils.warning_message(), "enum4linux not yet implemented")
+                print(utils.warning_message(), "Target machine is running Microsoft Windows")
+                print(utils.warning_message(), "Will commence enumeration using enum4linux")
+                print(utils.error_message(), "enum4linux not yet implemented")
 
 
 def detect_apps(cpe_list):
     for cpe in cpe_list:
-        cpe_retrieved = cpe.firstChild.nodeValue
         cpe_app_type = "cpe:/a"
-        if cpe_retrieved.startswith(cpe_app_type):
-            print(utils.normal_message(), "Installed application is reported as", cpe_utils.CPE(cpe_retrieved).human())
+        if cpe.startswith(cpe_app_type):
+            print(utils.normal_message(), "Installed application is reported as", cpe_utils.CPE(cpe).human())
 
 
 def detect_service(openport):

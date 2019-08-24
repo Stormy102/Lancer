@@ -26,11 +26,6 @@ def test_non_critical_program_installed():
     assert utils.program_installed("python", False) is True
 
 
-def test_is_not_virtual_terminal():
-    if platform.system().lower() is not "windows":
-        assert utils.is_not_virtual_terminal() is False
-
-
 def test_normal_message():
     out = utils.normal_message()
     assert "[+]" in out
@@ -177,3 +172,7 @@ def test_background_white():
 
 def test_background_invalid():
     assert utils.get_background_color("invalid") is "40"
+
+
+def test_color_background():
+    assert "46" in utils.color("Lorem ipsum dolar sit amet", "White", "Cyan")

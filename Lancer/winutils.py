@@ -1,5 +1,8 @@
 import platform
-import winreg
+import importlib
+winreg_exists = importlib.util.find_spec('winreg')
+if winreg_exists:
+    import winreg
 
 
 def update_windows_virtual_terminal():

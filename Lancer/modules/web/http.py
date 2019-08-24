@@ -17,6 +17,8 @@ def gobuster(url):
     elif utils.program_installed("Gobuster", True):
         out_file = os.path.join(config.gobuster_cache(), 'gobuster-' + url + '.txt.')
         # Replace the colon for sanitised filename
+        out_file = out_file.replace('http://', '')
+        out_file = out_file.replace('https://', '')
         out_file = out_file.replace(':', '-')
 
         if config.args.verbose:

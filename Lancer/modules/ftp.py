@@ -113,6 +113,6 @@ def remove_files_over_size(ftp_client, files, size=1024*1024*50):
             if ftp_client.size(file) < size:
                 sanitised_files.append(file)
         except ftplib.error_perm:
-            print(utils.warning_message(), "Don't have permission to access", color(file, None, None, "bold") + ",",
+            print(utils.warning_message(), "Don't have permission to access", utils.color(file, None, None, "bold") + ",",
                   "could be a directory or a file we don't have permission to access")
     return sanitised_files

@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+    Copyright (c) 2019 Lancer developers
+    See the file 'LICENCE' for copying permissions
+"""
+
 from modules import nmap
 
 __license__ = "GPL-3.0"
@@ -8,7 +13,6 @@ __license__ = "GPL-3.0"
 import config
 import lancerargs
 import utils
-
 
 import sys
 import signal
@@ -33,8 +37,11 @@ def main():
         import winutils
         winutils.update_windows_virtual_terminal()
 
+    # Check we're on a supported Python version
+    utils.python_version()
+
     # Display the splash screen
-    show_header = config.config['Main']['Show Header']
+    show_header = config.config['Main']['ShowHeader']
     if show_header != 'no':
         utils.print_header()
     utils.version()

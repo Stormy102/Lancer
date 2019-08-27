@@ -5,7 +5,7 @@ import config
 def test_get_config_parser():
     cfg = config.get_config_parser()
     assert cfg is not None
-    assert cfg['Main']['Show Header'] is 'yes'
+    assert cfg['Main']['ShowHeader'] is 'yes'
 
 
 def test_get_config_path():

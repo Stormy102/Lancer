@@ -1,6 +1,6 @@
 import platform
-import importlib
-winreg_exists = importlib.util.find_spec('winreg')
+from importlib import util
+winreg_exists = util.find_spec('winreg')
 if winreg_exists:
     import winreg
 

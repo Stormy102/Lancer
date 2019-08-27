@@ -1,7 +1,5 @@
 # Lancer v0.0.2 Alpha
 
-## Badges & Statuses
-
 |Branch|Status|Coverage|Code Quality|Last Commit|
 |---|---|---|---|---|
 |Master|[![Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=master)](https://travis-ci.com/Stormy102/Lancer) |[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)|[![Master Code Quality](https://codebeat.co/badges/08113589-61c1-418c-8f2e-bffcc5562425)](https://codebeat.co/projects/github-com-stormy102-lancer-master)|[![Last Master Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer.svg)]()
@@ -25,6 +23,37 @@ Lancer is a pentesting tool written in [Python 3](https://www.python.org/) which
 
 The aim of Lancer is to take several tools which already exist, such as [Gobuster](https://github.com/OJ/gobuster/), [Nmap](https://github.com/nmap/nmap), [SMBMap](https://github.com/ShawnDEvans/smbmap) and [many](https://github.com/portcullislabs/enum4linux) [more](https://github.com/sullo/nikto), and intelligently detect which tools should be used depending on the results of a scan. This is meant to automate enumeration of a target and make the process of finding vulnerabilities a bit easier.
 
+## Limitations & Upcoming Features
+
+As Lancer is still very much in active development, there is currently limited functionality and it is not recommended for use in a commercial or real-world environment.
+
+This is a list of features which we intend to add support for:
+* ~~Nmap scanning~~ _Added in 0.0.1_
+* ~~Gobuster enumeration~~ _Added in 0.0.1_
+* ~~Searchsploit Nmap results~~ _Added in 0.0.1_
+* ~~Configuration file (.ini) for persistent configuration~~ _Added on develop branch for 0.0.2_
+* ~~FTP scanning/downloading files < 50mb~~ _Added in 0.0.2_
+* Nikto support _Planned for 0.0.2_
+* SMB enumeration _Planned for 0.0.3_
+* Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.3_
+* Multi-language support _Planned for 0.0.4_
+* enum4linux support _Coming soon_
+* Further services detection _Coming soon_
+    * SQL
+    * SSH
+    * Telnet
+    * SMTP
+    * DNS
+    * POP3
+    * RCPBind
+    * MSRPC
+    * IMAP
+    * HTTPS
+    * VNC
+	* RDP
+
+Any other features you want to see? Open a Github Issue or a pull request
+
 ## Installation
 
 To execute the program, ensure that you have Python 3.5 or higher installed. Use Python's pip to install the necessary Python dependents
@@ -42,7 +71,7 @@ However, Lancer depends on several other external programs being installed. For 
 |[Nikto](https://github.com/sullo/nikto)|2.1.6| |✔|✔|✔|
 |[enum4linux](https://github.com/portcullislabs/enum4linux)|0.8.9| |✔|✔|❌|
 
-*Recommended program
+*_Recommended program_
 
 ## Usage
 
@@ -123,34 +152,6 @@ $ python lancer.py --target 192.168.1.10 --nmap nmap/bastion.xml /
   -wW /usr/share/wordlists/dirbuster/directory-2.3-small.txt /
   -fD HTB -fU L4mpje -fP P@ssw0rd
 ```
-
-## Limitations & Upcoming Features
-
-As Lancer is still very much in active development, there is currently limited functionality. This is a list of 
-features which we intend to add support for.
-* ~~Nmap scanning~~ _Added in 0.0.1_
-* ~~Gobuster enumeration~~ _Added in 0.0.1_
-* ~~Searchsploit Nmap results~~ _Added in 0.0.1_
-* FTP scanning/downloading files < 50mb _In Development - Planned for 0.0.2_
-* SMB enumeration _Planned for 0.0.2_
-* Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.3_
-* Further services detection _Coming soon_
-    * SQL
-    * SSH
-    * Telnet
-    * SMTP
-    * DNS
-    * POP3
-    * RCPBind
-    * MSRPC
-    * IMAP
-    * HTTPS
-    * VNC
-	* RDP
-* enum4linux support _Coming soon_
-* Multi-language support _Coming soon_
-
-Any other features you want to see? Open a Github Issue or a pull request
 
 ## License
 

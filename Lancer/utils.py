@@ -29,6 +29,13 @@ def program_installed(name, critical):
     return True
 
 
+def python_version():
+    py_version = sys.version.split()[0]
+    if py_version < "3.5":
+        print(error_message(), "Unsupported Python version")
+        sys.exit(1)
+
+
 def normal_message():
     return color("[+]", "Green")
 
@@ -132,6 +139,13 @@ def get_background_color(background):
 
 
 def print_header():
+    # Why this header, you may ask?
+    # Well, the header itself depicts a
+    # Scout trooper from Star Wars. The
+    # purpose of Scout Troopers was to probe
+    # enemy defences and reconnoiter, as well
+    # as patrol and protect their own base.
+    # Elite Scout Troopers were known as Lancers
     print('''                  `.--:::::::::::::::::---.                 
                `-::----.............-----::/:.              
               ./:----.............---------::/:             

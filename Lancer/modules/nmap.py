@@ -1,7 +1,8 @@
-from spinner import Spinner
 from xml.dom import minidom
 from modules import detector
+from spinner import Spinner
 
+import spinner
 import utils
 import config
 import subprocess

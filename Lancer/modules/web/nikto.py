@@ -11,13 +11,13 @@ def nikto(url):
 
     if utils.program_installed("Nikto", False):
 
-        out_file = os.path.join(config.nikto_cache(), 'nikto-' + url + '.txt.')
+        out_file = os.path.join(config.nikto_cache(), 'nikto-' + url + '.xml')
         # Replace the colon for sanitised filename
         out_file = out_file.replace('http://', '')
         out_file = out_file.replace('https://', '')
         out_file = out_file.replace(':', '-')
 
-        output = subprocess.check_output(['nikto', '-Host', url, "-Format", "txt", "-o", out_file]).decode('UTF-8')
+        output = subprocess.check_output(['nikto', '-Host', url, "-Format", "xml", "-o", out_file]).decode('UTF-8')
 
         if config.args.show_output:
             print("")

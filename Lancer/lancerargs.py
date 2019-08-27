@@ -60,6 +60,8 @@ def create_parser():
                            help="Language you want Lancer to run in. Defaults to English !!NOT YET IMPLEMENTED!!")
     main_args.add_argument("--nmap", metavar="FILE", dest='nmapFile', type=str,
                            help="Skip an internal nmap scan by providing the path to an nmap XML file")
+    main_args.add_argument("--version", dest='show_version', action="store_true", default='',
+                           help="Shows the current version of Lancer")
     main_args.add_argument("--udp", dest='scan_udp', action="store_true", default='',
                            help="Scan for UDP ports as well as TCP when using nmap. This will look for more ports but "
                                 "will result in a much longer scan time")

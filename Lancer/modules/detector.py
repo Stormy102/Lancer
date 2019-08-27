@@ -1,5 +1,6 @@
 from modules import ftp
 from modules.web import gobuster
+from modules.web import nikto
 from modules import smb
 
 import config
@@ -56,7 +57,7 @@ def detect_service(openport):
                     # Scan using gobuster
                     gobuster.gobuster(url)
                     # Scan using nikto
-                    gobuster.nikto(url)
+                    nikto.nikto(url)
             # Smb share
             # TODO: Maybe don't use hardcoded ports
             if port == 445:

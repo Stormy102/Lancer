@@ -68,10 +68,3 @@ def parse_gobuster_results(gobuster_file):
         else:
             print(utils.error_message(), "No directories found")
         print("")
-
-
-def nikto(url):
-    print(utils.normal_message(), "Starting scan of", url)
-
-    if utils.program_installed("Nikto", False):
-        print(utils.error_message(), "Nikto is not yet supported")

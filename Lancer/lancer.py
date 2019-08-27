@@ -40,6 +40,10 @@ def main():
     # Check we're on a supported Python version
     utils.python_version()
 
+    if config.args.show_version:
+        print(utils.normal_message(), "Lancer", config.__version__)
+        sys.exit(0)
+
     # Display the splash screen
     show_header = config.config['Main']['ShowHeader']
     if show_header != 'no':

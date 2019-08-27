@@ -39,7 +39,7 @@ def get_config_parser():
                    'directory', None)
     cfg['Web']['GobusterCache'] = 'gobuster'
     cfg.set('Web', '# The wordlist that is used by Gobuster when enumerating a HTTP/HTTPS service', None)
-    cfg['Web']['DefaultWordlist'] = '/usr/share/wordlists/dirbuster/directory-2.3-medium.txt'
+    cfg['Web']['DefaultWordlist'] = '/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt'
     cfg.set('Web', '# The directory that the Nikto output files should be saved to. Defaults to relative ./Nikto'
                    'directory', None)
     cfg['Web']['NiktoCache'] = 'nikto'

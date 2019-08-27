@@ -84,6 +84,9 @@ def parse_nmap_scan(out_file):
 
 def searchsploit_nmap_scan(nmap_file):
     print(utils.normal_message(), "Checking searchsploit for detected version vulnerabilities...")
+    # TODO: Searchsploit doesn't seem that intelligent with the
+    # TODO: nmap file parsing. Loop through each program individually
+    # TODO: and pass in the program name extracted from nmap
     if utils.program_installed("searchsploit", False):
         searchsploit_output = subprocess.check_output(['searchsploit', '--nmap', nmap_file]).decode('UTF-8')
         print("")

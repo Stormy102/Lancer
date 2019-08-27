@@ -1,3 +1,5 @@
+from xml.dom import minidom
+
 import utils
 import subprocess
 import config
@@ -22,4 +24,13 @@ def nikto(url):
             print(output)
 
         print(utils.warning_message(), "Nikto output parsing coming soon...")
+        parse_nikto_xml(out_file)
         print("")
+
+
+def parse_nikto_xml(out_file):
+    xmldoc = minidom.parse(out_file)
+    nikto_items = xmldoc.getElementsByTagName('item')
+
+    for item in nikto_items:
+        print(utils.warning_message(), item.getElementsByTagName("description")[0].firstChild.wholeText)

@@ -1,4 +1,4 @@
-from modules.web import http
+from modules.web import gobuster
 
 import config
 import lancerargs
@@ -19,8 +19,3 @@ def test_gobuster():
 
     url = "http://scanme.nmap.org"
     #http.gobuster(url)
-
-
-def test_nikto():
-    url = "http://scanme.nmap.org"
-    http.nikto(url)

@@ -4,7 +4,6 @@ import config
 
 import pytest
 import io
-import platform
 import sys
 
 # TODO: Test text foreground/background colouring tests and styles

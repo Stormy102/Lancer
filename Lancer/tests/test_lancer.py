@@ -26,6 +26,7 @@ def test_setup_args_root():
     assert os.path.exists(config.nmap_cache())
     assert os.path.exists(config.gobuster_cache())
     assert os.path.exists(config.ftp_cache())
+    assert os.path.exists(config.nikto_cache())
     temp_dir.cleanup()
 
 

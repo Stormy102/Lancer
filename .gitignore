@@ -107,6 +107,7 @@ venv.bak/
 Lancer/ftp/
 Lancer/nmap/
 Lancer/gobuster/
+Lancer/nikto/s
 
 # PyCharm
 .idea/

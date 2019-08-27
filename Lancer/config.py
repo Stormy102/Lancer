@@ -40,6 +40,9 @@ def get_config_parser():
     cfg['Web']['GobusterCache'] = 'gobuster'
     cfg.set('Web', '# The wordlist that is used by Gobuster when enumerating a HTTP/HTTPS service', None)
     cfg['Web']['DefaultWordlist'] = '/usr/share/wordlists/dirbuster/directory-2.3-medium.txt'
+    cfg.set('Web', '# The directory that the Nikto output files should be saved to. Defaults to relative ./Nikto'
+                   'directory', None)
+    cfg['Web']['NiktoCache'] = 'nikto'
 
     # cfg.optionxform = str
     return cfg
@@ -84,6 +87,13 @@ def gobuster_cache():
         return os.path.join(args.cache_root, "gobuster")
 
     return config['Web']['GobusterCache']
+
+
+def nikto_cache():
+    if args.cache_root != "":
+        return os.path.join(args.cache_root, "nikto")
+
+    return config['Web']['NiktoCache']
 
 
 def ftp_cache():

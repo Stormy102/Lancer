@@ -44,9 +44,14 @@ def download_files(ftp_client):
 
         if config.args.verbose:
             for large_file in files_too_large:
-                file_name = large_file
-                file_type = mimetypes.guess_type(large_file)
-                print(utils.warning_message(), file_name, "(" + file_type[0] + ") is too large to download")
+                file_name, file_ext = os.path.splitext(large_file)
+                file_type = mimetypes.guess_type(large_file)[0]
+                if file_type is not None:
+                    file_type = str(file_type)
+                else:
+                    file_type = "Unknown - " + file_ext
+
+                print(utils.warning_message(), file_name, "(" + file_type + ") is too large to download")
 
         for filename in sanitised_ftp_files:
             print(utils.normal_message(), "Downloading", filename, end=' ')

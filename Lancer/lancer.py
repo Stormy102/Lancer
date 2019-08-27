@@ -89,6 +89,8 @@ def setup():
         os.makedirs(config.gobuster_cache())
     if not os.path.exists(config.ftp_cache()):
         os.makedirs(config.ftp_cache())
+    if not os.path.exists(config.nikto_cache()):
+        os.makedirs(config.nikto_cache())
 
     if utils.is_user_admin() is False:
         print(utils.warning_message(), "Lancer doesn't appear to being run with elevated permissions."

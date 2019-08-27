@@ -1,7 +1,8 @@
 from modules import ftp
 from modules.web import gobuster
 from modules.web import nikto
-from modules import smb
+from modules.web import https
+from modules import smbclient
 
 import config
 import utils
@@ -51,22 +52,32 @@ def detect_service(openport):
             if service_type == "http":
                 print(utils.warning_message(), service_name, "is recognised by nmap as a http program")
                 if not config.args.quiet:
-                    print(utils.normal_message(), "Will commence enumeration using gobuster and Nikto...")
+                    print("")
+                    url = "http://" + config.args.target + ":" + str(port)
+                    # Extract cert
+                    https.exec(config.args.target, port)
+                    # Scan using gobuster
+                    gobuster.exec(url)
+                    # Scan using nikto
+                    nikto.exec(url)
+            # Some kind of HTTPS server
+            if service_type == "ssl/https":
+                print(utils.warning_message(), service_name, "is recognised by nmap as a ssl/https program")
+                # See for extracting cert details for hostname leakage https://stackoverflow.com/questions/7689941/
+                if not config.args.quiet:
                     print("")
                     url = "http://" + config.args.target + ":" + str(port)
                     # Scan using gobuster
-                    gobuster.gobuster(url)
+                    gobuster.exec(url)
                     # Scan using nikto
-                    nikto.nikto(url)
-            # Some kind of HTTPS server
-                # See for extracting cert details for hostname leakage https://stackoverflow.com/questions/7689941/
+                    nikto.exec(url)
             # Smb share
             # TODO: Maybe don't use hardcoded ports
             if port == 445:
                 print(utils.warning_message(), service_name, "is potentially a SMB share on Windows")
                 if not config.args.quiet:
                     print(utils.warning_message(), "Will commence enumeration using SMBClient/SMBMap...")
-                smb.smb_client()
+                smbclient.exec()
             # MySQL server
             if service_name == "mysql":
                 print(utils.warning_message(), service_name, "is recognised by nmap as a MySQL server...")

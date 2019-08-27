@@ -1,4 +1,4 @@
-# Lancer v0.0.2 Alpha
+# Lancer v0.0.3 Alpha
 
 |Branch|Status|Coverage|Code Quality|Last Commit|
 |---|---|---|---|---|
@@ -33,15 +33,17 @@ This is a list of features which we intend to add support for:
 * ~~Searchsploit Nmap results~~ _Added in 0.0.1_
 * ~~Configuration file (.ini) for persistent configuration~~ _Added on develop branch for 0.0.2_
 * ~~FTP scanning/downloading files < 50mb~~ _Added in 0.0.2_
-* Nikto support _In Development - Planned for 0.0.2_
-* SMB enumeration _Planned for 0.0.3_
-* HTTPS support - certificate extraction, normal HTTP services scanning and enumeration _Planned for 0.0.3_
+* ~~Nikto support~~ _Added in 0.0.2_
+* HTTPS support - certificate extraction, normal HTTP services scanning and enumeration _In Development - Planned for 0.0.3_
+* SSH support - display fingerprint and SSH version _Planned for 0.0.3_
+* SMB enumeration with SMBClient/smbmap _Planned for 0.0.3_
 * Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.3_
 * Multi-language support _Planned for 0.0.4_
+* Nmap script level _Coming soon_
 * enum4linux support _Coming soon_
+* WPScan support _Coming soon_
 * Further services detection _Coming soon_
     * SQL
-    * SSH
     * Telnet
     * SMTP
     * DNS
@@ -51,6 +53,27 @@ This is a list of features which we intend to add support for:
     * IMAP
     * VNC
 	* RDP
+	* Active Directory
+* Further software which may be implemented upon evaluation:
+    * Amap
+    * arp-scan
+    * dnsenum/dnsmap/dnsrecon
+    * dotdotpawn
+    * eyewitness
+    * ident (port 113)
+    * iSMTP/smtp-user-enum
+    * lbd
+    * Miranda
+    * p0f
+    * parsero
+    * WOL-E
+    * doona
+    * SidGuesser
+    * sqlmap
+    * sqlninja/sqlsus
+    * WhatWeb
+    * 
+    
 
 Any other features you want to see? Open a Github Issue or a pull request
 

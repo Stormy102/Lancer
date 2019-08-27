@@ -14,6 +14,10 @@ def parse_arguments(args):
         parser.print_help()
         sys.exit(1)
 
+    if len(args) is 1 and args[0] == "--version":
+        print(utils.normal_message(), "Lancer", config.__version__)
+        sys.exit(0)
+
     config.args = parser.parse_args(args)
 
 

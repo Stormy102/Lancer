@@ -10,7 +10,7 @@
 """
 
 # Make sure to update the README.MD when changing this
-__version__ = "0.0.2 Alpha"
+__version__ = "0.0.3 Alpha"
 
 import argparse
 import os

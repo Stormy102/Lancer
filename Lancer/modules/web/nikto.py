@@ -6,8 +6,8 @@ import config
 import os
 
 
-def nikto(url):
-    print(utils.normal_message(), "Starting scan of", url)
+def exec(url):
+    print(utils.normal_message(), "Starting scan of", url, "with Nikto")
 
     if utils.program_installed("Nikto", False):
 

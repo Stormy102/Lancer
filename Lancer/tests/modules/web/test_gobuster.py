@@ -18,4 +18,4 @@ def test_gobuster():
     lancerargs.parse_arguments(['-T', '127.0.0.1'])
 
     url = "http://scanme.nmap.org"
-    #http.gobuster(url)
+    # http.gobuster(url)

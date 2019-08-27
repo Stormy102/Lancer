@@ -5,8 +5,8 @@ import subprocess
 import sys
 
 
-def gobuster(url):
-    print(utils.normal_message(), "Starting enumeration of", url)
+def exec(url):
+    print(utils.normal_message(), "Starting enumeration of", url, "with Gobuster")
 
     wordlist_path = get_wordlist_path()
     if config.args.verbose:

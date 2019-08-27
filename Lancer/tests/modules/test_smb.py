@@ -1,5 +1,5 @@
-from modules import smb
+from modules import smbclient
 
 
 def test_smb():
-    smb.smb_client()
+    smbclient.exec()

@@ -104,8 +104,10 @@ venv.bak/
 .mypy_cache/
 
 # Custom
+Lancer/ftp/
 Lancer/nmap/
 Lancer/gobuster/
+Lancer/nikto/s
 
 # PyCharm
 .idea/

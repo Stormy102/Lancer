@@ -1,7 +1,7 @@
 from datetime import datetime
 from spinner import *
 from shutil import which
-from http import HTTPStatus
+from http.client import responses
 
 import config
 import time
@@ -9,41 +9,14 @@ import sys
 import platform
 import os
 import ctypes
-
-# If we're on Windows, import winreg
-if platform.system().lower() == "windows" and platform.release() == "10":
-    import winreg
-
-
-def is_not_virtual_terminal():
-    """
-        If we are on Windows 10, check if the VirtualTerminalLevel value is 1
-    """
-    if platform.system().lower() == "windows" and platform.release() == "10":
-        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Console", 0, winreg.KEY_READ) as registry_key:
-            try:
-                value = winreg.QueryValueEx(registry_key, "VirtualTerminalLevel")
-                return value[0] != 1
-            except FileNotFoundError:
-                return True
-    else:
-        return False
-
-
-def set_virtual_terminal():
-    """
-        If we are on Windows 10, set the VirtualTerminalLevel to 1 so we support coloured terminal output
-    """
-    if platform.system().lower() == "windows" and platform.release() == "10":
-        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Console", 0, winreg.KEY_WRITE) as registry_key:
-            winreg.SetValueEx(registry_key, "VirtualTerminalLevel", 0, winreg.REG_DWORD, 1)
+import socket
 
 
 def program_installed(name, critical):
     if config.args.verbose:
         print(normal_message(), "Checking if", name, "is installed...")
 
-    if which(name) is None:
+    if which(name.lower()) is None:
         if critical:
             print(error_message(), name, "is not installed, halting...\n")
             sys.exit(1)
@@ -54,6 +27,13 @@ def program_installed(name, critical):
     if config.args.verbose:
         print(normal_message(), name, "is installed, continuing...")
     return True
+
+
+def python_version():
+    py_version = sys.version.split()[0]
+    if py_version < "3.5":
+        print(error_message(), "Unsupported Python version")
+        sys.exit(1)
 
 
 def normal_message():
@@ -69,7 +49,8 @@ def error_message():
 
 
 def input_message(message):
-    return input(color("[>]", "Purple") + " " + message + " ")
+    print(color("[>]", "Purple") + " " + message, end=' ')
+    return input()
 
 
 def color(string, foreground=None, background=None, style=None):
@@ -158,6 +139,13 @@ def get_background_color(background):
 
 
 def print_header():
+    # Why this header, you may ask?
+    # Well, the header itself depicts a
+    # Scout trooper from Star Wars. The
+    # purpose of Scout Troopers was to probe
+    # enemy defences and reconnoiter, as well
+    # as patrol and protect their own base.
+    # Elite Scout Troopers were known as Lancers
     print('''                  `.--:::::::::::::::::---.                 
                `-::----.............-----::/:.              
               ./:----.............---------::/:             
@@ -190,8 +178,9 @@ def print_header():
 
 
 def version():
-    print(color("[+]", "Green"), "Starting Lancer", config.__version__, "at",
-          datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "on", platform.system(), platform.release(), end=' ')
+    print(color("[+]", "Green"), "Starting Lancer", config.__version__, "on", socket.gethostname(),
+          "(" + platform.system(), platform.release() + ")", "at", datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+          end=' ')
     with Spinner():
         time.sleep(1)
     print("")
@@ -210,20 +199,9 @@ def line_break(count):
 
 def get_http_code(code):
     try:
-        return HTTPStatus(code).description
-    except ValueError:
+        return responses[code]
+    except KeyError:
         return "Unknown Response"
-
-
-def splash_screen():
-    print_header()
-    version()
-
-
-"""
-    Taken from 
-    https://stackoverflow.com/questions/1026431/cross-platform-way-to-check-admin-rights-in-a-python-script-under-windows
-"""
 
 
 class AdminStateUnknownError(Exception):
@@ -232,6 +210,10 @@ class AdminStateUnknownError(Exception):
 
 
 def is_user_admin():
+    """
+        Taken from
+        https://stackoverflow.com/questions/1026431/cross-platform-way-to-check-admin-rights-in-a-python-script-under-windows
+    """
     # type: () -> bool
     """Return True if user has admin privileges.
 

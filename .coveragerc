@@ -1,0 +1,11 @@
+# =========================================================================
+# COVERAGE CONFIGURATION FILE: .coveragerc
+# =========================================================================
+# LANGUAGE: Python
+# =========================================================================
+
+[run]
+omit = 
+	Lancer/tests/*
+	Lancer/test_init.py
+	Lancer/winutils.py # Cannot test on non-Windows platforms

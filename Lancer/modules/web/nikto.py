@@ -17,7 +17,8 @@ def nikto(url):
         out_file = out_file.replace('https://', '')
         out_file = out_file.replace(':', '-')
 
-        output = subprocess.check_output(['nikto', '-host', url, "-Format", "xml", "-o", out_file]).decode('UTF-8')
+        output = subprocess.check_output(['nikto', '-host', url, "-Format", "xml", "-o", out_file, "-ask", "no"])\
+            .decode('UTF-8')
 
         if config.args.show_output:
             print("")

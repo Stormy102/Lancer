@@ -33,8 +33,9 @@ This is a list of features which we intend to add support for:
 * ~~Searchsploit Nmap results~~ _Added in 0.0.1_
 * ~~Configuration file (.ini) for persistent configuration~~ _Added on develop branch for 0.0.2_
 * ~~FTP scanning/downloading files < 50mb~~ _Added in 0.0.2_
-* Nikto support _Planned for 0.0.2_
+* Nikto support _In Development - Planned for 0.0.2_
 * SMB enumeration _Planned for 0.0.3_
+* HTTPS support - certificate extraction, normal HTTP services scanning and enumeration _Planned for 0.0.3_
 * Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.3_
 * Multi-language support _Planned for 0.0.4_
 * enum4linux support _Coming soon_
@@ -48,7 +49,6 @@ This is a list of features which we intend to add support for:
     * RCPBind
     * MSRPC
     * IMAP
-    * HTTPS
     * VNC
 	* RDP
 

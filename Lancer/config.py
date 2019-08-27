@@ -25,22 +25,22 @@ def get_config_parser():
     cfg['Main']['Language'] = 'en'
     cfg.set('Main', '# Show the Lancer header. \'yes\' or \'no\'', None)
     cfg['Main']['ShowHeader'] = 'yes'
-    cfg.set('Main', '# The directory that the nmap output files should be saved to. Defaults to relative ./nmap'
+    cfg.set('Main', '# The directory that the nmap output files should be saved to. Defaults to relative ./nmap '
                     'directory', None)
     cfg['Main']['NmapCache'] = 'nmap'
 
     cfg['File'] = {}
-    cfg.set('File', '# The directory that the downloaded FTP files should be saved to. Defaults to relative ./ftp'
+    cfg.set('File', '# The directory that the downloaded FTP files should be saved to. Defaults to relative ./ftp '
                     'directory', None)
     cfg['File']['FTPCache'] = 'ftp'
 
     cfg['Web'] = {}
-    cfg.set('Web', '# The directory that the gobuster output files should be saved to. Defaults to relative ./gobuster'
+    cfg.set('Web', '# The directory that the gobuster output files should be saved to. Defaults to relative ./gobuster '
                    'directory', None)
     cfg['Web']['GobusterCache'] = 'gobuster'
     cfg.set('Web', '# The wordlist that is used by Gobuster when enumerating a HTTP/HTTPS service', None)
     cfg['Web']['DefaultWordlist'] = '/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt'
-    cfg.set('Web', '# The directory that the Nikto output files should be saved to. Defaults to relative ./Nikto'
+    cfg.set('Web', '# The directory that the Nikto output files should be saved to. Defaults to relative ./Nikto '
                    'directory', None)
     cfg['Web']['NiktoCache'] = 'nikto'
 

@@ -58,6 +58,8 @@ def detect_service(openport):
                     gobuster.gobuster(url)
                     # Scan using nikto
                     nikto.nikto(url)
+            # Some kind of HTTPS server
+                # See for extracting cert details for hostname leakage https://stackoverflow.com/questions/7689941/
             # Smb share
             # TODO: Maybe don't use hardcoded ports
             if port == 445:

@@ -20,7 +20,7 @@ def test_remove_files_over_size():
         try:
             ftp_files = ftp_client.nlst()
             # 2048 bytes is only bigger than one of the files available - 1KB.zip
-            sanitised_ftp_files = ftp.remove_files_over_size(ftp_client, ftp_files, 2048)
+            sanitised_ftp_files, large_files = ftp.remove_files_over_size(ftp_client, ftp_files, 2048)
             assert len(sanitised_ftp_files) is 1
         except ftplib.error_temp:
             warnings.warn("Unable to access FTP server from this IP")

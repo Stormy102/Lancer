@@ -26,9 +26,7 @@ def detect_apps(cpe_list):
     for cpe in cpe_list:
         cpe_app_type = "cpe:/a"
         if cpe.startswith(cpe_app_type):
-            dict = cpe_utils.CPE(cpe).to_dict()
-            app_version = dict['product'] + " " + dict['version']
-            print(utils.normal_message(), "Installed application is reported as", app_version)
+            print(utils.normal_message(), "Installed application is reported as", cpe_utils.CPE(cpe).human())
 
 
 def detect_service(openport):

@@ -67,10 +67,7 @@ def test_parse_down_nmap_scan():
 
     captured_output = io.StringIO()
     sys.stdout = captured_output
-
-    with pytest.raises(SystemExit):
-        nmap.parse_nmap_scan(file_path)
-
+    nmap.parse_nmap_scan(file_path)
     sys.stdout = sys.__stdout__
     os.unlink(file_path)
     assert "unreachable" in captured_output.getvalue()

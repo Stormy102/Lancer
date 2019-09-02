@@ -31,13 +31,14 @@ def test_remove_files_over_size():
 
 def test_download_file():
     # TODO: Clean ftp directory
+    config.current_target = "speedtest.tele2.net"
     try:
         ftp_client = ftplib.FTP('speedtest.tele2.net')
         ftp_client.login()
 
         try:
             ftp.download_file(ftp_client, '1KB.zip')
-            assert os.path.exists(os.path.join(os.path.join("ftp", config.args.target), "1KB.zip"))
+            assert os.path.exists(os.path.join(os.path.join("ftp", config.current_target), "1KB.zip"))
         except ftplib.error_temp:
             warnings.warn("Unable to access FTP server from this IP")
         ftp_client.close()

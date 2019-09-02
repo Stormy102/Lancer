@@ -1,10 +1,13 @@
 import ssl
 import utils
-# import M2Crypto
+import OpenSSL
 
 
 def get_https_cert_values(url, port):
-    cert = ssl.get_server_certificate((url, port))
-    # x509 = M2Crypto.X509.load_cert_string(cert)
-    # x509.get_subject().as_text()
-    print(utils.normal_message(), "Retrieved certificate from", url + ":" + port)
+    cert = ssl.get_server_certificate((url, port), ssl_version=ssl.PROTOCOL_SSLv23)
+    x509 = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, cert)
+    cert_details = x509.get_subject().get_components()
+    print(utils.normal_message(), "Retrieved certificate from", url + ":" + str(port))
+    for entry in cert_details:
+        if entry[0].decode("utf-8") == 'CN':
+            print(utils.warning_message(), "Common name is", entry[1].decode("utf-8"))

@@ -123,7 +123,9 @@ def execute():
 
 if __name__ == "__main__":
     # try:
-    main()
+    #main()
+    from modules.web import https
+    https.get_https_cert_values('www.google.com', 443)
     # except SystemExit:
     #    print(NormalMessage(), "Lancer is shutting down")
     # except:

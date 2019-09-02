@@ -34,7 +34,7 @@ This is a list of features which we intend to add support for:
 * ~~Configuration file (.ini) for persistent configuration~~ _Added on develop branch for 0.0.2_
 * ~~FTP scanning/downloading files < 50mb~~ _Added in 0.0.2_
 * ~~Nikto support~~ _Added in 0.0.2_
-* HTTPS support - certificate extraction, normal HTTP services scanning and enumeration _In Development - Planned for 0.0.3_
+* ~~HTTPS support - certificate extraction, normal HTTP services scanning and enumeration~~ _Added in 0.0.3_
 * SSH support - display fingerprint and SSH version _Planned for 0.0.3_
 * SMB enumeration with SMBClient/smbmap _Planned for 0.0.3_
 * Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.3_
@@ -42,6 +42,7 @@ This is a list of features which we intend to add support for:
 * Nmap script level _Coming soon_
 * enum4linux support _Coming soon_
 * WPScan support _Coming soon_
+* Metasploit RPC support _Coming soon_
 * Further services detection _Coming soon_
     * SQL
     * Telnet

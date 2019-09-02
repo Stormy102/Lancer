@@ -9,6 +9,6 @@ def exec():
     if utils.program_installed("SMBClient", False):
         print(utils.error_message(), "SMBClient is not yet supported")
         # print(normal_message(), "Using SMBClient to list available shares...")
-        # smbclient_list = subprocess.check_output(['smbclient', '-g', '-L', config.args.target]).decode('UTF-8')
+        # smbclient_list = subprocess.check_output(['smbclient', '-g', '-L', config.current_target]).decode('UTF-8')
         # print(smbclient_list)
         print("")

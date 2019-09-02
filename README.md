@@ -35,13 +35,17 @@ This is a list of features which we intend to add support for:
 * ~~FTP scanning/downloading files < 50mb~~ _Added in 0.0.2_
 * ~~Nikto support~~ _Added in 0.0.2_
 * ~~HTTPS support - certificate extraction, normal HTTP services scanning and enumeration~~ _Added in 0.0.3_
+* ~~Multiple targets from file support~~ _Added in 0.0.3_
 * SSH support - display fingerprint and SSH version _Planned for 0.0.3_
-* SMB enumeration with SMBClient/smbmap _Planned for 0.0.3_
-* Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.3_
-* Multi-language support _Planned for 0.0.4_
-* Nmap script level _Coming soon_
-* enum4linux support _Coming soon_
-* WPScan support _Coming soon_
+* Write all output to file via -o parameter _Planned for 0.0.3_
+* Convert domain name to IP _Planned for 0.0.3_
+* Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.4_
+* SMB enumeration with SMBClient/smbmap _Planned for 0.0.4_
+* Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.0.4_
+* Multi-language support _Planned for 0.0.5_
+* Nmap script level _Planned for 0.0.5_
+* enum4linux support _Planned for 0.0.5_
+* WPScan support _Planned for 0.0.6_
 * Metasploit RPC support _Coming soon_
 * Further services detection _Coming soon_
     * SQL
@@ -73,8 +77,6 @@ This is a list of features which we intend to add support for:
     * sqlmap
     * sqlninja/sqlsus
     * WhatWeb
-    * 
-    
 
 Any other features you want to see? Open a Github Issue or a pull request
 
@@ -112,7 +114,7 @@ Lancer - system vulnerability scanner
 
 This tool is designed to aid the recon phase of a pentest or any legal & authorised attack against a device or network. The author does not take any liability for use of this tool for illegal use.
 
-See the config.ini file for more options C:\Users\Matthew\.lancer\config.ini
+See the config.ini file for more options ~\.lancer\config.ini
 
 optional arguments:
   -h, --help            show this help message and exit

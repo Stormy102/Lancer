@@ -26,7 +26,9 @@ def detect_apps(cpe_list):
     for cpe in cpe_list:
         cpe_app_type = "cpe:/a"
         if cpe.startswith(cpe_app_type):
-            print(utils.normal_message(), "Installed application is reported as", cpe_utils.CPE(cpe).human())
+            dict = cpe_utils.CPE(cpe).to_dict()
+            app_version = dict['product'] + " " + dict['version']
+            print(utils.normal_message(), "Installed application is reported as", app_version)
 
 
 def detect_service(openport):
@@ -48,14 +50,17 @@ def detect_service(openport):
             # Some kind of SSH server
             if service_type == "ssh":
                 print(utils.warning_message(), service_name, "is recognised by nmap as an ssh server")
+                """scripts_ran = service.getElementsByTagName('script')
+                for script in scripts_ran:
+                    print(script.attributes['id'])
+                    if script.attributes['id'] == 'fingerprint-strings':
+                        print(script.getElementsByTagName('elem')[0].text)"""
             # Some kind of http service
             if service_type == "http":
                 print(utils.warning_message(), service_name, "is recognised by nmap as a http program")
                 if not config.args.quiet:
                     print("")
-                    url = "http://" + config.args.target + ":" + str(port)
-                    # Extract cert
-                    https.exec(config.args.target, port)
+                    url = "http://" + config.current_target + ":" + str(port)
                     # Scan using gobuster
                     gobuster.exec(url)
                     # Scan using nikto
@@ -66,7 +71,9 @@ def detect_service(openport):
                 # See for extracting cert details for hostname leakage https://stackoverflow.com/questions/7689941/
                 if not config.args.quiet:
                     print("")
-                    url = "http://" + config.args.target + ":" + str(port)
+                    url = "http://" + config.current_target + ":" + str(port)
+                    # Extract cert
+                    https.exec(config.current_target, port)
                     # Scan using gobuster
                     gobuster.exec(url)
                     # Scan using nikto

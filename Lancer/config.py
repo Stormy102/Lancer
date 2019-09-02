@@ -105,3 +105,4 @@ def ftp_cache():
 
 args = argparse.Namespace
 config = get_config_parser()
+current_target = None

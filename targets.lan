@@ -1,0 +1,15 @@
+# Example targetlist for Lancer
+# Lancer target files can take comments
+# starting with a hashtag, similar to 
+# Python. Each IP address must be on a 
+# new line. No ports are allowed to be
+# specified. IPv6 addresses not yet 
+# supported
+
+# Scan the local device
+127.0.0.1
+# Scan the gateway
+10.0.0.1
+# Invalid address - will throw non-fatal warning
+256.512.1024.2048
+# URLs are not supported

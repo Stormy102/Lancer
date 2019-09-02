@@ -179,7 +179,7 @@ def print_header():
 
 def version():
     print(color("[+]", "Green"), "Starting Lancer", config.__version__, "on", socket.gethostname(),
-          "(" + platform.system(), platform.release() + ")", "at", datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+          "(" + platform.system(), platform.release() + ")", "\n    at", datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
           end=' ')
     with Spinner():
         time.sleep(1)

@@ -3,6 +3,10 @@ import utils
 import OpenSSL
 
 
+def exec(url, port):
+    get_https_cert_values(url, port)
+
+
 def get_https_cert_values(url, port):
     cert = ssl.get_server_certificate((url, port), ssl_version=ssl.PROTOCOL_SSLv23)
     x509 = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, cert)

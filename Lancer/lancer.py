@@ -14,6 +14,7 @@ import config
 import lancerargs
 import utils
 
+import ipaddress
 import sys
 import signal
 import os
@@ -59,8 +60,45 @@ def main():
 
     # Get start time
     start_time = time.monotonic()
-    # Run the program
-    execute()
+
+    # Detect if we have a target list or just a single target
+    if config.args.target is None:
+        # Target list
+        targets = config.args.host_file.read().splitlines()
+        for target in targets:
+            try:
+                # Comments start with a hashtag
+                if target[0] == "#":
+                    continue
+
+                ipaddress.ip_address(target)
+                config.current_target = target
+
+                target_start_time = time.monotonic()
+
+                print(utils.normal_message(), "Starting analysis of", target + "...")
+                execute()
+
+                target_elapsed_time = time.monotonic() - target_start_time
+
+                print(utils.normal_message(), "Finished analysis of", target)
+                print(utils.normal_message(), "Analysis of", target, "took", time.strftime("%H:%M:%S",
+                                                                                           time.gmtime(
+                                                                                               target_elapsed_time)))
+                print()
+            except ValueError:
+                print(utils.error_message(), "Target IP Address", target, "is not valid")
+                sys.exit(1)
+
+    else:
+        try:
+            ipaddress.ip_address(config.args.target)
+            config.current_target = config.args.target
+            print(utils.normal_message(), "Scanning", config.args.target + "...")
+            execute()
+        except ValueError:
+            print(utils.error_message(), "Target IP Address", config.args.target, "is not valid")
+            sys.exit(1)
 
     print(utils.normal_message(), "Lancer has finished system scanning")
     elapsed_time = time.monotonic() - start_time
@@ -93,8 +131,8 @@ def setup():
         os.makedirs(config.nikto_cache())
 
     if utils.is_user_admin() is False:
-        print(utils.warning_message(), "Lancer doesn't appear to being run with elevated permissions."
-                                       " Some functionality may not work correctly\n")
+        print(utils.warning_message(), "Lancer doesn't appear to being run with elevated permissions\n"
+                                       "    Some functionality may not work correctly\n")
 
 
 def legal_disclaimer():
@@ -123,9 +161,7 @@ def execute():
 
 if __name__ == "__main__":
     # try:
-    #main()
-    from modules.web import https
-    https.get_https_cert_values('www.google.com', 443)
+    main()
     # except SystemExit:
     #    print(NormalMessage(), "Lancer is shutting down")
     # except:

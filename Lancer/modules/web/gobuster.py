@@ -13,7 +13,7 @@ def exec(url):
         print(utils.normal_message(), "Using wordlist at", wordlist_path)
 
     if os.path.exists(wordlist_path) is False:
-        print(utils.error_message(), "Wordlist file not found. Skipping enumeration")
+        print(utils.error_message(), "Wordlist file not found. Skipping enumeration...")
     elif utils.program_installed("Gobuster", True):
         out_file = os.path.join(config.gobuster_cache(), 'gobuster-' + url + '.txt.')
         # Replace the colon for sanitised filename

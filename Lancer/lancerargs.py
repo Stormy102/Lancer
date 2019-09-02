@@ -39,7 +39,7 @@ def create_parser():
     main_args = parser.add_argument_group("Main arguments")
     mex_group = main_args.add_mutually_exclusive_group(required=True)
     mex_group.add_argument("-T", "--target", metavar="TARGET", dest='target', type=str, help="IP of target")
-    mex_group.add_argument("--target-file", metavar="FILE", dest="hostfile", type=argparse.FileType('r'),
+    mex_group.add_argument("--target-file", metavar="FILE", dest="host_file", type=argparse.FileType('r'),
                            help="File containing a list of target IP addresses")
     main_args.add_argument("-q", "--quiet", dest='quiet', action="store_true", default='',
                            help="Do a quiet nmap scan. This will help reduce the footprint of the scan in logs and on"

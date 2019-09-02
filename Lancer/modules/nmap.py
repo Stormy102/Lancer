@@ -10,36 +10,36 @@ import sys
 
 
 def nmap_scan(quiet):
-    print(utils.normal_message(), "Starting scan of", config.args.target)
+    print(utils.normal_message(), "Starting scan of", config.current_target)
 
     # Check if Nmap is installed - critical program. If this fails, the program will exit
     utils.program_installed("nmap", True)
 
     if quiet:
-        out_file = os.path.join(config.nmap_cache(), ("nmap-%s-quiet.xml" % config.args.target))
-        print(utils.normal_message(), "Using quiet scan on", config.args.target, "to avoid detection")
+        out_file = os.path.join(config.nmap_cache(), ("nmap-%s-quiet.xml" % config.current_target))
+        print(utils.normal_message(), "Using quiet scan on", config.current_target, "to avoid detection")
 
         if config.args.verbose:
             print(utils.normal_message(), "Writing nmap data to", out_file)
 
-        print(utils.normal_message(), "Scanning open ports on", config.args.target + "...", end=' ')
+        print(utils.normal_message(), "Scanning open ports on", config.current_target + "...", end=' ')
 
         with Spinner():
-            output = subprocess.check_output(['nmap', '-sS', '-sV', '-oX', out_file, config.args.target]).decode(
+            output = subprocess.check_output(['nmap', '-sS', '-sV', '-oX', out_file, config.current_target]).decode(
                 'UTF-8')
     else:
-        out_file = os.path.join(config.nmap_cache(), ("nmap-%s.xml" % config.args.target))
+        out_file = os.path.join(config.nmap_cache(), ("nmap-%s.xml" % config.current_target))
 
         if config.args.verbose:
             print(utils.normal_message(), "Nmap data will be written to", out_file)
 
-        nmap_args = ['nmap', '-sC', '-sV', '-oX', out_file, config.args.target]
+        nmap_args = ['nmap', '-sC', '-sV', '-oX', out_file, config.current_target]
 
         if config.args.scan_udp:
             print(utils.normal_message(), "Scanning UDP ports, this may take a long time")
             nmap_args.append('-sU')
 
-        print(utils.normal_message(), "Scanning open ports on", config.args.target + "...", end=' ')
+        print(utils.normal_message(), "Scanning open ports on", config.current_target + "...", end=' ')
 
         with Spinner():
             output = subprocess.check_output(nmap_args).decode('UTF-8')
@@ -60,8 +60,7 @@ def parse_nmap_scan(out_file):
     hostslist = xmldoc.getElementsByTagName('hosts')
     # We only scan one host at a time
     if int(hostslist[0].attributes['down'].value) > 0:
-        print(utils.error_message(), "Target was unreachable")
-        sys.exit(1)
+        print(utils.error_message(), config.current_target, "was unreachable")
     else:
         port_list = xmldoc.getElementsByTagName('port')
         print("")

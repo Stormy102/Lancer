@@ -18,7 +18,7 @@ def ftp(open_port):
 
         if anonymous_access_allowed:
             print(utils.warning_message(), "Anonymous FTP access allowed")
-            ftp_client = ftplib.FTP(config.args.target)
+            ftp_client = ftplib.FTP(config.current_target)
             ftp_client.login()
             download_files(ftp_client)
             ftp_client.quit()
@@ -120,9 +120,9 @@ def get_folder_contents(ftp_client, path=''):
 
 def download_file(ftp_client, filename):
     with spinner.Spinner():
-        if not os.path.exists(os.path.join(config.ftp_cache(), config.args.target)):
-            os.makedirs(os.path.join(config.ftp_cache(), config.args.target))
-        local_filename = os.path.join(config.ftp_cache(), config.args.target, filename)
+        if not os.path.exists(os.path.join(config.ftp_cache(), config.current_target)):
+            os.makedirs(os.path.join(config.ftp_cache(), config.current_target))
+        local_filename = os.path.join(config.ftp_cache(), config.current_target, filename)
 
         if not os.path.exists(os.path.dirname(local_filename)):
             os.mkdir(os.path.dirname(local_filename))

@@ -36,6 +36,7 @@ def exec(url):
             print(output)
 
         parse_gobuster_results(out_file)
+    print()
 
 
 def get_wordlist_path():
@@ -67,4 +68,3 @@ def parse_gobuster_results(gobuster_file):
                 print(utils.warning_message(), response)
         else:
             print(utils.error_message(), "No directories found")
-        print("")

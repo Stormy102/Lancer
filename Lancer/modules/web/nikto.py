@@ -21,11 +21,11 @@ def exec(url):
             .decode('UTF-8')
 
         if config.args.show_output:
-            print("")
+            print()
             print(output)
 
         parse_nikto_xml(out_file)
-        print("")
+        print()
 
 
 def parse_nikto_xml(out_file):

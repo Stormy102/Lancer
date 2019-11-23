@@ -64,7 +64,7 @@ def detect_service(openport):
                     # Scan using nikto
                     nikto.exec(url)
             # Some kind of HTTPS server
-            if service_type == "ssl/https":
+            if service_type == "ssl/https" or port == 443:
                 print(utils.warning_message(), service_name, "is recognised by nmap as a ssl/https program")
                 # See for extracting cert details for hostname leakage https://stackoverflow.com/questions/7689941/
                 if not config.args.quiet:

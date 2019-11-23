@@ -14,12 +14,13 @@ import config
 import lancerargs
 import utils
 
-import ipaddress
 import sys
 import signal
+import socket
 import os
 import time
 import platform
+import validators
 
 
 def main():
@@ -65,39 +66,39 @@ def main():
     if config.args.target is None:
         # Target list
         targets = config.args.host_file.read().splitlines()
-        for target in targets:
-            try:
-                # Comments start with a hashtag
-                if target[0] == "#":
-                    continue
 
-                ipaddress.ip_address(target)
-                config.current_target = target
+        for target in targets:
+            # Comments start with a hashtag
+            if len(target.strip()) == 0:
+                continue
+            if len(target.strip()) > 0 and target[0] == "#":
+                continue
+
+            if utils.is_valid_target(target):
+                config.current_target = socket.gethostbyname(target)
 
                 target_start_time = time.monotonic()
 
-                print(utils.normal_message(), "Starting analysis of", target + "...")
+                print(utils.normal_message(), "Starting analysis of", config.current_target, "(" + target + ")...")
                 execute()
 
                 target_elapsed_time = time.monotonic() - target_start_time
 
-                print(utils.normal_message(), "Finished analysis of", target)
-                print(utils.normal_message(), "Analysis of", target, "took", time.strftime("%H:%M:%S",
+                print(utils.normal_message(), "Finished analysis of", config.current_target, "(" + target + ")...")
+                print(utils.normal_message(), "Analysis of", config.current_target, "took", time.strftime("%H:%M:%S",
                                                                                            time.gmtime(
                                                                                                target_elapsed_time)))
                 print()
-            except ValueError:
-                print(utils.error_message(), "Target IP Address", target, "is not valid")
-                sys.exit(1)
+            else:
+                print(utils.error_message(), "Target IP Address", target, "is not valid\n")
 
     else:
-        try:
-            ipaddress.ip_address(config.args.target)
-            config.current_target = config.args.target
-            print(utils.normal_message(), "Scanning", config.args.target + "...")
+        if utils.is_valid_target(config.args.target):
+            config.current_target = socket.gethostbyname(config.args.target)
+            print(utils.normal_message(), "Scanning", config.current_target, "(" + config.args.target + ")...")
             execute()
-        except ValueError:
-            print(utils.error_message(), "Target IP Address", config.args.target, "is not valid")
+        else:
+            print(utils.error_message(), "Target IP Address/Domain", config.args.target, "is not valid\n")
             sys.exit(1)
 
     print(utils.normal_message(), "Lancer has finished system scanning")
@@ -139,7 +140,7 @@ def legal_disclaimer():
     print(utils.error_message(), "Legal Disclaimer: Usage of Lancer for attacking targets without prior mutual"
                                  " authorisation is illegal.\n    It is the end user's responsibility to adhere to all"
                                  " local and international laws.\n    The developer(s) of this tool assume no liability"
-                                 " and are not responsible for any misuse or damage caused by the use of this program")
+                                 " and are not responsible for any misuse or damage\n    caused by the use of this program")
     agree = utils.input_message("Press [Y] to agree:")
     if agree.lower() != "y":
         print(utils.error_message(), "Legal disclaimer has not been accepted. Exiting...")
@@ -160,6 +161,7 @@ def execute():
 
 
 if __name__ == "__main__":
+    """`Lancer` entry point"""
     # try:
     main()
     # except SystemExit:

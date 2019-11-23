@@ -12,4 +12,8 @@
 10.0.0.1
 # Invalid address - will throw non-fatal warning
 256.512.1024.2048
-# URLs are not supported
+# URLs are also supported supported, although
+# they will just convert to the IPv4 address
+www.google.com
+# IPv6 addresses are not yet supported
+::1

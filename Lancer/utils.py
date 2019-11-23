@@ -204,6 +204,14 @@ def get_http_code(code):
         return "Unknown Response"
 
 
+def is_valid_target(target):
+    try:
+        socket.gethostbyname(target)
+        return True
+    except socket.gaierror:
+        return False
+
+
 class AdminStateUnknownError(Exception):
     """Cannot determine whether the user is an admin."""
     pass

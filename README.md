@@ -36,9 +36,9 @@ This is a list of features which we intend to add support for:
 * ~~Nikto support~~ _Added in 0.0.2_
 * ~~HTTPS support - certificate extraction, normal HTTP services scanning and enumeration~~ _Added in 0.0.3_
 * ~~Multiple targets from file support~~ _Added in 0.0.3_
-* SSH support - display fingerprint and SSH version _Planned for 0.0.3_
+* ~~Convert domain name to IP~~ _Added in 0.0.3_
 * Write all output to file via -o parameter _Planned for 0.0.3_
-* Convert domain name to IP _Planned for 0.0.3_
+* SSH support - display fingerprint and SSH version _Planned for 0.0.3_
 * Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.4_
 * SMB enumeration with SMBClient/smbmap _Planned for 0.0.4_
 * Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.0.4_

@@ -1,7 +1,6 @@
 import ssl
-import utils
 import OpenSSL
-import ssl
+import utils
 
 
 def exec(url, port):

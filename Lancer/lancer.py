@@ -20,7 +20,6 @@ import socket
 import os
 import time
 import platform
-import validators
 
 
 def main():

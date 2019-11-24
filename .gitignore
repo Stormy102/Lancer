@@ -109,7 +109,7 @@ Lancer/nmap/
 Lancer/gobuster/
 Lancer/nikto/s
 loot.json
-output.log
+gobuster-*-*.log # Gobuster output logs
 gobuster.exe
 
 # PyCharm

@@ -1,5 +1,12 @@
 # Lancer v0.0.3 Alpha
 
+<p align="center">
+  <a href="#introduction">Introduction</a> •
+  <a href="#usage">Features</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#usage">Usage</a>
+</p>
+
 |Branch|Status|Coverage|Code Quality|Last Commit|
 |---|---|---|---|---|
 |Master|[![Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=master)](https://travis-ci.com/Stormy102/Lancer) |[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)|[![Master Code Quality](https://codebeat.co/badges/08113589-61c1-418c-8f2e-bffcc5562425)](https://codebeat.co/projects/github-com-stormy102-lancer-master)|[![Last Master Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer.svg)]()
@@ -15,11 +22,13 @@
 [![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer.svg)]()
 [![Issues](https://img.shields.io/github/issues/Stormy102/Lancer.svg)](https://github.com/Stormy102/Lancer/issues)
 
-## What is this?
+## Introduction
+
+### What is this?
 
 Lancer is a pentesting tool written in [Python 3](https://www.python.org/) which aims in automating and expediating recon and vulnerability scanning.
 
-## Sigh... Another pentesting tool? Why should I use this?
+### Sigh... Another pentesting tool? Why should I use this?
 
 The aim of Lancer is to take several tools which already exist, such as [Gobuster](https://github.com/OJ/gobuster/), [Nmap](https://github.com/nmap/nmap), [SMBMap](https://github.com/ShawnDEvans/smbmap) and [many](https://github.com/portcullislabs/enum4linux) [more](https://github.com/sullo/nikto), and intelligently detect which tools should be used depending on the results of a scan. This is meant to automate enumeration of a target and make the process of finding vulnerabilities a bit easier.
 
@@ -82,7 +91,7 @@ Any other features you want to see? Open a Github Issue or a pull request
 
 ## Installation
 
-To execute the program, ensure that you have Python 3.5 or higher installed. Use Python's pip to install the necessary Python dependents
+To execute the program, ensure that you have Python 3.5 or higher installed. Use Python's pip to install the necessary Python dependencies
 ```shell script
 pip install -r requirements.txt
 ```

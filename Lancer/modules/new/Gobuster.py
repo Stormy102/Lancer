@@ -19,7 +19,7 @@ class Gobuster(BaseModule):
     def __init__(self):
         super(Gobuster, self).__init__(name="Gobuster",
                                        description="Enumerate a web server's directories to find hidden files",
-                                       loot_name="Gobuster",
+                                       loot_name="directory/file enumeration",
                                        multithreaded=False,
                                        intrusive=True,
                                        critical=False)
@@ -27,20 +27,32 @@ class Gobuster(BaseModule):
 
     def execute(self, ip: str, port: int) -> None:
         self.create_loot_space(ip, port)
+        # List of dictionary results
         Loot.loot[ip][str(port)][self.loot_name] = []
-
-        out_file = "gobuster-{URL}-{PORT}".format(URL=ip, PORT=port)
 
         if port is 443:
             url = "https://{IP}".format(IP=ip)
+        elif port is 80:
+            url = "http://{IP}".format(IP=ip)
         else:
             url = "http://{IP}:{PORT}".format(IP=ip, PORT=port)
 
-        filename = "output.log"
+        filename = "gobuster-{IP}-{PORT}.log".format(IP=ip, PORT=port)
+
         with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
-            command = "gobuster dir -z -q -u {URL} -w {WORDLIST}" \
+            # Arguments:
+            # -e - expanded URL (whole path is shown)
+            # -z - Don't display the progress (X/Y Z%)
+            # -q - Don't print the banner for Gobuster
+            # -k - Skip SSL Cert verification
+            # -x - File extension(s) to scan for. By default we just scan for .php
+            #                                     TODO: Add ability to select extensions
+            # -u - URL
+            # -w - Wordlist
+            command = "gobuster dir -z -q -e -k -u {URL} -w {WORDLIST} -x {EXTENSIONS}" \
                 .format(URL=url,
-                        WORDLIST="C:\\Users\\Matthew\\Downloads\\Gobuster\\small.txt",)
+                        WORDLIST="C:\\Users\\Matthew\\Downloads\\Gobuster\\small.txt",
+                        EXTENSIONS=".php")
             process = subprocess.Popen(command, stdout=writer)
 
             # While the process return code is None
@@ -55,6 +67,7 @@ class Gobuster(BaseModule):
                     human_readable_code = utils.get_http_code(code)
                     # Get the directory
                     response_dir = response.split('(')[0].strip()
+                    # Add to the loot
                     result = {"Path": response_dir, "Code": code, "Code Value": human_readable_code}
                     Loot.loot[ip][str(port)][self.loot_name].append(result)
 

@@ -7,7 +7,6 @@
 """
 
 from modules.new.BaseModule import BaseModule
-from modules.new.ModuleExecuteState import ModuleExecuteState
 from cryptography import x509
 from cryptography.x509.oid import NameOID
 from cryptography.hazmat.primitives import serialization
@@ -29,9 +28,8 @@ class SSLCertificateExtractor(BaseModule):
                                                       critical=False)
 
     def execute(self, ip: str, port: int) -> None:
-
         # A lot of the work getting this to work with SNI
-        # certificates came from gdamjan here. Many thanks!
+        # certificates came from gdamjan. Many thanks!
         # https://gist.github.com/gdamjan/55a8b9eec6cf7b771f92021d93b87b2c
 
         # Create the SSL certificate components
@@ -145,6 +143,6 @@ class SSLCertificateExtractor(BaseModule):
     def should_execute(self, service: str, port: int) -> bool:
         if port is 443:
             return True
-        if service is "ssl/https":
+        if service == "ssl/https":
             return True
         return False

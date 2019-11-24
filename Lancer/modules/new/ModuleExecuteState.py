@@ -1,7 +1,7 @@
-from enum import Enum, auto
+from enum import Enum
 
 
 class ModuleExecuteState(Enum):
-    CanExecute = auto()
-    CannotExecute = auto()
-    SkipExecute = auto()
+    CanExecute = 1
+    CannotExecute = 2
+    SkipExecute = 3

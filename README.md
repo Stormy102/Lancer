@@ -91,17 +91,30 @@ Any other features you want to see? Open a Github Issue or a pull request
 
 ## Installation
 
-To execute the program, ensure that you have Python 3.5 or higher installed. Use Python's pip to install the necessary Python dependencies
+To get started with Lancer, either download the zip from Github with Clone or Download > Download Zip or `git clone https://github.com/Stormy102/Lancer`
+
+Lancer is tested and supported on the following Operating Systems:
+  * Windows:
+    * Windows 7
+    * Windows 8/8.1/8.1.1
+    * Windows 10 (all versions)
+  * Linux:
+    * Ubuntu 16.04 and up
+    * Debian 8 and up
+
+
+To execute the program, ensure that you have Python 3.5 or higher installed. Use Python's pip to install the necessary Python dependencies.
 ```shell script
 pip install -r requirements.txt
 ```
 ---
-However, Lancer depends on several other external programs being installed. For each of these programs, the environmental PATH variable must point to them so that they can be executed by Python.
+However, Lancer has dependencies on several other external programs being installed. For each of these programs, the environmental PATH variable must point to them so that they can be executed by Python.
 
 |Program|Version|Required|Optional|Linux|Windows|
 |---|---|---|---|---|---|
 |[Nmap](https://github.com/nmap/nmap)|7.7.0|✔| |✔|✔|
 |[Gobuster](https://github.com/OJ/gobuster/releases)|3.1| |✔*|✔|✔|
+|[Searchsploit](https://github.com/offensive-security/exploitdb/blob/master/searchsploit)|cbf80e3| |✔*|✔|❌|
 |[Smbmap](https://github.com/ShawnDEvans/smbmap)|b55fc05| |✔*|✔|✔|
 |[Nikto](https://github.com/sullo/nikto)|2.1.6| |✔|✔|✔|
 |[enum4linux](https://github.com/portcullislabs/enum4linux)|0.8.9| |✔|✔|❌|

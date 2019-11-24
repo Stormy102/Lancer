@@ -179,6 +179,10 @@ $ python lancer.py --target 192.168.1.10 --nmap nmap/bastion.xml /
   -fD HTB -fU L4mpje -fP P@ssw0rd
 ```
 
+## Credits
+
+See [Credits.md](CREDITS.MD) for the credits
+
 ## License
 
-GPL-3.0. See the LICENSE file for more details.
+GPL-3.0. See the [LICENSE](LICENCE) file for more details.

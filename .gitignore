@@ -108,6 +108,9 @@ Lancer/ftp/
 Lancer/nmap/
 Lancer/gobuster/
 Lancer/nikto/s
+loot.json
+output.log
+gobuster.exe
 
 # PyCharm
 .idea/

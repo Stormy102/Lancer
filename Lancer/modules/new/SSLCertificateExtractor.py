@@ -5,7 +5,6 @@
     Copyright (c) 2019 Lancer developers
     See the file 'LICENCE' for copying permissions
 """
-import datetime
 
 from modules.new.BaseModule import BaseModule
 from modules.new.ModuleExecuteState import ModuleExecuteState
@@ -13,11 +12,9 @@ from cryptography import x509
 from cryptography.x509.oid import NameOID
 from cryptography.hazmat.primitives import serialization
 
+import datetime
 import Loot
-import utils
 import OpenSSL
-import ssl
-import dateutil.parser
 import idna
 import socket
 
@@ -39,6 +36,8 @@ class SSLCertificateExtractor(BaseModule):
 
         # Create the SSL certificate components
         self.create_loot_space(ip=ip, port=port)
+
+        data = Loot.loot[ip][str(port)][self.loot_name]
 
         hostname_idna = idna.encode(ip)
         sock = socket.socket()
@@ -62,28 +61,28 @@ class SSLCertificateExtractor(BaseModule):
             common_name = names[0].value
         except x509.ExtensionNotFound:
             common_name = None
-        Loot.loot[ip][port][self.loot_name]["Common Name"] = common_name
+        data["Common Name"] = common_name
 
         try:
             ext = crypto_cert.extensions.get_extension_for_class(x509.SubjectAlternativeName)
             alt_names = ext.value.get_values_for_type(x509.DNSName)
         except x509.ExtensionNotFound:
             alt_names = None
-        Loot.loot[ip][port][self.loot_name]["Alt Names"] = alt_names
+        data["Alt Names"] = alt_names
 
-        Loot.loot[ip][port][self.loot_name]["Issue Date"] = str(crypto_cert.not_valid_before)
-        Loot.loot[ip][port][self.loot_name]["Expiry Date"] = str(crypto_cert.not_valid_after)
+        data["Issue Date"] = str(crypto_cert.not_valid_before)
+        data["Expiry Date"] = str(crypto_cert.not_valid_after)
 
         expired = crypto_cert.not_valid_after < datetime.datetime.now()
 
-        Loot.loot[ip][port][self.loot_name]["Expired"] = expired
+        data["Expired"] = expired
 
         try:
             names = crypto_cert.issuer.get_attributes_for_oid(NameOID.COUNTRY_NAME)
             country_name = names[0].value
         except x509.ExtensionNotFound:
             country_name = None
-        Loot.loot[ip][port][self.loot_name]["Country"] = country_name
+        data["Country"] = country_name
 
         try:
             names = crypto_cert.issuer.get_attributes_for_oid(NameOID.STATE_OR_PROVINCE_NAME)
@@ -92,7 +91,7 @@ class SSLCertificateExtractor(BaseModule):
             province_name = None
         except IndexError:
             province_name = None
-        Loot.loot[ip][port][self.loot_name]["Province"] = province_name
+        data["Province"] = province_name
 
         try:
             names = crypto_cert.issuer.get_attributes_for_oid(NameOID.LOCALITY_NAME)
@@ -101,14 +100,14 @@ class SSLCertificateExtractor(BaseModule):
             locality_name = None
         except IndexError:
             locality_name = None
-        Loot.loot[ip][port][self.loot_name]["Locality"] = locality_name
+        data["Locality"] = locality_name
 
         try:
             names = crypto_cert.issuer.get_attributes_for_oid(NameOID.ORGANIZATION_NAME)
             organization_name = names[0].value
         except x509.ExtensionNotFound:
             organization_name = None
-        Loot.loot[ip][port][self.loot_name]["Name"] = locality_name
+        data["Organisation Name"] = organization_name
 
         try:
             names = crypto_cert.issuer.get_attributes_for_oid(NameOID.ORGANIZATIONAL_UNIT_NAME)
@@ -117,7 +116,7 @@ class SSLCertificateExtractor(BaseModule):
             organizational_unit_name = None
         except IndexError:
             organizational_unit_name = None
-        Loot.loot[ip][port][self.loot_name]["OU"] = organizational_unit_name
+        data["OU"] = organizational_unit_name
 
         try:
             emails = crypto_cert.issuer.get_attributes_for_oid(NameOID.EMAIL_ADDRESS)
@@ -126,13 +125,9 @@ class SSLCertificateExtractor(BaseModule):
             email_address = None
         except IndexError:
             email_address = None
-        Loot.loot[ip][port][self.loot_name]["Email"] = email_address
+        data["Email"] = email_address
 
-        """     
-                has_expired = x509.has_expired()
-                Loot.loot[ip][port][self.loot_name]["Expired"] = has_expired"""
-
-        Loot.loot[ip][port][self.loot_name]["Public Key"] = crypto_cert.public_key().public_bytes(
+        data["Public Key"] = crypto_cert.public_key().public_bytes(
             encoding=serialization.
             Encoding.PEM,
             format=serialization.
@@ -143,16 +138,13 @@ class SSLCertificateExtractor(BaseModule):
             issuer = names[0].value
         except x509.ExtensionNotFound:
             issuer = None
-        Loot.loot[ip][port][self.loot_name]["Issuer"] = issuer
+        data["Issuer"] = issuer
 
-        print()
-
-    def can_execute_module(self) -> ModuleExecuteState:
-        return ModuleExecuteState.CanExecute
+        # print()
 
     def should_execute(self, service: str, port: int) -> bool:
-        if port == 443:
+        if port is 443:
             return True
-        if service == "ssl/https":
+        if service is "ssl/https":
             return True
         return False

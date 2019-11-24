@@ -1,7 +1,4 @@
-import utils
-
-import config
-import subprocess
+from core import utils
 
 
 def exec():

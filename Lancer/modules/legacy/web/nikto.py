@@ -1,8 +1,7 @@
 from xml.dom import minidom
 
-import utils
 import subprocess
-import config
+from core import config, utils
 import os
 
 

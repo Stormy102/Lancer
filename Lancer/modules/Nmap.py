@@ -2,7 +2,7 @@ from modules.BaseModule import BaseModule
 
 import os
 import subprocess
-import config
+from core import config
 
 
 class NmapModule(BaseModule):

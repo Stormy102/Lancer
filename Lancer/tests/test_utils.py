@@ -1,6 +1,4 @@
-import utils
-import lancerargs
-import config
+from core import lancerargs, config, utils
 
 import pytest
 import io

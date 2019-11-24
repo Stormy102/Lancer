@@ -6,13 +6,11 @@
     See the file 'LICENCE' for copying permissions
 """
 from modules.BaseModule import BaseModule
-from spinner import Spinner
+from core.spinner import Spinner
 
 import ftplib
-import config
-import utils
+from core import config, utils, Loot
 import io
-import Loot
 import sys
 import os
 

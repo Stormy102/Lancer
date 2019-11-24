@@ -1,4 +1,4 @@
-import Loot
+from core import Loot
 from modules.FTPAnonymousAccess import FTPAnonymousAccess
 from modules.FTPBanner import FTPBanner
 from modules.GeolocateIP import GeolocateIP

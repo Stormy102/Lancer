@@ -1,9 +1,8 @@
 from xml.dom import minidom
 from modules.legacy import detector
-from spinner import Spinner
+from core.spinner import Spinner
 
-import utils
-import config
+from core import config, utils
 import subprocess
 import os
 

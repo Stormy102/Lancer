@@ -10,9 +10,8 @@ from modules.BaseModule import BaseModule
 
 import subprocess
 import io
-import Loot
 import time
-import utils
+from core import utils, Loot
 
 
 class Gobuster(BaseModule):

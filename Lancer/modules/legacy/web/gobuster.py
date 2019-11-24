@@ -1,5 +1,4 @@
-import config
-import utils
+from core import config, utils
 import os
 import subprocess
 import sys

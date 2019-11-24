@@ -9,7 +9,7 @@
 from modules.ModuleExecuteState import ModuleExecuteState
 from modules.BaseModule import BaseModule
 
-import Loot
+from core import Loot
 
 
 def create_module(required: bool = False) -> BaseModule:
@@ -49,19 +49,18 @@ def test_create_loot():
     assert Loot.loot[ip][port][module.loot_name] is not None
 
 
+def test_execute():
+    module = create_module(False)
+
+    module.execute("127.0.0.1", 0)
+
+
 def test_can_execute_module():
-    module = create_module()
+    module = create_module(False)
 
-    ip = "127.0.0.1"
-    port = 0
+    ret = module.can_execute_module()
 
-    module.create_loot_space(ip, port)
-
-    port = str(0)
-
-    assert Loot.loot[ip] is not None
-    assert Loot.loot[ip][port] is not None
-    assert Loot.loot[ip][port][module.loot_name] is not None
+    assert ret is ModuleExecuteState.CanExecute
 
 
 def test_cannot_execute_module():

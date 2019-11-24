@@ -10,9 +10,7 @@ from modules.legacy import nmap
 
 __license__ = "GPL-3.0"
 
-import config
-import lancerargs
-import utils
+from core import lancerargs, config, winutils, utils
 
 import sys
 import signal
@@ -35,7 +33,6 @@ def main():
     # Update the Windows virtual terminal if necessary
     # If we're on Windows 10, import winutils
     if platform.system().lower() == "windows" and platform.release() == "10":
-        import winutils
         winutils.update_windows_virtual_terminal()
 
     # Check we're on a supported Python version
@@ -85,7 +82,7 @@ def main():
 
                 print(utils.normal_message(), "Finished analysis of", config.current_target, "(" + target + ")...")
                 print(utils.normal_message(), "Analysis of", config.current_target, "took", time.strftime("%H:%M:%S",
-                                                                                           time.gmtime(
+                                                                                                          time.gmtime(
                                                                                                target_elapsed_time)))
                 print()
             else:

@@ -1,6 +1,5 @@
 import lancer
-import lancerargs
-import config
+from core import lancerargs, config
 import pytest
 import io
 import sys

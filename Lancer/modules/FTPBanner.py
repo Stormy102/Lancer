@@ -9,7 +9,7 @@ from modules.BaseModule import BaseModule
 
 import socket
 import ftplib
-import Loot
+from core import Loot
 
 
 class FTPBanner(BaseModule):

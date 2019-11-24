@@ -8,7 +8,7 @@
 
 from modules.GeolocateIP import GeolocateIP
 
-import Loot
+from core import Loot
 
 
 def test_module_creation():

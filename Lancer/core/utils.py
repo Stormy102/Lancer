@@ -1,9 +1,9 @@
 from datetime import datetime
-from spinner import *
+from core.spinner import *
 from shutil import which
 from http.client import responses
 
-import config
+from core import config
 import time
 import sys
 import platform

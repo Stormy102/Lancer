@@ -1,8 +1,7 @@
 from modules.legacy import ftp, smbclient
-from modules.legacy.web import https, nikto, gobuster
+from modules.legacy.web import nikto, gobuster
 
-import config
-import utils
+from core import config, utils
 import platform
 import cpe_utils
 
@@ -67,8 +66,6 @@ def detect_service(openport):
                 if not config.args.quiet:
                     print("")
                     url = "http://" + config.current_target + ":" + str(port)
-                    # Extract cert
-                    https.exec(config.current_target, port)
                     # Scan using gobuster
                     gobuster.exec(url)
                     # Scan using nikto

@@ -1,8 +1,7 @@
 from modules.legacy import ftp
 
-import config
 import ftplib
-import lancerargs
+from core import lancerargs, config
 import warnings
 import os
 

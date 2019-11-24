@@ -8,7 +8,7 @@
 
 from modules.SSLCertificateExtractor import SSLCertificateExtractor
 
-import Loot
+from core import Loot
 
 
 def test_module_creation():
@@ -16,7 +16,7 @@ def test_module_creation():
     assert cert_extract is not None
 
 
-def test_should_run_service():
+def test_should_run_service_sslhttps():
     cert_extract = SSLCertificateExtractor()
 
     result = cert_extract.should_execute("ssl/https", 4433)
@@ -24,10 +24,18 @@ def test_should_run_service():
     assert result is True
 
 
+def test_should_run_service_https():
+    cert_extract = SSLCertificateExtractor()
+
+    result = cert_extract.should_execute("https", 4433)
+
+    assert result is True
+
+
 def test_should_run_port():
     cert_extract = SSLCertificateExtractor()
 
-    result = cert_extract.should_execute("ssl/https", 443)
+    result = cert_extract.should_execute("http", 443)
 
     assert result is True
 

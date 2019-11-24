@@ -1,6 +1,5 @@
-import utils
 import argparse
-import config
+from core import config, utils
 import sys
 import time
 

@@ -8,7 +8,7 @@
 
 from modules.FTPBanner import FTPBanner
 
-import Loot
+from core import Loot
 import warnings
 
 

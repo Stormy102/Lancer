@@ -1,10 +1,9 @@
-import config
-import lancerargs
+from core import lancerargs, config
 import os
 import urllib.request
 
 
-def test_gobuster():
+def gobuster():
 
     urllib.request.urlretrieve(
         'https://raw.githubusercontent.com/thesp0nge/enchant/master/db/directory-list-2.3-medium.txt',

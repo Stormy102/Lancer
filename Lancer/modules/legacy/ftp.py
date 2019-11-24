@@ -1,9 +1,7 @@
 import ftplib
-import config
+from core import config, spinner, utils
 import io
-import utils
 import sys
-import spinner
 import os
 import mimetypes
 

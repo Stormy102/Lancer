@@ -1,5 +1,5 @@
 import os
-import config
+from core import config
 
 
 def test_get_config_parser():

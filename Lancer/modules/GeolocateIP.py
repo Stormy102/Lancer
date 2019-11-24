@@ -9,7 +9,7 @@
 from modules.BaseModule import BaseModule
 
 import requests
-import Loot
+from core import Loot
 import json
 
 

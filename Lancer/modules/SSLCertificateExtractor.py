@@ -12,7 +12,7 @@ from cryptography.x509.oid import NameOID
 from cryptography.hazmat.primitives import serialization
 
 import datetime
-import Loot
+from core import Loot
 import OpenSSL
 import idna
 import socket
@@ -141,8 +141,10 @@ class SSLCertificateExtractor(BaseModule):
         # print()
 
     def should_execute(self, service: str, port: int) -> bool:
-        if port is 443:
+        if port == 443:
             return True
         if service == "ssl/https":
+            return True
+        if service == "https":
             return True
         return False

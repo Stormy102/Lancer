@@ -9,7 +9,7 @@
 from modules.ModuleExecuteState import ModuleExecuteState
 from shutil import which
 
-import Loot
+from core import Loot
 
 
 class BaseModule(object):

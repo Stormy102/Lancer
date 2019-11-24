@@ -1,5 +1,5 @@
 import platform
-import winutils
+from core import winutils
 
 
 def test_is_not_virtual_terminal():

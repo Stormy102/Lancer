@@ -7,6 +7,7 @@
 """
 from modules.new.BaseModule import BaseModule
 
+import socket
 import ftplib
 import Loot
 
@@ -24,10 +25,17 @@ class FTPBanner(BaseModule):
         self.create_loot_space(ip, port)
 
         ftp_client = ftplib.FTP()
-        ftp_client.connect(ip, port)
-        # print(utils.warning_message(), "FTP Server banner:", ftp_client.getwelcome()[4:])
-        Loot.loot[ip][str(port)][self.loot_name]["Banner"] = ftp_client.getwelcome()
-        ftp_client.quit()
+        try:
+            ftp_client.connect(ip, port)
+            # print(utils.warning_message(), "FTP Server banner:", ftp_client.getwelcome()[4:])
+            Loot.loot[ip][str(port)][self.loot_name]["Banner"] = ftp_client.getwelcome()
+            ftp_client.quit()
+        except socket.gaierror:
+            # Log of some kind
+            print(end="")
+        except ConnectionRefusedError:
+            # Log of some kind
+            print(end="")
 
     def should_execute(self, service: str, port: int) -> bool:
         if service is "ftp":

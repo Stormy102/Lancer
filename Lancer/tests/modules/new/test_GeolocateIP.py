@@ -39,6 +39,7 @@ def test_get_valid_domain_name():
 def test_get_valid_ip():
     geolocate_ip = GeolocateIP()
 
+    # Cloudflare IP
     hostname = "104.27.155.47"
 
     geolocate_ip.execute(hostname, 0)

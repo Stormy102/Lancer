@@ -19,7 +19,7 @@ def test_module_creation():
 def test_should_run_service():
     cert_extract = SSLCertificateExtractor()
 
-    result = cert_extract.should_execute("ssl/https", 443)
+    result = cert_extract.should_execute("ssl/https", 4433)
 
     assert result is True
 
@@ -27,7 +27,7 @@ def test_should_run_service():
 def test_should_run_port():
     cert_extract = SSLCertificateExtractor()
 
-    result = cert_extract.should_execute("ssl/https", 4433)
+    result = cert_extract.should_execute("ssl/https", 443)
 
     assert result is True
 

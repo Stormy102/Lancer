@@ -58,9 +58,7 @@ def test_parse_non_sni():
 
     port = str(port)
 
-    assert Loot.loot[hostname] is not None
-    assert Loot.loot[hostname][port] is not None
-    assert Loot.loot[hostname][port][cert_extract.loot_name] is not None
+    assert Loot.loot[hostname][port][cert_extract.loot_name]["Common Name"] == "www.google.com"
 
 
 def test_parse_sni():
@@ -73,10 +71,7 @@ def test_parse_sni():
 
     port = str(port)
 
-    assert Loot.loot[hostname] is not None
-    assert Loot.loot[hostname][port] is not None
-    assert Loot.loot[hostname][port][cert_extract.loot_name] is not None
-    assert Loot.loot[hostname][port][cert_extract.loot_name]["Expired"] is False
+    assert "cloudflaressl.com" in Loot.loot[hostname][port][cert_extract.loot_name]["Common Name"]
 
 
 def test_expired_cert():
@@ -89,10 +84,20 @@ def test_expired_cert():
 
     port = str(port)
 
-    assert Loot.loot[hostname] is not None
-    assert Loot.loot[hostname][port] is not None
-    assert Loot.loot[hostname][port][cert_extract.loot_name] is not None
     assert Loot.loot[hostname][port][cert_extract.loot_name]["Expired"] is True
+
+
+def test_no_common_name_cert():
+    cert_extract = SSLCertificateExtractor()
+
+    hostname = "no-common-name.badssl.com"
+    port = 443
+
+    cert_extract.execute(hostname, port)
+
+    port = str(port)
+
+    assert Loot.loot[hostname][port][cert_extract.loot_name]["Common Name"] is None
 
 
 def test_self_signed_cert():
@@ -105,7 +110,17 @@ def test_self_signed_cert():
 
     port = str(port)
 
-    assert Loot.loot[hostname] is not None
-    assert Loot.loot[hostname][port] is not None
-    assert Loot.loot[hostname][port][cert_extract.loot_name] is not None
-    assert Loot.loot[hostname][port][cert_extract.loot_name]["Expired"] is False
+    assert "badssl.com" in Loot.loot[hostname][port][cert_extract.loot_name]["Common Name"]
+
+
+def test_no_subject_cert():
+    cert_extract = SSLCertificateExtractor()
+
+    hostname = "no-subject.badssl.com"
+    port = 443
+
+    cert_extract.execute(hostname, port)
+
+    port = str(port)
+
+    assert Loot.loot[hostname][port][cert_extract.loot_name]["Common Name"] is None

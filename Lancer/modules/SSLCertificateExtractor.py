@@ -59,6 +59,8 @@ class SSLCertificateExtractor(BaseModule):
             common_name = names[0].value
         except x509.ExtensionNotFound:
             common_name = None
+        except IndexError:
+            common_name = None
         data["Common Name"] = common_name
 
         try:

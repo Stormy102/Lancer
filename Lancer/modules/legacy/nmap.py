@@ -1,12 +1,11 @@
 from xml.dom import minidom
-from modules import detector
+from modules.legacy import detector
 from spinner import Spinner
 
 import utils
 import config
 import subprocess
 import os
-import sys
 
 
 def nmap_scan(quiet):

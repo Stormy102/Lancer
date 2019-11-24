@@ -1,8 +1,5 @@
-from modules import ftp
-from modules.web import gobuster
-from modules.web import nikto
-from modules.web import https
-from modules import smbclient
+from modules.legacy import ftp, smbclient
+from modules.legacy.web import https, nikto, gobuster
 
 import config
 import utils

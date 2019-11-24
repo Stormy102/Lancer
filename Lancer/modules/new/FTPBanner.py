@@ -36,6 +36,9 @@ class FTPBanner(BaseModule):
         except ConnectionRefusedError:
             # Log of some kind
             print(end="")
+        except TimeoutError:
+            # Log of some kind
+            print(end="")
 
     def should_execute(self, service: str, port: int) -> bool:
         if service is "ftp":

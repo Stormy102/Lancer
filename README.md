@@ -201,6 +201,21 @@ $ python lancer.py --target 192.168.1.10 --nmap nmap/bastion.xml /
   -fD HTB -fU L4mpje -fP P@ssw0rd
 ```
 
+## Contributing
+
+Thanks for your interest in contributing to this project. You can contribute or report issues in the following ways:
+
+### Pull Requests
+If you would like to create a pull request, please make sure that you are on the [develop branch](https://github.com/Stormy102/Lancer/tree/develop) before opening one. Once you have cloned or forked this repo, open the root of the cloned repo to begin development. This project uses [git-flow](https://github.com/nvie/gitflow) as its branching model.
+
+The current development environment is with [PyCharm](https://www.jetbrains.com/pycharm/). Please make sure you are using these versions before submitting any pull requests.
+
+#### Coding Conventions
+This project uses [Pep8](https://www.python.org/dev/peps/pep-0008/) to maintain a consistent coding style. PyCharm uses the Pep8 style, which makes conformity easier.  
+
+### Reporting bugs
+If you find a bug, crash or any other intende
+
 ## Credits
 
 See [Credits.md](CREDITS.MD) for the credits

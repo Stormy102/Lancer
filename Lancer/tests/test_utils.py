@@ -173,3 +173,11 @@ def test_background_invalid():
 
 def test_color_background():
     assert "46" in utils.color("Lorem ipsum dolar sit amet", "White", "Cyan")
+
+
+def test_is_valid_target_valid():
+    assert utils.is_valid_target("google.co.uk") is True
+
+
+def test_is_valid_target_invalid():
+    assert utils.is_valid_target("256.128.64.32") is False

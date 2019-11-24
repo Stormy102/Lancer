@@ -12,11 +12,11 @@ from modules.BaseModule import BaseModule
 class Nikto(BaseModule):
     def __init__(self):
         super(Nikto, self).__init__(name="Nikto",
-                                          description="Scans the given web server",
-                                          loot_name="Nikto",
-                                          multithreaded=False,
-                                          intrusive=False,
-                                          critical=False)
+                                    description="Scans the given web server",
+                                    loot_name="Nikto",
+                                    multithreaded=False,
+                                    intrusive=False,
+                                    critical=False)
         self.required_programs = ["nikto"]
 
     def execute(self, ip: str, port: int) -> None:

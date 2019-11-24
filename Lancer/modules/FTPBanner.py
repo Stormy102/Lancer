@@ -5,21 +5,22 @@
     Copyright (c) 2019 Lancer developers
     See the file 'LICENCE' for copying permissions
 """
+
 from modules.BaseModule import BaseModule
+from core import Loot
 
 import socket
 import ftplib
-from core import Loot
 
 
 class FTPBanner(BaseModule):
     def __init__(self):
         super(FTPBanner, self).__init__(name="FTP Banner",
-                                                 description="Gets the banner for the FTP server",
-                                                 loot_name="FTP Banner",
-                                                 multithreaded=False,
-                                                 intrusive=True,
-                                                 critical=False)
+                                        description="Gets the banner for the FTP server",
+                                        loot_name="FTP Banner",
+                                        multithreaded=False,
+                                        intrusive=True,
+                                        critical=False)
 
     def execute(self, ip: str, port: int) -> None:
         self.create_loot_space(ip, port)

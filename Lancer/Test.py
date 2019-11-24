@@ -1,10 +1,13 @@
-from core import Loot
+from core import Loot, ModuleProvider
 from modules.FTPAnonymousAccess import FTPAnonymousAccess
 from modules.FTPBanner import FTPBanner
 from modules.GeolocateIP import GeolocateIP
 from modules.Gobuster import Gobuster
 from modules.Nikto import Nikto
 from modules.SSLCertificateExtractor import SSLCertificateExtractor
+from modules.Nmap import Nmap
+
+nmap = Nmap()
 
 ftpanon = FTPAnonymousAccess()
 ftpanon.execute("speedtest.tele2.net", 21)
@@ -43,4 +46,7 @@ nikto.execute('speedtest.tele2.net', 80)
 
 with open("loot.json", "w") as file:
     file.write(Loot.to_json())
-# print(Loot.to_json())
+print(Loot.to_json())
+
+ModuleProvider.main()
+

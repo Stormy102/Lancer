@@ -1,4 +1,4 @@
-from modules import smbclient
+from modules.legacy import smbclient
 
 
 def test_smb():

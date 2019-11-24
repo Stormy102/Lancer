@@ -1,5 +1,3 @@
-from modules.web import gobuster
-
 import config
 import lancerargs
 import os

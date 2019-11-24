@@ -6,11 +6,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.new.BaseModule import BaseModule
-
-import requests
-import Loot
-import json
+from modules.BaseModule import BaseModule
 
 
 class Nikto(BaseModule):

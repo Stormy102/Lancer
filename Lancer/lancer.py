@@ -6,7 +6,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules import nmap
+from modules.legacy import nmap
 
 __license__ = "GPL-3.0"
 

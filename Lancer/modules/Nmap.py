@@ -1,4 +1,4 @@
-from modules.new.BaseModule import BaseModule
+from modules.BaseModule import BaseModule
 
 import os
 import subprocess

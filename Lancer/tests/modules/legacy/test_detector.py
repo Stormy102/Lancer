@@ -1,4 +1,4 @@
-from modules import detector
+from modules.legacy import detector
 
 import io
 import sys

@@ -6,7 +6,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.new.SSLCertificateExtractor import SSLCertificateExtractor
+from modules.SSLCertificateExtractor import SSLCertificateExtractor
 
 import Loot
 

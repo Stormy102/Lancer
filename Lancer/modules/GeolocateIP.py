@@ -6,7 +6,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.new.BaseModule import BaseModule
+from modules.BaseModule import BaseModule
 
 import requests
 import Loot

@@ -1,10 +1,10 @@
 import Loot
-from modules.new.FTPAnonymousAccess import FTPAnonymousAccess
-from modules.new.FTPBanner import FTPBanner
-from modules.new.GeolocateIP import GeolocateIP
-from modules.new.Gobuster import Gobuster
-from modules.new.Nikto import Nikto
-from modules.new.SSLCertificateExtractor import SSLCertificateExtractor
+from modules.FTPAnonymousAccess import FTPAnonymousAccess
+from modules.FTPBanner import FTPBanner
+from modules.GeolocateIP import GeolocateIP
+from modules.Gobuster import Gobuster
+from modules.Nikto import Nikto
+from modules.SSLCertificateExtractor import SSLCertificateExtractor
 
 ftpanon = FTPAnonymousAccess()
 ftpanon.execute("speedtest.tele2.net", 21)

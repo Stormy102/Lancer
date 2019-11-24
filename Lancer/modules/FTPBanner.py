@@ -5,7 +5,7 @@
     Copyright (c) 2019 Lancer developers
     See the file 'LICENCE' for copying permissions
 """
-from modules.new.BaseModule import BaseModule
+from modules.BaseModule import BaseModule
 
 import socket
 import ftplib
@@ -32,13 +32,13 @@ class FTPBanner(BaseModule):
             ftp_client.quit()
         except socket.gaierror:
             # Log of some kind
-            print(end="")
+            print("Invalid IP/Hostname")
         except ConnectionRefusedError:
             # Log of some kind
-            print(end="")
+            print("Connection refused")
         except TimeoutError:
             # Log of some kind
-            print(end="")
+            print("Timed out")
 
     def should_execute(self, service: str, port: int) -> bool:
         if service is "ftp":

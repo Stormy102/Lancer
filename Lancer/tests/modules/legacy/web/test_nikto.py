@@ -1,4 +1,4 @@
-from modules.web import nikto
+from modules.legacy.web import nikto
 
 
 def test_nikto():

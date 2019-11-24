@@ -6,11 +6,10 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.new.FTPBanner import FTPBanner
+from modules.FTPBanner import FTPBanner
 
 import Loot
 import warnings
-import pytest
 
 
 def test_module_creation():
@@ -69,8 +68,8 @@ def test_get_banner_unreachable():
     banner = FTPBanner()
     Loot.reset()
 
-    hostname = "10.0.0.1"
-    port = 21
+    hostname = "127.0.0.1"
+    port = 2121
 
     banner.execute(hostname, port)
 
@@ -79,6 +78,7 @@ def test_get_banner_unreachable():
     assert Loot.loot[hostname] is not None
     assert Loot.loot[hostname][port] is not None
     assert Loot.loot[hostname][port][banner.loot_name] is not None
+    assert "Banner" not in Loot.loot[hostname][port][banner.loot_name]
 
 
 def test_get_banner_invalid():

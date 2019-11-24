@@ -1,4 +1,4 @@
-from modules.web import https
+from modules.legacy.web import https
 
 import sys
 import io

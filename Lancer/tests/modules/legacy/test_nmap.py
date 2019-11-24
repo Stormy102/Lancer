@@ -1,9 +1,8 @@
-from modules import nmap
+from modules.legacy import nmap
 
 # import lancerargs
 import os
 import tempfile
-import pytest
 import io
 import sys
 

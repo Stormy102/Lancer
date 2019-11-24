@@ -6,7 +6,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.new.GeolocateIP import GeolocateIP
+from modules.GeolocateIP import GeolocateIP
 
 import Loot
 

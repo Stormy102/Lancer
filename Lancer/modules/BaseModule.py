@@ -6,7 +6,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.new.ModuleExecuteState import ModuleExecuteState
+from modules.ModuleExecuteState import ModuleExecuteState
 from shutil import which
 
 import Loot
@@ -30,7 +30,7 @@ class BaseModule(object):
         # Add to central repository of loot
         return None
 
-    def create_loot_space(self, ip: str, port: int):
+    def create_loot_space(self, ip: str, port: int) -> None:
         str_port = str(port)
         if ip not in Loot.loot:
             Loot.loot[ip] = {}

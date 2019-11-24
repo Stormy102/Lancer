@@ -1,4 +1,4 @@
-from modules import ftp
+from modules.legacy import ftp
 
 import config
 import ftplib

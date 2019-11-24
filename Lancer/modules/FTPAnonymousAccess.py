@@ -5,7 +5,7 @@
     Copyright (c) 2019 Lancer developers
     See the file 'LICENCE' for copying permissions
 """
-from modules.new.BaseModule import BaseModule
+from modules.BaseModule import BaseModule
 from spinner import Spinner
 
 import ftplib
@@ -13,7 +13,6 @@ import config
 import utils
 import io
 import Loot
-import mimetypes
 import sys
 import os
 

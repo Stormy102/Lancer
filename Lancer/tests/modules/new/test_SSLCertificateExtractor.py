@@ -87,7 +87,7 @@ def test_expired_cert():
     assert Loot.loot[hostname][port][cert_extract.loot_name]["Expired"] is True
 
 
-def test_expired_cert():
+def test_self_signed_cert():
     cert_extract = SSLCertificateExtractor()
 
     hostname = "self-signed.badssl.com"

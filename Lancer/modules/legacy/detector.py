@@ -1,4 +1,4 @@
-from modules.legacy import ftp, smbclient
+from modules.legacy import ftp
 from modules.legacy.web import nikto, gobuster
 
 from core import config, utils
@@ -70,13 +70,6 @@ def detect_service(openport):
                     gobuster.exec(url)
                     # Scan using nikto
                     nikto.exec(url)
-            # Smb share
-            # TODO: Maybe don't use hardcoded ports
-            if port == 445:
-                print(utils.warning_message(), service_name, "is potentially a SMB share on Windows")
-                if not config.args.quiet:
-                    print(utils.warning_message(), "Will commence enumeration using SMBClient/SMBMap...")
-                smbclient.exec()
             # MySQL server
             if service_name == "mysql":
                 print(utils.warning_message(), service_name, "is recognised by nmap as a MySQL server...")

@@ -32,7 +32,7 @@ def main():
         initialise_provider()
         execute_modules()
     except CriticalProgramNotInstalled as err:
-        print(err)
+        print(utils.warning_message(), err)
 
 
 def initialise_provider():
@@ -53,8 +53,14 @@ def execute_modules():
         # Check if we can run it
         run_state = module.can_execute_module()
         if run_state is ModuleExecuteState.CanExecute:
-            # module.execute("127.0.0.1", 0)
-            print(utils.normal_message(), "Executing", module.name)
+            service = "service"
+            ip = "127.0.0.1"
+            port = 0
+
+            if module.should_execute(service, port):
+                print(utils.normal_message(), "Executing", module.name)
+                module.execute(ip, port)
+
         elif run_state is ModuleExecuteState.CannotExecute:
             raise CriticalProgramNotInstalled("{PROGRAM} is not installed".format(PROGRAM=module.name))
         else:

@@ -8,5 +8,5 @@
 omit = 
 	Lancer/tests/*
 	Lancer/winutils.py # Cannot test on non-Windows platforms
-	Lancer/tests/modules/legacy/*
+	Lancer/modules/legacy/*
 	*__init__*

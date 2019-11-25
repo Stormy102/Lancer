@@ -1,4 +1,4 @@
-from core import lancerargs, config
+"""from core import ArgHandler, config
 import os
 import urllib.request
 
@@ -12,7 +12,8 @@ def gobuster():
     assert os.path.exists('directory-list-2.3-medium.txt')
 
     config.config['Web']['DefaultWordlist'] = 'directory-list-2.3-medium.txt'
-    lancerargs.parse_arguments(['-T', '127.0.0.1'])
+    ArgHandler.parse_arguments(['-T', '127.0.0.1'])
 
     url = "http://scanme.nmap.org"
     # http.gobuster(url)
+"""

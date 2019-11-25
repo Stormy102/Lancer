@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -32,11 +31,6 @@ class SSLCertificateExtractor(BaseModule):
         # certificates came from gdamjan. Many thanks!
         # https://gist.github.com/gdamjan/55a8b9eec6cf7b771f92021d93b87b2c
 
-        # Create the SSL certificate components
-        self.create_loot_space(ip=ip, port=port)
-
-        data = Loot.loot[ip][str(port)][self.loot_name]
-
         hostname_idna = idna.encode(ip)
         sock = socket.socket()
 
@@ -48,11 +42,20 @@ class SSLCertificateExtractor(BaseModule):
         sock_ssl = OpenSSL.SSL.Connection(ctx, sock)
         sock_ssl.set_connect_state()
         sock_ssl.set_tlsext_host_name(hostname_idna)
-        sock_ssl.do_handshake()
+        try:
+            sock_ssl.do_handshake()
+        except OpenSSL.SSL.Error:
+            # TODO: Don't quietly return
+            return
         cert = sock_ssl.get_peer_certificate()
         crypto_cert = cert.to_cryptography()
         sock_ssl.close()
         sock.close()
+
+        # Now we've got the SSL cert, create the SSL certificate components
+        self.create_loot_space(ip=ip, port=port)
+
+        data = Loot.loot[ip][str(port)][self.loot_name]
 
         try:
             names = crypto_cert.subject.get_attributes_for_oid(NameOID.COMMON_NAME)

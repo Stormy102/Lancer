@@ -1,26 +1,29 @@
-from core import lancerargs, config, utils
+from core import ArgHandler, config, utils
 
 import pytest
 import io
 import sys
 
-# TODO: Test text foreground/background colouring tests and styles
-
 
 def test_closes_critical_program_not_installed():
-    lancerargs.parse_arguments(['-T', '127.0.0.1', '-v'])
+    ArgHandler.parse_arguments(['-T', '127.0.0.1', '-v'])
     with pytest.raises(SystemExit):
         utils.program_installed("program_that_doesnt_exist", True)
 
 
 def test_non_critical_program_not_installed():
-    lancerargs.parse_arguments(['-T', '127.0.0.1', '-v'])
+    ArgHandler.parse_arguments(['-T', '127.0.0.1', '-v'])
     assert utils.program_installed("program_that_doesnt_exist", False) is False
 
 
 def test_non_critical_program_installed():
-    lancerargs.parse_arguments(['-T', '127.0.0.1', '-v'])
+    ArgHandler.parse_arguments(['-T', '127.0.0.1', '-v'])
     assert utils.program_installed("python", False) is True
+
+
+def test_signal_handler_quits():
+    with pytest.raises(SystemExit):
+        utils.signal_handler(None, None)
 
 
 def test_normal_message():

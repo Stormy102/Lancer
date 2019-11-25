@@ -8,14 +8,19 @@ def parse_arguments(args):
     parser = create_parser()
 
     if len(args) is 0:
+        utils.print_header()
         print(utils.error_message(), "No arguments supplied, showing help...\n")
         time.sleep(0.5)
         parser.print_help()
         sys.exit(1)
 
     if len(args) is 1 and args[0] == "--version":
+        utils.print_header()
         print(utils.normal_message(), "Lancer", config.__version__)
         sys.exit(0)
+
+    utils.print_header()
+    utils.version()
 
     config.args = parser.parse_args(args)
 

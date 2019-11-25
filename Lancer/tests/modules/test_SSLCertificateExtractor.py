@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -16,7 +15,7 @@ def test_module_creation():
     assert cert_extract is not None
 
 
-def test_should_run_service_sslhttps():
+def test_should_run_service_ssl_https():
     cert_extract = SSLCertificateExtractor()
 
     result = cert_extract.should_execute("ssl/https", 4433)
@@ -59,6 +58,22 @@ def test_parse_non_sni():
     port = str(port)
 
     assert Loot.loot[hostname][port][cert_extract.loot_name]["Common Name"] == "www.google.com"
+
+
+def test_non_https():
+    cert_extract = SSLCertificateExtractor()
+
+    hostname = "httpforever.com"
+    port = 80
+
+    Loot.reset()
+    Loot.loot[hostname] = {}
+
+    cert_extract.execute(hostname, port)
+
+    port = str(port)
+
+    assert port not in Loot.loot[hostname]
 
 
 def test_parse_sni():

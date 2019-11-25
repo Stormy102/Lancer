@@ -12,6 +12,11 @@ import ctypes
 import socket
 
 
+def signal_handler(signal: int, frame):
+    print("\n" + error_message(), "Ctrl+C detected, terminating...")
+    sys.exit(1)
+
+
 def program_installed(name, critical):
     if config.args.verbose:
         print(normal_message(), "Checking if", name, "is installed...")

@@ -1,13 +1,13 @@
 from modules.legacy import ftp
 
 import ftplib
-from core import lancerargs, config
+from core import ArgHandler, config
 import warnings
 import os
 
 
 def test_ftp_quiet():
-    lancerargs.parse_arguments(["-T", "127.0.0.1", "-q"])
+    ArgHandler.parse_arguments(["-T", "127.0.0.1", "-q"])
     ftp.ftp(None)
 
 

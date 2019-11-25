@@ -6,51 +6,20 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.legacy import nmap
-
 __license__ = "GPL-3.0"
 
-from core import lancerargs, config, winutils, utils
+from core import ArgHandler, config, winutils, utils, InvalidTarget
+from modules.legacy import nmap
+from core.Target import Target
 
 import sys
 import signal
-import socket
 import os
 import time
 import platform
 
 
 def main():
-    # Register the signal handler for a more graceful Ctrl+C
-    signal.signal(signal.SIGINT, signal_handler)
-
-    # Parse the arguments
-    lancerargs.parse_arguments(sys.argv[1:])
-
-    # Load the config file
-    config.load_config()
-
-    # Update the Windows virtual terminal if necessary
-    # If we're on Windows 10, import winutils
-    if platform.system().lower() == "windows" and platform.release() == "10":
-        winutils.update_windows_virtual_terminal()
-
-    # Check we're on a supported Python version
-    utils.python_version()
-
-    # Display the splash screen
-    show_header = config.config['Main']['ShowHeader']
-    if show_header != 'no':
-        utils.print_header()
-    utils.version()
-
-    # Language warning - not yet implemented
-    if config.args.language_code != 'en':
-        print(utils.error_message(), "Multi-language support is not yet implemented...")
-
-    # Run the setup to make sure necessary files and permissions exist
-    setup()
-
     if config.args.skipDisclaimer is not True:
         # Display the Legal disclaimer
         legal_disclaimer()
@@ -64,38 +33,27 @@ def main():
         targets = config.args.host_file.read().splitlines()
 
         for target in targets:
-            # Comments start with a hashtag
             if len(target.strip()) == 0:
                 continue
+            # Comments start with a hashtag
             if len(target.strip()) > 0 and target[0] == "#":
                 continue
 
-            if utils.is_valid_target(target):
-                config.current_target = socket.gethostbyname(target)
-
-                target_start_time = time.monotonic()
-
-                print(utils.normal_message(), "Starting analysis of", config.current_target, "(" + target + ")...")
-                execute()
-
-                target_elapsed_time = time.monotonic() - target_start_time
-
-                print(utils.normal_message(), "Finished analysis of", config.current_target, "(" + target + ")...")
-                print(utils.normal_message(), "Analysis of", config.current_target, "took", time.strftime("%H:%M:%S",
-                                                                                                          time.gmtime(
-                                                                                               target_elapsed_time)))
-                print()
-            else:
-                print(utils.error_message(), "Target IP Address", target, "is not valid\n")
+            try:
+                target = Target(target)
+                execute(target)
+                target.stop_timer()
+            except ValueError as err:
+                print(utils.error_message(), err)
+            print()
 
     else:
-        if utils.is_valid_target(config.args.target):
-            config.current_target = socket.gethostbyname(config.args.target)
-            print(utils.normal_message(), "Scanning", config.current_target, "(" + config.args.target + ")...")
-            execute()
-        else:
-            print(utils.error_message(), "Target IP Address/Domain", config.args.target, "is not valid\n")
-            sys.exit(1)
+        try:
+            target = Target(config.args.target)
+            execute(target)
+            target.stop_timer()
+        except ValueError as err:
+            print(utils.error_message(), err)
 
     print(utils.normal_message(), "Lancer has finished system scanning")
     elapsed_time = time.monotonic() - start_time
@@ -105,12 +63,36 @@ def main():
     sys.exit(0)
 
 
-def signal_handler(signal, frame):
-    """
-        Handles signal interrupts more gracefully than default behaviour
-    """
-    print("\n" + utils.error_message(), "Ctrl+C detected, terminating...")
-    sys.exit(1)
+def init():
+    # Register the signal handler for a more graceful Ctrl+C
+    signal.signal(signal.SIGINT, utils.signal_handler)
+
+    # Parse the arguments
+    ArgHandler.parse_arguments(sys.argv[1:])
+
+    # Load the config file
+    config.load_config()
+
+    # Update the Windows virtual terminal if necessary
+    # If we're on Windows 10, import winutils
+    if platform.system().lower() == "windows" and platform.release() == "10":
+        winutils.update_windows_virtual_terminal()
+
+    # Check we're on a supported Python version
+    utils.python_version()
+
+    # Display the splash screen
+    """show_header = config.config['Main']['ShowHeader']
+    if show_header != 'no':
+        utils.print_header()
+    utils.version()"""
+
+    # Language warning - not yet implemented
+    if config.args.language_code != 'en':
+        print(utils.error_message(), "Multi-language support is not yet implemented...")
+
+    # Run the setup to make sure necessary files and permissions exist
+    setup()
 
 
 def setup():
@@ -136,19 +118,21 @@ def legal_disclaimer():
     print(utils.error_message(), "Legal Disclaimer: Usage of Lancer for attacking targets without prior mutual"
                                  " authorisation is illegal.\n    It is the end user's responsibility to adhere to all"
                                  " local and international laws.\n    The developer(s) of this tool assume no liability"
-                                 " and are not responsible for any misuse or damage\n    caused by the use of this program")
+                                 " and are not responsible for any misuse or damage\n    caused by the use of this"
+                                 "program")
     agree = utils.input_message("Press [Y] to agree:")
     if agree.lower() != "y":
         print(utils.error_message(), "Legal disclaimer has not been accepted. Exiting...")
-        sys.exit(0)
+        sys.exit(1)
     print("")
 
 
-def execute():
+def execute(target: Target):
+    config.current_target = target.ip
     # If we have passed an nmap xml file
     if config.args.nmapFile is not None:
         print(utils.normal_message(), "Loading nmap file")
-        utils.parse_nmap_scan(config.args.nmapFile)
+        nmap.parse_nmap_scan(config.args.nmapFile)
     else:
         if config.args.quiet:
             nmap.nmap_scan(True)
@@ -158,9 +142,5 @@ def execute():
 
 if __name__ == "__main__":
     """`Lancer` entry point"""
-    # try:
+    init()
     main()
-    # except SystemExit:
-    #    print(NormalMessage(), "Lancer is shutting down")
-    # except:
-    #    print(ErrorMessage(), "An unexpected error has occurred")

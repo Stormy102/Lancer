@@ -48,14 +48,15 @@ This is a list of features which we intend to add support for:
 * [X] HTTPS support - certificate extraction, normal HTTP services scanning and enumeration _Added in 0.0.3_
 * [X] Multiple targets from file support _Added in 0.0.3_
 * [X] Convert domain name to IP _Added in 0.0.3_
-* [ ] Improved modularity by shifting to an OOP module approach _In Development - Planned for 0.0.3_
-* [ ] Write all output to file via -o parameter _Planned for 0.0.3_
-* [ ] IPv4 subnet support - `./lancer -T 192.168.0.0/24` _Planned for 0.0.4_
-* [ ] IPv6 support _Planned for 0.0.4_
+* [X] IPv4/IPv6 subnet support - `./lancer -T 192.168.0.0/24` _Added in 0.0.3_
+* [ ] **In Development** Improved modularity by shifting to an OOP module approach _Planned for 0.0.3_
+* [ ] Write verbose info to log file _Planned for 0.0.3_
+* [ ] Write output to file via -o parameter _Planned for 0.0.3_
 * [ ] SSH support - display fingerprint and SSH version _Planned for 0.0.4_
 * [ ] Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.4_
 * [ ] SMB enumeration with SMBClient/smbmap _Planned for 0.0.4_
 * [ ] Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.0.4_
+* [ ] IPv6 support _Planned for 0.0.4_
 * [ ] Multi-language support _Planned for 0.0.5_
 * [ ] Nmap script level _Planned for 0.0.5_
 * [ ] enum4linux support _Planned for 0.0.5_

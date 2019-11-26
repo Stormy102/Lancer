@@ -44,7 +44,7 @@ def test_error_message():
 def test_version():
     captured_output = io.StringIO()
     sys.stdout = captured_output
-    utils.version()
+    utils.display_header()
     sys.stdout = sys.__stdout__
     assert config.__version__ in captured_output.getvalue()
 

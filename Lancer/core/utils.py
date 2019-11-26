@@ -1,6 +1,4 @@
-from datetime import datetime
-from core.spinner import *
-from shutil import which
+from shutil import which, get_terminal_size
 from http.client import responses
 
 from core import config
@@ -10,6 +8,7 @@ import platform
 import os
 import ctypes
 import socket
+import textwrap
 
 
 def signal_handler(signal: int, frame):
@@ -151,7 +150,7 @@ def print_header():
     # enemy defences and reconnoiter, as well
     # as patrol and protect their own base.
     # Elite Scout Troopers were known as Lancers
-    print('''                  `.--:::::::::::::::::---.                 
+    header = '''                  `.--:::::::::::::::::---.                 
                `-::----.............-----::/:.              
               ./:----.............---------::/:             
            ``.......--------------------......-..``         
@@ -179,19 +178,34 @@ def print_header():
                 `..-------ohoyyyssM-::::----..`             
                     `.----oddmmmdhM-:::-.`                  
                        `.-odydmmhyM-:.                      
-                          `..-----.`''')
+                          `..-----.`\n'''
+    for c in header:
+        sys.stdout.write(c)
+        sys.stdout.flush()
+        if c is '\n':
+            time.sleep(0.025)
 
 
-def version():
+def display_header():
+    show_header = config.config['Main']['ShowHeader']
+    if show_header != 'no':
+        print_header()
     print(normal_message(), "Initialising Lancer {VERSION} on {OS} {OS_VERSION}".
           format(VERSION=config.__version__,
                  OS=platform.system(),
-                 OS_VERSION=platform.release()), end=' ')
-    with Spinner():
-        time.sleep(1)
-    print()
-    print(normal_message(), "Starting Lancer at {TIME}"
-          .format(TIME=datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+                 OS_VERSION=platform.release()))
+    time.sleep(1.25)
+
+
+def terminal_width_string(text: str) -> str:
+    term_size = get_terminal_size((80, 24))
+    width = term_size.columns - 4
+    resultant_array = textwrap.wrap(text, width)
+    return "\n    ".join(resultant_array)
+
+
+def clear_screen():
+    print("\033[H\033[J")
 
 
 def line_break(count):

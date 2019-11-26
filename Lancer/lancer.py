@@ -17,6 +17,8 @@ import signal
 import os
 import time
 import platform
+import ipaddress
+import socket
 
 
 def main():
@@ -24,36 +26,12 @@ def main():
         # Display the Legal disclaimer
         legal_disclaimer()
 
+    admin_check()
+
     # Get start time
     start_time = time.monotonic()
 
-    # Detect if we have a target list or just a single target
-    if config.args.target is None:
-        # Target list
-        targets = config.args.host_file.read().splitlines()
-
-        for target in targets:
-            if len(target.strip()) == 0:
-                continue
-            # Comments start with a hashtag
-            if len(target.strip()) > 0 and target[0] == "#":
-                continue
-
-            try:
-                target = Target(target)
-                execute(target)
-                target.stop_timer()
-            except ValueError as err:
-                print(utils.error_message(), err)
-            print()
-
-    else:
-        try:
-            target = Target(config.args.target)
-            execute(target)
-            target.stop_timer()
-        except ValueError as err:
-            print(utils.error_message(), err)
+    scan_targets()
 
     print(utils.normal_message(), "Lancer has finished system scanning")
     elapsed_time = time.monotonic() - start_time
@@ -104,17 +82,16 @@ def setup():
     if not os.path.exists(config.nikto_cache()):
         os.makedirs(config.nikto_cache())
 
-    if utils.is_user_admin() is False:
-        print(utils.warning_message(), "Lancer doesn't appear to being run with elevated permissions\n"
-                                       "    Some functionality may not work correctly\n")
-
 
 def legal_disclaimer():
-    print(utils.error_message(), "Legal Disclaimer: Usage of Lancer for attacking targets without prior mutual"
-                                   " authorisation is illegal.\n    It is the end user's responsibility to adhere to "
-                                   "all local and international laws.\n    The developer(s) of this tool assume no "
-                                   "liability and are not responsible for any misuse or damage\n    caused by the use"
-                                   "of this program")
+    disclaimer = utils.terminal_width_string(
+        "Legal Disclaimer: Usage of Lancer for attacking targets without prior mutual"
+        " authorisation is illegal. It is the end user's responsibility to adhere to all local"
+        " and international laws. The developer(s) of this tool assume no liability and are not"
+        " responsible for any misuse or damage caused by the use of this program"
+    )
+    print(utils.error_message(), disclaimer)
+
     agree = utils.input_message("Press [Y] to agree:")
     if agree.lower() != "y":
         print(utils.error_message(), "Legal disclaimer has not been accepted. Exiting...")
@@ -122,8 +99,62 @@ def legal_disclaimer():
     print("")
 
 
+def admin_check():
+    if utils.is_user_admin() is False:
+        non_admin_warning = utils.terminal_width_string("Lancer doesn't appear to being run with elevated"
+                                                        " permissions. Some functionality may not work"
+                                                        " correctly")
+        print(utils.warning_message(), non_admin_warning)
+    else:
+        print(utils.normal_message(), "Lancer running with elevated permissions")
+
+
+def scan_targets():
+    # Detect if we have a target list or just a single target
+    if config.args.target is None:
+        # Target list
+        targets = config.args.host_file.read().splitlines()
+
+        for target in targets:
+            if len(target.strip()) == 0:
+                continue
+            # Comments start with a hashtag
+            if len(target.strip()) > 0 and target[0] == "#":
+                continue
+
+            scan_target(target)
+
+    else:
+        scan_target(config.args.target)
+
+
+def scan_target(target: str):
+    try:
+        # See if the target is an IP network
+        ip_network = ipaddress.ip_network(target, strict=False)
+        if ip_network.version is 6:
+            print(utils.warning_message(), "IPv6 addresses are not yet supported\n")
+            return
+        for x in range(ip_network.num_addresses):
+            ip = ip_network[x]
+            target = Target(None, ip)
+            execute(target)
+            target.stop_timer()
+    except ValueError:
+        # It's not an IP address or a subnet,
+        # so most likely a hostname
+
+        hostname_info = socket.getaddrinfo(target, None, socket.AF_INET)
+        ip = ipaddress.ip_address(hostname_info[0][4][0])
+        target = Target(target, ip)
+        execute(target)
+        target.stop_timer()
+    print()
+
+
 def execute(target: Target):
-    config.current_target = target.ip
+    # TODO: Use hostname if module allows it
+    config.current_target = str(target.ip)
     # If we have passed an nmap xml file
     if config.args.nmapFile is not None:
         print(utils.normal_message(), "Loading nmap file")

@@ -26,37 +26,42 @@
 
 ### What is this?
 
-Lancer is a pentesting tool written in [Python 3](https://www.python.org/) which aims in automating and expediating recon and vulnerability scanning.
+Lancer is a pentesting tool written in [Python 3](https://www.python.org/) which aims to automate and expedite recon and vulnerability scanning.
 
 ### Sigh... Another pentesting tool? Why should I use this?
 
-The aim of Lancer is to take several tools which already exist, such as [Gobuster](https://github.com/OJ/gobuster/), [Nmap](https://github.com/nmap/nmap), [SMBMap](https://github.com/ShawnDEvans/smbmap) and [many](https://github.com/portcullislabs/enum4linux) [more](https://github.com/sullo/nikto), and intelligently detect which tools should be used depending on the results of a scan. This is meant to automate enumeration of a target and make the process of finding vulnerabilities a bit easier.
+The basis of Lancer is to take several tools which already exist, such as [Gobuster](https://github.com/OJ/gobuster/), [Nmap](https://github.com/nmap/nmap), [SMBMap](https://github.com/ShawnDEvans/smbmap) and [many](https://github.com/portcullislabs/enum4linux) [more](https://github.com/sullo/nikto), and intelligently detect which tools should be used depending on the results of a scan, as well as using custom modules to detect other information, such as Geolocation, SSL certificate extraction and more.
+
+This is designed to automate enumeration and analysis of a target/group of targets and make the process of finding vulnerabilities a bit easier.
 
 ## Limitations & Upcoming Features
 
 As Lancer is still very much in active development, there is currently limited functionality and it is not recommended for use in a commercial or real-world environment.
 
 This is a list of features which we intend to add support for:
-* ~~Nmap scanning~~ _Added in 0.0.1_
-* ~~Gobuster enumeration~~ _Added in 0.0.1_
-* ~~Searchsploit Nmap results~~ _Added in 0.0.1_
-* ~~Configuration file (.ini) for persistent configuration~~ _Added on develop branch for 0.0.2_
-* ~~FTP scanning/downloading files < 50mb~~ _Added in 0.0.2_
-* ~~Nikto support~~ _Added in 0.0.2_
-* ~~HTTPS support - certificate extraction, normal HTTP services scanning and enumeration~~ _Added in 0.0.3_
-* ~~Multiple targets from file support~~ _Added in 0.0.3_
-* ~~Convert domain name to IP~~ _Added in 0.0.3_
-* Write all output to file via -o parameter _Planned for 0.0.3_
-* SSH support - display fingerprint and SSH version _Planned for 0.0.3_
-* Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.4_
-* SMB enumeration with SMBClient/smbmap _Planned for 0.0.4_
-* Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.0.4_
-* Multi-language support _Planned for 0.0.5_
-* Nmap script level _Planned for 0.0.5_
-* enum4linux support _Planned for 0.0.5_
-* WPScan support _Planned for 0.0.6_
-* Metasploit RPC support _Coming soon_
-* Further services detection _Coming soon_
+* [X] Nmap scanning _Added in 0.0.1_
+* [X] Gobuster enumeration _Added in 0.0.1_
+* [X] Searchsploit Nmap results _Added in 0.0.1_
+* [X] Configuration file (.ini) for persistent configuration _Added in 0.0.2_
+* [X] FTP scanning/downloading files < 50mb _Added in 0.0.2_
+* [X] Nikto support _Added in 0.0.2_
+* [X] HTTPS support - certificate extraction, normal HTTP services scanning and enumeration _Added in 0.0.3_
+* [X] Multiple targets from file support _Added in 0.0.3_
+* [X] Convert domain name to IP _Added in 0.0.3_
+* [ ] Improved modularity by shifting to an OOP module approach _In Development - Planned for 0.0.3_
+* [ ] Write all output to file via -o parameter _Planned for 0.0.3_
+* [ ] IPv4 subnet support - `./lancer -T 192.168.0.0/24` _Planned for 0.0.4_
+* [ ] IPv6 support _Planned for 0.0.4_
+* [ ] SSH support - display fingerprint and SSH version _Planned for 0.0.4_
+* [ ] Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.4_
+* [ ] SMB enumeration with SMBClient/smbmap _Planned for 0.0.4_
+* [ ] Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.0.4_
+* [ ] Multi-language support _Planned for 0.0.5_
+* [ ] Nmap script level _Planned for 0.0.5_
+* [ ] enum4linux support _Planned for 0.0.5_
+* [ ] WPScan support _Planned for 0.0.6_
+* [ ] Metasploit RPC support _Coming soon_
+* [ ] Further services detection _Coming soon_
     * SQL
     * Telnet
     * SMTP
@@ -68,7 +73,7 @@ This is a list of features which we intend to add support for:
     * VNC
 	* RDP
 	* Active Directory
-* Further software which may be implemented upon evaluation:
+* [ ] Further software which may be implemented upon evaluation:
     * Amap
     * arp-scan
     * dnsenum/dnsmap/dnsrecon

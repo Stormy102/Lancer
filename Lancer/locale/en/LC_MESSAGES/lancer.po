@@ -1,0 +1,2 @@
+msgid "Lancer.Startup"
+msgstr "Initialising Lancer {VERSION} on {OS} {OS_VERSION}"

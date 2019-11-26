@@ -8,7 +8,7 @@
 
 __license__ = "GPL-3.0"
 
-from core import ArgHandler, config, winutils, utils, InvalidTarget
+from core import ArgHandler, config, winutils, utils
 from modules.legacy import nmap
 from core.Target import Target
 
@@ -58,7 +58,8 @@ def main():
     print(utils.normal_message(), "Lancer has finished system scanning")
     elapsed_time = time.monotonic() - start_time
 
-    print(utils.normal_message(), "Lancer took", time.strftime("%H:%M:%S", time.gmtime(elapsed_time)), "to complete")
+    print(utils.normal_message(), "Lancer took {TIME} to complete".
+          format(TIME=time.strftime("%H:%M:%S", time.gmtime(elapsed_time))))
 
     sys.exit(0)
 
@@ -67,25 +68,19 @@ def init():
     # Register the signal handler for a more graceful Ctrl+C
     signal.signal(signal.SIGINT, utils.signal_handler)
 
+    # Load the config file
+    config.load_config()
+
     # Parse the arguments
     ArgHandler.parse_arguments(sys.argv[1:])
 
-    # Load the config file
-    config.load_config()
+    # Check we're on a supported Python version
+    utils.python_version()
 
     # Update the Windows virtual terminal if necessary
     # If we're on Windows 10, import winutils
     if platform.system().lower() == "windows" and platform.release() == "10":
         winutils.update_windows_virtual_terminal()
-
-    # Check we're on a supported Python version
-    utils.python_version()
-
-    # Display the splash screen
-    """show_header = config.config['Main']['ShowHeader']
-    if show_header != 'no':
-        utils.print_header()
-    utils.version()"""
 
     # Language warning - not yet implemented
     if config.args.language_code != 'en':
@@ -116,10 +111,10 @@ def setup():
 
 def legal_disclaimer():
     print(utils.error_message(), "Legal Disclaimer: Usage of Lancer for attacking targets without prior mutual"
-                                 " authorisation is illegal.\n    It is the end user's responsibility to adhere to all"
-                                 " local and international laws.\n    The developer(s) of this tool assume no liability"
-                                 " and are not responsible for any misuse or damage\n    caused by the use of this"
-                                 "program")
+                                   " authorisation is illegal.\n    It is the end user's responsibility to adhere to "
+                                   "all local and international laws.\n    The developer(s) of this tool assume no "
+                                   "liability and are not responsible for any misuse or damage\n    caused by the use"
+                                   "of this program")
     agree = utils.input_message("Press [Y] to agree:")
     if agree.lower() != "y":
         print(utils.error_message(), "Legal disclaimer has not been accepted. Exiting...")

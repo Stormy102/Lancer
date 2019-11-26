@@ -1,4 +1,4 @@
-from core import Loot, ModuleProvider
+from core import Loot, ModuleProvider, localisation
 from modules.FTPAnonymousAccess import FTPAnonymousAccess
 from modules.FTPBanner import FTPBanner
 from modules.GeolocateIP import GeolocateIP
@@ -49,4 +49,3 @@ with open("loot.json", "w") as file:
 print(Loot.to_json())
 
 ModuleProvider.main()
-

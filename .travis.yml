@@ -48,6 +48,6 @@ install:
   - pip3 install -r requirements.txt
 # command to run tests
 script:
-  - pytest -v --cov-config=.coveragerc --cov=./
+  - pytest --cov-config=.coveragerc --cov=./
 after_success:
   - coveralls

@@ -4,9 +4,13 @@
 # LANGUAGE: Python
 # =========================================================================
 
+# Omit all of the tests from coverage
+# Omit winutils.py
+# Omit the legacy modules
+# Omit the __init__.py files
 [run]
 omit = 
-	Lancer/tests/* # Ignore all tests
-	Lancer/core/winutils.py # Cannot test on non-Windows platforms
-	Lancer/modules/legacy/* # Ignore all of the legacy files
-	*__init__* # Ignore the __init__.py files
+	Lancer/tests/*
+	Lancer/core/winutils.py
+	Lancer/modules/legacy/*
+	*__init__*

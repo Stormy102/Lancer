@@ -30,6 +30,8 @@ from modules.SMBClient import SMBClient
 from modules.Searchsploit import Searchsploit
 # noinspection PyUnresolvedReferences
 from modules.HTTPHeaders import HTTPHeaders
+# noinspection PyUnresolvedReferences
+from modules.GetHostname import GetHostname
 
 
 def main():

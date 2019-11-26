@@ -6,13 +6,23 @@
 """
 
 from modules.GeolocateIP import GeolocateIP
-
 from core import Loot
 
 
 def test_module_creation():
     geolocate_ip = GeolocateIP()
     assert geolocate_ip is not None
+
+
+def test_create_loot_space():
+    geolocate_ip = GeolocateIP()
+
+    ip = "1.1.1.1"
+
+    geolocate_ip.create_loot_space(ip, 0)
+
+    assert Loot.loot[ip] is not None
+    assert Loot.loot[ip][geolocate_ip.loot_name] is not None
 
 
 def test_should_run():
@@ -30,8 +40,6 @@ def test_get_valid_domain_name():
 
     geolocate_ip.execute(hostname, 0)
 
-    assert Loot.loot[hostname] is not None
-    assert Loot.loot[hostname][geolocate_ip.loot_name] is not None
     assert "Cloudflare" in Loot.loot[hostname][geolocate_ip.loot_name]["isp"]
 
 
@@ -43,8 +51,6 @@ def test_get_valid_ip():
 
     geolocate_ip.execute(hostname, 0)
 
-    assert Loot.loot[hostname] is not None
-    assert Loot.loot[hostname][geolocate_ip.loot_name] is not None
     assert "Cloudflare" in Loot.loot[hostname][geolocate_ip.loot_name]["isp"]
 
 
@@ -55,6 +61,4 @@ def test_get_invalid_ip():
 
     geolocate_ip.execute(hostname, 0)
 
-    assert Loot.loot[hostname] is not None
-    assert Loot.loot[hostname][geolocate_ip.loot_name] is not None
     assert not Loot.loot[hostname][geolocate_ip.loot_name]["isp"]

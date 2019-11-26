@@ -6,10 +6,9 @@
 """
 
 from modules.BaseModule import BaseModule
+from core import Loot
 
 import requests
-from core import Loot
-import json
 
 
 class HTTPHeaders(BaseModule):
@@ -36,7 +35,7 @@ class HTTPHeaders(BaseModule):
             response = requests.get(url)
             Loot.loot[ip][str(port)][self.loot_name] = dict(response.headers)
             self.logger.info("Successfully retrieved HTTP headers")
-        except requests.exceptions.ConnectionError as err:
+        except requests.exceptions.ConnectionError:
             self.logger.error("Unable to connect to {URL}".format(URL=url))
 
     def should_execute(self, service: str, port: int) -> bool:

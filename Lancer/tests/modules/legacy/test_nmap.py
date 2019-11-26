@@ -1,4 +1,4 @@
-from modules.legacy import nmap
+"""from modules.legacy import nmap
 
 # import lancerargs
 import os
@@ -7,18 +7,18 @@ import io
 import sys
 
 # TODO: Figure out a way to do Nmap tests reliably on Travis
-"""def test_nmap():
+""""""def test_nmap():
     lancerargs.parse_arguments(['-T', 'scanme.nmap.org'])
     nmap.nmap_scan(False)
 
 
 def test_nmap_quiet():
     lancerargs.parse_arguments(['-T', 'scanme.nmap.org'])
-    nmap.nmap_scan(True)"""
+    nmap.nmap_scan(True)""""""
 
 
 def test_parse_up_no_ports_nmap_scan():
-    xml_output = """<?xml version="1.0" encoding="UTF-8"?>
+    xml_output = """"""<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///C:/Program Files (x86)/Nmap/nmap.xsl" type="text/xsl"?>
 <!-- Nmap 7.70 scan initiated Sat Aug 24 00:07:31 2019 as: nmap -sS -sV -oX nmap\\nmap-127.0.0.1-quiet.xml 127.0.0.1 -->
@@ -39,7 +39,7 @@ def test_parse_up_no_ports_nmap_scan():
 <runstats><finished time="1566601670" timestr="Sat Aug 24 00:07:50 2019" elapsed="18.58" summary="Nmap done at Sat Aug 24 00:07:50 2019; 1 IP address (1 host up) scanned in 18.58 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
 </runstats>
 </nmaprun>
-"""
+""""""
     file_descriptor, file_path = tempfile.mkstemp(suffix='.tmp')
 
     open_file = os.fdopen(file_descriptor, 'w')
@@ -69,4 +69,4 @@ def test_parse_down_nmap_scan():
     nmap.parse_nmap_scan(file_path)
     sys.stdout = sys.__stdout__
     os.unlink(file_path)
-    assert "unreachable" in captured_output.getvalue()
+    assert "unreachable" in captured_output.getvalue()"""

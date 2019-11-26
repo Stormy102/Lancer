@@ -1,4 +1,4 @@
-from core import Loot, ModuleProvider, localisation
+from core import Loot, ModuleProvider  # , localisation
 from modules.FTPAnonymousAccess import FTPAnonymousAccess
 from modules.FTPBanner import FTPBanner
 from modules.GeolocateIP import GeolocateIP
@@ -6,6 +6,7 @@ from modules.Gobuster import Gobuster
 from modules.HTTPHeaders import HTTPHeaders
 from modules.Nikto import Nikto
 from modules.SSLCertificateExtractor import SSLCertificateExtractor
+from modules.GetHostname import GetHostname
 from modules.Nmap import Nmap
 
 nmap = Nmap()
@@ -42,6 +43,9 @@ nikto.execute('speedtest.tele2.net', 80)"""
 
 headers = HTTPHeaders()
 headers.execute("www.mdawson.dev", 443)
+
+hostname = GetHostname()
+hostname.execute("127.0.0.1", 0)
 
 with open("loot.json", "w") as file:
     file.write(Loot.to_json())

@@ -1,4 +1,4 @@
-from modules.legacy import ftp
+"""from modules.legacy import ftp
 
 import ftplib
 from core import ArgHandler, config
@@ -45,7 +45,7 @@ def test_download_file():
         warnings.warn("speedtest.tele2.net timed out")
 
 
-"""def test_download_files():
+""""""def test_download_files():
     # TODO: Clean ftp directory
     try:
         ftp_client = ftplib.FTP('speedtest.tele2.net')

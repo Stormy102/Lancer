@@ -50,15 +50,15 @@ This is a list of features which we intend to add support for:
 * [X] Convert domain name to IP _Added in 0.0.3_
 * [X] IPv4/IPv6 subnet support - `./lancer -T 192.168.0.0/24` _Added in 0.0.3_
 * [X] HTTP Service Headers _Added in 0.0.3_
-* [ ] Get Host Name Module _Planned for 0.0.3_
-* [ ] HTTP Request methods module _Planned for 0.0.3_
+* [X] Get Host Name Module _Added in 0.0.3_
 * [ ] ***In Development*** Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Planned for 0.0.3_
 * [ ] ***In Development*** Improved modularity by shifting to an OOP module approach _Planned for 0.0.3_
-* [ ] WhoIs Module (https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.0.3_
-* [ ] Page Links Module (https://api.hackertarget.com/pagelinks/?q={HOST}) _Planned for 0.0.3_
+* [ ] HTTP Request methods module _Planned for 0.0.3_
+* [ ] WhoIs Module (Maybe use https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.0.3_
+* [ ] Page Links Module (Maybe use https://api.hackertarget.com/pagelinks/?q={HOST}) _Planned for 0.0.3_
 * [ ] RPCClient Null Session module _Planned for 0.0.3_
 * [ ] Write output to file via -o parameter _Planned for 0.0.3_
-* [ ] Output results via JSON _Planned for 0.0.3_
+* [ ] Output results via JSON to /cache/[TIME]/loot.json _Planned for 0.0.3_
 * [ ] Output results via terminal console _Planned for 0.0.3_
 * [ ] Split into blind and targeted modules - blind modules require only a hostname/IP and port, while targeted modules can execute after the blind modules using information potentially harvested from blind modules _Planned for 0.0.4_
 * [ ] Modules use hostname and/or IP address correctly _Planned for 0.0.4_

@@ -6,7 +6,7 @@
 
 [run]
 omit = 
-	Lancer/tests/*
-	Lancer/winutils.py # Cannot test on non-Windows platforms
-	Lancer/modules/legacy/*
-	*__init__*
+	Lancer/tests/* # Ignore all tests
+	Lancer/core/winutils.py # Cannot test on non-Windows platforms
+	Lancer/modules/legacy/* # Ignore all of the legacy files
+	*__init__* # Ignore the __init__.py files

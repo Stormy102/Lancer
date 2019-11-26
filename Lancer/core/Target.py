@@ -18,7 +18,7 @@ class Target(object):
         try:
             socket.gethostbyname(target)
         except socket.gaierror:
-            raise InvalidTarget(target + " is not a valid hostname or IPv4 address")
+            raise InvalidTarget("{TARGET} is not a valid hostname or IPv4 address".format(TARGET=target))
 
         print()
 
@@ -29,12 +29,13 @@ class Target(object):
         self.time_taken = None
         # TODO: Use hostname if module allows it
         self.ip = socket.gethostbyname(target)
-        print(utils.normal_message(), "Starting analysis of", self.target, "(" + self.ip + ")...")
+        print(utils.normal_message(), "Starting analysis of {HOST} ({IP})...".format(HOST=self.target, IP=self.ip))
 
     def stop_timer(self):
         self.finish_time = time.monotonic()
         self.elapsed_time = self.finish_time - self.start_time
         self.time_taken = time.strftime("%H:%M:%S", time.gmtime(self.elapsed_time))
 
-        print(utils.normal_message(), "Finished analysis of", self.target, "(" + self.ip + ")...")
-        print(utils.normal_message(), "Analysis of", self.target, "took", self.time_taken)
+        print(utils.normal_message(), "Finished analysis of {HOST} ({IP})".format(HOST=self.target, IP=self.ip))
+        print(utils.normal_message(), "Analysis of {TARGET} took {TIME}"
+              .format(TARGET=self.target, TIME=self.time_taken))

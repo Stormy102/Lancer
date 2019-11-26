@@ -19,18 +19,18 @@ def signal_handler(signal: int, frame):
 
 def program_installed(name, critical):
     if config.args.verbose:
-        print(normal_message(), "Checking if", name, "is installed...")
+        print(normal_message(), "Checking if {PROGRAM} is installed...".format(PROGRAM=name))
 
     if which(name.lower()) is None:
         if critical:
-            print(error_message(), name, "is not installed, halting...\n")
+            print(error_message(), "{PROGRAM} is not installed, halting...\n".format(PROGRAM=name))
             sys.exit(1)
         else:
-            print(warning_message(), name, "is not installed, skipping...")
+            print(warning_message(), "{PROGRAM} is not installed, skipping...".format(PROGRAM=name))
             return False
 
     if config.args.verbose:
-        print(normal_message(), name, "is installed, continuing...")
+        print(normal_message(), "{PROGRAM} is installed, continuing...".format(PROGRAM=name))
     return True
 
 
@@ -117,7 +117,7 @@ def get_foreground_color(foreground):
     elif foreground.lower() == "purple":
         return "35"
     elif foreground.lower() == "cyan":
-        return"36"
+        return "36"
     elif foreground.lower() == "black":
         return "30"
     else:
@@ -183,12 +183,15 @@ def print_header():
 
 
 def version():
-    print(color("[+]", "Green"), "Starting Lancer", config.__version__, "on", socket.gethostname(),
-          "(" + platform.system(), platform.release() + ")", "\n    at", datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-          end=' ')
+    print(normal_message(), "Initialising Lancer {VERSION} on {OS} {OS_VERSION}".
+          format(VERSION=config.__version__,
+                 OS=platform.system(),
+                 OS_VERSION=platform.release()), end=' ')
     with Spinner():
         time.sleep(1)
-    print("")
+    print()
+    print(normal_message(), "Starting Lancer at {TIME}"
+          .format(TIME=datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
 
 def line_break(count):

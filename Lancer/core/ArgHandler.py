@@ -16,7 +16,7 @@ def parse_arguments(args):
 
     if len(args) is 1 and args[0] == "--version":
         utils.print_header()
-        print(utils.normal_message(), "Lancer", config.__version__)
+        print(utils.normal_message(), "Lancer {VERSION}".format(VERSION=config.__version__))
         sys.exit(0)
 
     utils.print_header()

@@ -21,6 +21,8 @@ class Nikto(BaseModule):
     def execute(self, ip: str, port: int) -> None:
         self.create_loot_space(ip, port)
 
+        self.logger.debug("Starting Nikto against {IP}:{PORT}".format(IP=ip, PORT=port))
+
     def should_execute(self, service: str, port: int) -> bool:
         if service is "http":
             return True

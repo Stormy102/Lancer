@@ -23,8 +23,9 @@ class GeolocateIP(BaseModule):
 
     def execute(self, ip: str, port: int) -> None:
         self.create_loot_space(ip, port)
-
+        self.logger.debug("Contacting tools.keycdn.com for target geolocation information")
         response = requests.get("https://tools.keycdn.com/geo.json?host={HOST}".format(HOST=ip))
+        self.logger.debug("Successfully retrieved target information")
         data = json.loads(response.text)
         geo_info = data["data"]["geo"]
         Loot.loot[ip][self.loot_name] = geo_info

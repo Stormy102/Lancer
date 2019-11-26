@@ -19,6 +19,7 @@ import time
 import platform
 import ipaddress
 import socket
+import logging
 
 
 def main():

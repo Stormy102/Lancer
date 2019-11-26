@@ -57,13 +57,13 @@ def execute_modules():
             port = 0
 
             if module.should_execute(service, port):
-                print(utils.normal_message(), "Executing", module.name)
+                print(utils.normal_message(), "Executing {PROGRAM}".format(PROGRAM=module.name))
                 module.execute(ip, port)
 
         elif run_state is ModuleExecuteState.CannotExecute:
             raise CriticalProgramNotInstalled("{PROGRAM} is not installed".format(PROGRAM=module.name))
         else:
-            print(utils.warning_message(), module.name, "is not installed, skipping...")
+            print(utils.warning_message(), "{PROGRAM} is not installed, skipping...".format(PROGRAM=module.name))
 
 
 def get_modules() -> list:

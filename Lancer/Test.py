@@ -9,15 +9,15 @@ from modules.Nmap import Nmap
 
 nmap = Nmap()
 
-# ftpanon = FTPAnonymousAccess()
-# ftpanon.execute("speedtest.tele2.net", 21)
+ftpanon = FTPAnonymousAccess()
+ftpanon.execute("speedtest.tele2.net", 21)
 
 ftpbanner = FTPBanner()
 ftpbanner.execute("speedtest.tele2.net", 21)
 
 geo_ip = GeolocateIP()
 geo_ip.execute("speedtest.tele2.net", 80)
-"""geo_ip.execute("207.180.207.193", 80)
+geo_ip.execute("207.180.207.193", 80)
 geo_ip.execute("self-signed.badssl.com", 80)
 geo_ip.execute("expired.badssl.com", 80)
 geo_ip.execute("c2.mdawson.dev", 80)
@@ -42,7 +42,7 @@ nikto.execute('207.180.207.193', 80)
 nikto.execute('207.180.207.193', 443)
 nikto.execute('expired.badssl.com', 443)
 nikto.execute("self-signed.badssl.com", 443)
-nikto.execute('speedtest.tele2.net', 80)"""
+nikto.execute('speedtest.tele2.net', 80)
 
 with open("loot.json", "w") as file:
     file.write(Loot.to_json())

@@ -76,6 +76,8 @@ class Gobuster(BaseModule):
             return True
         if port is 80:
             return True
+        if port is 443:
+            return True
         if port is 8080:
             return True
         if port is 8008:

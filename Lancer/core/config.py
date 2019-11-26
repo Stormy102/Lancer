@@ -11,10 +11,14 @@
 # Make sure to update the README.MD when changing this
 __version__ = "0.0.3 Alpha"
 
+from core import utils
+
 import argparse
 import os
 import configparser
 import pathlib
+import logging
+import datetime
 
 
 def get_config_parser():
@@ -74,6 +78,21 @@ def get_config_path():
     return os.path.join(path, "config.ini")
 
 
+def get_log_path():
+    # Convert pathlib.Path.home() to str to avoid join error
+    # as pathlib.Path.home() appears to be a PosixPath instead
+    # of a string in Python 3.5
+    # TODO: Remove str() when dropping Python 3.5 support
+    path = os.path.join(str(pathlib.Path.home()), ".lancer")
+    if not os.path.exists(path):
+        os.mkdir(path)
+    path = os.path.join(path, "logs")
+    if not os.path.exists(path):
+        os.mkdir(path)
+    time = datetime.datetime.now().strftime('%Y-%m-%dT%H-%M-%S')
+    return os.path.join(path, "lancer-{TIME}.log".format(TIME=time))
+
+
 def nmap_cache():
     if args.cache_root != "":
         return os.path.join(args.cache_root, "nmap")
@@ -102,6 +121,24 @@ def ftp_cache():
     return config['File']['FTPCache']
 
 
+def get_logger(name: str) -> logging.Logger:
+    logger = logging.getLogger(name)
+    console_logger = logging.StreamHandler()
+    formatter = logging.Formatter(utils.error_message() + ' %(message)s')
+    console_logger.setFormatter(formatter)
+    console_logger.setLevel(logging.ERROR)
+
+    logger.addHandler(console_logger)
+
+    return logger
+
+
 args = argparse.Namespace
 config = get_config_parser()
 current_target = None
+
+logging.basicConfig(filename=get_log_path(),
+                    filemode='w',
+                    level=logging.DEBUG,
+                    format='[%(asctime)s - %(levelname)s - %(name)s] %(message)s',
+                    datefmt='%Y-%m-%dT%H:%M:%S')

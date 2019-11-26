@@ -6,12 +6,14 @@
 """
 from modules.BaseModule import BaseModule
 from core.spinner import Spinner
+from core import config, utils, Loot
 
 import ftplib
-from core import config, utils, Loot
 import io
 import sys
 import os
+import socket
+import mimetypes
 
 
 class FTPAnonymousAccess(BaseModule):
@@ -25,54 +27,69 @@ class FTPAnonymousAccess(BaseModule):
 
     def execute(self, ip: str, port: int) -> None:
         self.create_loot_space(ip, port)
-
-        ftp_client = ftplib.FTP()
-        ftp_client.connect(ip, port)
-        ftp_client.login()
-        self.download_files(ftp_client, Loot.loot[ip][str(port)][self.loot_name])
-        ftp_client.quit()
+        try:
+            ftp_client = ftplib.FTP()
+            self.logger.debug("Connecting to {IP}:{PORT}".format(IP=ip, PORT=port))
+            ftp_client.connect(ip, port)
+            self.logger.info("Successfully connected to {IP}:{PORT}".format(IP=ip, PORT=port))
+            self.logger.debug("Attempting to login anonymously")
+            ftp_client.login()
+            self.logger.info("Successfully logged in anonymously to {IP}:{PORT}".format(IP=ip, PORT=port))
+            self.logger.debug("Starting to downloading files under 50mb from {IP}:{PORT}".format(IP=ip, PORT=port))
+            self.download_files(ftp_client, Loot.loot[ip][str(port)][self.loot_name])
+            self.logger.info("Finished downloading files under 50mb from {IP}:{PORT}".format(IP=ip, PORT=port))
+            ftp_client.quit()
+            self.logger.debug("Disconnected from {IP}:{PORT}".format(IP=ip, PORT=port))
+        except socket.gaierror:
+            # Log of some kind
+            self.logger.error("Failed to connect: Invalid IP Address/Hostname")
+        except ConnectionRefusedError:
+            # Log of some kind
+            self.logger.error("Failed to connect: Connection refused")
+        except TimeoutError:
+            # Log of some kind
+            self.logger.error("Failed to connect: Connection timed out")
 
     def download_files(self, ftp_client, dictionary: dict):
-        # print(utils.normal_message(), "Downloading all files under 50mb into FTP cache...")
-
         files = self.get_folder_contents(ftp_client)
 
-        # print(utils.warning_message(), len(files), "files found")
+        self.logger.info("{FILE_COUNT} files found".format(FILE_COUNT=len(files)))
 
         if len(files) > 0:
             dictionary["Files"] = []
             for filename in files:
                 dictionary["Files"].append(filename)
-
+            # TODO: Customise file size limit instead of defaulting to 50mb
             sanitised_ftp_files, files_too_large = self.remove_files_over_size(ftp_client, files)
 
-            # print(utils.warning_message(), len(files_too_large), "files over 50mb")
-            # print(utils.normal_message(), len(sanitised_ftp_files), "files under 50mb")
+            self.logger.info("{FILE_COUNT} file(s) under 50mb".format(FILE_COUNT=len(sanitised_ftp_files)))
+            self.logger.info("{FILE_COUNT} file(s) bigger or equal to 50mb".format(FILE_COUNT=len(files_too_large)))
 
-            #if config.args.verbose:
-            #    for large_file in files_too_large:
-            #        file_name, file_ext = os.path.splitext(large_file)
-            #        file_type = mimetypes.guess_type(large_file)[0]
-            #        if file_type is not None:
-            #            file_type = str(file_type)
-            #        else:
-            #            file_type = "Unknown - " + file_ext
-
-            #        print(utils.warning_message(), file_name, "(" + file_type + ") is too large to download")
+            for large_file in files_too_large:
+                file_name, file_ext = os.path.splitext(large_file)
+                file_type = mimetypes.guess_type(large_file)[0]
+                if file_type is not None:
+                    file_type = str(file_type)
+                else:
+                    file_type = "Unknown Python mimetype - extension {EXT}".format(EXT=file_ext)
+                self.logger.debug("{FILE} ({TYPE}) too big to download".format(FILE=file_name + file_ext,
+                                                                               TYPE=file_type))
 
             dictionary["Downloaded Files"] = []
             for filename in sanitised_ftp_files:
+                self.logger.debug("Downloading {FILE} ".format(FILE=filename))
                 dictionary["Downloaded Files"].append(filename)
-                #print(utils.normal_message(), "Downloading", filename, end=' ')
-                #self.download_file(ftp_client, filename)
+
+                # print(utils.normal_message(), "Downloading", filename, end=' ')
+                # self.download_file(ftp_client, filename)
                 # Clear the "Downloading..." file line
-                #sys.stdout.write('\x1b[2K\r')
-                #sys.stdout.flush()
-                #print(utils.normal_message(), "Downloaded", filename, "to FTP cache")
+                # sys.stdout.write('\x1b[2K\r')
+                # sys.stdout.flush()
+                self.logger.info("Downloaded {FILE} to FTP cache".format(FILE=filename))
 
             # print(utils.normal_message(), "Finished downloading all files under 50mb into FTP cache")
         else:
-            print(utils.normal_message(), "No files to download")
+            self.logger.info("No files to download")
 
     def get_folder_contents(self, ftp_client, path=''):
         directories = []

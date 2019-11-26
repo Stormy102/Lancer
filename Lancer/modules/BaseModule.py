@@ -8,7 +8,7 @@
 from modules.ModuleExecuteState import ModuleExecuteState
 from shutil import which
 
-from core import Loot
+from core import Loot, config
 
 
 class BaseModule(object):
@@ -25,6 +25,10 @@ class BaseModule(object):
         self.intrusive = intrusive
         self.critical_module = critical
 
+        self.logger = config.get_logger(name)
+
+        self.logger.debug("Created {NAME} module instance".format(NAME=name))
+
     def execute(self, ip: str, port: int) -> None:
         # Add to central repository of loot
         return None
@@ -37,6 +41,7 @@ class BaseModule(object):
             Loot.loot[ip][str_port] = {}
         if self.loot_name not in Loot.loot[ip][str_port]:
             Loot.loot[ip][str_port][self.loot_name] = {}
+        self.logger.debug("Created {NAME} loot space".format(NAME=self.name))
 
     def should_execute(self, service: str, port: int) -> bool:
         return True
@@ -53,9 +58,13 @@ class BaseModule(object):
             if which(program.lower()) is None:
                 # If this is a critical module, we need to ensure that we halt here
                 if self.critical_module:
+                    self.logger.error("Critical program {PROGRAM} not installed, halting...".
+                                        format(PROGRAM=program, MODULE=self.name))
                     return ModuleExecuteState.CannotExecute
                 # This isn't a critical value, so skip execution
                 else:
+                    self.logger.warning("{PROGRAM} not installed, skipping module {MODULE}...".
+                                        format(PROGRAM=program, MODULE=self.name))
                     return ModuleExecuteState.SkipExecute
 
         # We have found all of the required programs, so we can execute this module

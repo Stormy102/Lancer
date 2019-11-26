@@ -24,6 +24,12 @@ from modules.Gobuster import Gobuster
 from modules.Nikto import Nikto
 # noinspection PyUnresolvedReferences
 from modules.SSLCertificateExtractor import SSLCertificateExtractor
+# noinspection PyUnresolvedReferences
+from modules.SMBClient import SMBClient
+# noinspection PyUnresolvedReferences
+from modules.Searchsploit import Searchsploit
+# noinspection PyUnresolvedReferences
+from modules.HTTPHeaders import HTTPHeaders
 
 
 def main():

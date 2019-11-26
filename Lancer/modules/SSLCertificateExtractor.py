@@ -52,7 +52,6 @@ class SSLCertificateExtractor(BaseModule):
             sock_ssl.do_handshake()
             self.logger.info("Negotiated SSL handshake with {IP}:{PORT}".format(IP=ip, PORT=port))
         except OpenSSL.SSL.Error:
-            # TODO: Don't quietly return
             self.logger.error("Unable to negotiate SSL2/3 handshake with server")
             return
         cert = sock_ssl.get_peer_certificate()

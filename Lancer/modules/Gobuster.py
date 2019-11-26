@@ -70,16 +70,16 @@ class Gobuster(BaseModule):
                     Loot.loot[ip][str(port)][self.loot_name].append(result)
 
     def should_execute(self, service: str, port: int) -> bool:
-        if service is "http":
+        if service == "http":
             return True
-        if service is "ssl/https":
+        if service == "ssl/https":
             return True
-        if port is 80:
+        if port == 80:
             return True
-        if port is 443:
+        if port == 443:
             return True
-        if port is 8080:
+        if port == 8080:
             return True
-        if port is 8008:
+        if port == 8008:
             return True
         return False

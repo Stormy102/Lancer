@@ -49,11 +49,25 @@ This is a list of features which we intend to add support for:
 * [X] Multiple targets from file support _Added in 0.0.3_
 * [X] Convert domain name to IP _Added in 0.0.3_
 * [X] IPv4/IPv6 subnet support - `./lancer -T 192.168.0.0/24` _Added in 0.0.3_
+* [X] HTTP Service Headers _Added in 0.0.3_
+* [ ] Get Host Name Module _Planned for 0.0.3_
+* [ ] HTTP Request methods module _Planned for 0.0.3_
 * [ ] ***In Development*** Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Planned for 0.0.3_
 * [ ] ***In Development*** Improved modularity by shifting to an OOP module approach _Planned for 0.0.3_
-* [ ] Modules use hostname and/or IP address correctly _Planned for 0.0.3_
+* [ ] WhoIs Module (https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.0.3_
+* [ ] Page Links Module (https://api.hackertarget.com/pagelinks/?q={HOST}) _Planned for 0.0.3_
+* [ ] RPCClient Null Session module _Planned for 0.0.3_
 * [ ] Write output to file via -o parameter _Planned for 0.0.3_
+* [ ] Output results via JSON _Planned for 0.0.3_
+* [ ] Output results via terminal console _Planned for 0.0.3_
+* [ ] Split into blind and targeted modules - blind modules require only a hostname/IP and port, while targeted modules can execute after the blind modules using information potentially harvested from blind modules _Planned for 0.0.4_
+* [ ] Modules use hostname and/or IP address correctly _Planned for 0.0.4_
+* [ ] RPCClient User Enumeration _Planned for 0.0.4_
+* [ ] Dig zone transfer _Planned for 0.0.4_
+* [ ] Anonymous LDAP _Planned for 0.0.4_
+* [ ] SSLScan for HTTPS _Planned for 0.0.4_
 * [ ] SSH support - display fingerprint and SSH version _Planned for 0.0.4_
+* [ ] Generate HTML report _Planned for 0.0.4_
 * [ ] Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.4_
 * [ ] SMB enumeration with SMBClient/smbmap _Planned for 0.0.4_
 * [ ] Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.0.4_
@@ -62,6 +76,7 @@ This is a list of features which we intend to add support for:
 * [ ] Nmap script level _Planned for 0.0.5_
 * [ ] enum4linux support _Planned for 0.0.5_
 * [ ] WPScan support _Planned for 0.0.6_
+* [ ] Open X11 module _Planned for 0.0.6_
 * [ ] Metasploit RPC support _Coming soon_
 * [ ] Further services detection _Coming soon_
     * SQL

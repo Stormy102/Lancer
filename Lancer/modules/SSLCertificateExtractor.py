@@ -188,8 +188,12 @@ class SSLCertificateExtractor(BaseModule):
     def should_execute(self, service: str, port: int) -> bool:
         if port == 443:
             return True
+        if port == 8443:
+            return True
         if service == "ssl/https":
             return True
         if service == "https":
+            return True
+        if service == "https-alt":
             return True
         return False

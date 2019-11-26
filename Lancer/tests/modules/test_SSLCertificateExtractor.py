@@ -31,10 +31,23 @@ def test_should_run_service_https():
     assert result is True
 
 
+def test_should_execute_service_https_alt():
+    cert_extract = SSLCertificateExtractor()
+    assert cert_extract.should_execute("https-alt", 1337) is True
+
+
 def test_should_run_port():
     cert_extract = SSLCertificateExtractor()
 
     result = cert_extract.should_execute("http", 443)
+
+    assert result is True
+
+
+def test_should_run_alt_port():
+    cert_extract = SSLCertificateExtractor()
+
+    result = cert_extract.should_execute("secure-http", 8443)
 
     assert result is True
 

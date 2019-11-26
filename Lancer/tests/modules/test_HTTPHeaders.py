@@ -25,6 +25,16 @@ def test_should_execute_service_https():
     assert headers.should_execute("ssl/https", 1337) is True
 
 
+def test_should_execute_service_http_proxy():
+    headers = HTTPHeaders()
+    assert headers.should_execute("http-proxy", 1337) is True
+
+
+def test_should_execute_service_https_alt():
+    headers = HTTPHeaders()
+    assert headers.should_execute("https-alt", 1337) is True
+
+
 def test_should_execute_port_80():
     headers = HTTPHeaders()
     assert headers.should_execute("web-service", 80) is True
@@ -43,6 +53,11 @@ def test_should_execute_port_8008():
 def test_should_execute_port_8080():
     headers = HTTPHeaders()
     assert headers.should_execute("web-service", 8080) is True
+
+
+def test_should_execute_port_8443():
+    headers = HTTPHeaders()
+    assert headers.should_execute("web-service", 8443) is True
 
 
 def test_should_not_execute():
@@ -69,6 +84,20 @@ def test_get_https():
 
     hostname = "www.google.com"
     port = 443
+
+    headers.execute(hostname, port)
+
+    port = str(port)
+
+    assert Loot.loot[hostname][port][headers.loot_name] is not None
+    assert isinstance(Loot.loot[hostname][port][headers.loot_name], dict)
+
+
+def test_get_non_standard():
+    headers = HTTPHeaders()
+
+    hostname = "www.facepunch.com"
+    port = 8080
 
     headers.execute(hostname, port)
 

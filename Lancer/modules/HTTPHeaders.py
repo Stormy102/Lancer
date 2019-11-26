@@ -43,6 +43,10 @@ class HTTPHeaders(BaseModule):
             return True
         if service == "ssl/https":
             return True
+        if service == "http-proxy":
+            return True
+        if service == "https-alt":
+            return True
         if port == 80:
             return True
         if port == 443:
@@ -50,5 +54,7 @@ class HTTPHeaders(BaseModule):
         if port == 8080:
             return True
         if port == 8008:
+            return True
+        if port == 8443:
             return True
         return False

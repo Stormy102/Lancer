@@ -5,12 +5,14 @@
 # =========================================================================
 
 # Omit all of the tests from coverage
-# Omit winutils.py
+# Omit winutils.py - won't run on Travis
+# Omit spinner.py - UI is near impossible to test
 # Omit the legacy modules
 # Omit the __init__.py files
 [run]
 omit = 
 	Lancer/tests/*
 	Lancer/core/winutils.py
+	Lancer/core/spinner.py
 	Lancer/modules/legacy/*
 	*__init__*

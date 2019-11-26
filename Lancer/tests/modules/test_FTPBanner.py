@@ -85,7 +85,23 @@ def test_get_banner_invalid():
     banner = FTPBanner()
     Loot.reset()
 
-    hostname = "ftp.invali.de"
+    hostname = "256.128.63.32"
+    port = 21
+
+    banner.execute(hostname, port)
+
+    port = str(port)
+
+    assert Loot.loot[hostname] is not None
+    assert Loot.loot[hostname][port] is not None
+    assert Loot.loot[hostname][port][banner.loot_name] is not None
+
+
+def test_get_banner_timeout():
+    banner = FTPBanner()
+    Loot.reset()
+
+    hostname = "256.128.63.32"
     port = 21
 
     banner.execute(hostname, port)

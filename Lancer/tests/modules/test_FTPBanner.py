@@ -9,6 +9,7 @@ from modules.FTPBanner import FTPBanner
 
 from core import Loot
 import warnings
+import socket
 
 
 def test_module_creation():

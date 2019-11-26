@@ -26,8 +26,7 @@ class FTPBanner(BaseModule):
 
         ftp_client = ftplib.FTP()
         try:
-            ftp_client.connect(ip, port)
-            # print(utils.warning_message(), "FTP Server banner:", ftp_client.getwelcome()[4:])
+            ftp_client.connect(ip, port, timeout=30)
             Loot.loot[ip][str(port)][self.loot_name]["Banner"] = ftp_client.getwelcome()\
                 .replace("220-", "")\
                 .replace("220 ", "") # Get rid of FTP codes beforehand

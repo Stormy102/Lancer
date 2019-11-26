@@ -57,6 +57,13 @@ def test_line_break():
     assert "\n" in captured_output.getvalue()
 
 
+def test_python_version():
+    try:
+        utils.python_version()
+    except SystemExit:
+        pytest.fail()
+
+
 def test_get_valid_http_code():
     code = utils.get_http_code(404)
     assert "Not Found" in code
@@ -176,6 +183,10 @@ def test_background_invalid():
 
 def test_color_background():
     assert "46" in utils.color("Lorem ipsum dolar sit amet", "White", "Cyan")
+
+
+def test_color_style():
+    assert "37" in utils.color("Lorem ipsum dolar sit amet", style="bold")
 
 
 def test_is_valid_target_valid():

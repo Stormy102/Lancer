@@ -5,11 +5,11 @@
     See the file 'LICENCE' for copying permissions
 """
 
-import json
 
-loot = {}
+class Report(object):
 
+    def __init__(self):
+        pass
 
-def reset():
-    global loot
-    loot = {}
+    def generate_report(self, data: dict) -> None:
+        pass

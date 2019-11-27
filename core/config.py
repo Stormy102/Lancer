@@ -144,6 +144,13 @@ def get_module_cache(name: str, target: str) -> str:
     return path
 
 
+def get_report_folder() -> str:
+    path = os.path.join(get_current_cache_path(), "reports")
+    if not os.path.exists(path):
+        os.mkdir(path)
+    return path
+
+
 def get_logger(name: str) -> logging.Logger:
     logger = logging.getLogger(name)
     console_logger = logging.StreamHandler()

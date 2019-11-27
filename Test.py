@@ -30,7 +30,7 @@ cert.execute("c2.mdawson.dev", 443)
 cert.execute("self-signed.badssl.com", 443)
 cert.execute("expired.badssl.com", 443)
 
-# gobuster = Gobuster()
+gobuster = Gobuster()
 # gobuster.execute("localhost", 80)
 # gobuster.execute('expired.badssl.com', 443)
 # gobuster.execute("self-signed.badssl.com", 443)
@@ -55,8 +55,6 @@ options.execute("www.mdawson.dev", 443)
 links = GetWebsiteLinks()
 links.execute("mdawson.dev", 80)
 
-with open("loot.json", "w") as file:
-    file.write(Loot.to_json())
 # print(Loot.to_json())
 
 # ModuleProvider.main()

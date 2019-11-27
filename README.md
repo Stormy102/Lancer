@@ -1,5 +1,7 @@
 # Lancer v0.0.3 Alpha
 
+![Lancer in action](.github/images/lancer-header.png)
+
 <p align="center">
   <a href="#introduction">Introduction</a> •
   <a href="#limitations--upcoming-features">Features</a> •
@@ -13,13 +15,13 @@
 |Develop|[![Develop Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=develop)](https://travis-ci.com/Stormy102/Lancer)|[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg?branch=develop)](https://coveralls.io/github/Stormy102/Lancer?branch=develop)|[![Develop Code Quality](https://codebeat.co/badges/10ed4785-93e2-47ad-8504-827f22c74aa1.svg)](https://codebeat.co/projects/github-com-stormy102-lancer-develop)|[![Last Develop Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer/develop.svg)]()|
 
 <!--- See for dropping Python 3.5 support https://devguide.python.org/#status-of-python-branches -->
-[![Python Versions](https://img.shields.io/badge/python-3.5|3.6|3.7|3.8-blue.svg)]()
+[![Python Versions](https://img.shields.io/badge/python-3.5|3.6|3.7|3.8-blue.svg)](#)
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
-[![Status](https://img.shields.io/badge/status-Pre%20Release-red.svg)]()
-[![Releases](https://img.shields.io/github/v/release/Stormy102/Lancer?include_prereleases)]()
-[![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)]()
+[![Status](https://img.shields.io/badge/status-Pre%20Release-red.svg)](https://github.com/Stormy102/Lancer/releases)
+[![Releases](https://img.shields.io/github/v/release/Stormy102/Lancer?include_prereleases)](https://github.com/Stormy102/Lancer/releases)
+[![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)](#)
 [![Known Vulnerabilities](https://snyk.io//test/github/Stormy102/Lancer/badge.svg?targetFile=requirements.txt)](https://snyk.io//test/github/Stormy102/Lancer?targetFile=requirements.txt)
-[![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer.svg)]()
+[![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer.svg)](https://github.com/Stormy102/Lancer/graphs/contributors)
 [![Issues](https://img.shields.io/github/issues/Stormy102/Lancer.svg)](https://github.com/Stormy102/Lancer/issues)
 
 ## Introduction
@@ -41,8 +43,14 @@ As Lancer is still very much in active development, there is currently limited f
 <details>
     <summary>Upcoming Features (0.0.3 Alpha)</summary> 
 
-* [ ] ***In Development*** Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Planned for 0.0.3_
-* [ ] ***In Development*** Improved modularity by shifting to an OOP module approach _Planned for 0.0.3_
+* [X] HTTPS support - certificate extraction, normal HTTP services scanning and enumeration _Added in 0.0.3_
+* [X] Multiple targets from file support _Added in 0.0.3_
+* [X] Convert domain name to IP _Added in 0.0.3_
+* [X] IPv4/IPv6 subnet support - `./lancer -T 192.168.0.0/24` _Added in 0.0.3_
+* [X] HTTP Service Headers _Added in 0.0.3_
+* [X] Get Host Name Module _Added in 0.0.3_
+* [ ] Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Planned for 0.0.3_
+* [ ] Improved modularity by shifting to an OOP module approach _Planned for 0.0.3_
 * [ ] HTTP Request methods module _Planned for 0.0.3_
 * [ ] WhoIs Module (Maybe use https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.0.3_
 * [ ] Page Links Module (Maybe use https://api.hackertarget.com/pagelinks/?q={HOST}) _Planned for 0.0.3_
@@ -73,6 +81,12 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] enum4linux support _Planned for 0.0.5_
 * [ ] WPScan support _Planned for 0.0.6_
 * [ ] Open X11 module _Planned for 0.0.6_
+
+</details>
+
+<details>
+    <summary>Features under evaluation</summary>
+
 * [ ] Metasploit RPC support _Coming soon_
 * [ ] Further services detection _Coming soon_
     * SQL
@@ -116,12 +130,6 @@ As Lancer is still very much in active development, there is currently limited f
 * [X] Configuration file (.ini) for persistent configuration _Added in 0.0.2_
 * [X] FTP scanning/downloading files < 50mb _Added in 0.0.2_
 * [X] Nikto support _Added in 0.0.2_
-* [X] HTTPS support - certificate extraction, normal HTTP services scanning and enumeration _Added in 0.0.3_
-* [X] Multiple targets from file support _Added in 0.0.3_
-* [X] Convert domain name to IP _Added in 0.0.3_
-* [X] IPv4/IPv6 subnet support - `./lancer -T 192.168.0.0/24` _Added in 0.0.3_
-* [X] HTTP Service Headers _Added in 0.0.3_
-* [X] Get Host Name Module _Added in 0.0.3_
 
 </details>
 
@@ -150,12 +158,12 @@ However, Lancer has dependencies on several other external programs being instal
 
 |Program|Version|Required|Optional|Linux|Windows|
 |---|---|---|---|---|---|
-|[Nmap](https://github.com/nmap/nmap)|7.7.0|✔| |✔|✔|
-|[Gobuster](https://github.com/OJ/gobuster/releases)|3.1| |✔*|✔|✔|
-|[Searchsploit](https://github.com/offensive-security/exploitdb/blob/master/searchsploit)|cbf80e3| |✔*|✔|❌|
-|[Smbmap](https://github.com/ShawnDEvans/smbmap)|b55fc05| |✔*|✔|✔|
-|[Nikto](https://github.com/sullo/nikto)|2.1.6| |✔|✔|✔|
-|[enum4linux](https://github.com/portcullislabs/enum4linux)|0.8.9| |✔|✔|❌|
+|[Nmap](https://github.com/nmap/nmap)|7.7.0|:heavy_check_mark:| |:heavy_check_mark:|:heavy_check_mark:|
+|[Gobuster](https://github.com/OJ/gobuster/releases)|3.1| |:heavy_check_mark:*|:heavy_check_mark:|:heavy_check_mark:|
+|[Searchsploit](https://github.com/offensive-security/exploitdb/blob/master/searchsploit)|cbf80e3| |:heavy_check_mark:*|:heavy_check_mark:|:x:|
+|[Smbmap](https://github.com/ShawnDEvans/smbmap)|b55fc05| |:heavy_check_mark:*|:heavy_check_mark:|:heavy_check_mark:|
+|[Nikto](https://github.com/sullo/nikto)|2.1.6| |:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
+|[enum4linux](https://github.com/portcullislabs/enum4linux)|0.8.9| |:heavy_check_mark:|:heavy_check_mark:|:x:|
 
 *_Recommended program_
 
@@ -244,15 +252,19 @@ $ python lancer.py --target 192.168.1.10 --nmap nmap/bastion.xml /
 Thanks for your interest in contributing to this project. You can contribute or report issues in the following ways:
 
 ### Pull Requests
+Before starting a pull request, please communicate to one of the main developers the wishes you would want to make and why. This would best be done in a public forum using [issues](https://github.com/Stormy102/Lancer/issues)
+
 If you would like to create a pull request, please make sure that you are on the [develop branch](https://github.com/Stormy102/Lancer/tree/develop) before opening one. Once you have cloned or forked this repo, open the root of the cloned repo to begin development. This project uses [git-flow](https://github.com/nvie/gitflow) as its branching model.
 
-The current development environment is with [PyCharm](https://www.jetbrains.com/pycharm/). Please make sure you are using these versions before submitting any pull requests.
+The current development environment is with [PyCharm](https://www.jetbrains.com/pycharm/)
 
-#### Coding Conventions
+When making changes, please update the README.md with details of changes to the interface, new environment variables, exposed ports, useful file locations and container parameters.
+
+### Coding Conventions
 This project uses [Pep8](https://www.python.org/dev/peps/pep-0008/) to maintain a consistent coding style. PyCharm uses the Pep8 style, which makes conformity easier.  
 
 ### Reporting bugs
-If you find a bug, crash or any other intende
+If you find a bug, crash or any other unintended issue when running the program, please [create an issue](https://github.com/Stormy102/Lancer/issues)
 
 ## Credits
 

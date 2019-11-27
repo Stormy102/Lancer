@@ -150,35 +150,41 @@ def print_header():
     # enemy defences and reconnoiter, as well
     # as patrol and protect their own base.
     # Elite Scout Troopers were known as Lancers
-    header = '''                  `.--:::::::::::::::::---.                 
-               `-::----.............-----::/:.              
-              ./:----.............---------::/:             
-           ``.......--------------------......-..``         
-          ....://+//::------/:o:+.------:::///::-..-        
-          -../+++/:--...``../:o:+...```..--://+//:..`       
-         .-.-//+/:-.........:-/-:..........-://///-..       
-         :..:/++/:-....................------:///:-..       
-         /../+++/-.--------------------------:////-.-       
-         +../+++/:::/osyhddmNNMMMNNNmddhyso+/:////:.-       
-         /../://shmNNNNNNNNNNNMMNNNNNNNNNNNNNNy:/::.-       
-        /...://:NNNNNNNNNNNNNdhhmNNNNNNMNNNNNNN//-:...      
-      `-+-..::/:NNNNNNNNNNh+-----:smNNNNNNNNNNm:/-:..-      
-      -+s-..::+/hNNNNNNNNo-:+yyoy+-:hNNNNNNNNN+::::..:.     
-     .:dm:..-////NNNNNNd:-.:-....-:-:sNNNNNNNs-/:::..y:`    
-     -+NMo..-//+:/dNNNh------...------oNNNNm+-/:/:-.:m/.    
-     -+NMh-../++/:-/so-----.-+o+/.-----+dds--::+/:-.sN+.    
-     ./hMN:../++/:--------.ydsosyd/-----:----:++/:..md+.    
-     `-/oo:..:+++:-------.+d/++++sN---------:+++/-./h+:     
-       ..-::.-+o+/-------.oh////+oN:-------:/++++../:.`     
-          `/:-////-------.oh///++oN:-:::::::/++++--`        
-           .:------------.oh+++++oN--::::---:::::           
-            /------------.ohooooosM--::::-------.           
-            ::-----------.ohooooosN-::::-------:`           
-            `------------.oh+oo+oyN-::::------::            
-                `..-------ohoyyyssM-::::----..`             
-                    `.----oddmmmdhM-:::-.`                  
-                       `.-odydmmhyM-:.                      
-                          `..-----.`\n'''
+    header = ""
+    header += "            `.--:::::::::::::::::---.              \n"
+    header += "          `-::----.............-----::/:.          \n"
+    header += "         ./:----.............---------::/:         \n"
+    header += "      ``.......--------------------......-..``     \n"
+    header += "     ....://+//::------/:o:+.------:::///::-..-    \n"
+    header += "     -../+++/:--...``../:o:+...```..--://+//:..`   \n"
+    header += "    .-.-//+/:-.........:-/-:..........-://///-..   \n"
+    header += "    :..:/++/:-....................------:///:-..   \n"
+    header += "    /../+++/-.--------------------------:////-.-   \n"
+    header += "    +../+++/:::/osyhddmNNMMMNNNmddhyso+/:////:.-   \n"
+    header += "    /../://shmNNNNNNNNNNNMMNNNNNNNNNNNNNNy:/::.-   \n"
+    header += "   /...://:NNNNNNNNNNNNNdhhmNNNNNNMNNNNNNN//-:...  \n"
+    header += " `-+-..::/:NNNNNNNNNNh+-----:smNNNNNNNNNNm:/-:..-  \n"
+    header += " -+s-..::+/hNNNNNNNNo-:+yyoy+-:hNNNNNNNNN+::::..:. \n"
+    header += ".:dm:..-////NNNNNNd:-.:-....-:-:sNNNNNNNs-/:::..y:`\n"
+    header += "-+NMo..-//+:/dNNNh------...------oNNNNm+-/:/:-.:m/.\n"
+    header += "-+NMh-../++/:-/so-----.-+o+/.-----+dds--::+/:-.sN+.\n"
+    header += "./hMN:../++/:--------.ydsosyd/-----:----:++/:..md+.\n"
+    header += "`-/oo:..:+++:-------.+d/++++sN---------:+++/-./h+: \n"
+    header += "  ..-::.-+o+/-------.oh////+oN:-------:/++++../:.` \n"
+    header += "     `/:-////-------.oh///++oN:-:::::::/++++--`    \n"
+    header += "      .:------------.oh+++++oN--::::---:::::       \n"
+    header += "       /------------.ohooooosM--::::-------.       \n"
+    header += "       ::-----------.ohooooosN-::::-------:`       \n"
+    header += "       `------------.oh+oo+oyN-::::------::        \n"
+    header += "           `..-------ohoyyyssM-::::----..`         \n"
+    header += "               `.----oddmmmdhM-:::-.`              \n"
+    header += "                  `.-odydmmhyM-:.                  \n"
+    header += "                     `..-----.`                    \n"
+
+    term_size = get_terminal_size((80, 24))
+
+    header = '\n'.join(x.center(term_size.columns) for x in header.splitlines())
+
     for c in header:
         sys.stdout.write(c)
         sys.stdout.flush()

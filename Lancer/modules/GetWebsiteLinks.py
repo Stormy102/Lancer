@@ -43,7 +43,7 @@ class GetWebsiteLinks(BaseModule):
 
             print(response.text)
 
-            for link in BeautifulSoup(response.text, features="lxml", parse_only=SoupStrainer('a')):
+            for link in BeautifulSoup(response.text, features="html.parser", parse_only=SoupStrainer('a')):
                 if hasattr(link, 'href'):
                     parse = urlparse(link['href'])
                     loot_url = parse[1] + parse[2]

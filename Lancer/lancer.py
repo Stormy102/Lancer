@@ -19,7 +19,6 @@ import time
 import platform
 import ipaddress
 import socket
-import logging
 
 
 def main():
@@ -108,6 +107,7 @@ def admin_check():
         print(utils.warning_message(), non_admin_warning)
     else:
         print(utils.normal_message(), "Lancer running with elevated permissions")
+    print()
 
 
 def scan_targets():
@@ -144,6 +144,20 @@ def scan_target(target: str):
     except ValueError:
         # It's not an IP address or a subnet,
         # so most likely a hostname
+
+        if target.startswith("www."):
+            www_warning = utils.terminal_width_string(
+                "Target starts with \"www.\" - this is not recommended as it can lead to false positives in modules "
+                " - for example, when checking URLs for internal links. Do you want to remove \"www.\" from the URL?"
+
+            )
+            print(utils.warning_message(), www_warning)
+            agree = utils.input_message("[Y]es or [N]o: ")
+            if agree.lower() == "y":
+                target = target.replace("www.", "")
+                print(utils.normal_message(), "Removed \"www.\" from target, now \"{TARGET}\"".format(TARGET=target))
+            else:
+                print(utils.warning_message(), "Retaining \"www.\" in target")
 
         hostname_info = socket.getaddrinfo(target, None, socket.AF_INET)
         ip = ipaddress.ip_address(hostname_info[0][4][0])

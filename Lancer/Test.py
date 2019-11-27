@@ -9,6 +9,7 @@ from modules.SSLCertificateExtractor import SSLCertificateExtractor
 from modules.GetHostname import GetHostname
 from modules.Nmap import Nmap
 from modules.HTTPOptions import HTTPOptions
+from modules.GetWebsiteLinks import GetWebsiteLinks
 
 nmap = Nmap()
 
@@ -40,7 +41,7 @@ nikto = Nikto()
 nikto.execute("c2.mdawson.dev", 80)
 nikto.execute('expired.badssl.com', 443)
 nikto.execute("self-signed.badssl.com", 443)
-nikto.execute('speedtest.tele2.net', 80)"""
+nikto.execute('speedtest.tele2.net', 80)
 
 headers = HTTPHeaders()
 headers.execute("mdawson.dev", 443)
@@ -50,7 +51,10 @@ hostname.execute("127.0.0.1", 0)
 
 options = HTTPOptions()
 options.execute("apache.org", 80)
-options.execute("www.mdawson.dev", 443)
+options.execute("www.mdawson.dev", 443)"""
+
+links = GetWebsiteLinks()
+links.execute("mdawson.dev", 80)
 
 with open("loot.json", "w") as file:
     file.write(Loot.to_json())

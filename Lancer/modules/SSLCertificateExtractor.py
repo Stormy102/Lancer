@@ -186,6 +186,9 @@ class SSLCertificateExtractor(BaseModule):
         self.logger.info("Successfully extracted SSL Certificate information")
 
     def should_execute(self, service: str, port: int) -> bool:
+        # TODO:
+        # if not super(SSLCertificateExtractor, self).should_execute(service, port):
+        #     return False
         if port == 443:
             return True
         if port == 8443:

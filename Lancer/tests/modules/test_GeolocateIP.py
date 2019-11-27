@@ -8,12 +8,16 @@
 from modules.GeolocateIP import GeolocateIP
 from core import Loot
 
+import pytest
 
+
+@pytest.mark.module
 def test_module_creation():
     geolocate_ip = GeolocateIP()
     assert geolocate_ip is not None
 
 
+@pytest.mark.module
 def test_create_loot_space():
     geolocate_ip = GeolocateIP()
 
@@ -25,6 +29,7 @@ def test_create_loot_space():
     assert Loot.loot[ip][geolocate_ip.loot_name] is not None
 
 
+@pytest.mark.module
 def test_should_run():
     geolocate_ip = GeolocateIP()
 
@@ -33,6 +38,7 @@ def test_should_run():
     assert result is True
 
 
+@pytest.mark.module
 def test_get_valid_domain_name():
     geolocate_ip = GeolocateIP()
 
@@ -43,6 +49,7 @@ def test_get_valid_domain_name():
     assert "Cloudflare" in Loot.loot[hostname][geolocate_ip.loot_name]["isp"]
 
 
+@pytest.mark.module
 def test_get_valid_ip():
     geolocate_ip = GeolocateIP()
 
@@ -54,6 +61,7 @@ def test_get_valid_ip():
     assert "Cloudflare" in Loot.loot[hostname][geolocate_ip.loot_name]["isp"]
 
 
+@pytest.mark.module
 def test_get_invalid_ip():
     geolocate_ip = GeolocateIP()
 

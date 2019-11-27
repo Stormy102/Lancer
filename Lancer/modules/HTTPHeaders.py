@@ -9,7 +9,6 @@ from modules.BaseModule import BaseModule
 from core import Loot
 
 import requests
-import logging
 
 
 class HTTPHeaders(BaseModule):
@@ -33,9 +32,6 @@ class HTTPHeaders(BaseModule):
 
         self.logger.debug("Sending request to {URL}".format(URL=url))
         try:
-            # Suppress the DEBUG output from the urllib3.connectionpool
-            logging.getLogger("urllib3").setLevel(logging.WARNING)
-
             response = requests.head(url, allow_redirects=True)
             Loot.loot[ip][str(port)][self.loot_name] = dict(response.headers)
 
@@ -50,6 +46,9 @@ class HTTPHeaders(BaseModule):
             self.logger.error("Unable to connect to {URL}".format(URL=url))
 
     def should_execute(self, service: str, port: int) -> bool:
+        # TODO:
+        # if not super(HTTPHeaders, self).should_execute(service, port):
+        #     return False
         if service == "http":
             return True
         if service == "ssl/https":

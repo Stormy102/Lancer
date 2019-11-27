@@ -7,7 +7,10 @@
 
 from core import Loot
 
+import pytest
 
+
+@pytest.mark.core
 def test_loot_json():
     Loot.reset()
 
@@ -16,6 +19,7 @@ def test_loot_json():
     assert Loot.to_json()[0] == "{"
 
 
+@pytest.mark.core
 def test_loot_reset():
     Loot.loot["Test"] = "Testing"
 

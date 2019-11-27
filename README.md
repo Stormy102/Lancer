@@ -50,7 +50,7 @@ This is designed to automate enumeration and analysis of a target/group of targe
 As Lancer is still very much in active development, there is currently limited functionality and it is not recommended for use in a commercial or real-world environment.
 
 <details>
-    <summary>Upcoming Features (0.0.3 Alpha)</summary> 
+    <summary>Upcoming Features in 0.0.3 (Alpha)</summary> 
 
 * [X] HTTPS support - certificate extraction, normal HTTP services scanning and enumeration _Added in 0.0.3_
 * [X] Multiple targets from file support _Added in 0.0.3_
@@ -59,12 +59,12 @@ As Lancer is still very much in active development, there is currently limited f
 * [X] HTTP Service Headers _Added in 0.0.3_
 * [X] Get Host Name Module _Added in 0.0.3_
 * [X] HTTP method options module _Added in  0.0.3_
+* [X] Page Links Module _Added in 0.0.3_
+* [ ] RPCClient Null Session module _Planned for 0.0.3_
 * [ ] Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Planned for 0.0.3_
 * [ ] Improved modularity by shifting to an OOP module approach _Planned for 0.0.3_
 * [ ] Page links module _Planned for 0.0.3_
 * [ ] WhoIs Module (Maybe use https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.0.3_
-* [ ] Page Links Module (Maybe use https://api.hackertarget.com/pagelinks/?q={HOST}) _Planned for 0.0.3_
-* [ ] RPCClient Null Session module _Planned for 0.0.3_
 * [ ] Write output to file via `-o` parameter _Planned for 0.0.3_
 * [ ] Output results via JSON to `~/.lancer/cache/[SCAN TIME]/loot.json` _Planned for 0.0.3_
 * [ ] Output results via terminal console _Planned for 0.0.3_
@@ -79,6 +79,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] Disable modules from `config.ini` _Planned for 0.0.4_
 * [ ] RPCClient User Enumeration _Planned for 0.0.4_
 * [ ] Dig zone transfer _Planned for 0.0.4_
+* [ ] Page Links Module use recursion to iterate every available internal link _Planned for 0.0.4_
 * [ ] Anonymous LDAP _Planned for 0.0.4_
 * [ ] SSLScan for HTTPS _Planned for 0.0.4_
 * [ ] SSH support - display fingerprint and SSH version _Planned for 0.0.4_
@@ -87,18 +88,19 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] SMB enumeration with SMBClient/smbmap _Planned for 0.0.4_
 * [ ] Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.0.4_
 * [ ] IPv6 support _Planned for 0.0.4_
-* [ ] Multi-language support _Planned for 0.0.5_
-* [ ] Nmap script level _Planned for 0.0.5_
-* [ ] enum4linux support _Planned for 0.0.5_
-* [ ] WPScan support _Planned for 0.0.6_
-* [ ] Open X11 module _Planned for 0.0.6_
 
 </details>
 
 <details>
     <summary>Features under evaluation</summary>
 
-* [ ] Metasploit RPC support _Coming soon_
+* [ ] Localisation support _Planned for 0.0.5_
+* [ ] Web service screenshots (See [selenium](https://pypi.org/project/selenium/)) _Planned for 0.0.5_
+* [ ] Nmap script level _Planned for 0.0.5_
+* [ ] enum4linux support _Planned for 0.0.5_
+* [ ] WPScan support _Planned for 0.0.6_
+* [ ] Open X11 module _Planned for 0.0.6_
+* [ ] Metasploit RPC support _Planned for 0.0.7_
 * [ ] Further services detection _Coming soon_
     * SQL
     * Telnet
@@ -159,6 +161,7 @@ Lancer is tested and supported on the following Operating Systems:
     * Ubuntu 16.04 and up
     * Debian 8 and up
 
+Please note that Windows Subsystem for Linux is not officially supported (see [here](https://exploits.run/nmap-wsl/) for techniques to get around the issues present).
 
 To execute the program, ensure that you have Python 3.5 or higher installed. Use Python's pip to install the necessary Python dependencies.
 ```shell script

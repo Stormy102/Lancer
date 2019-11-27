@@ -21,5 +21,8 @@ class Searchsploit(BaseModule):
 
     def should_execute(self, service: str, port: int) -> bool:
         # Searchsploit should always execute
+        # TODO:
+        # if not super(Searchsploit, self).should_execute(service, port):
+        #     return False
         return True
 

@@ -7,8 +7,9 @@
 
 from modules.ModuleExecuteState import ModuleExecuteState
 from shutil import which
-
 from core import Loot, config
+
+import logging
 
 
 class BaseModule(object):
@@ -28,6 +29,9 @@ class BaseModule(object):
         self.logger = config.get_logger(name)
 
         self.logger.debug("Created {NAME} module instance".format(NAME=name))
+
+        # Suppress the DEBUG output from the urllib3.connectionpool
+        logging.getLogger("urllib3").setLevel(logging.WARNING)
 
     def execute(self, ip: str, port: int) -> None:
         # Add to central repository of loot

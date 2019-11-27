@@ -7,12 +7,16 @@
 
 from modules.SMBClient import SMBClient
 
+import pytest
 
+
+@pytest.mark.module
 def test_module_creation():
     smb = SMBClient()
     assert smb is not None
 
 
+@pytest.mark.module
 def test_should_run_service():
     smb = SMBClient()
 
@@ -21,6 +25,7 @@ def test_should_run_service():
     assert result is True
 
 
+@pytest.mark.module
 def test_should_run_port():
     smb = SMBClient()
 
@@ -29,6 +34,7 @@ def test_should_run_port():
     assert result is True
 
 
+@pytest.mark.module
 def test_should_not_run():
     smb = SMBClient()
 

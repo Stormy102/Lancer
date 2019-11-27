@@ -170,6 +170,9 @@ class FTPAnonymousAccess(BaseModule):
         return sanitised_files, large_files
 
     def should_execute(self, service: str, port: int) -> bool:
+        # TODO:
+        # if not super(FTPAnonymousAccess, self).should_execute(service, port):
+        #     return False
         if service is "ftp":
             return True
         if port is 21:

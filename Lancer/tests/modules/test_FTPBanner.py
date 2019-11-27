@@ -6,17 +6,19 @@
 """
 
 from modules.FTPBanner import FTPBanner
-
 from core import Loot
+
 import warnings
-import socket
+import pytest
 
 
+@pytest.mark.module
 def test_module_creation():
     banner = FTPBanner()
     assert banner is not None
 
 
+@pytest.mark.module
 def test_should_run_service():
     banner = FTPBanner()
 
@@ -25,6 +27,7 @@ def test_should_run_service():
     assert result is True
 
 
+@pytest.mark.module
 def test_should_run_port():
     banner = FTPBanner()
 
@@ -33,6 +36,7 @@ def test_should_run_port():
     assert result is True
 
 
+@pytest.mark.module
 def test_should_not_run():
     banner = FTPBanner()
 
@@ -41,6 +45,7 @@ def test_should_not_run():
     assert result is False
 
 
+@pytest.mark.module
 def test_get_banner():
     banner = FTPBanner()
 
@@ -64,6 +69,7 @@ def test_get_banner():
         warnings.warn("Unable to connect to speedtest.tele2.net")
 
 
+@pytest.mark.module
 def test_get_banner_unreachable():
     banner = FTPBanner()
     Loot.reset()
@@ -81,6 +87,7 @@ def test_get_banner_unreachable():
     assert "Banner" not in Loot.loot[hostname][port][banner.loot_name]
 
 
+@pytest.mark.module
 def test_get_banner_invalid():
     banner = FTPBanner()
     Loot.reset()
@@ -97,6 +104,7 @@ def test_get_banner_invalid():
     assert Loot.loot[hostname][port][banner.loot_name] is not None
 
 
+@pytest.mark.module
 def test_get_banner_timeout():
     banner = FTPBanner()
     Loot.reset()

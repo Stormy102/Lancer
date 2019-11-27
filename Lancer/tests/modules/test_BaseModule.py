@@ -7,8 +7,9 @@
 
 from modules.ModuleExecuteState import ModuleExecuteState
 from modules.BaseModule import BaseModule
-
 from core import Loot
+
+import pytest
 
 
 def create_module(required: bool = False) -> BaseModule:
@@ -20,17 +21,20 @@ def create_module(required: bool = False) -> BaseModule:
                       intrusive=False)
 
 
+@pytest.mark.module
 def test_module_creation():
     module = create_module()
     assert module is not None
 
 
+@pytest.mark.module
 def test_should_execute():
     module = create_module()
 
     assert module.should_execute("127.0.0.1", 0) is True
 
 
+@pytest.mark.module
 def test_create_loot():
     module = create_module()
 
@@ -48,12 +52,14 @@ def test_create_loot():
     assert Loot.loot[ip][port][module.loot_name] is not None
 
 
+@pytest.mark.module
 def test_execute():
     module = create_module(False)
 
     module.execute("127.0.0.1", 0)
 
 
+@pytest.mark.module
 def test_can_execute_module():
     module = create_module(False)
 
@@ -62,6 +68,7 @@ def test_can_execute_module():
     assert ret is ModuleExecuteState.CanExecute
 
 
+@pytest.mark.module
 def test_cannot_execute_module():
     module = create_module(False)
     module.required_programs = ["fake_lancer_requirement"]
@@ -71,6 +78,7 @@ def test_cannot_execute_module():
     assert ret is ModuleExecuteState.SkipExecute
 
 
+@pytest.mark.module
 def test_cannot_execute_critical_module():
     module = create_module(True)
     module.required_programs = ["fake_lancer_requirement"]

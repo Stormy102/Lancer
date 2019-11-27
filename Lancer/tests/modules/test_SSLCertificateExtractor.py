@@ -6,15 +6,18 @@
 """
 
 from modules.SSLCertificateExtractor import SSLCertificateExtractor
-
 from core import Loot
 
+import pytest
 
+
+@pytest.mark.module
 def test_module_creation():
     cert_extract = SSLCertificateExtractor()
     assert cert_extract is not None
 
 
+@pytest.mark.module
 def test_should_run_service_ssl_https():
     cert_extract = SSLCertificateExtractor()
 
@@ -23,6 +26,7 @@ def test_should_run_service_ssl_https():
     assert result is True
 
 
+@pytest.mark.module
 def test_should_run_service_https():
     cert_extract = SSLCertificateExtractor()
 
@@ -31,11 +35,13 @@ def test_should_run_service_https():
     assert result is True
 
 
+@pytest.mark.module
 def test_should_execute_service_https_alt():
     cert_extract = SSLCertificateExtractor()
     assert cert_extract.should_execute("https-alt", 1337) is True
 
 
+@pytest.mark.module
 def test_should_run_port():
     cert_extract = SSLCertificateExtractor()
 
@@ -44,6 +50,7 @@ def test_should_run_port():
     assert result is True
 
 
+@pytest.mark.module
 def test_should_run_alt_port():
     cert_extract = SSLCertificateExtractor()
 
@@ -52,6 +59,7 @@ def test_should_run_alt_port():
     assert result is True
 
 
+@pytest.mark.module
 def test_should_not_run():
     cert_extract = SSLCertificateExtractor()
 
@@ -60,6 +68,7 @@ def test_should_not_run():
     assert result is False
 
 
+@pytest.mark.module
 def test_parse_non_sni():
     cert_extract = SSLCertificateExtractor()
 
@@ -73,6 +82,7 @@ def test_parse_non_sni():
     assert Loot.loot[hostname][port][cert_extract.loot_name]["Common Name"] == "www.google.com"
 
 
+@pytest.mark.module
 def test_non_https():
     cert_extract = SSLCertificateExtractor()
 
@@ -89,6 +99,7 @@ def test_non_https():
     assert port not in Loot.loot[hostname]
 
 
+@pytest.mark.module
 def test_parse_sni():
     cert_extract = SSLCertificateExtractor()
 
@@ -102,6 +113,7 @@ def test_parse_sni():
     assert "cloudflaressl.com" in Loot.loot[hostname][port][cert_extract.loot_name]["Common Name"]
 
 
+@pytest.mark.module
 def test_expired_cert():
     cert_extract = SSLCertificateExtractor()
 
@@ -115,6 +127,7 @@ def test_expired_cert():
     assert Loot.loot[hostname][port][cert_extract.loot_name]["Expired"] is True
 
 
+@pytest.mark.module
 def test_no_common_name_cert():
     cert_extract = SSLCertificateExtractor()
 
@@ -128,6 +141,7 @@ def test_no_common_name_cert():
     assert Loot.loot[hostname][port][cert_extract.loot_name]["Common Name"] is None
 
 
+@pytest.mark.module
 def test_self_signed_cert():
     cert_extract = SSLCertificateExtractor()
 
@@ -141,6 +155,7 @@ def test_self_signed_cert():
     assert "badssl.com" in Loot.loot[hostname][port][cert_extract.loot_name]["Common Name"]
 
 
+@pytest.mark.module
 def test_no_subject_cert():
     cert_extract = SSLCertificateExtractor()
 

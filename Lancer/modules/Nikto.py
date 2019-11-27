@@ -24,6 +24,9 @@ class Nikto(BaseModule):
         self.logger.debug("Starting Nikto against {IP}:{PORT}".format(IP=ip, PORT=port))
 
     def should_execute(self, service: str, port: int) -> bool:
+        # TODO:
+        # if not super(Nikto, self).should_execute(service, port):
+        #     return False
         if service is "http":
             return True
         if service is "ssl/https":

@@ -34,6 +34,8 @@ from modules.HTTPHeaders import HTTPHeaders
 from modules.GetHostname import GetHostname
 # noinspection PyUnresolvedReferences
 from modules.HTTPOptions import HTTPOptions
+# noinspection PyUnresolvedReferences
+from modules.GetWebsiteLinks import GetWebsiteLinks
 
 
 def main():

@@ -20,6 +20,9 @@ class SMBClient(BaseModule):
         self.required_programs = ["smbclient"]
 
     def should_execute(self, service: str, port: int) -> bool:
+        # TODO:
+        # if not super(SMBClient, self).should_execute(service, port):
+        #     return False
         if port == 445:
             return True
         if "microsoft-ds" in service:

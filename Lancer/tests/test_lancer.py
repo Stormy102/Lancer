@@ -7,6 +7,7 @@ import os
 import tempfile
 
 
+@pytest.mark.core
 def test_setup_config_file():
     ArgHandler.parse_arguments(["-T", "127.0.0.1"])
     lancer.setup()
@@ -18,6 +19,7 @@ def test_setup_config_file():
     assert os.path.exists("ftp")  # Default cache path in config file
 
 
+@pytest.mark.core
 def test_setup_args_root():
     temp_dir = tempfile.TemporaryDirectory()
     ArgHandler.parse_arguments(["-T", "127.0.0.1", "--cache-root", temp_dir.name])
@@ -29,6 +31,8 @@ def test_setup_args_root():
     temp_dir.cleanup()
 
 
+
+@pytest.mark.core
 def test_legal_disclaimer(monkeypatch):
     captured_output = io.StringIO()
     sys.stdout = captured_output
@@ -40,6 +44,7 @@ def test_legal_disclaimer(monkeypatch):
     assert "\n" in captured_output.getvalue()
 
 
+@pytest.mark.core
 def test_reject_legal_disclaimer(monkeypatch):
     captured_output = io.StringIO()
     sys.stdout = captured_output

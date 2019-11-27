@@ -8,18 +8,22 @@
 from core.Target import Target
 
 import time
+import pytest
 
 
+@pytest.mark.core
 def test_target_get_hostname():
     target = Target("example.com", "127.0.0.1")
     assert target.get_address() is "example.com"
 
 
+@pytest.mark.core
 def test_target_get_ip():
     target = Target(None, "127.0.0.1")
     assert target.get_address() is "127.0.0.1"
 
 
+@pytest.mark.core
 def test_target_time_elapsed_ip():
     target = Target(None, "127.0.0.1")
     time.sleep(0.1)
@@ -30,6 +34,7 @@ def test_target_time_elapsed_ip():
     assert target.time_taken is not None
 
 
+@pytest.mark.core
 def test_target_time_elapsed_hostname():
     target = Target("example.com", "127.0.0.1")
     time.sleep(0.1)

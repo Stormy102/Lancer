@@ -8,17 +8,22 @@
 from modules.GetHostname import GetHostname
 from core import Loot
 
+import pytest
 
+
+@pytest.mark.module
 def test_module_creation():
     hostname = GetHostname()
     assert hostname is not None
 
 
+@pytest.mark.module
 def test_should_run():
     hostname = GetHostname()
     assert hostname.should_execute("", 0) is True
 
 
+@pytest.mark.module
 def test_get_valid_hostname():
     hostname = GetHostname()
 
@@ -30,6 +35,7 @@ def test_get_valid_hostname():
     assert Loot.loot[ip][hostname.loot_name]["Hostname"] is not None
 
 
+@pytest.mark.module
 def test_get_invalid_ip():
     hostname = GetHostname()
 
@@ -40,6 +46,7 @@ def test_get_invalid_ip():
     assert "Hostname" not in Loot.loot[ip][hostname.loot_name]
 
 
+@pytest.mark.module
 def test_create_loot_space():
     hostname = GetHostname()
 

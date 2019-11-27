@@ -11,8 +11,9 @@
 # Omit the __init__.py files
 [run]
 omit = 
-	Lancer/tests/*
-	Lancer/core/winutils.py
-	Lancer/core/spinner.py
-	Lancer/modules/legacy/*
+	tests/*
+	core/winutils.py
+	core/spinner.py
+	modules/legacy/*
 	*__init__*
+	*conftest.py*

@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 from core.CriticalProgramNotInstalled import CriticalProgramNotInstalled
-from core import utils
+from core import utils, config
 from modules.BaseModule import BaseModule
 from modules.ModuleExecuteState import ModuleExecuteState
 from modules.Nmap import Nmap
@@ -36,6 +36,26 @@ from modules.GetHostname import GetHostname
 from modules.HTTPOptions import HTTPOptions
 # noinspection PyUnresolvedReferences
 from modules.GetWebsiteLinks import GetWebsiteLinks
+
+import sys
+
+
+def check_module_dependencies():
+    logger = config.get_logger("Module Provider")
+    # Iterate through every single subclass of BaseModule
+    for subclass in get_modules():
+        # Create an instance of the module
+        module = subclass()
+        # Check if we can run it
+        run_state = module.can_execute_module()
+        if run_state is ModuleExecuteState.CannotExecute:
+            logger.error("Required {PROGRAM} is not installed, quitting...".format(PROGRAM=module.name))
+            sys.exit(1)
+        elif run_state is ModuleExecuteState.SkipExecute:
+            msg = "{PROGRAM} is not installed, this module will be temporarily disabled".format(PROGRAM=module.name)
+            print(utils.warning_message(), msg)
+            logger.warning(msg)
+    print()
 
 
 def main():

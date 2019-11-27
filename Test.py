@@ -13,7 +13,7 @@ from modules.GetWebsiteLinks import GetWebsiteLinks
 
 nmap = Nmap()
 
-"""ftpanon = FTPAnonymousAccess()
+ftpanon = FTPAnonymousAccess()
 ftpanon.execute("speedtest.tele2.net", 21)
 
 ftpbanner = FTPBanner()
@@ -26,13 +26,12 @@ geo_ip.execute("expired.badssl.com", 80)
 geo_ip.execute("c2.mdawson.dev", 80)
 
 cert = SSLCertificateExtractor()
-cert.execute("207.180.207.193", 443)
 cert.execute("c2.mdawson.dev", 443)
 cert.execute("self-signed.badssl.com", 443)
 cert.execute("expired.badssl.com", 443)
 
-gobuster = Gobuster()
-gobuster.execute("localhost", 80)
+# gobuster = Gobuster()
+# gobuster.execute("localhost", 80)
 # gobuster.execute('expired.badssl.com', 443)
 # gobuster.execute("self-signed.badssl.com", 443)
 # gobuster.execute('speedtest.tele2.net', 80)
@@ -51,7 +50,7 @@ hostname.execute("127.0.0.1", 0)
 
 options = HTTPOptions()
 options.execute("apache.org", 80)
-options.execute("www.mdawson.dev", 443)"""
+options.execute("www.mdawson.dev", 443)
 
 links = GetWebsiteLinks()
 links.execute("mdawson.dev", 80)
@@ -61,3 +60,5 @@ with open("loot.json", "w") as file:
 # print(Loot.to_json())
 
 # ModuleProvider.main()
+
+ModuleProvider.check_module_dependencies()

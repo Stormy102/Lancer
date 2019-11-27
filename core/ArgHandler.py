@@ -29,7 +29,7 @@ def create_parser():
     example += '$ python lancer.py -T 10.10.10.100 --verbose\n'
     example += '$ python lancer.py --target-file targets --skip-ports 445 8080 --show-program-output\n'
     example += '$ python lancer.py --target 192.168.1.10 --nmap nmap/bastion.xml /' \
-               '\n  -wW /usr/share/wordlists/dirbuster/directory-2.3-small.txt /\n  -fD HTB -fU L4mpje -fP P@ssw0rd'
+               '\n  -wW /usr/share/wordlists/dirbuster/directory-2.3-small.txt'
 
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
                                      description="Lancer - system vulnerability scanner\n\nThis tool is designed to"
@@ -45,46 +45,37 @@ def create_parser():
     mex_group.add_argument("--target-file", metavar="FILE", dest="host_file", type=argparse.FileType('r'),
                            help="File containing a list of target IP addresses")
     main_args.add_argument("-q", "--quiet", dest='quiet', action="store_true", default='',
-                           help="Do a quiet nmap scan. This will help reduce the footprint of the scan in logs and on"
-                                " IDS which may be present in a network.")
-    main_args.add_argument("-v", "--verbose", dest='verbose', action="store_true", default='',
-                           help="Use a more verbose output. This will output more detailed information and may help to"
-                                " diagnose any issues")
-    main_args.add_argument("-sd", "--skip-disclaimer", dest='skipDisclaimer', action="store_true", default='',
-                           help="Skip the legal disclaimer. By using this flag, you agree to use the program for legal"
-                                " and authorised use")
+                           help="[Not yet implemented] Do a quiet nmap scan. This will help reduce the footprint of the"
+                                " scan in logs and on IDS which may be present in a network.")
+    main_args.add_argument("-v", dest='verbose', action="store_true", default='',
+                           help="Use a verbose output. This will output results and information as modules run, which"
+                                " can be useful if you don't wish to wait for a report at the end.")
+    main_args.add_argument("-vv", dest='very_verbose', action="store_true", default='',
+                           help="Use a very verbose output. This will output virtually every single action that Lancer"
+                                " makes. Useful for debugging.")
     main_args.add_argument("--cache-root", metavar="PATH", dest='cache_root', default='',
-                           help="The root of the cache. This is where all of the data for the programs run is "
-                                "stored, which may be useful if you wish to document or save all of the data cleanly.")
+                           help="[Not yet implemented] The root of the cache. This is where all of the data for the"
+                                " programs run is stored, which may be useful if you wish to document or save all of"
+                                " the data cleanly.")
     main_args.add_argument("--skip-ports", nargs='+', type=int, metavar="PORTS", dest='skipPorts', default=[],
-                           help="Set the ports to ignore. These ports will have no enumeration taken against them,"
-                                " except for the initial discovery via nmap. This can be used to run a custom scan and"
-                                " pass the results to Lancer.")
+                           help="[Not yet implemented] Set the ports to ignore. These ports will have no enumeration"
+                                " taken against them, except for the initial discovery via nmap. This can be used to"
+                                " run a custom scan and pass the results to Lancer.")
     main_args.add_argument("--show-output", dest='show_output', action="store_true", default='',
-                           help="Show the output of the programs which are executed, such as nmap, nikto, smbclient"
-                                " and gobuster")
+                           help="[Not yet implemented] Show the output of the programs which are executed, such as"
+                                " nmap, nikto, smbclient and gobuster")
     main_args.add_argument("-l", "--language", metavar="LANGUAGE", dest='language_code', default='en', type=str,
-                           help="Language you want Lancer to run in. Defaults to English !!NOT YET IMPLEMENTED!!")
+                           help="[Not yet implemented] Language you want Lancer to run in. Defaults to English (en-GB)")
     main_args.add_argument("--nmap", metavar="FILE", dest='nmapFile', type=str,
-                           help="Skip an internal nmap scan by providing the path to an nmap XML file")
+                           help="Skip an internal nmap scan by providing the path to an nmap XML file.")
     main_args.add_argument("--version", dest='show_version', action="store_true", default='',
                            help="Shows the current version of Lancer")
     main_args.add_argument("--udp", dest='scan_udp', action="store_true", default='',
-                           help="Scan for UDP ports as well as TCP when using nmap. This will look for more ports but "
-                                "will result in a much longer scan time")
+                           help="[Not yet implemented] Scan for UDP ports as well as TCP when using nmap. This will"
+                                " look for more ports but will result in a much longer scan time")
 
     web_services = parser.add_argument_group("Web Services", "Options for targeting web services")
     web_services.add_argument("-wW", "--web-wordlist", metavar="WORDLIST", dest='webWordlist', default='',
-                              help="The wordlist to use. The default wordlist can be changed in the config file")
-    web_services.add_argument("--web-scan-only", dest='web_scan_only', action="store_true", default='',
-                              help="Perform a web scan only. This runs a custom Nmap scan on ports 80, 443, 3000 and "
-                                   "8080, and runs the web modules against that target. NOT YET IMPLEMENTED")
-
-    file_services = parser.add_argument_group("File Services", "Options for targeting file services")
-    file_services.add_argument("-fD", metavar="DOMAIN", dest='fileDomain',
-                               help="Domain to use during the enumeration of file services")
-    file_services.add_argument("-fU", metavar="USERNAME", dest='fileUsername',
-                               help="Username to use during the enumeration of file services")
-    file_services.add_argument("-fP", metavar="PASSWORD", dest='filePassword',
-                               help="Password to use during the enumeration of file services")
+                              help="[Not yet implemented] The wordlist to use. The default wordlist can be changed in"
+                                   " the config file")
     return parser

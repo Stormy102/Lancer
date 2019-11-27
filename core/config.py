@@ -21,6 +21,8 @@ import logging
 import datetime
 
 
+# TODO: Make class instance
+
 def get_config_parser():
     cfg = configparser.ConfigParser(allow_no_value=True)
     cfg['Main'] = {}
@@ -31,6 +33,17 @@ def get_config_parser():
     cfg.set('Main', '# The directory that the nmap output files should be saved to. Defaults to relative ./nmap '
                     'directory', None)
     cfg['Main']['NmapCache'] = 'nmap'
+
+    cfg.set('Main', '', None)
+    cfg.set('Main', '# Below here, you can add your own configuration. This varies module to module, but all modules'
+                    ' check if they are enabled.', None)
+    cfg.set('Main', '# If you want to disable a module, create a section with [Module Name] and set \"enabled\" to'
+                    ' \"false\"', None)
+    cfg.set('Main', '# [FTP Banner]', None)
+    cfg.set('Main', '# enabled=false', None)
+
+    cfg['FTP Banner'] = {}
+    cfg['FTP Banner']['Enabled'] = False
 
     cfg['File'] = {}
     cfg.set('File', '# The directory that the downloaded FTP files should be saved to. Defaults to relative ./ftp '
@@ -52,12 +65,16 @@ def get_config_parser():
 
 
 def save_config():
+    global config
+
     config_file_path = get_config_path()
     with open(config_file_path, 'w') as config_file:
         config.write(config_file)
 
 
 def load_config():
+    global config
+
     config_file_path = get_config_path()
 
     if not os.path.exists(config_file_path):
@@ -67,7 +84,16 @@ def load_config():
     config.read(config_file_path)
 
 
-def get_config_path():
+def module_enabled(name: str) -> bool:
+    global config
+
+    if name in config:
+        if "enabled" in config[name]:
+            return config[name]["enabled"]
+    return True
+
+
+def get_lancer_conf_dir() -> str:
     # Convert pathlib.Path.home() to str to avoid join error
     # as pathlib.Path.home() appears to be a PosixPath instead
     # of a string in Python 3.5
@@ -75,50 +101,47 @@ def get_config_path():
     path = os.path.join(str(pathlib.Path.home()), ".lancer")
     if not os.path.exists(path):
         os.mkdir(path)
-    return os.path.join(path, "config.ini")
+    return path
 
 
-def get_log_path():
-    # Convert pathlib.Path.home() to str to avoid join error
-    # as pathlib.Path.home() appears to be a PosixPath instead
-    # of a string in Python 3.5
-    # TODO: Remove str() when dropping Python 3.5 support
-    path = os.path.join(str(pathlib.Path.home()), ".lancer")
+def get_config_path() -> str:
+    return os.path.join(get_lancer_conf_dir(), "config.ini")
+
+
+def get_log_path() -> str:
+    global folder_name
+
+    return os.path.join(get_current_cache_path(), "lancer.log".format(TIME=folder_name))
+
+
+def get_cache_path() -> str:
+    path = os.path.join(get_lancer_conf_dir(), "cache")
     if not os.path.exists(path):
         os.mkdir(path)
-    path = os.path.join(path, "logs")
+    return path
+
+
+def get_current_cache_path() -> str:
+    global folder_name
+
+    path = os.path.join(get_cache_path(), folder_name)
     if not os.path.exists(path):
         os.mkdir(path)
-    time = datetime.datetime.now().strftime('%Y-%m-%dT%H-%M-%S')
-    return os.path.join(path, "lancer-{TIME}.log".format(TIME=time))
+    return path
 
 
-def nmap_cache():
-    if args.cache_root != "":
-        return os.path.join(args.cache_root, "nmap")
-
-    return config['Main']['NmapCache']
-
-
-def gobuster_cache():
-    if args.cache_root != "":
-        return os.path.join(args.cache_root, "gobuster")
-
-    return config['Web']['GobusterCache']
+def get_current_target_cache(target: str) -> str:
+    path = os.path.join(get_current_cache_path(), target)
+    if not os.path.exists(path):
+        os.mkdir(path)
+    return path
 
 
-def nikto_cache():
-    if args.cache_root != "":
-        return os.path.join(args.cache_root, "nikto")
-
-    return config['Web']['NiktoCache']
-
-
-def ftp_cache():
-    if args.cache_root != "":
-        return os.path.join(args.cache_root, "ftp")
-
-    return config['File']['FTPCache']
+def get_module_cache(name: str, target: str) -> str:
+    path = os.path.join(get_current_target_cache(target), name)
+    if not os.path.exists(path):
+        os.mkdir(path)
+    return path
 
 
 def get_logger(name: str) -> logging.Logger:
@@ -137,8 +160,12 @@ args = argparse.Namespace
 config = get_config_parser()
 current_target = None
 
+folder_name = datetime.datetime.now().strftime('%Y-%m-%dT%H-%M-%S')
+
 logging.basicConfig(filename=get_log_path(),
                     filemode='w',
                     level=logging.DEBUG,
                     format='[%(asctime)s - %(levelname)s - %(name)s] %(message)s',
                     datefmt='%Y-%m-%dT%H:%M:%S')
+config_logger = get_logger("config")
+config_logger.info("Initialised logger at {TIME}".format(TIME=datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')))

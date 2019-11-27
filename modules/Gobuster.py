@@ -6,11 +6,12 @@
 """
 
 from modules.BaseModule import BaseModule
+from core import utils, Loot, config
 
 import subprocess
 import io
 import time
-from core import utils, Loot
+import os
 
 
 class Gobuster(BaseModule):
@@ -35,7 +36,7 @@ class Gobuster(BaseModule):
         else:
             url = "http://{IP}:{PORT}".format(IP=ip, PORT=port)
 
-        filename = "gobuster-{IP}-{PORT}.log".format(IP=ip, PORT=port)
+        filename = os.path.join(config.get_module_cache(self.name, ip), "gobuster-{PORT}.log".format(PORT=port))
 
         with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
             # Arguments:

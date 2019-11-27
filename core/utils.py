@@ -189,7 +189,7 @@ def print_header():
         sys.stdout.write(c)
         sys.stdout.flush()
         if c is '\n':
-            time.sleep(0.025)
+            time.sleep(0.005)
 
 
 def display_header():

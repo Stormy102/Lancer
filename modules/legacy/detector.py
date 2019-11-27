@@ -1,5 +1,4 @@
-from modules.legacy import ftp
-from modules.legacy.web import nikto, gobuster
+from modules.legacy import ftp, gobuster, nikto
 
 from core import config, utils
 import platform

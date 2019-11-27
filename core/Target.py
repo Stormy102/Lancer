@@ -22,7 +22,7 @@ class Target(object):
         self.time_taken = None
         # TODO: Use hostname if module allows it
         self.ip = ip
-        if hostname is None:
+        if hostname == "":
             print(utils.normal_message(), "Starting analysis of {IP}...".format(IP=self.ip))
         else:
             print(utils.normal_message(), "Starting analysis of {HOST} ({IP})..."

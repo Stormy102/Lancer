@@ -8,13 +8,13 @@
 
 __license__ = "GPL-3.0"
 
-from core import ArgHandler, config, winutils, utils
+from core import ArgHandler, config, winutils, utils, ModuleProvider
 from modules.legacy import nmap
 from core.Target import Target
+from pathlib import Path
 
 import sys
 import signal
-import os
 import time
 import platform
 import ipaddress
@@ -22,11 +22,20 @@ import socket
 
 
 def main():
-    if config.args.skipDisclaimer is not True:
-        # Display the Legal disclaimer
-        legal_disclaimer()
+    disclaimer = utils.terminal_width_string(
+        "Legal Disclaimer: Usage of Lancer for attacking targets without prior mutual"
+        " authorisation is illegal. It is the end user's responsibility to adhere to all local"
+        " and international laws. The developer(s) of this tool assume no liability and are not"
+        " responsible for any misuse or damage caused by the use of this program"
+    )
+    print(utils.error_message(), disclaimer)
+    print()
+
+    cache_size_check()
 
     admin_check()
+
+    ModuleProvider.check_module_dependencies()
 
     # Get start time
     start_time = time.monotonic()
@@ -64,40 +73,6 @@ def init():
     if config.args.language_code != 'en':
         print(utils.error_message(), "Multi-language support is not yet implemented...")
 
-    # Run the setup to make sure necessary files and permissions exist
-    setup()
-
-
-def setup():
-    """
-    TODO: Use parameters/settings file for optional overriding
-    :return: None
-    """
-    if not os.path.exists(config.nmap_cache()):
-        os.makedirs(config.nmap_cache())
-    if not os.path.exists(config.gobuster_cache()):
-        os.makedirs(config.gobuster_cache())
-    if not os.path.exists(config.ftp_cache()):
-        os.makedirs(config.ftp_cache())
-    if not os.path.exists(config.nikto_cache()):
-        os.makedirs(config.nikto_cache())
-
-
-def legal_disclaimer():
-    disclaimer = utils.terminal_width_string(
-        "Legal Disclaimer: Usage of Lancer for attacking targets without prior mutual"
-        " authorisation is illegal. It is the end user's responsibility to adhere to all local"
-        " and international laws. The developer(s) of this tool assume no liability and are not"
-        " responsible for any misuse or damage caused by the use of this program"
-    )
-    print(utils.error_message(), disclaimer)
-
-    agree = utils.input_message("Press [Y] to agree:")
-    if agree.lower() != "y":
-        print(utils.error_message(), "Legal disclaimer has not been accepted. Exiting...")
-        sys.exit(1)
-    print("")
-
 
 def admin_check():
     if utils.is_user_admin() is False:
@@ -108,6 +83,16 @@ def admin_check():
     else:
         print(utils.normal_message(), "Lancer running with elevated permissions")
     print()
+
+
+def cache_size_check():
+    root_directory = Path(config.get_cache_path())
+    size = sum(f.stat().st_size for f in root_directory.glob('**/*') if f.is_file())
+    kb = size / 1024
+    mb = kb / 1024
+    if mb >= 500:
+        print(utils.warning_message(), "Cache is {SIZE}mb in size".format(SIZE="{:.1f}".format(mb)))
+        print()
 
 
 def scan_targets():
@@ -138,7 +123,7 @@ def scan_target(target: str):
             return
         for x in range(ip_network.num_addresses):
             ip = ip_network[x]
-            target = Target(None, ip)
+            target = Target("", ip)
             execute(target)
             target.stop_timer()
     except ValueError:

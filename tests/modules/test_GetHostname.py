@@ -39,7 +39,7 @@ def test_get_valid_hostname():
 def test_get_invalid_ip():
     hostname = GetHostname()
 
-    ip = "127.127.127.127"
+    ip = "127.0.0.127"
 
     hostname.execute(ip, 0)
 

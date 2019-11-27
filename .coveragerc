@@ -20,4 +20,5 @@ omit =
 	modules/Gobuster.py
 	modules/Nikto.py
 	modules/Nmap.py
+	lancer.py
 	Test.py

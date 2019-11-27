@@ -39,9 +39,6 @@ class GetWebsiteLinks(BaseModule):
 
         try:
             response = requests.get(url, allow_redirects=True)
-            print(response.url)
-
-            print(response.text)
 
             for link in BeautifulSoup(response.text, features="html.parser", parse_only=SoupStrainer('a')):
                 if hasattr(link, 'href'):

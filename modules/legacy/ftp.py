@@ -118,9 +118,7 @@ def get_folder_contents(ftp_client, path=''):
 
 def download_file(ftp_client, filename):
     with spinner.Spinner():
-        if not os.path.exists(os.path.join(config.ftp_cache(), config.current_target)):
-            os.makedirs(os.path.join(config.ftp_cache(), config.current_target))
-        local_filename = os.path.join(config.ftp_cache(), config.current_target, filename)
+        local_filename = os.path.join(config.get_module_cache("FTP Anonymous Access", config.current_target), filename)
 
         if not os.path.exists(os.path.dirname(local_filename)):
             os.mkdir(os.path.dirname(local_filename))

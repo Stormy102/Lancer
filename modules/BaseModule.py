@@ -50,7 +50,8 @@ class BaseModule(object):
                           .format(NAME=self.name, IP=ip, PORT=port, LOOT=self.loot_name))
 
     def should_execute(self, service: str, port: int) -> bool:
-        return True
+        # Check if a module is disabled in the config.ini file
+        return config.module_enabled(self.name)
 
     def can_execute_module(self) -> ModuleExecuteState:
         """
@@ -65,12 +66,11 @@ class BaseModule(object):
                 # If this is a critical module, we need to ensure that we halt here
                 if self.critical_module:
                     self.logger.error("Critical program {PROGRAM} not installed, halting...".
-                                        format(PROGRAM=program, MODULE=self.name))
+                                      format(PROGRAM=program, MODULE=self.name))
                     return ModuleExecuteState.CannotExecute
                 # This isn't a critical value, so skip execution
                 else:
-                    self.logger.warning("{PROGRAM} not installed, skipping module {MODULE}...".
-                                        format(PROGRAM=program, MODULE=self.name))
+                    self.logger.warning("{PROGRAM} not installed".format(PROGRAM=program, MODULE=self.name))
                     return ModuleExecuteState.SkipExecute
 
         # We have found all of the required programs, so we can execute this module

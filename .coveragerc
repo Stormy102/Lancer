@@ -4,11 +4,6 @@
 # LANGUAGE: Python
 # =========================================================================
 
-# Omit all of the tests from coverage
-# Omit winutils.py - won't run on Travis
-# Omit spinner.py - UI is near impossible to test
-# Omit the legacy modules
-# Omit the __init__.py files
 [run]
 omit = 
 	tests/*
@@ -16,4 +11,13 @@ omit =
 	core/spinner.py
 	modules/legacy/*
 	*__init__*
-	*conftest.py*
+	conftest.py
+	
+	core/localisation.py
+	core/CriticalProgramNotInstalled.py
+	core/ModuleProvider.py
+	modules/FTPAnonymousAccess.py
+	modules/Gobuster.py
+	modules/Nikto.py
+	modules/Nmap.py
+	Test.py

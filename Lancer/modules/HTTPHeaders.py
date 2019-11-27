@@ -9,6 +9,7 @@ from modules.BaseModule import BaseModule
 from core import Loot
 
 import requests
+import logging
 
 
 class HTTPHeaders(BaseModule):
@@ -32,9 +33,19 @@ class HTTPHeaders(BaseModule):
 
         self.logger.debug("Sending request to {URL}".format(URL=url))
         try:
-            response = requests.get(url)
+            # Suppress the DEBUG output from the urllib3.connectionpool
+            logging.getLogger("urllib3").setLevel(logging.WARNING)
+
+            response = requests.head(url, allow_redirects=True)
             Loot.loot[ip][str(port)][self.loot_name] = dict(response.headers)
+
+            if len(response.history) > 0:
+                self.logger.info("Redirected from {ORIG} to {URL}"
+                                 .format(ORIG=response.history[0].url, URL=response.url))
+
             self.logger.info("Successfully retrieved HTTP headers")
+            if "server" in response.headers:
+                self.logger.info("Server header present: {SERVER}".format(SERVER=response.headers["server"]))
         except requests.exceptions.ConnectionError:
             self.logger.error("Unable to connect to {URL}".format(URL=url))
 

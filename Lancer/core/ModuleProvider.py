@@ -32,6 +32,8 @@ from modules.Searchsploit import Searchsploit
 from modules.HTTPHeaders import HTTPHeaders
 # noinspection PyUnresolvedReferences
 from modules.GetHostname import GetHostname
+# noinspection PyUnresolvedReferences
+from modules.HTTPOptions import HTTPOptions
 
 
 def main():

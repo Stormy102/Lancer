@@ -11,18 +11,27 @@
 
 |Branch|Status|Coverage|Code Quality|Last Commit|
 |---|---|---|---|---|
-|Master|[![Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=master)](https://travis-ci.com/Stormy102/Lancer) |[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)|[![Master Code Quality](https://codebeat.co/badges/08113589-61c1-418c-8f2e-bffcc5562425)](https://codebeat.co/projects/github-com-stormy102-lancer-master)|[![Last Master Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer.svg)]()
-|Develop|[![Develop Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=develop)](https://travis-ci.com/Stormy102/Lancer)|[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg?branch=develop)](https://coveralls.io/github/Stormy102/Lancer?branch=develop)|[![Develop Code Quality](https://codebeat.co/badges/10ed4785-93e2-47ad-8504-827f22c74aa1.svg)](https://codebeat.co/projects/github-com-stormy102-lancer-develop)|[![Last Develop Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer/develop.svg)]()|
+|Master|[![Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=master)](https://travis-ci.com/Stormy102/Lancer) |[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)|[![Master Code Quality](https://codebeat.co/badges/08113589-61c1-418c-8f2e-bffcc5562425)](https://codebeat.co/projects/github-com-stormy102-lancer-master)|[![Last Master Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer.svg)](https://github.com/Stormy102/Lancer/commits/master)
+|Develop|[![Develop Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=develop)](https://travis-ci.com/Stormy102/Lancer)|[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg?branch=develop)](https://coveralls.io/github/Stormy102/Lancer?branch=develop)|[![Develop Code Quality](https://codebeat.co/badges/10ed4785-93e2-47ad-8504-827f22c74aa1.svg)](https://codebeat.co/projects/github-com-stormy102-lancer-develop)|[![Last Develop Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer/develop.svg)](https://github.com/Stormy102/Lancer/commits/develop)|
 
-<!--- See for dropping Python 3.5 support https://devguide.python.org/#status-of-python-branches -->
-[![Python Versions](https://img.shields.io/badge/python-3.5|3.6|3.7|3.8-blue.svg)](#)
-[![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
+[![Licence](https://img.shields.io/github/license/Stormy102/Lancer)](#licence)
 [![Status](https://img.shields.io/badge/status-Pre%20Release-red.svg)](https://github.com/Stormy102/Lancer/releases)
 [![Releases](https://img.shields.io/github/v/release/Stormy102/Lancer?include_prereleases)](https://github.com/Stormy102/Lancer/releases)
-[![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)](#)
-[![Known Vulnerabilities](https://snyk.io//test/github/Stormy102/Lancer/badge.svg?targetFile=requirements.txt)](https://snyk.io//test/github/Stormy102/Lancer?targetFile=requirements.txt)
+![GitHub commits since tagged version (branch)](https://img.shields.io/github/commits-since/Stormy102/Lancer/v0.0.2-alpha/develop)
+![GitHub All Releases](https://img.shields.io/github/downloads/Stormy102/Lancer/total)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Stormy102/Lancer)
 [![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer.svg)](https://github.com/Stormy102/Lancer/graphs/contributors)
+![Supported OSs](https://img.shields.io/badge/OS-Windows%20%7C%20Linux%20%7C%20Mac%20OS%20X-blue.svg)
+<!--- See for dropping Python 3.5 support https://devguide.python.org/#status-of-python-branches -->
+![Python Versions](https://img.shields.io/badge/python-3.5|3.6|3.7|3.8-blue.svg) 
+[![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
+![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
+[![Known Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/Stormy102/Lancer/requirements.txt.svg)](https://snyk.io/test/github/Stormy102/Lancer?targetFile=requirements.txt)
 [![Issues](https://img.shields.io/github/issues/Stormy102/Lancer.svg)](https://github.com/Stormy102/Lancer/issues)
+![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/Stormy102/Lancer)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/Stormy102/Lancer)
+![GitHub repo size](https://img.shields.io/github/repo-size/Stormy102/Lancer)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Stormy102/Lancer)
 
 ## Introduction
 
@@ -30,7 +39,7 @@
 
 Lancer is a pentesting tool written in [Python 3](https://www.python.org/) which aims to automate and expedite recon and vulnerability scanning.
 
-### Sigh... Another pentesting tool? Why should I use this?
+### *Sigh*... Another pentesting tool? Why should I use this?
 
 The basis of Lancer is to take several tools which already exist, such as [Gobuster](https://github.com/OJ/gobuster/), [Nmap](https://github.com/nmap/nmap), [SMBMap](https://github.com/ShawnDEvans/smbmap) and [many](https://github.com/portcullislabs/enum4linux) [more](https://github.com/sullo/nikto), and intelligently detect which tools should be used depending on the results of a scan, as well as using custom modules to detect other information, such as Geolocation, SSL certificate extraction and more.
 
@@ -49,9 +58,10 @@ As Lancer is still very much in active development, there is currently limited f
 * [X] IPv4/IPv6 subnet support - `./lancer -T 192.168.0.0/24` _Added in 0.0.3_
 * [X] HTTP Service Headers _Added in 0.0.3_
 * [X] Get Host Name Module _Added in 0.0.3_
+* [X] HTTP method options module _Added in  0.0.3_
 * [ ] Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Planned for 0.0.3_
 * [ ] Improved modularity by shifting to an OOP module approach _Planned for 0.0.3_
-* [ ] HTTP Request methods module _Planned for 0.0.3_
+* [ ] Page links module _Planned for 0.0.3_
 * [ ] WhoIs Module (Maybe use https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.0.3_
 * [ ] Page Links Module (Maybe use https://api.hackertarget.com/pagelinks/?q={HOST}) _Planned for 0.0.3_
 * [ ] RPCClient Null Session module _Planned for 0.0.3_
@@ -66,6 +76,7 @@ As Lancer is still very much in active development, there is currently limited f
 
 * [ ] Split into blind and targeted modules - blind modules require only a hostname/IP and port, while targeted modules can execute after the blind modules using information potentially harvested from blind modules _Planned for 0.0.4_
 * [ ] Modules use hostname and/or IP address correctly _Planned for 0.0.4_
+* [ ] Disable modules from `config.ini` _Planned for 0.0.4_
 * [ ] RPCClient User Enumeration _Planned for 0.0.4_
 * [ ] Dig zone transfer _Planned for 0.0.4_
 * [ ] Anonymous LDAP _Planned for 0.0.4_
@@ -265,6 +276,8 @@ This project uses [Pep8](https://www.python.org/dev/peps/pep-0008/) to maintain 
 
 ### Reporting bugs
 If you find a bug, crash or any other unintended issue when running the program, please [create an issue](https://github.com/Stormy102/Lancer/issues)
+
+<!-- Contributors how https://github.com/badges/shields/blob/master/README.md has done it? -->
 
 ## Credits
 

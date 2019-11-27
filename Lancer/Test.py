@@ -8,6 +8,7 @@ from modules.Nikto import Nikto
 from modules.SSLCertificateExtractor import SSLCertificateExtractor
 from modules.GetHostname import GetHostname
 from modules.Nmap import Nmap
+from modules.HTTPOptions import HTTPOptions
 
 nmap = Nmap()
 
@@ -42,13 +43,17 @@ nikto.execute("self-signed.badssl.com", 443)
 nikto.execute('speedtest.tele2.net', 80)"""
 
 headers = HTTPHeaders()
-headers.execute("www.mdawson.dev", 443)
+headers.execute("mdawson.dev", 443)
 
 hostname = GetHostname()
 hostname.execute("127.0.0.1", 0)
 
+options = HTTPOptions()
+options.execute("apache.org", 80)
+options.execute("www.mdawson.dev", 443)
+
 with open("loot.json", "w") as file:
     file.write(Loot.to_json())
-print(Loot.to_json())
+# print(Loot.to_json())
 
 # ModuleProvider.main()

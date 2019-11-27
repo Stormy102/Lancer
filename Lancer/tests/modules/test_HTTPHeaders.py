@@ -6,7 +6,6 @@
 """
 
 from modules.HTTPHeaders import HTTPHeaders
-
 from core import Loot
 
 

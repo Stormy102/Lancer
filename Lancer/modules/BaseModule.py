@@ -34,6 +34,7 @@ class BaseModule(object):
         return None
 
     def create_loot_space(self, ip: str, port: int) -> None:
+        # TODO: Move generation of loot spaces to Loot::create_loot_space() -> dict
         str_port = str(port)
         if ip not in Loot.loot:
             Loot.loot[ip] = {}
@@ -41,7 +42,8 @@ class BaseModule(object):
             Loot.loot[ip][str_port] = {}
         if self.loot_name not in Loot.loot[ip][str_port]:
             Loot.loot[ip][str_port][self.loot_name] = {}
-        self.logger.debug("Created {NAME} loot space".format(NAME=self.name))
+        self.logger.debug("Created {NAME} loot space at [{IP}][{PORT}][{LOOT}]"
+                          .format(NAME=self.name, IP=ip, PORT=port, LOOT=self.loot_name))
 
     def should_execute(self, service: str, port: int) -> bool:
         return True

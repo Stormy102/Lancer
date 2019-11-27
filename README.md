@@ -38,19 +38,9 @@ This is designed to automate enumeration and analysis of a target/group of targe
 
 As Lancer is still very much in active development, there is currently limited functionality and it is not recommended for use in a commercial or real-world environment.
 
-This is a list of features which we intend to add support for:
-* [X] Nmap scanning _Added in 0.0.1_
-* [X] Gobuster enumeration _Added in 0.0.1_
-* [X] Searchsploit Nmap results _Added in 0.0.1_
-* [X] Configuration file (.ini) for persistent configuration _Added in 0.0.2_
-* [X] FTP scanning/downloading files < 50mb _Added in 0.0.2_
-* [X] Nikto support _Added in 0.0.2_
-* [X] HTTPS support - certificate extraction, normal HTTP services scanning and enumeration _Added in 0.0.3_
-* [X] Multiple targets from file support _Added in 0.0.3_
-* [X] Convert domain name to IP _Added in 0.0.3_
-* [X] IPv4/IPv6 subnet support - `./lancer -T 192.168.0.0/24` _Added in 0.0.3_
-* [X] HTTP Service Headers _Added in 0.0.3_
-* [X] Get Host Name Module _Added in 0.0.3_
+<details>
+    <summary>Upcoming Features (0.0.3 Alpha)</summary> 
+
 * [ ] ***In Development*** Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Planned for 0.0.3_
 * [ ] ***In Development*** Improved modularity by shifting to an OOP module approach _Planned for 0.0.3_
 * [ ] HTTP Request methods module _Planned for 0.0.3_
@@ -60,6 +50,12 @@ This is a list of features which we intend to add support for:
 * [ ] Write output to file via `-o` parameter _Planned for 0.0.3_
 * [ ] Output results via JSON to `~/.lancer/cache/[SCAN TIME]/loot.json` _Planned for 0.0.3_
 * [ ] Output results via terminal console _Planned for 0.0.3_
+    
+</details>
+
+<details>
+    <summary>Planned Features</summary>
+
 * [ ] Split into blind and targeted modules - blind modules require only a hostname/IP and port, while targeted modules can execute after the blind modules using information potentially harvested from blind modules _Planned for 0.0.4_
 * [ ] Modules use hostname and/or IP address correctly _Planned for 0.0.4_
 * [ ] RPCClient User Enumeration _Planned for 0.0.4_
@@ -108,6 +104,26 @@ This is a list of features which we intend to add support for:
     * sqlmap
     * sqlninja/sqlsus
     * WhatWeb
+
+</details>
+
+<details>
+    <summary>Completed Features</summary>
+    
+* [X] Nmap scanning _Added in 0.0.1_
+* [X] Gobuster enumeration _Added in 0.0.1_
+* [X] Searchsploit Nmap results _Added in 0.0.1_
+* [X] Configuration file (.ini) for persistent configuration _Added in 0.0.2_
+* [X] FTP scanning/downloading files < 50mb _Added in 0.0.2_
+* [X] Nikto support _Added in 0.0.2_
+* [X] HTTPS support - certificate extraction, normal HTTP services scanning and enumeration _Added in 0.0.3_
+* [X] Multiple targets from file support _Added in 0.0.3_
+* [X] Convert domain name to IP _Added in 0.0.3_
+* [X] IPv4/IPv6 subnet support - `./lancer -T 192.168.0.0/24` _Added in 0.0.3_
+* [X] HTTP Service Headers _Added in 0.0.3_
+* [X] Get Host Name Module _Added in 0.0.3_
+
+</details>
 
 Any other features you want to see? Open a Github Issue or a pull request
 

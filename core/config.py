@@ -89,7 +89,7 @@ def module_enabled(name: str) -> bool:
 
     if name in config:
         if "enabled" in config[name]:
-            return config[name]["enabled"]
+            return config[name]["enabled"].lower() == "true"
     return True
 
 

@@ -71,6 +71,9 @@ class Gobuster(BaseModule):
                     Loot.loot[ip][str(port)][self.loot_name].append(result)
 
     def should_execute(self, service: str, port: int) -> bool:
+        # Check if this module is disabled in the config.ini file
+        if not super(Gobuster, self).should_execute(service, port):
+            return False
         if service == "http":
             return True
         if service == "ssl/https":

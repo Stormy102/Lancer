@@ -46,6 +46,9 @@ class FTPBanner(BaseModule):
             self.logger.error("Failed to connect: Connection timed out")
 
     def should_execute(self, service: str, port: int) -> bool:
+        # Check if this module is disabled in the config.ini file
+        if not super(FTPBanner, self).should_execute(service, port):
+            return False
         if service is "ftp":
             return True
         if port is 21:

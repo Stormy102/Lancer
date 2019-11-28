@@ -40,4 +40,7 @@ class GetHostname(BaseModule):
             Loot.loot[ip][self.loot_name] = {}
 
     def should_execute(self, service: str, port: int) -> bool:
+        # Check if this module is disabled in the config.ini file
+        if not super(GetHostname, self).should_execute(service, port):
+            return False
         return True

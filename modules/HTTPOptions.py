@@ -46,9 +46,9 @@ class HTTPOptions(BaseModule):
             self.logger.error("Socket Error occurred")
 
     def should_execute(self, service: str, port: int) -> bool:
-        # TODO:
-        # if not super(HTTPOptions, self).should_execute(service, port):
-        #     return False
+        # Check if this module is disabled in the config.ini file
+        if not super(HTTPOptions, self).should_execute(service, port):
+            return False
         if service == "http":
             return True
         if service == "ssl/https":

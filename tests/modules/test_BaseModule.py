@@ -7,7 +7,7 @@
 
 from modules.ModuleExecuteState import ModuleExecuteState
 from modules.BaseModule import BaseModule
-from core import Loot
+from core import Loot, config
 
 import pytest
 
@@ -25,6 +25,21 @@ def create_module(required: bool = False) -> BaseModule:
 def test_module_creation():
     module = create_module()
     assert module is not None
+
+
+@pytest.mark.module
+def test_disabled_config():
+    module = create_module()
+
+    if module.name not in config.config:
+        config.config.add_section(module.name)
+    config.config.set(module.name, "enabled", "False")
+
+    result = module.should_execute("", 0)
+
+    config.config.set(module.name, "enabled", "True")
+
+    assert result is False
 
 
 @pytest.mark.module

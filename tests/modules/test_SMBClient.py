@@ -6,6 +6,7 @@
 """
 
 from modules.SMBClient import SMBClient
+from core import config
 
 import pytest
 
@@ -14,6 +15,21 @@ import pytest
 def test_module_creation():
     smb = SMBClient()
     assert smb is not None
+
+
+@pytest.mark.module
+def test_disabled_config():
+    module = SMBClient()
+
+    if module.name not in config.config:
+        config.config.add_section(module.name)
+    config.config.set(module.name, "enabled", "False")
+
+    result = module.should_execute("ftp", 2121)
+
+    config.config.set(module.name, "enabled", "True")
+
+    assert result is False
 
 
 @pytest.mark.module

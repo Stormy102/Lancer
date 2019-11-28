@@ -14,6 +14,7 @@ import sys
 import os
 import socket
 import mimetypes
+import time
 
 
 class FTPAnonymousAccess(BaseModule):
@@ -35,8 +36,15 @@ class FTPAnonymousAccess(BaseModule):
             self.logger.debug("Attempting to login anonymously")
             ftp_client.login()
             self.logger.info("Successfully logged in anonymously to {IP}:{PORT}".format(IP=ip, PORT=port))
+
+            ftp_client.set_pasv(True)
+            # optimize socket params for download task
+            ftp_client.sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+            ftp_client.sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 75)
+            ftp_client.sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 60)
+
             self.logger.debug("Starting to downloading files under 50mb from {IP}:{PORT}".format(IP=ip, PORT=port))
-            self.download_files(ftp_client, Loot.loot[ip][str(port)][self.loot_name])
+            self.download_files(ip, ftp_client, Loot.loot[ip][str(port)][self.loot_name])
             self.logger.info("Finished downloading files under 50mb from {IP}:{PORT}".format(IP=ip, PORT=port))
             ftp_client.quit()
             self.logger.debug("Disconnected from {IP}:{PORT}".format(IP=ip, PORT=port))
@@ -50,8 +58,8 @@ class FTPAnonymousAccess(BaseModule):
             # Log of some kind
             self.logger.error("Failed to connect: Connection timed out")
 
-    def download_files(self, ftp_client, dictionary: dict):
-        files = self.get_folder_contents(ftp_client)
+    def download_files(self, ip, ftp_client, dictionary: dict):
+        files = self.get_folder_contents(ip, ftp_client)
 
         self.logger.info("{FILE_COUNT} files found".format(FILE_COUNT=len(files)))
 
@@ -77,21 +85,14 @@ class FTPAnonymousAccess(BaseModule):
 
             dictionary["Downloaded Files"] = []
             for filename in sanitised_ftp_files:
-                self.logger.debug("Downloading {FILE} ".format(FILE=filename))
                 dictionary["Downloaded Files"].append(filename)
 
-                # print(utils.normal_message(), "Downloading", filename, end=' ')
-                # self.download_file(ftp_client, filename)
-                # Clear the "Downloading..." file line
-                # sys.stdout.write('\x1b[2K\r')
-                # sys.stdout.flush()
-                self.logger.info("Downloaded {FILE} to FTP cache".format(FILE=filename))
-
-            # print(utils.normal_message(), "Finished downloading all files under 50mb into FTP cache")
+                self.download_file(ip, ftp_client, filename)
+            self.logger.info("Finished downloading all files under 50mb to FTP cache")
         else:
             self.logger.info("No files to download")
 
-    def get_folder_contents(self, ftp_client, path=''):
+    def get_folder_contents(self, ip, ftp_client, path=''):
         directories = []
         files = []
 
@@ -134,7 +135,7 @@ class FTPAnonymousAccess(BaseModule):
         # Iterate through every subdirectory
         for directory in directories:
             # Recursively get the list of files
-            files_ret = self.get_folder_contents(ftp_client, os.path.join(path, directory))
+            files_ret = self.get_folder_contents(ip, ftp_client, os.path.join(path, directory))
             # Add the files in this directory to it
             for file in files_ret:
                 files.append(file)
@@ -142,16 +143,37 @@ class FTPAnonymousAccess(BaseModule):
         # Return all of the files we have in the form of their local paths
         return files
 
-    def download_file(self, ftp_client, filename):
+    def download_file(self, ip, ftp_client, filename):
+        file_size = ftp_client.size(filename) / 1024 / 1024
+        msg = "Downloading {FILE} size {SIZE}".format(FILE=filename, SIZE="{:.1f}mb".format(file_size))
+        print(utils.normal_message(), msg, end=' ')
+        self.logger.debug(msg)
+
         with Spinner():
-            if not os.path.exists(os.path.join(config.ftp_cache(), config.current_target)):
-                os.makedirs(os.path.join(config.ftp_cache(), config.current_target))
-            local_filename = os.path.join(config.ftp_cache(), config.current_target, filename)
+
+            local_filename = os.path.join(config.get_module_cache(self.name, ip), filename)
 
             if not os.path.exists(os.path.dirname(local_filename)):
                 os.mkdir(os.path.dirname(local_filename))
             file = open(local_filename, 'wb')
-            ftp_client.retrbinary('RETR ' + filename, file.write)
+            # TODO: Sometimes hangs when it reaches a file that it can't download. Find a fix (parse ftp.dir?)
+            try:
+                ftp_client.retrbinary('RETR ' + filename, file.write)
+
+                # Clear the "Downloading..." file line
+                sys.stdout.write('\x1b[2K\r')
+                sys.stdout.flush()
+
+                msg = "Downloaded {FILE} ({SIZE}mb) to FTP cache".format(
+                    FILE=filename, SIZE="{:.1f}mb".format(file_size))
+                self.logger.info(msg)
+                print(utils.normal_message(), msg)
+            except ftplib.error_perm:
+                # Clear the "Downloading..." file line
+                sys.stdout.write('\x1b[2K\r')
+                sys.stdout.flush()
+
+                self.logger.error("Permission denied to access {FILE}".format(FILE=filename))
             file.close()
 
     def remove_files_over_size(self, ftp_client, files, size=1024 * 1024 * 50):
@@ -170,9 +192,9 @@ class FTPAnonymousAccess(BaseModule):
         return sanitised_files, large_files
 
     def should_execute(self, service: str, port: int) -> bool:
-        # TODO:
-        # if not super(FTPAnonymousAccess, self).should_execute(service, port):
-        #     return False
+        # Check if this module is disabled in the config.ini file
+        if not super(FTPAnonymousAccess, self).should_execute(service, port):
+            return False
         if service is "ftp":
             return True
         if port is 21:

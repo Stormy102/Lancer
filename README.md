@@ -60,14 +60,13 @@ As Lancer is still very much in active development, there is currently limited f
 * [X] Get Host Name Module _Added in 0.0.3_
 * [X] HTTP method options module _Added in  0.0.3_
 * [X] Page Links Module _Added in 0.0.3_
-* [ ] RPCClient Null Session module _Planned for 0.0.3_
+* [X] Output results via JSON to `~/.lancer/cache/[SCAN TIME]/loot.json` _Added in 0.0.3_
+* [X] Disable modules from `config.ini` _Added in 0.0.3_
 * [ ] Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Planned for 0.0.3_
 * [ ] Improved modularity by shifting to an OOP module approach _Planned for 0.0.3_
-* [ ] Page links module _Planned for 0.0.3_
-* [ ] WhoIs Module (Maybe use https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.0.3_
-* [ ] Write output to file via `-o` parameter _Planned for 0.0.3_
-* [ ] Output results via JSON to `~/.lancer/cache/[SCAN TIME]/loot.json` _Planned for 0.0.3_
+* [ ] CPE detection module _Planned for 0.0.3_
 * [ ] Output results via terminal console _Planned for 0.0.3_
+* [ ] Write output to file via `-o` parameter _Planned for 0.0.3_
     
 </details>
 
@@ -76,8 +75,9 @@ As Lancer is still very much in active development, there is currently limited f
 
 * [ ] Split into blind and targeted modules - blind modules require only a hostname/IP and port, while targeted modules can execute after the blind modules using information potentially harvested from blind modules _Planned for 0.0.4_
 * [ ] Modules use hostname and/or IP address correctly _Planned for 0.0.4_
-* [ ] Disable modules from `config.ini` _Planned for 0.0.4_
+* [ ] RPCClient Null Session module _Planned for 0.0.4_
 * [ ] RPCClient User Enumeration _Planned for 0.0.4_
+* [ ] WhoIs Module (Maybe use https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.0.4_
 * [ ] Dig zone transfer _Planned for 0.0.4_
 * [ ] Page Links Module use recursion to iterate every available internal link _Planned for 0.0.4_
 * [ ] Anonymous LDAP _Planned for 0.0.4_
@@ -186,79 +186,78 @@ However, Lancer has dependencies on several other external programs being instal
 The program takes the following arguments:
 
 ```text
-usage: lancer.py [-h] (-T TARGET | --target-file FILE) [-q] [-v] [-sd]
-                 [--cache-root PATH] [--skip-ports PORTS [PORTS ...]]
-                 [--show-output] [-l LANGUAGE] [--nmap FILE] [--udp]
-                 [-wW WORDLIST] [--web-scan-only] [-fD DOMAIN] [-fU USERNAME]
-                 [-fP PASSWORD]
+usage: lancer.py (-T TARGET | -TF FILE) [--cache-root PATH] [-L LEVEL]
+                 [--nmap FILE] [--skip-ports PORTS [PORTS ...]] [--udp] [-q]
+                 [-v | -vv] [--show-output] [--version] [-l LANGUAGE]
+                 [-wW WORDLIST] [-h]
 
-Lancer - system vulnerability scanner
+[+] Lancer - system vulnerability scanner
+[+] This tool is designed to aid the recon phase of a pentest or any legal & authorised
+    attack  against a device or network. The author does not take any liability for use of this tool for
+    illegal use. See the config.ini file at ~/.lancer/config.ini for more options
 
-This tool is designed to aid the recon phase of a pentest or any legal & authorised attack against a device or network. The author does not take any liability for use of this tool for illegal use.
-
-See the config.ini file for more options ~\.lancer\config.ini
-
-optional arguments:
-  -h, --help            show this help message and exit
-
-Main arguments:
+Required Arguments:
   -T TARGET, --target TARGET
-                        IP of target
-  --target-file FILE    File containing a list of target IP addresses
-  -q, --quiet           Do a quiet nmap scan. This will help reduce the
-                        footprint of the scan in logs and on IDS which may be
-                        present in a network.
-  -v, --verbose         Use a more verbose output. This will output more
-                        detailed information and may help to diagnose any
-                        issues
-  -sd, --skip-disclaimer
-                        Skip the legal disclaimer. By using this flag, you
-                        agree to use the program for legal and authorised use
+                        The hostname, IPv4 address or a subnet of of IPv4
+                        addresses you wish to analyse.
+  -TF FILE, --target-file FILE
+                        File containing a list of target IP addresses
+
+Module Arguments:
   --cache-root PATH     The root of the cache. This is where all of the data
                         for the programs run is stored, which may be useful if
-                        you wish to document or save all of the data cleanly.
+                        you wish to document or save all of the data in a
+                        separate location.
+  -L LEVEL, --level LEVEL
+                        The intrusion level of this iteration. A level of 1
+                        means the least intrusive scripts will be run, such as
+                        Nmap on quiet mode and a few HTTP requests. A level of
+                        5 will mean that intrusive exploits will be run
+                        against the computer to determine how vulnerable it
+                        is. A full list of modules and their intrusion levels
+                        can be found on the Github Wiki.
+  --nmap FILE           Skip an internal Nmap scan by providing the path to an
+                        Nmap XML file.
   --skip-ports PORTS [PORTS ...]
                         Set the ports to ignore. These ports will have no
                         enumeration taken against them, except for the initial
-                        discovery via nmap. This can be used to run a custom
+                        discovery via Nmap. This can be used to run a custom
                         scan and pass the results to Lancer.
-  --show-output         Show the output of the programs which are executed,
-                        such as nmap, nikto, smbclient and gobuster
-  -l LANGUAGE, --language LANGUAGE
-                        Language you want Lancer to run in. Defaults to
-                        English !!NOT YET IMPLEMENTED!!
-  --nmap FILE           Skip an internal nmap scan by providing the path to an
-                        nmap XML file
-  --udp                 Scan for UDP ports as well as TCP when using nmap.
+  --udp                 Scan for UDP ports as well as TCP when using Nmap.
                         This will look for more ports but will result in a
                         much longer scan time
+  -q, --quiet           [OBSOLETE] Do a quiet nmap scan. This will help reduce
+                        the footprint of the scan in logs and on IDS which may
+                        be present in a network. This has been replaced with
+                        -L/--level
 
-Web Services:
-  Options for targeting web services
+Output Arguments:
+  -v                    Use a verbose output. This will output results and
+                        information as modules run, which can be useful if you
+                        don't wish to wait for a report at the end.
+  -vv                   Use a very verbose output. This will output virtually
+                        every single event that Lancer logs. Useful for
+                        debugging.
+  --show-output         [Not yet implemented] Show the output of the programs
+                        which are executed, such as nmap, nikto, smbclient and
+                        gobuster
+  --version             Shows the current version of Lancer
 
+Optional Arguments:
+  -l LANGUAGE, --language LANGUAGE
+                        [Not yet implemented] Language you want Lancer to use.
+                        Defaults to English (en)
   -wW WORDLIST, --web-wordlist WORDLIST
-                        The wordlist to use. The default wordlist can be
-                        changed in the config file
-  --web-scan-only       Perform a web scan only. This runs a custom Nmap scan
-                        on ports 80, 443, 3000 and 8080, and runs the web
-                        modules against that target. NOT YET IMPLEMENTED
-
-File Services:
-  Options for targeting file services
-
-  -fD DOMAIN            Domain to use during the enumeration of file services
-  -fU USERNAME          Username to use during the enumeration of file
-                        services
-  -fP PASSWORD          Password to use during the enumeration of file
-                        services
+                        [Not yet implemented] The wordlist to use. The default
+                        wordlist can be changed in the config file
+  -h, --help            Shows the different arguments available for Lancer
 
 Examples:
 
-$ python lancer.py -T 10.10.10.100 --verbose
-$ python lancer.py --target-file targets --skip-ports 445 8080 --show-program-output
-$ python lancer.py --target 192.168.1.10 --nmap nmap/bastion.xml /
-  -wW /usr/share/wordlists/dirbuster/directory-2.3-small.txt /
-  -fD HTB -fU L4mpje -fP P@ssw0rd
+[+] python lancer.py -T 10.10.10.100 -v
+[+] python lancer.py --target-file targets.lan --skip-ports 445 8080 --show-program-output
+[+] python lancer.py --target 192.168.1.10 --nmap nmap/10.0.0.1.xml -wW
+    /usr/share/wordlists/dirbuster/directory-2.3-small.txt
 ```
 
 ## Contributing

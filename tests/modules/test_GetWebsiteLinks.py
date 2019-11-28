@@ -6,7 +6,7 @@
 """
 
 from modules.GetWebsiteLinks import GetWebsiteLinks
-from core import Loot
+from core import Loot, config
 
 import pytest
 
@@ -15,6 +15,21 @@ import pytest
 def test_module_creation():
     links = GetWebsiteLinks()
     assert links is not None
+
+
+@pytest.mark.module
+def test_disabled_config():
+    module = GetWebsiteLinks()
+
+    if module.name not in config.config:
+        config.config.add_section(module.name)
+    config.config.set(module.name, "enabled", "False")
+
+    result = module.should_execute("", 0)
+
+    config.config.set(module.name, "enabled", "True")
+
+    assert result is False
 
 
 @pytest.mark.module

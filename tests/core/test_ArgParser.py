@@ -38,3 +38,13 @@ def test_quits_with_version():
         ArgHandler.parse_arguments(["--version"])
     sys.stdout = sys.__stdout__
     assert config.__version__ in captured_output.getvalue()
+
+
+@pytest.mark.core
+def test_quits_with_help():
+    captured_output = io.StringIO()
+    sys.stdout = captured_output
+    with pytest.raises(SystemExit):
+        ArgHandler.parse_arguments(["--help"])
+    sys.stdout = sys.__stdout__
+    assert "Lancer - system vulnerability scanner" in captured_output.getvalue()

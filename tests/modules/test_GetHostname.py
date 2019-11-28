@@ -6,7 +6,7 @@
 """
 
 from modules.GetHostname import GetHostname
-from core import Loot
+from core import Loot, config
 
 import pytest
 
@@ -15,6 +15,20 @@ import pytest
 def test_module_creation():
     hostname = GetHostname()
     assert hostname is not None
+
+
+@pytest.mark.module
+def test_disabled_config():
+    module = GetHostname()
+    if module.name not in config.config:
+        config.config.add_section(module.name)
+    config.config.set(module.name, "enabled", "False")
+
+    result = module.should_execute("", 0)
+
+    config.config.set(module.name, "enabled", "True")
+
+    assert result is False
 
 
 @pytest.mark.module

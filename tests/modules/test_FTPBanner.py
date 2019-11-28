@@ -6,7 +6,7 @@
 """
 
 from modules.FTPBanner import FTPBanner
-from core import Loot
+from core import Loot, config
 
 import warnings
 import pytest
@@ -16,6 +16,21 @@ import pytest
 def test_module_creation():
     banner = FTPBanner()
     assert banner is not None
+
+
+@pytest.mark.module
+def test_disabled_config():
+    module = FTPBanner()
+
+    if module.name not in config.config:
+        config.config.add_section(module.name)
+    config.config.set(module.name, "enabled", "False")
+
+    result = module.should_execute("", 0)
+
+    config.config.set(module.name, "enabled", "True")
+
+    assert result is False
 
 
 @pytest.mark.module

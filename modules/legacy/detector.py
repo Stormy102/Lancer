@@ -1,4 +1,4 @@
-from modules.legacy import ftp, gobuster, nikto
+from modules.legacy import gobuster, nikto
 
 from core import config, utils
 import platform
@@ -36,10 +36,6 @@ def detect_service(openport):
         print(utils.normal_message(), service_name, "is open on port", port)
         # Ignore the port if its in the list of ports to skip
         if port not in config.args.skipPorts:
-            # Some kind of ftp service
-            if service_type == "ftp":
-                print(utils.warning_message(), service_name, "is recognised by nmap as a ftp program")
-                ftp.ftp(openport)
             # Some kind of SSH server
             if service_type == "ssh":
                 print(utils.warning_message(), service_name, "is recognised by nmap as an ssh server")

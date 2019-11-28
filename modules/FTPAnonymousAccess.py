@@ -144,7 +144,12 @@ class FTPAnonymousAccess(BaseModule):
         return files
 
     def download_file(self, ip, ftp_client, filename):
-        file_size = ftp_client.size(filename) / 1024 / 1024
+        try:
+            file_size = ftp_client.size(filename) / 1024 / 1024
+        except ftplib.error_perm:
+            self.logger.error("Permission denied to access {FILE}".format(FILE=filename))
+            return
+
         msg = "Downloading {FILE} size {SIZE}".format(FILE=filename, SIZE="{:.1f}mb".format(file_size))
         print(utils.normal_message(), msg, end=' ')
         self.logger.debug(msg)

@@ -29,7 +29,7 @@ class FTPBanner(BaseModule):
             self.logger.debug("Connecting to {IP}:{PORT}".format(IP=ip, PORT=port))
             ftp_client.connect(ip, port, timeout=30)
             self.logger.info("Successfully connected to {IP}:{PORT}".format(IP=ip, PORT=port))
-            Loot.loot[ip][str(port)][self.loot_name]["Banner"] = ftp_client.getwelcome()\
+            Loot.loot[ip][str(port)][self.loot_name] = ftp_client.getwelcome()\
                 .replace("220-", "")\
                 .replace("220 ", "")  # Get rid of FTP codes beforehand
             self.logger.info("Retrieved FTP banner from {IP}:{PORT}".format(IP=ip, PORT=port))

@@ -119,7 +119,7 @@ def scan_target(target: str):
         # See if the target is an IP network
         ip_network = ipaddress.ip_network(target, strict=False)
         if ip_network.version is 6:
-            print(utils.warning_message(), "IPv6 addresses are not yet supported\n")
+            print(utils.error_message(), "IPv6 addresses are not yet supported\n")
             return
         for x in range(ip_network.num_addresses):
             ip = ip_network[x]

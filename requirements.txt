@@ -5,3 +5,4 @@ cpe_utils==0.1.0
 pyOpenSSL==19.0.0
 cryptography==2.7
 beautifulsoup4==4.8.1
+pyfiglet==0.8.post1

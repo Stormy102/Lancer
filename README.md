@@ -62,11 +62,10 @@ As Lancer is still very much in active development, there is currently limited f
 * [X] Page Links Module _Added in 0.0.3_
 * [X] Output results via JSON to `~/.lancer/cache/[SCAN TIME]/loot.json` _Added in 0.0.3_
 * [X] Disable modules from `config.ini` _Added in 0.0.3_
+* [X] Output results via terminal console _Added in 0.0.3_
 * [ ] Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Planned for 0.0.3_
 * [ ] Improved modularity by shifting to an OOP module approach _Planned for 0.0.3_
 * [ ] CPE detection module _Planned for 0.0.3_
-* [ ] Output results via terminal console _Planned for 0.0.3_
-* [ ] Write output to file via `-o` parameter _Planned for 0.0.3_
     
 </details>
 
@@ -77,6 +76,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] Modules use hostname and/or IP address correctly _Planned for 0.0.4_
 * [ ] RPCClient Null Session module _Planned for 0.0.4_
 * [ ] RPCClient User Enumeration _Planned for 0.0.4_
+* [ ] Write output to file via `-o` parameter _Planned for 0.0.4_
 * [ ] WhoIs Module (Maybe use https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.0.4_
 * [ ] Dig zone transfer _Planned for 0.0.4_
 * [ ] Page Links Module use recursion to iterate every available internal link _Planned for 0.0.4_
@@ -101,6 +101,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] WPScan support _Planned for 0.0.6_
 * [ ] Open X11 module _Planned for 0.0.6_
 * [ ] Metasploit RPC support _Planned for 0.0.7_
+* [ ] Extension support - add your own custom report generators and modules _Planned for 0.0.7_
 * [ ] Further services detection _Coming soon_
     * SQL
     * Telnet

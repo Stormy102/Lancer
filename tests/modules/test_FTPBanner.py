@@ -76,10 +76,10 @@ def test_get_banner():
         assert Loot.loot[hostname][port] is not None
         assert Loot.loot[hostname][port][banner.loot_name] is not None
 
-        if "Banner" not in Loot.loot[hostname][port][banner.loot_name]:
+        if not Loot.loot[hostname][port][banner.loot_name]:
             warnings.warn("Banner not present")
             raise AssertionError()
-        assert Loot.loot[hostname][port][banner.loot_name]['Banner'] is not None
+        assert Loot.loot[hostname][port][banner.loot_name] is not None
     except AssertionError:
         warnings.warn("Unable to connect to speedtest.tele2.net")
 

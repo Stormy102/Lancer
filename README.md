@@ -63,9 +63,9 @@ As Lancer is still very much in active development, there is currently limited f
 * [X] Output results via JSON to `~/.lancer/cache/[SCAN TIME]/loot.json` _Added in 0.0.3_
 * [X] Disable modules from `config.ini` _Added in 0.0.3_
 * [X] Output results via terminal console _Added in 0.0.3_
-* [ ] Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Planned for 0.0.3_
-* [ ] Improved modularity by shifting to an OOP module approach _Planned for 0.0.3_
-* [ ] CPE detection module _Planned for 0.0.3_
+* [X] Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Added for 0.0.3_
+* [ ] CPE detection module _Coming in 0.0.3_
+* [ ] Improved modularity by shifting to an OOP module approach _Coming in 0.0.3_
     
 </details>
 

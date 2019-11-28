@@ -53,8 +53,8 @@ def check_module_dependencies():
             sys.exit(1)
         elif run_state is ModuleExecuteState.SkipExecute:
             msg = "{PROGRAM} is not installed, this module will be temporarily disabled".format(PROGRAM=module.name)
-            print(utils.warning_message(), msg)
             logger.warning(msg)
+            print(utils.warning_message(), msg)
     print()
 
 

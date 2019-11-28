@@ -42,24 +42,11 @@ def get_config_parser():
     cfg.set('Main', '# [FTP Banner]', None)
     cfg.set('Main', '# enabled=false', None)
 
-    cfg['FTP Banner'] = {}
-    cfg['FTP Banner']['Enabled'] = False
-
-    cfg['File'] = {}
-    cfg.set('File', '# The directory that the downloaded FTP files should be saved to. Defaults to relative ./ftp '
-                    'directory', None)
-    cfg['File']['FTPCache'] = 'ftp'
-
     cfg['Web'] = {}
-    cfg.set('Web', '# The directory that the gobuster output files should be saved to. Defaults to relative ./gobuster '
-                   'directory', None)
-    cfg['Web']['GobusterCache'] = 'gobuster'
     cfg.set('Web', '# The wordlist that is used by Gobuster when enumerating a HTTP/HTTPS service', None)
     cfg['Web']['DefaultWordlist'] = '/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt'
-    cfg.set('Web', '# The directory that the Nikto output files should be saved to. Defaults to relative ./Nikto '
-                   'directory', None)
-    cfg['Web']['NiktoCache'] = 'nikto'
 
+    # TODO: Stop convert to lowercase
     # cfg.optionxform = str
     return cfg
 

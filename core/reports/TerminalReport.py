@@ -7,6 +7,7 @@
 from core.reports.Report import Report
 from shutil import get_terminal_size
 
+import textwrap
 import pyfiglet
 
 
@@ -18,19 +19,22 @@ class TerminalReport(Report):
     def generate_report(self, data: dict) -> None:
         self.print_line()
 
-        print(pyfiglet.figlet_format("Scan Report", "standard"))
-        # print("Lancer - Report:".center(get_terminal_size((80, 24)).columns))
+        text = pyfiglet.figlet_format("Scan Report", "standard")
+        term_size = get_terminal_size((80, 24))
+
+        header = '\n'.join(x.center(term_size.columns) for x in text.splitlines())
+        print(header)
 
         self.print_line()
 
         for target in data:
-            print("Target: {HOST}".format(HOST=target))
+            print(" Target: {HOST}".format(HOST=target))
             for port in data[target]:
                 if self.is_port(port):
-                    print(" " * 2 + "Port: {HOST}".format(HOST=port))
+                    print(" " * 3 + "Port: {HOST}".format(HOST=port))
                 else:
-                    print(" " * 2 + "{HOST}".format(HOST=port))
-                self.generate_info_from_data(data[target][port], 4)
+                    print(" " * 3 + "{HOST}".format(HOST=port))
+                self.generate_info_from_data(data[target][port], 6)
             self.print_line()
 
     # noinspection PyMethodMayBeStatic
@@ -39,16 +43,16 @@ class TerminalReport(Report):
             if isinstance(data[item], dict):
                 print(" " * depth + "{ITEM}:".format(ITEM=item))
                 if data[item]:
-                    self.generate_info_from_data(data[item], depth+2)
+                    self.generate_info_from_data(data[item], depth+3)
                 else:
-                    print(" " * (depth + 2) + "No results")
+                    print(" " * (depth + 3) + "No results")
             elif isinstance(data[item], list):
                 print(" " * depth + "{ITEM}:".format(ITEM=item))
                 if data[item]:
                     for entry in data[item]:
-                        print(" " * (depth + 2) + "- {ENTRY}".format(ENTRY=entry))
+                        print(" " * (depth + 3) + "- {ENTRY}".format(ENTRY=entry))
                 else:
-                    print(" " * (depth + 2) + "No results")
+                    print(" " * (depth + 3) + "No results")
             else:
                 if isinstance(data[item], str):
                     if data[item]:

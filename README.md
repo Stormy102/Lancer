@@ -76,7 +76,10 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] Modules use hostname and/or IP address correctly _Planned for 0.0.4_
 * [ ] RPCClient Null Session module _Planned for 0.0.4_
 * [ ] RPCClient User Enumeration _Planned for 0.0.4_
+* [ ] Configure intrusiveness level with `-L`/`--level` _Planned for 0.0.4_
+* [ ] Change cache root with `--cache-root` _Planned for 0.0.4_
 * [ ] Write output to file via `-o` parameter _Planned for 0.0.4_
+* [ ] Specify ports to skip scanning _Planned for 0.0.4_
 * [ ] WhoIs Module (Maybe use https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.0.4_
 * [ ] Dig zone transfer _Planned for 0.0.4_
 * [ ] Page Links Module use recursion to iterate every available internal link _Planned for 0.0.4_
@@ -86,6 +89,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] Generate HTML report _Planned for 0.0.4_
 * [ ] Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.4_
 * [ ] SMB enumeration with SMBClient/smbmap _Planned for 0.0.4_
+* [ ] Clear cache command line option - `--clear-cache` _Planned for 0.0.4_
 * [ ] Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.0.4_
 * [ ] IPv6 support _Planned for 0.0.4_
 
@@ -98,6 +102,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] Web service screenshots (See [selenium](https://pypi.org/project/selenium/)) _Planned for 0.0.5_
 * [ ] Nmap script level _Planned for 0.0.5_
 * [ ] enum4linux support _Planned for 0.0.5_
+* [ ] Email report _Planned for 0.0.6_
 * [ ] WPScan support _Planned for 0.0.6_
 * [ ] Open X11 module _Planned for 0.0.6_
 * [ ] Metasploit RPC support _Planned for 0.0.7_
@@ -187,78 +192,79 @@ However, Lancer has dependencies on several other external programs being instal
 The program takes the following arguments:
 
 ```text
-usage: lancer.py (-T TARGET | -TF FILE) [--cache-root PATH] [-L LEVEL]
-                 [--nmap FILE] [--skip-ports PORTS [PORTS ...]] [--udp] [-q]
-                 [-v | -vv] [--show-output] [--version] [-l LANGUAGE]
-                 [-wW WORDLIST] [-h]
+usage: lancer.py (-T TARGET | -TF FILE | -TN FILE) [--cache-root PATH]
+                 [-L LEVEL] [--skip-ports PORTS [PORTS ...]] [-v | -vv]
+                 [-o FILE] [--version] [-l LANGUAGE] [-h] [--udp]
+                 [--wordlist WORDLIST]
 
 [+] Lancer - system vulnerability scanner
-[+] This tool is designed to aid the recon phase of a pentest or any legal & authorised
-    attack  against a device or network. The author does not take any liability for use of this tool for
-    illegal use. See the config.ini file at ~/.lancer/config.ini for more options
+[+] See the config.ini file at C:\Users\Matthew\.lancer\config.ini for more options
 
 Required Arguments:
   -T TARGET, --target TARGET
                         The hostname, IPv4 address or a subnet of of IPv4
                         addresses you wish to analyse.
   -TF FILE, --target-file FILE
-                        File containing a list of target IP addresses
+                        File containing a list of target IP addresses.
+  -TN FILE, --target-nmap FILE
+                        Skip an internal Nmap scan by providing the path to an
+                        Nmap XML file. It is recommended to run common scripts
+                        (-sC argument) and version detection (-sV argument)
 
-Module Arguments:
-  --cache-root PATH     The root of the cache. This is where all of the data
-                        for the programs run is stored, which may be useful if
-                        you wish to document or save all of the data in a
-                        separate location.
+Module Arguments (Coming soon):
+  --cache-root PATH     [NOT YET IMPLEMENTED] The root of the cache. This is
+                        where all of the data for the programs run is stored,
+                        which may be useful if you wish to document or save
+                        all of the data in a separate location.
   -L LEVEL, --level LEVEL
-                        The intrusion level of this iteration. A level of 1
-                        means the least intrusive scripts will be run, such as
-                        Nmap on quiet mode and a few HTTP requests. A level of
-                        5 will mean that intrusive exploits will be run
-                        against the computer to determine how vulnerable it
-                        is. A full list of modules and their intrusion levels
-                        can be found on the Github Wiki.
-  --nmap FILE           Skip an internal Nmap scan by providing the path to an
-                        Nmap XML file.
+                        [NOT YET IMPLEMENTED] The intrusion level of this
+                        iteration. A level of 1 means the least intrusive
+                        scripts will be run, such as Nmap on quiet mode and a
+                        few HTTP requests. A level of 5 will mean that
+                        intrusive exploits will be run against the computer to
+                        determine how vulnerable it is. A full list of modules
+                        and their intrusion levels can be found on the Github
+                        Wiki.
   --skip-ports PORTS [PORTS ...]
-                        Set the ports to ignore. These ports will have no
-                        enumeration taken against them, except for the initial
-                        discovery via Nmap. This can be used to run a custom
-                        scan and pass the results to Lancer.
-  --udp                 Scan for UDP ports as well as TCP when using Nmap.
-                        This will look for more ports but will result in a
-                        much longer scan time
-  -q, --quiet           [OBSOLETE] Do a quiet nmap scan. This will help reduce
-                        the footprint of the scan in logs and on IDS which may
-                        be present in a network. This has been replaced with
-                        -L/--level
+                        [NOT YET IMPLEMENTED] Set the ports to ignore. These
+                        ports will have no enumeration taken against them,
+                        except for the initial discovery via Nmap. This can be
+                        used to run a custom scan and pass the results to
+                        Lancer. Best used in conjunction with -TN/--target-
+                        nmap.
 
 Output Arguments:
-  -v                    Use a verbose output. This will output results and
+  -v, --verbose         Use a verbose output. This will output results and
                         information as modules run, which can be useful if you
                         don't wish to wait for a report at the end.
-  -vv                   Use a very verbose output. This will output virtually
+  -vv, --very-verbose   Use a very verbose output. This will output virtually
                         every single event that Lancer logs. Useful for
                         debugging.
-  --show-output         [Not yet implemented] Show the output of the programs
-                        which are executed, such as nmap, nikto, smbclient and
-                        gobuster
-  --version             Shows the current version of Lancer
+  -o FILE, --output FILE
+                        [NOT YET IMPLEMENTED] Output the human-readable
+                        contents of the Lancer scan to a file. Best used in
+                        conjunction with -v/-vv
+  --version             Shows the current version of Lancer.
 
 Optional Arguments:
   -l LANGUAGE, --language LANGUAGE
-                        [Not yet implemented] Language you want Lancer to use.
-                        Defaults to English (en)
-  -wW WORDLIST, --web-wordlist WORDLIST
-                        [Not yet implemented] The wordlist to use. The default
-                        wordlist can be changed in the config file
-  -h, --help            Shows the different arguments available for Lancer
+                        [NOT YET IMPLEMENTED] Language you want Lancer to use
+                        in. The language code uses ISO 639-1. Defaults to
+                        English.
+  -h, --help            Shows the different arguments available for Lancer.
+
+Obsolete Arguments
+These arguments will be removed in the next update and will reside in config.ini:
+  --udp                 Scan for UDP ports as well as TCP when using Nmap.
+                        This will look for more ports but will result in a
+                        much longer scan time
+  --wordlist WORDLIST   The wordlist to use.
 
 Examples:
 
-[+] python lancer.py -T 10.10.10.100 -v
-[+] python lancer.py --target-file targets.lan --skip-ports 445 8080 --show-program-output
-[+] python lancer.py --target 192.168.1.10 --nmap nmap/10.0.0.1.xml -wW
-    /usr/share/wordlists/dirbuster/directory-2.3-small.txt
+[+] ./lancer -T 10.10.10.100 -v -l de
+[+] ./lancer -TF targets.lan --vv --cache-root ./cache/
+[+] ./lancer.py -TN nmap-10.0.0.1.xml --skip-ports 445 8080 -L 5
 ```
 
 ## Contributing

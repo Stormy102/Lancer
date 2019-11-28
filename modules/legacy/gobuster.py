@@ -30,9 +30,9 @@ def exec(url):
         # Clear Gobuster's Progress: X / Y (ZZ.ZZ%)
         sys.stdout.write('\x1b[2K')
 
-        if config.args.show_output:
-            print("")
-            print(output)
+        # if config.args.show_output:
+        #    print("")
+        #    print(output)
 
         parse_gobuster_results(out_file)
     print()

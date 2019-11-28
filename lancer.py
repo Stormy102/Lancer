@@ -97,7 +97,7 @@ def cache_size_check():
 
 def scan_targets():
     # Detect if we have a target list or just a single target
-    if config.args.target is None:
+    if config.args.host_file is not None:
         # Target list
         targets = config.args.host_file.read().splitlines()
 
@@ -109,7 +109,9 @@ def scan_targets():
                 continue
 
             scan_target(target)
-
+    elif config.args.nmapFile is not None:
+        print(utils.normal_message(), "Loading nmap file")
+        nmap.parse_nmap_scan(config.args.nmapFile)
     else:
         scan_target(config.args.target)
 
@@ -155,16 +157,7 @@ def scan_target(target: str):
 def execute(target: Target):
     # TODO: Use hostname if module allows it
     config.current_target = str(target.ip)
-    # If we have passed an nmap xml file
-    if config.args.nmapFile is not None:
-        print(utils.normal_message(), "Loading nmap file")
-        nmap.parse_nmap_scan(config.args.nmapFile)
-    else:
-        if config.args.quiet:
-            nmap.nmap_scan(True)
-        else:
-            nmap.nmap_scan(False)
-
+    nmap.nmap_scan()
 
 if __name__ == "__main__":
     """`Lancer` entry point"""

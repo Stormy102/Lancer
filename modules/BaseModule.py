@@ -24,6 +24,7 @@ class BaseModule(object):
 
         self.multithreaded = multithreaded
         self.intrusive = intrusive
+        self.intrusion_level = 0  # TODO: Intrusion level for all modules instead of bool
         self.critical_module = critical
 
         self.logger = config.get_logger(name)

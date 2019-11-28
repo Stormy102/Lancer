@@ -141,7 +141,7 @@ def get_report_folder() -> str:
 def get_logger(name: str) -> logging.Logger:
     logger = logging.getLogger(name)
     console_logger = logging.StreamHandler()
-    formatter = logging.Formatter(utils.error_message() + ' %(message)s')
+    formatter = logging.Formatter(utils.error_message() + ' [%(name)s] %(message)s')
     console_logger.setFormatter(formatter)
     console_logger.setLevel(logging.ERROR)
 
@@ -161,5 +161,5 @@ logging.basicConfig(filename=get_log_path(),
                     level=logging.DEBUG,
                     format='[%(asctime)s - %(levelname)s - %(name)s] %(message)s',
                     datefmt='%Y-%m-%dT%H:%M:%S')
-config_logger = get_logger("config")
+config_logger = get_logger("Config")
 config_logger.info("Initialised logger at {TIME}".format(TIME=datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')))

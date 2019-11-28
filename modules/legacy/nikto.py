@@ -19,9 +19,9 @@ def exec(url):
         output = subprocess.check_output(['nikto', '-host', url, "-Format", "xml", "-o", out_file, "-ask", "no"])\
             .decode('UTF-8')
 
-        if config.args.show_output:
-            print()
-            print(output)
+        # if config.args.show_output:
+        #    print()
+        #    print(output)
 
         parse_nikto_xml(out_file)
         print()

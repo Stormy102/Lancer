@@ -45,11 +45,13 @@ class GetWebsiteLinks(BaseModule):
                     parse = urlparse(link['href'])
                     loot_url = parse[1] + parse[2]
                     if self.is_internal_url(ip, parse[1]):
-                        self.logger.debug("{URL} is an internal URL".format(URL=loot_url))
-                        Loot.loot[ip][str(port)][self.loot_name]["Internal"].append(loot_url)
+                        if loot_url not in Loot.loot[ip][str(port)][self.loot_name]["Internal"]:
+                            self.logger.debug("{URL} is an internal URL".format(URL=loot_url))
+                            Loot.loot[ip][str(port)][self.loot_name]["Internal"].append(loot_url)
                     else:
-                        self.logger.debug("{URL} is an external URL".format(URL=loot_url))
-                        Loot.loot[ip][str(port)][self.loot_name]["External"].append(loot_url)
+                        if loot_url not in Loot.loot[ip][str(port)][self.loot_name]["External"]:
+                            self.logger.debug("{URL} is an external URL".format(URL=loot_url))
+                            Loot.loot[ip][str(port)][self.loot_name]["External"].append(loot_url)
 
             self.logger.info("Found {INTERNAL} internal links and {EXTERNAL} external links"
                              .format(INTERNAL=len(Loot.loot[ip][str(port)][self.loot_name]["Internal"]),

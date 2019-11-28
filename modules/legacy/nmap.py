@@ -7,46 +7,32 @@ import subprocess
 import os
 
 
-def nmap_scan(quiet):
+def nmap_scan():
     print(utils.normal_message(), "Starting scan of", config.current_target)
 
     # Check if Nmap is installed - critical program. If this fails, the program will exit
     utils.program_installed("nmap", True)
 
-    if quiet:
-        out_file = os.path.join(config.get_module_cache("nmap", config.current_target), "nmap-quiet.xml")
-        print(utils.normal_message(), "Using quiet scan on", config.current_target, "to avoid detection")
+    out_file = os.path.join(config.get_module_cache("nmap", config.current_target), "nmap.xml")
 
-        if config.args.verbose:
-            print(utils.normal_message(), "Writing nmap data to", out_file)
+    if config.args.verbose:
+        print(utils.normal_message(), "Nmap data will be written to", out_file)
 
-        print(utils.normal_message(), "Scanning open ports on", config.current_target + "...", end=' ')
+    nmap_args = ['nmap', '-sC', '-sV', '-oX', out_file, config.current_target]
 
-        with Spinner():
-            output = subprocess.check_output(['nmap', '-sS', '-sV', '-oX', out_file, config.current_target]).decode(
-                'UTF-8')
-    else:
-        out_file = os.path.join(config.get_module_cache("nmap", config.current_target), "nmap.xml")
+    if config.args.scan_udp:
+        print(utils.normal_message(), "Scanning UDP ports, this may take a long time")
+        nmap_args.append('-sU')
 
-        if config.args.verbose:
-            print(utils.normal_message(), "Nmap data will be written to", out_file)
+    print(utils.normal_message(), "Scanning open ports on", config.current_target + "...", end=' ')
 
-        nmap_args = ['nmap', '-sC', '-sV', '-oX', out_file, config.current_target]
-
-        if config.args.scan_udp:
-            print(utils.normal_message(), "Scanning UDP ports, this may take a long time")
-            nmap_args.append('-sU')
-
-        print(utils.normal_message(), "Scanning open ports on", config.current_target + "...", end=' ')
-
-        with Spinner():
-            output = subprocess.check_output(nmap_args).decode('UTF-8')
-
+    with Spinner():
+        output = subprocess.check_output(nmap_args).decode('UTF-8')
     print("")
 
-    if config.args.show_output:
-        print("")
-        print(output)
+    # if config.args.show_output:
+    #    print("")
+    #    print(output)
 
     print(utils.normal_message(), "Scan complete")
 
@@ -82,8 +68,8 @@ def parse_nmap_scan(out_file):
 def searchsploit_nmap_scan(nmap_file):
     print(utils.normal_message(), "Checking searchsploit for detected version vulnerabilities...")
     # TODO: Searchsploit doesn't seem that intelligent with the
-    # TODO: nmap file parsing. Loop through each program individually
-    # TODO: and pass in the program name extracted from nmap
+    #       nmap file parsing. Loop through each program individually
+    #       and pass in the program name extracted from nmap
     # searchsploit -t [PROGRAM]
     if utils.program_installed("searchsploit", False):
         searchsploit_output = subprocess.check_output(['searchsploit', '--nmap', nmap_file]).decode('UTF-8')

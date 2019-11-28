@@ -12,7 +12,7 @@ class Nikto(BaseModule):
     def __init__(self):
         super(Nikto, self).__init__(name="Nikto",
                                     description="Scans the given web server",
-                                    loot_name="Nikto",
+                                    loot_name="nikto",
                                     multithreaded=False,
                                     intrusive=False,
                                     critical=False)
@@ -22,6 +22,8 @@ class Nikto(BaseModule):
         self.create_loot_space(ip, port)
 
         self.logger.debug("Starting Nikto against {IP}:{PORT}".format(IP=ip, PORT=port))
+
+        self.logger.error("Functionality not yet ported over to the new module system")
 
     def should_execute(self, service: str, port: int) -> bool:
         # Check if this module is disabled in the config.ini file

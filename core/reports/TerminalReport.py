@@ -51,11 +51,14 @@ class TerminalReport(Report):
                     print(" " * (depth + 2) + "No results")
             else:
                 if isinstance(data[item], str):
-                    lines = data[item].splitlines()
-                    print(" " * depth + "{ITEM}: {VALUE}".format(ITEM=item, VALUE=lines[0]))
-                    # If there is more than one line, display them neatly line by line
-                    for x in range(1, len(lines)):
-                        print(" " * (depth + 2 + len(item)) + lines[x])
+                    if data[item]:
+                        lines = data[item].splitlines()
+                        print(" " * depth + "{ITEM}: {VALUE}".format(ITEM=item, VALUE=lines[0]))
+                        # If there is more than one line, display them neatly line by line
+                        for x in range(1, len(lines)):
+                            print(" " * (depth + 2 + len(item)) + lines[x])
+                    else:
+                        print(" " * depth + "No results")
                 else:
                     print(" " * depth + "{ITEM}: {VALUE}".format(ITEM=item, VALUE=data[item]))
 

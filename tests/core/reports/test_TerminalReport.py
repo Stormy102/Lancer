@@ -22,11 +22,17 @@ def test_create_instance():
 def test_generate_report():
     report = TerminalReport()
 
-    service = {"options": ["GET", "POST", "OPTIONS"]}
+    ftp_service = {"options": ["GET", "POST", "OPTIONS"], "FTP Banner": "FileZilla Server 0.9.60 beta\nwritten by"
+                                                                        " Tim Kosse (tim.kosse@filezilla-project.org)"
+                                                                        "\nPlease visit https://filezilla-project.org/"}
 
-    geo_service = {"host": "example.com", "ip": "127.0.0.1"}
+    hostname = {"Hostname": "TEST-HOSTNAME", "Aliases": []}
 
-    ports = {"21": service, "geo": geo_service}
+    sub_dict = {"Subsubdict": {}, "Lots of depth": {"More depth": "Ok, that's enough"}, "Empty Str": ""}
+
+    geo_service = {"host": "example.com", "ip": "127.0.0.1", "SubDict": sub_dict}
+
+    ports = {"21": ftp_service, "geo": geo_service, "hostname": hostname}
 
     root = {"example.com": ports}
 

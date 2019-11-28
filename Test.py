@@ -1,5 +1,6 @@
 from core import Loot  # , ModuleProvider, config, utils  # , localisation
 from core.reports.TerminalReport import TerminalReport
+from core.reports.JSONReport import JSONReport
 from modules.FTPAnonymousAccess import FTPAnonymousAccess
 from modules.FTPBanner import FTPBanner
 from modules.GeolocateIP import GeolocateIP
@@ -60,6 +61,7 @@ links.execute("mdawson.dev", 80)
 # ModuleProvider.main()
 
 # ModuleProvider.check_module_dependencies()
-
+report = JSONReport()
+report.generate_report(Loot.loot)
 report = TerminalReport()
 report.generate_report(Loot.loot)

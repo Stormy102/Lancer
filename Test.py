@@ -1,6 +1,6 @@
 from core import Loot  # , ModuleProvider, config, utils  # , localisation
-from core.reports.TerminalReport import TerminalReport
-from core.reports.JSONReport import JSONReport
+# from core.reports.TerminalReport import TerminalReport
+# from core.reports.JSONReport import JSONReport
 from modules.FTPAnonymousAccess import FTPAnonymousAccess
 from modules.FTPBanner import FTPBanner
 from modules.GeolocateIP import GeolocateIP
@@ -18,7 +18,7 @@ nmap = Nmap()
 # ftpanon = FTPAnonymousAccess()
 # ftpanon.execute("speedtest.tele2.net", 21)
 
-ftpbanner = FTPBanner()
+"""ftpbanner = FTPBanner()
 ftpbanner.execute("speedtest.tele2.net", 21)
 ftpbanner.execute("127.0.0.1", 21)
 
@@ -31,7 +31,7 @@ geo_ip.execute("c2.mdawson.dev", 80)
 cert = SSLCertificateExtractor()
 cert.execute("c2.mdawson.dev", 443)
 cert.execute("self-signed.badssl.com", 443)
-cert.execute("expired.badssl.com", 443)
+cert.execute("expired.badssl.com", 443)"""
 
 """gobuster = Gobuster()
 gobuster.execute("localhost", 80)
@@ -39,7 +39,7 @@ gobuster.execute('expired.badssl.com', 443)
 gobuster.execute("self-signed.badssl.com", 443)
 gobuster.execute('speedtest.tele2.net', 80)"""
 
-nikto = Nikto()
+"""nikto = Nikto()
 nikto.execute("c2.mdawson.dev", 80)
 nikto.execute('expired.badssl.com', 443)
 nikto.execute("self-signed.badssl.com", 443)
@@ -56,12 +56,17 @@ options.execute("apache.org", 80)
 options.execute("www.mdawson.dev", 443)
 
 links = GetWebsiteLinks()
-links.execute("mdawson.dev", 80)
+links.execute("mdawson.dev", 80)"""
 
 # ModuleProvider.main()
 
 # ModuleProvider.check_module_dependencies()
-report = JSONReport()
+"""report = JSONReport()
 report.generate_report(Loot.loot)
 report = TerminalReport()
-report.generate_report(Loot.loot)
+report.generate_report(Loot.loot)"""
+from core import ModuleProvider, ArgHandler
+
+ArgHandler.parse_arguments(["-T", "127.0.0.1"])
+
+ModuleProvider.load_modules()

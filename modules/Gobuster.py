@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.BaseModule import BaseModule
+from core.BaseModule import BaseModule
 from core import utils, Loot, config
 
 import subprocess

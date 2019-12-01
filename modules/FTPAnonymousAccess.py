@@ -4,7 +4,7 @@
     Copyright (c) 2019 Lancer developers
     See the file 'LICENCE' for copying permissions
 """
-from modules.BaseModule import BaseModule
+from core.BaseModule import BaseModule
 from core.spinner import Spinner
 from core import config, utils, Loot
 

@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.ModuleExecuteState import ModuleExecuteState
+from core.ModuleExecuteState import ModuleExecuteState
 from shutil import which
 from core import Loot, config
 
@@ -25,6 +25,7 @@ class BaseModule(object):
         self.multithreaded = multithreaded
         self.intrusive = intrusive
         self.intrusion_level = 0  # TODO: Intrusion level for all modules instead of bool
+        self.priority = 1  # TODO: Execute priority - some modules should execute after others have ran
         self.critical_module = critical
 
         self.logger = config.get_logger(name)

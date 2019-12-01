@@ -61,6 +61,11 @@ def init():
     # Parse the arguments
     ArgHandler.parse_arguments(sys.argv[1:])
 
+    # Display the header
+    utils.display_header()
+
+    ModuleProvider.load_modules()
+
     # Check we're on a supported Python version
     utils.python_version()
 

@@ -6,38 +6,59 @@
 """
 from core.CriticalProgramNotInstalled import CriticalProgramNotInstalled
 from core import utils, config
-from modules.BaseModule import BaseModule
-from modules.ModuleExecuteState import ModuleExecuteState
+from core.BaseModule import BaseModule
+from core.ModuleExecuteState import ModuleExecuteState
 from modules.Nmap import Nmap
 
 # To ensure that a module is correctly imported, ensure
 # that an import declaration is inserted here
 # noinspection PyUnresolvedReferences
-from modules.FTPAnonymousAccess import FTPAnonymousAccess
+# from modules.FTPAnonymousAccess import FTPAnonymousAccess
 # noinspection PyUnresolvedReferences
-from modules.FTPBanner import FTPBanner
+# from modules.FTPBanner import FTPBanner
 # noinspection PyUnresolvedReferences
-from modules.GeolocateIP import GeolocateIP
+# from modules.GeolocateIP import GeolocateIP
 # noinspection PyUnresolvedReferences
-from modules.Gobuster import Gobuster
+# from modules.Gobuster import Gobuster
 # noinspection PyUnresolvedReferences
-from modules.Nikto import Nikto
+# from modules.Nikto import Nikto
 # noinspection PyUnresolvedReferences
-from modules.SSLCertificateExtractor import SSLCertificateExtractor
+# from modules.SSLCertificateExtractor import SSLCertificateExtractor
 # noinspection PyUnresolvedReferences
-from modules.SMBClient import SMBClient
+# from modules.SMBClient import SMBClient
 # noinspection PyUnresolvedReferences
-from modules.Searchsploit import Searchsploit
+# from modules.Searchsploit import Searchsploit
 # noinspection PyUnresolvedReferences
-from modules.HTTPHeaders import HTTPHeaders
+# from modules.HTTPHeaders import HTTPHeaders
 # noinspection PyUnresolvedReferences
-from modules.GetHostname import GetHostname
+# from modules.GetHostname import GetHostname
 # noinspection PyUnresolvedReferences
-from modules.HTTPOptions import HTTPOptions
+# from modules.HTTPOptions import HTTPOptions
 # noinspection PyUnresolvedReferences
-from modules.GetWebsiteLinks import GetWebsiteLinks
+# from modules.GetWebsiteLinks import GetWebsiteLinks
 
 import sys
+import importlib.util
+import os
+
+LOADED_MODULES = []
+
+
+def load_modules():
+    for file in os.listdir("modules"):
+        if not os.path.isfile("modules/" + file):
+            continue
+        if not file[-3:] == ".py":
+            continue
+        if file.endswith("__init__.py"):
+            continue
+        print("Importing " + file)
+        module = importlib.import_module("modules.{CLASS}".format(CLASS=file[0:-3]))
+        instance = getattr(module, file[0:-3])()
+        print("Successfully imported {MODULE} ({MODULE_DESC})"
+              .format(MODULE=instance.name, MODULE_DESC=instance.description))
+        LOADED_MODULES.append(instance)
+    print("Successfully imported {COUNT} modules".format(COUNT=len(LOADED_MODULES)))
 
 
 def check_module_dependencies():
@@ -60,6 +81,7 @@ def check_module_dependencies():
 
 def main():
     try:
+        load_modules()
         initialise_provider()
         execute_modules()
     except CriticalProgramNotInstalled as err:

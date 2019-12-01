@@ -21,8 +21,6 @@ def parse_arguments(args):
         parser.print_help()
         sys.exit(0)
 
-    utils.display_header()
-
     config.args = parser.parse_args(args)
 
 
@@ -65,7 +63,8 @@ def create_parser():
                               "The intrusion level of this iteration. A level of 1 means the least intrusive scripts"
                               " will be run, such as Nmap on quiet mode and a few HTTP requests. A level of 5 will mean"
                               " that intrusive exploits will be run against the computer to determine how vulnerable it"
-                              " is. A full list of modules and their intrusion levels can be found on the Github Wiki.")
+                              " is. A full list of modules and their intrusion levels can be found on the Github Wiki."
+                              " This defaults to 3 - moderately intrusive.")
 
     modules.add_argument("--skip-ports", nargs='+', type=int, metavar="PORTS", dest='skipPorts', default=[],
                          help="[NOT YET IMPLEMENTED] "

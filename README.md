@@ -74,14 +74,15 @@ As Lancer is still very much in active development, there is currently limited f
 
 * [ ] Split into blind and targeted modules - blind modules require only a hostname/IP and port, while targeted modules can execute after the blind modules using information potentially harvested from blind modules _Planned for 0.0.4_
 * [ ] Modules use hostname and/or IP address correctly _Planned for 0.0.4_
+* [ ] MS08-067 vulnerability scan _Planned for 0.0.4_
+* [ ] MS17-010 vulnerability scan _Planned for 0.0.4_
+* [ ] BlueKeep vulnerability scan _Planned for 0.0.4_
 * [ ] RPCClient Null Session module _Planned for 0.0.4_
 * [ ] RPCClient User Enumeration _Planned for 0.0.4_
 * [ ] Configure intrusiveness level with `-L`/`--level` _Planned for 0.0.4_
 * [ ] Change cache root with `--cache-root` _Planned for 0.0.4_
 * [ ] Write output to file via `-o` parameter _Planned for 0.0.4_
 * [ ] Specify ports to skip scanning _Planned for 0.0.4_
-* [ ] WhoIs Module (Maybe use https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.0.4_
-* [ ] Dig zone transfer _Planned for 0.0.4_
 * [ ] Page Links Module use recursion to iterate every available internal link _Planned for 0.0.4_
 * [ ] Anonymous LDAP _Planned for 0.0.4_
 * [ ] SSLScan for HTTPS _Planned for 0.0.4_
@@ -99,6 +100,8 @@ As Lancer is still very much in active development, there is currently limited f
     <summary>Features under evaluation</summary>
 
 * [ ] Localisation support _Planned for 0.0.5_
+* [ ] Dig zone transfer _Planned for 0.0.5_
+* [ ] WhoIs Module (Maybe use https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.0.5_
 * [ ] Web service screenshots (See [selenium](https://pypi.org/project/selenium/)) _Planned for 0.0.5_
 * [ ] Nmap script level _Planned for 0.0.5_
 * [ ] enum4linux support _Planned for 0.0.5_

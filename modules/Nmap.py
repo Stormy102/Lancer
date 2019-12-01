@@ -4,12 +4,8 @@
     Copyright (c) 2019 Lancer developers
     See the file 'LICENCE' for copying permissions
 """
-from modules.ModuleExecuteState import ModuleExecuteState
+from core.ModuleExecuteState import ModuleExecuteState
 from shutil import which
-from core import config, utils
-
-import subprocess
-import os
 
 
 class Nmap(object):

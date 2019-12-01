@@ -5,8 +5,8 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.ModuleExecuteState import ModuleExecuteState
-from modules.BaseModule import BaseModule
+from core.ModuleExecuteState import ModuleExecuteState
+from core.BaseModule import BaseModule
 from core import Loot, config
 
 import pytest

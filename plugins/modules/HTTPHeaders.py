@@ -5,13 +5,13 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from core.BaseModule import BaseModule
+from plugins.abstractmodules.GenericWebServiceModule import GenericWebServiceModule
 from core import Loot
 
 import requests
 
 
-class HTTPHeaders(BaseModule):
+class HTTPHeaders(GenericWebServiceModule):
     def __init__(self):
         super(HTTPHeaders, self).__init__(name="HTTP Headers",
                                           description="Pulls all of the HTTP Headers for useful information",
@@ -23,12 +23,7 @@ class HTTPHeaders(BaseModule):
     def execute(self, ip: str, port: int) -> None:
         self.create_loot_space(ip, port)
 
-        if port == 443:
-            url = "https://{IP}".format(IP=ip)
-        elif port == 80:
-            url = "http://{IP}".format(IP=ip)
-        else:
-            url = "http://{IP}:{PORT}".format(IP=ip, PORT=port)
+        url = self.get_url(ip, port)
 
         self.logger.debug("Sending request to {URL}".format(URL=url))
         try:
@@ -44,27 +39,3 @@ class HTTPHeaders(BaseModule):
                 self.logger.info("Server header present: {SERVER}".format(SERVER=response.headers["server"]))
         except requests.exceptions.ConnectionError:
             self.logger.error("Unable to connect to {URL}".format(URL=url))
-
-    def should_execute(self, service: str, port: int) -> bool:
-        # Check if this module is disabled in the config.ini file
-        if not super(HTTPHeaders, self).should_execute(service, port):
-            return False
-        if service == "http":
-            return True
-        if service == "ssl/https":
-            return True
-        if service == "http-proxy":
-            return True
-        if service == "https-alt":
-            return True
-        if port == 80:
-            return True
-        if port == 443:
-            return True
-        if port == 8080:
-            return True
-        if port == 8008:
-            return True
-        if port == 8443:
-            return True
-        return False

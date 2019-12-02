@@ -5,14 +5,14 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from core.BaseModule import BaseModule
+from plugins.abstractmodules.GenericWebServiceModule import GenericWebServiceModule
 from core import Loot
 
 import http.client
 import socket
 
 
-class HTTPOptions(BaseModule):
+class HTTPOptions(GenericWebServiceModule):
 
     def __init__(self):
         super(HTTPOptions, self).__init__(name="HTTP Options",
@@ -29,7 +29,7 @@ class HTTPOptions(BaseModule):
         try:
             self.logger.debug("Sending HTTP connection request to {IP}:{PORT}".format(IP=ip, PORT=port))
             conn = http.client.HTTPConnection(ip, port, timeout=10)
-            conn.request('OPTIONS', '/')  # '/dist/httpd/')
+            conn.request('OPTIONS', '/')
             response = conn.getresponse()
             conn.close()
             self.logger.debug("Received response from {IP}:{PORT}".format(IP=ip, PORT=port))
@@ -43,27 +43,3 @@ class HTTPOptions(BaseModule):
         #     self.logger.error("Unable to parse HTTP status line")
         except socket.error:
             self.logger.error("Socket Error occurred")
-
-    def should_execute(self, service: str, port: int) -> bool:
-        # Check if this module is disabled in the config.ini file
-        if not super(HTTPOptions, self).should_execute(service, port):
-            return False
-        if service == "http":
-            return True
-        if service == "ssl/https":
-            return True
-        if service == "http-proxy":
-            return True
-        if service == "https-alt":
-            return True
-        if port == 80:
-            return True
-        if port == 443:
-            return True
-        if port == 8080:
-            return True
-        if port == 8008:
-            return True
-        if port == 8443:
-            return True
-        return False

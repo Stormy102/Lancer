@@ -4,7 +4,7 @@
     Copyright (c) 2019 Lancer developers
     See the file 'LICENCE' for copying permissions
 """
-from core.BaseModule import BaseModule
+from plugins.abstractmodules.BaseModule import BaseModule
 from core.spinner import Spinner
 from core import config, utils, Loot
 
@@ -14,7 +14,6 @@ import sys
 import os
 import socket
 import mimetypes
-import time
 
 
 class FTPAnonymousAccess(BaseModule):

@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from core.BaseModule import BaseModule
+from plugins.abstractmodules.BaseModule import BaseModule
 from bs4 import BeautifulSoup, SoupStrainer
 from urllib.parse import urlparse
 from core import Loot

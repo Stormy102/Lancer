@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from core.BaseModule import BaseModule
+from plugins.abstractmodules.BaseModule import BaseModule
 
 import requests
 from core import Loot

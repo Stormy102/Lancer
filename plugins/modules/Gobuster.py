@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from core.BaseModule import BaseModule
+from plugins.abstractmodules.GenericWebServiceModule import GenericWebServiceModule
 from core import utils, Loot, config
 
 import subprocess
@@ -14,7 +14,7 @@ import time
 import os
 
 
-class Gobuster(BaseModule):
+class Gobuster(GenericWebServiceModule):
     def __init__(self):
         super(Gobuster, self).__init__(name="Gobuster",
                                        description="Enumerate a web server's directories to find hidden files",
@@ -29,12 +29,7 @@ class Gobuster(BaseModule):
         # List of dictionary results
         Loot.loot[ip][str(port)][self.loot_name] = []
 
-        if port is 443:
-            url = "https://{IP}".format(IP=ip)
-        elif port is 80:
-            url = "http://{IP}".format(IP=ip)
-        else:
-            url = "http://{IP}:{PORT}".format(IP=ip, PORT=port)
+        url = self.get_url(ip, port)
 
         filename = os.path.join(config.get_module_cache(self.name, ip), "gobuster-{PORT}.log".format(PORT=port))
 
@@ -69,27 +64,3 @@ class Gobuster(BaseModule):
                     # Add to the loot
                     result = {"Path": response_dir, "Code": code, "Code Value": human_readable_code}
                     Loot.loot[ip][str(port)][self.loot_name].append(result)
-
-    def should_execute(self, service: str, port: int) -> bool:
-        # Check if this module is disabled in the config.ini file
-        if not super(Gobuster, self).should_execute(service, port):
-            return False
-        if service == "http":
-            return True
-        if service == "ssl/https":
-            return True
-        if service == "http-proxy":
-            return True
-        if service == "https-alt":
-            return True
-        if port == 80:
-            return True
-        if port == 443:
-            return True
-        if port == 8080:
-            return True
-        if port == 8008:
-            return True
-        if port == 8443:
-            return True
-        return False

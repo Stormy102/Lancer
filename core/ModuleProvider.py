@@ -8,31 +8,59 @@
 from core.CriticalProgramNotInstalled import CriticalProgramNotInstalled
 from core import utils, config
 from core.ModuleExecuteState import ModuleExecuteState
-from modules.Nmap import Nmap
 
 import sys
 import importlib.util
 import os
 import operator
 
+
+LOADED_INIT_MODULES = []
 LOADED_MODULES = []
 
 logger = None
 
 
-def load_modules():
+def load():
     global logger
     logger = config.get_logger("Module Provider")
+    # __load_abstract_modules()
+    __load_init_modules()
+    __load_modules()
+    __check_module_dependencies()
 
-    for file in os.listdir("modules"):
-        if not os.path.isfile("modules/" + file):
+
+def __load_init_modules():
+    global logger
+    path = "plugins/initmodules"
+    for file in os.listdir(path):
+        if not os.path.isfile(os.path.join(path, file)):
             continue
         if not file[-3:] == ".py":
             continue
         if file.endswith("__init__.py"):
             continue
         logger.debug("Importing {FILE}".format(FILE=file))
-        module = importlib.import_module("modules.{CLASS}".format(CLASS=file[0:-3]))
+        module = importlib.import_module("plugins.initmodules.{CLASS}".format(CLASS=file[0:-3]))
+        instance = getattr(module, file[0:-3])()
+
+        logger.info("Successfully imported {MODULE} ({MODULE_DESC})"
+                    .format(MODULE=instance.name, MODULE_DESC=instance.description))
+        LOADED_INIT_MODULES.append(instance)
+    print(utils.normal_message(), "Successfully imported {COUNT} init modules".format(COUNT=len(LOADED_INIT_MODULES)))
+
+
+def __load_modules():
+    path = "plugins/modules"
+    for file in os.listdir(path):
+        if not os.path.isfile(os.path.join(path, file)):
+            continue
+        if not file[-3:] == ".py":
+            continue
+        if file.endswith("__init__.py"):
+            continue
+        logger.debug("Importing {FILE}".format(FILE=file))
+        module = importlib.import_module("plugins.modules.{CLASS}".format(CLASS=file[0:-3]))
         instance = getattr(module, file[0:-3])()
 
         logger.info("Successfully imported {MODULE} ({MODULE_DESC})"
@@ -41,7 +69,7 @@ def load_modules():
     print(utils.normal_message(), "Successfully imported {COUNT} modules".format(COUNT=len(LOADED_MODULES)))
 
 
-def check_module_dependencies():
+def __check_module_dependencies():
     global logger
     # Iterate through every single subclass of BaseModule
     for module in LOADED_MODULES:
@@ -59,8 +87,7 @@ def main():
     global logger
     logger = config.get_logger("Module Provider")
     try:
-        load_modules()
-        check_module_dependencies()
+        load()
 
         initialise_provider()
         execute_modules()

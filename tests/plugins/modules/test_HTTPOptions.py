@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.HTTPOptions import HTTPOptions
+from plugins.modules.HTTPOptions import HTTPOptions
 from core import Loot, config
 
 import pytest
@@ -30,66 +30,6 @@ def test_disabled_config():
     config.config.set(module.name, "enabled", "True")
 
     assert result is False
-
-
-@pytest.mark.module
-def test_should_execute_service_http():
-    options = HTTPOptions()
-    assert options.should_execute("http", 1337) is True
-
-
-@pytest.mark.module
-def test_should_execute_service_https():
-    options = HTTPOptions()
-    assert options.should_execute("ssl/https", 1337) is True
-
-
-@pytest.mark.module
-def test_should_execute_service_http_proxy():
-    options = HTTPOptions()
-    assert options.should_execute("http-proxy", 1337) is True
-
-
-@pytest.mark.module
-def test_should_execute_service_https_alt():
-    options = HTTPOptions()
-    assert options.should_execute("https-alt", 1337) is True
-
-
-@pytest.mark.module
-def test_should_execute_port_80():
-    options = HTTPOptions()
-    assert options.should_execute("web-service", 80) is True
-
-
-@pytest.mark.module
-def test_should_execute_port_443():
-    options = HTTPOptions()
-    assert options.should_execute("web-service", 443) is True
-
-
-@pytest.mark.module
-def test_should_execute_port_8008():
-    options = HTTPOptions()
-    assert options.should_execute("web-service", 8008) is True
-
-
-@pytest.mark.module
-def test_should_execute_port_8080():
-    options = HTTPOptions()
-    assert options.should_execute("web-service", 8080) is True
-
-
-@pytest.mark.module
-def test_should_execute_port_8443():
-    options = HTTPOptions()
-    assert options.should_execute("web-service", 8443) is True
-
-
-@pytest.mark.module
-def test_should_not_execute():
-    options = HTTPOptions()
-    assert options.should_execute("unknown-service", 1337) is False
 
 
 @pytest.mark.module

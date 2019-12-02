@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.SSLCertificateExtractor import SSLCertificateExtractor
+from plugins.modules.SSLCertificateExtractor import SSLCertificateExtractor
 from core import Loot, config
 
 import pytest

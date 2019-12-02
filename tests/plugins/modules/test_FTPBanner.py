@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.FTPBanner import FTPBanner
+from plugins.modules.FTPBanner import FTPBanner
 from core import Loot, config
 
 import warnings

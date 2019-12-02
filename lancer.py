@@ -41,9 +41,7 @@ def main():
     print(utils.normal_message(), ip_address.format(IP=get_ip()))
     print()
 
-    ModuleProvider.load_modules()
-
-    ModuleProvider.check_module_dependencies()
+    ModuleProvider.load()
 
     # Get start time
     start_time = time.monotonic()

@@ -6,7 +6,7 @@
 """
 
 from core.ModuleExecuteState import ModuleExecuteState
-from core.BaseModule import BaseModule
+from plugins.abstractmodules.BaseModule import BaseModule
 from core import Loot, config
 
 import pytest

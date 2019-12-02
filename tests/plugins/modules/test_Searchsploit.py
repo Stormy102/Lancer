@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.Searchsploit import Searchsploit
+from plugins.modules.Searchsploit import Searchsploit
 from core import config
 
 import pytest

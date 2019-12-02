@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.GeolocateIP import GeolocateIP
+from plugins.modules.GeolocateIP import GeolocateIP
 from core import Loot, config
 
 import pytest

@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.GetWebsiteLinks import GetWebsiteLinks
+from plugins.modules.GetWebsiteLinks import GetWebsiteLinks
 from core import Loot, config
 
 import pytest

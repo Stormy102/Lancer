@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.SMBClient import SMBClient
+from plugins.modules.SMBClient import SMBClient
 from core import config
 
 import pytest

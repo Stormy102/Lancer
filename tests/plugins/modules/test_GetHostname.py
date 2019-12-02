@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from modules.GetHostname import GetHostname
+from plugins.modules.GetHostname import GetHostname
 from core import Loot, config
 
 import pytest

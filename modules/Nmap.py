@@ -14,11 +14,12 @@ class Nmap(object):
         self.name = "Nmap"
         self.description = "Scans the specified hostname/IP for open ports"
         self.loot_name = "nmap"
-        self.multithreaded = False,
-        self.intrusive = True,
+        self.multithreaded = False
+        self.intrusive = True
         self.critical = True
+        self.priority = 999
 
-    def execute(self, ip: str) -> None:
+    def execute(self, ip: str, port: int) -> None:
         # out_file = os.path.join(config.nmap_cache(), "nmap-{TARGET}.xml".format(TARGET=ip))
 
         """nmap_args = ['nmap', '-sC', '-sV', '-oX', out_file, config.current_target]
@@ -31,6 +32,9 @@ class Nmap(object):
 
         # with Spinner():
         output = subprocess.check_output(nmap_args).decode('UTF-8')"""
+
+    def should_execute(self, service: str, port: int) -> bool:
+        return True
 
     def can_execute_module(self) -> ModuleExecuteState:
         """

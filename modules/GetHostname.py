@@ -15,7 +15,7 @@ class GetHostname(BaseModule):
     def __init__(self):
         super(GetHostname, self).__init__(name="Get Hostname",
                                           description="Attempts to get a machine's hostname, as well as any other"
-                                                      "aliases",
+                                                      " aliases",
                                           loot_name="hostname",
                                           multithreaded=False,
                                           intrusive=False,

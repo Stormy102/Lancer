@@ -4,44 +4,20 @@
     Copyright (c) 2019 Lancer developers
     See the file 'LICENCE' for copying permissions
 """
+
 from core.CriticalProgramNotInstalled import CriticalProgramNotInstalled
 from core import utils, config
-from core.BaseModule import BaseModule
 from core.ModuleExecuteState import ModuleExecuteState
 from modules.Nmap import Nmap
-
-# To ensure that a module is correctly imported, ensure
-# that an import declaration is inserted here
-# noinspection PyUnresolvedReferences
-# from modules.FTPAnonymousAccess import FTPAnonymousAccess
-# noinspection PyUnresolvedReferences
-# from modules.FTPBanner import FTPBanner
-# noinspection PyUnresolvedReferences
-# from modules.GeolocateIP import GeolocateIP
-# noinspection PyUnresolvedReferences
-# from modules.Gobuster import Gobuster
-# noinspection PyUnresolvedReferences
-# from modules.Nikto import Nikto
-# noinspection PyUnresolvedReferences
-# from modules.SSLCertificateExtractor import SSLCertificateExtractor
-# noinspection PyUnresolvedReferences
-# from modules.SMBClient import SMBClient
-# noinspection PyUnresolvedReferences
-# from modules.Searchsploit import Searchsploit
-# noinspection PyUnresolvedReferences
-# from modules.HTTPHeaders import HTTPHeaders
-# noinspection PyUnresolvedReferences
-# from modules.GetHostname import GetHostname
-# noinspection PyUnresolvedReferences
-# from modules.HTTPOptions import HTTPOptions
-# noinspection PyUnresolvedReferences
-# from modules.GetWebsiteLinks import GetWebsiteLinks
 
 import sys
 import importlib.util
 import os
+import operator
 
 LOADED_MODULES = []
+
+logger = None
 
 
 def load_modules():
@@ -52,21 +28,20 @@ def load_modules():
             continue
         if file.endswith("__init__.py"):
             continue
-        print("Importing " + file)
+        logger.debug("Importing {FILE}".format(FILE=file))
         module = importlib.import_module("modules.{CLASS}".format(CLASS=file[0:-3]))
         instance = getattr(module, file[0:-3])()
-        print("Successfully imported {MODULE} ({MODULE_DESC})"
-              .format(MODULE=instance.name, MODULE_DESC=instance.description))
+
+        logger.info("Successfully imported {MODULE} ({MODULE_DESC})"
+                    .format(MODULE=instance.name, MODULE_DESC=instance.description))
         LOADED_MODULES.append(instance)
-    print("Successfully imported {COUNT} modules".format(COUNT=len(LOADED_MODULES)))
+    print(utils.normal_message(), "Successfully imported {COUNT} modules".format(COUNT=len(LOADED_MODULES)))
+    print()
 
 
 def check_module_dependencies():
-    logger = config.get_logger("Module Provider")
     # Iterate through every single subclass of BaseModule
-    for subclass in get_modules():
-        # Create an instance of the module
-        module = subclass()
+    for module in LOADED_MODULES:
         # Check if we can run it
         run_state = module.can_execute_module()
         if run_state is ModuleExecuteState.CannotExecute:
@@ -80,8 +55,12 @@ def check_module_dependencies():
 
 
 def main():
+    global logger
+    logger = config.get_logger("Module Provider")
     try:
         load_modules()
+        check_module_dependencies()
+
         initialise_provider()
         execute_modules()
     except CriticalProgramNotInstalled as err:
@@ -89,20 +68,23 @@ def main():
 
 
 def initialise_provider():
-
+    # TODO: Instead of having an Nmap script as a module, instead, have nmap
+    #       be an EntryPointModule which will make it more extensible in the
+    #       future, such as quiet Nmap and loud Nmap scans
     nmap = Nmap()
 
     if nmap.can_execute_module() is ModuleExecuteState.CanExecute:
-        nmap.execute("127.0.0.1")
+        nmap.execute("127.0.0.1", 0)
     else:
         raise CriticalProgramNotInstalled("Nmap is not installed")
 
 
 def execute_modules():
-    # Iterate through every single subclass of BaseModule
-    for subclass in get_modules():
-        # Create an instance of the module
-        module = subclass()
+    global LOADED_MODULES
+    # Order according to priority
+    LOADED_MODULES = sorted(LOADED_MODULES, key=operator.attrgetter('priority'), reverse=True)
+    # Iterate through every single instance of our modules
+    for module in LOADED_MODULES:
         # Check if we can run it
         run_state = module.can_execute_module()
         if run_state is ModuleExecuteState.CanExecute:
@@ -118,8 +100,3 @@ def execute_modules():
             raise CriticalProgramNotInstalled("{PROGRAM} is not installed".format(PROGRAM=module.name))
         else:
             print(utils.warning_message(), "{PROGRAM} is not installed, skipping...".format(PROGRAM=module.name))
-
-
-def get_modules() -> list:
-    return BaseModule.__subclasses__()
-

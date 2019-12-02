@@ -14,10 +14,12 @@ import os
 class JSONReport(Report):
 
     def __init__(self):
-        super(JSONReport, self).__init__()
+        super(JSONReport, self).__init__("JSON Report")
         self.filename = "output.json"
 
     def generate_report(self, data: dict) -> None:
-        with open(os.path.join(config.get_report_folder(), self.filename), "w") as file:
+        path = os.path.join(config.get_report_folder(), self.filename)
+        with open(path, "w") as file:
             json_data = json.dumps(data, sort_keys=False, indent=4)
             file.write(json_data)
+            self.logger.info("Wrote report to {PATH}".format(PATH=path))

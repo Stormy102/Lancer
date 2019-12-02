@@ -8,6 +8,7 @@
 from core.ModuleExecuteState import ModuleExecuteState
 from shutil import which
 from core import Loot, config
+from core.config import get_logger, module_enabled
 
 import logging
 
@@ -28,7 +29,7 @@ class BaseModule(object):
         self.priority = 1  # TODO: Execute priority - some modules should execute after others have ran
         self.critical_module = critical
 
-        self.logger = config.get_logger(name)
+        self.logger = get_logger(name)
 
         self.logger.debug("Created {NAME} module instance".format(NAME=name))
 
@@ -37,7 +38,7 @@ class BaseModule(object):
 
     def execute(self, ip: str, port: int) -> None:
         # Add to central repository of loot
-        return None
+        pass
 
     def create_loot_space(self, ip: str, port: int) -> None:
         # TODO: Move generation of loot spaces to Loot::create_loot_space() -> dict
@@ -53,7 +54,7 @@ class BaseModule(object):
 
     def should_execute(self, service: str, port: int) -> bool:
         # Check if a module is disabled in the config.ini file
-        return config.module_enabled(self.name)
+        return module_enabled(self.name)
 
     def can_execute_module(self) -> ModuleExecuteState:
         """
@@ -72,7 +73,7 @@ class BaseModule(object):
                     return ModuleExecuteState.CannotExecute
                 # This isn't a critical value, so skip execution
                 else:
-                    self.logger.warning("{PROGRAM} not installed".format(PROGRAM=program, MODULE=self.name))
+                    # self.logger.warning("{PROGRAM} not installed".format(PROGRAM=program, MODULE=self.name))
                     return ModuleExecuteState.SkipExecute
 
         # We have found all of the required programs, so we can execute this module

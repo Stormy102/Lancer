@@ -7,14 +7,13 @@
 from core.reports.Report import Report
 from shutil import get_terminal_size
 
-import textwrap
 import pyfiglet
 
 
 class TerminalReport(Report):
 
     def __init__(self):
-        super(TerminalReport, self).__init__()
+        super(TerminalReport, self).__init__("Terminal Report")
 
     def generate_report(self, data: dict) -> None:
         self.print_line()
@@ -36,6 +35,7 @@ class TerminalReport(Report):
                     print(" " * 3 + "{HOST}".format(HOST=port))
                 self.generate_info_from_data(data[target][port], 6)
             self.print_line()
+        self.logger.debug("Finished generating Terminal report")
 
     # noinspection PyMethodMayBeStatic
     def generate_info_from_data(self, data: dict, depth: int) -> None:
@@ -62,7 +62,7 @@ class TerminalReport(Report):
                         for x in range(1, len(lines)):
                             print(" " * (depth + 2 + len(item)) + lines[x])
                     else:
-                        print(" " * depth + "No results")
+                        print(" " * depth + "{ITEM}: No results".format(ITEM=item))
                 else:
                     print(" " * depth + "{ITEM}: {VALUE}".format(ITEM=item, VALUE=data[item]))
 

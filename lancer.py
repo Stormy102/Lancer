@@ -25,8 +25,8 @@ def main():
     disclaimer = utils.terminal_width_string(
         "Legal Disclaimer: Usage of Lancer for attacking targets without prior mutual"
         " authorisation is illegal. It is the end user's responsibility to adhere to all local"
-        " and international laws. The developer(s) of this tool assume no liability and are not"
-        " responsible for any misuse or damage caused by the use of this program"
+        " and international laws. The developers of this tool assume no liability and are not"
+        " responsible for any misuse or damage caused by the use of this program."
     )
     print(utils.error_message(), disclaimer)
     print()
@@ -34,6 +34,14 @@ def main():
     cache_size_check()
 
     admin_check()
+
+    ip_address = utils.terminal_width_string(
+        "Your IP Address has been detected as {IP}. This can be changed with -a [IP]"
+    )
+    print(utils.normal_message(), ip_address.format(IP=get_ip()))
+    print()
+
+    ModuleProvider.load_modules()
 
     ModuleProvider.check_module_dependencies()
 
@@ -64,8 +72,6 @@ def init():
     # Display the header
     utils.display_header()
 
-    ModuleProvider.load_modules()
-
     # Check we're on a supported Python version
     utils.python_version()
 
@@ -88,6 +94,24 @@ def admin_check():
     else:
         print(utils.normal_message(), "Lancer running with elevated permissions")
     print()
+
+
+def get_ip():
+    # https://stackoverflow.com/a/28950776/4524180
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('1.1.1.1', 1))
+        ip = s.getsockname()[0]
+    except socket.timeout:
+        ip = '127.0.0.1'
+    except socket.gaierror:
+        ip = '127.0.0.1'
+    except WindowsError:
+        ip = '127.0.0.1'
+    finally:
+        s.close()
+    return ip
 
 
 def cache_size_check():
@@ -163,6 +187,7 @@ def execute(target: Target):
     # TODO: Use hostname if module allows it
     config.current_target = str(target.ip)
     nmap.nmap_scan()
+
 
 if __name__ == "__main__":
     """`Lancer` entry point"""

@@ -39,8 +39,8 @@ class HTTPOptions(BaseModule):
                 self.logger.info("Server responded to OPTIONS: {OPTIONS}".format(OPTIONS=allowed))
             else:
                 self.logger.info("OPTIONS HTTP verb not allowed for {URL}".format(URL=ip))
-        except http.client.BadStatusLine:
-            self.logger.error("Unable to parse HTTP status line")
+        # except http.client.BadStatusLine:
+        #     self.logger.error("Unable to parse HTTP status line")
         except socket.error:
             self.logger.error("Socket Error occurred")
 

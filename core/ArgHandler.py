@@ -25,16 +25,16 @@ def parse_arguments(args):
 
 
 def create_parser():
-    example = 'Examples:\n\n'
-    example += utils.normal_message() + ' ./lancer -T 10.10.10.100 -v -l de\n'
-    example += utils.normal_message() + ' ./lancer -TF targets.lan --vv --cache-root ./cache/\n'
+    example = 'Examples:\n'
+    example += utils.normal_message() + ' ./lancer -T 10.10.10.100 -v -l de -a 10.8.0.1\n'
+    example += utils.normal_message() + ' ./lancer -TF targets.lan -vv --cache-root ./cache/\n'
     example += utils.terminal_width_string(
-        utils.normal_message() + ' ./lancer.py -TN nmap-10.0.0.1.xml --skip-ports 445 8080 -L 5'
+        utils.normal_message() + ' ./lancer -TN nmap-10.0.0.1.xml --skip-ports 445 80 -L 5'
     )
 
     description = utils.normal_message() + " Lancer - system vulnerability scanner\n"
     description += utils.terminal_width_string(
-        utils.normal_message() + " See the config.ini file at {CONFIG_PATH} for more options"
+        utils.normal_message() + " See the config.ini file at {CONFIG_PATH} for more options."
         .format(CONFIG_PATH=config.get_config_path())
     )
 
@@ -42,6 +42,7 @@ def create_parser():
                                      description=description, epilog=example, add_help=False)
 
     main_args = parser.add_argument_group("Required Arguments")
+    main_args.description = "Specify the target or targets that Lancer will scan."
     mex_group = main_args.add_mutually_exclusive_group(required=True)
     mex_group.add_argument("-T", "--target", metavar="TARGET", dest='target', type=str,
                            help="The hostname, IPv4 address or a subnet of of IPv4 addresses you wish to analyse.")
@@ -65,7 +66,9 @@ def create_parser():
                               " that intrusive exploits will be run against the computer to determine how vulnerable it"
                               " is. A full list of modules and their intrusion levels can be found on the Github Wiki."
                               " This defaults to 3 - moderately intrusive.")
-
+    modules.add_argument("-a", "--address", metavar="IP", dest='address', default='',
+                         help="[NOT YET IMPLEMENTED] "
+                              "Overrides the detected IP address with your own which is supplied.")
     modules.add_argument("--skip-ports", nargs='+', type=int, metavar="PORTS", dest='skipPorts', default=[],
                          help="[NOT YET IMPLEMENTED] "
                               "Set the ports to ignore. These ports will have no enumeration taken against them,"
@@ -73,6 +76,7 @@ def create_parser():
                               " pass the results to Lancer. Best used in conjunction with -TN/--target-nmap.")
 
     output = parser.add_argument_group("Output Arguments")
+    output.description = "Control the output of Lancer."
     verbose_group = output.add_mutually_exclusive_group(required=False)
     verbose_group.add_argument("-v", "--verbose", dest='verbose', action="store_true", default='',
                                help="Use a verbose output. This will output results and information as modules run,"
@@ -97,8 +101,8 @@ def create_parser():
                                help="Shows the different arguments available for Lancer.")
 
     # TODO: remove obsolete arguments
-    obsolete = parser.add_argument_group("Obsolete Arguments\nThese arguments will be removed in the next update and"
-                                         " will reside in config.ini")
+    obsolete = parser.add_argument_group("Obsolete Arguments")
+    obsolete.description = "These arguments will be removed in the next update and will reside in config.ini"
     obsolete.add_argument("--udp", dest='scan_udp', action="store_true", default='',
                           help="Scan for UDP ports as well as TCP when using Nmap. This will look for more ports but"
                                " will result in a much longer scan time")

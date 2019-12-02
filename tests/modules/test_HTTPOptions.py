@@ -139,6 +139,21 @@ def test_get_invalid_url():
 
 
 @pytest.mark.module
+def test_get_invalid_response_code():
+    options = HTTPOptions()
+
+    hostname = "www.google.com/teapot"
+    port = 80
+
+    options.execute(hostname, port)
+
+    port = str(port)
+
+    assert Loot.loot[hostname][port][options.loot_name] is not None
+    assert not Loot.loot[hostname][port][options.loot_name]
+
+
+@pytest.mark.module
 def test_get_bad_url():
     options = HTTPOptions()
 

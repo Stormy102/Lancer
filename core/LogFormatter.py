@@ -8,7 +8,8 @@
     This holds all of the key information which should be accessed globally across Lancer.
 """
 
-from core import utils
+from core.utils import warning_message, error_message, normal_message
+import core.config
 
 import logging
 
@@ -17,7 +18,10 @@ class LogFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord):
         if record.levelno == logging.WARNING:
-            return utils.warning_message() + ' [{NAME}] {MESSAGE}'.format(NAME=record.name, MESSAGE=record.getMessage())
+            if core.config.args.verbose or core.config.args.very_verbose:
+                return warning_message() + ' [{NAME}] {MESSAGE}'.format(NAME=record.name, MESSAGE=record.getMessage())
+            else:
+                return warning_message() + ' {MESSAGE}'.format(NAME=record.name, MESSAGE=record.getMessage())
         if record.levelno >= logging.ERROR:
-            return utils.error_message() + ' [{NAME}] {MESSAGE}'.format(NAME=record.name, MESSAGE=record.getMessage())
-        return utils.normal_message() + ' [{NAME}] {MESSAGE}'.format(NAME=record.name, MESSAGE=record.getMessage())
+            return error_message() + ' [{NAME}] {MESSAGE}'.format(NAME=record.name, MESSAGE=record.getMessage())
+        return normal_message() + ' [{NAME}] {MESSAGE}'.format(NAME=record.name, MESSAGE=record.getMessage())

@@ -143,7 +143,7 @@ def get_logger(name: str) -> logging.Logger:
     logger = logging.getLogger(name)
     console_logger = logging.StreamHandler()
     console_logger.setFormatter(LogFormatter())
-    console_logger.setLevel(logging.ERROR)
+    console_logger.setLevel(logging.WARNING)
 
     if args.verbose:
         console_logger.setLevel(logging.INFO)

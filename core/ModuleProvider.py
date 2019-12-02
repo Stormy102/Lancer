@@ -21,6 +21,9 @@ logger = None
 
 
 def load_modules():
+    global logger
+    logger = config.get_logger("Module Provider")
+
     for file in os.listdir("modules"):
         if not os.path.isfile("modules/" + file):
             continue
@@ -36,10 +39,10 @@ def load_modules():
                     .format(MODULE=instance.name, MODULE_DESC=instance.description))
         LOADED_MODULES.append(instance)
     print(utils.normal_message(), "Successfully imported {COUNT} modules".format(COUNT=len(LOADED_MODULES)))
-    print()
 
 
 def check_module_dependencies():
+    global logger
     # Iterate through every single subclass of BaseModule
     for module in LOADED_MODULES:
         # Check if we can run it
@@ -48,9 +51,7 @@ def check_module_dependencies():
             logger.error("Required {PROGRAM} is not installed, quitting...".format(PROGRAM=module.name))
             sys.exit(1)
         elif run_state is ModuleExecuteState.SkipExecute:
-            msg = "{PROGRAM} is not installed, this module will be temporarily disabled".format(PROGRAM=module.name)
-            logger.warning(msg)
-            print(utils.warning_message(), msg)
+            logger.warning("{PROGRAM} is not installed, this module will be disabled".format(PROGRAM=module.name))
     print()
 
 

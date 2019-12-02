@@ -184,6 +184,7 @@ def print_header():
     term_size = get_terminal_size((80, 24))
 
     header = '\n'.join(x.center(term_size.columns) for x in header.splitlines())
+    header += '\n'
 
     for c in header:
         sys.stdout.write(c)

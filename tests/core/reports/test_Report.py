@@ -14,13 +14,13 @@ import os
 
 @pytest.mark.core
 def test_create_instance():
-    report = Report()
+    report = Report("Test")
     assert report is not None
 
 
 @pytest.mark.core
 def test_generate_report():
-    report = Report()
+    report = Report("Test")
 
     data = {"Test": "Test", "Spam": "Spam"}
 

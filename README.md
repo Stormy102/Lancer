@@ -64,7 +64,6 @@ As Lancer is still very much in active development, there is currently limited f
 * [X] Disable modules from `config.ini` _Added in 0.0.3_
 * [X] Output results via terminal console _Added in 0.0.3_
 * [X] Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Added for 0.0.3_
-* [ ] CPE detection module _Coming in 0.0.3_
 * [ ] Improved modularity by shifting to an OOP module approach _Coming in 0.0.3_
     
 </details>
@@ -93,6 +92,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] Clear cache command line option - `--clear-cache` _Planned for 0.0.4_
 * [ ] Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.0.4_
 * [ ] IPv6 support _Planned for 0.0.4_
+* [ ] CPE detection module (making up for removal of old CPE logic) _Coming in 0.0.4_
 
 </details>
 

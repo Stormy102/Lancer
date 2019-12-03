@@ -38,9 +38,10 @@ class Nikto(GenericWebServiceModule):
         self.logger.info("Starting Nmap scan of {TARGET}".format(TARGET=ip))
         with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
             # Arguments:
-            # -host - Run default scripts
-            # -sV - Version detection
-            # -oA - Output in all formats
+            # -host - the host to scan
+            # -Format - the format of the output file
+            # -o - the output path
+            # -ask no - don't do anything which requires user input
             # -sC -sV
             command = "nikto -host {URL} -Format xml -o {OUTPUT} -ask no"\
                 .format(URL=url, OUTPUT=output_filename)

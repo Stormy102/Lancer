@@ -33,6 +33,8 @@ class Nmap(BaseModule):
 
         self.logger.debug("Writing XML output to {PATH}.xml|.nmap|.gnmap".format(PATH=output_filename))
 
+        # TODO: UDP scan - different Nmap entry point module that executes?
+
         self.logger.info("Starting Nmap scan of {TARGET}".format(TARGET=ip))
         with Spinner():
             with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:

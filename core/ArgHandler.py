@@ -98,21 +98,15 @@ def create_parser():
                         help="Shows the current version of Lancer.")
 
     optional_args = parser.add_argument_group("Optional Arguments")
-    optional_args.add_argument("-l", "--language", metavar="LANGUAGE", dest='language_code', default='en', type=str,
+    optional_args.add_argument("-l", "--language", metavar="LANGUAGE", dest="language_code", default="en", type=str,
                                help="[NOT YET IMPLEMENTED] "
                                     "Language you want Lancer to use in. The  language code uses ISO 639-1. Defaults to"
                                     " English.")
 
-    optional_args.add_argument("-h", "--help", action="store_true", dest='help',
+    optional_args.add_argument("-h", "--help", action="store_true", dest="help",
                                help="Shows the different arguments available for Lancer.")
-
-    # TODO: remove obsolete arguments
-    obsolete = parser.add_argument_group("Obsolete Arguments")
-    obsolete.description = "These arguments will be removed in the next update and will reside in config.ini"
-    obsolete.add_argument("--udp", dest='scan_udp', action="store_true", default='',
-                          help="Scan for UDP ports as well as TCP when using Nmap. This will look for more ports but"
-                               " will result in a much longer scan time")
-    obsolete.add_argument("--wordlist", metavar="WORDLIST", dest='webWordlist', default='', help="The wordlist to use.")
+    optional_args.add_argument("--clear-cache", action="store_true", dest="clear_cache",
+                               help="Clear the cache before executing")
 
     return parser
 
@@ -157,3 +151,10 @@ def get_language_code() -> str:
     if __args.language_code is None:
         return "en"
     return __args.language_code
+
+
+def get_clear_cache() -> bool:
+    global __args
+    if __args.clear_cache is None:
+        return False
+    return __args.clear_cache

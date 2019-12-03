@@ -20,6 +20,8 @@ import platform
 import ipaddress
 import socket
 import traceback
+import os
+import shutil
 
 logger = None
 
@@ -44,6 +46,17 @@ def init():
 
     # Parse the arguments
     ArgHandler.parse_arguments(sys.argv[1:])
+
+    if ArgHandler.get_clear_cache():
+        for filename in os.listdir(config.get_cache_path()):
+            file_path = os.path.join(config.get_cache_path(), filename)
+
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path) and file_path != config.get_current_cache_path():
+                print(file_path)
+                print(config.get_current_cache_path())
+                shutil.rmtree(file_path)
 
     # Display the header
     utils.display_header()

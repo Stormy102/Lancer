@@ -1,5 +1,13 @@
+#  -*- coding: utf-8 -*-
+#
+#  """
+#      Copyright (c) 2019 Lancer developers
+#      See the file 'LICENCE' for copying permissions
+#  """
+#
+
 from xml.dom import minidom
-from modules.legacy import detector
+from modules import detector
 from core.spinner import Spinner
 
 from core import config, utils

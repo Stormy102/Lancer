@@ -33,17 +33,6 @@ def get_config_parser():
     cfg['Main']['Language'] = 'en'
     cfg.set('Main', '# Show the Lancer header. \'yes\' or \'no\'', None)
     cfg['Main']['ShowHeader'] = 'yes'
-    cfg.set('Main', '# The directory that the nmap output files should be saved to. Defaults to relative ./nmap '
-                    'directory', None)
-    cfg['Main']['NmapCache'] = 'nmap'
-
-    cfg.set('Main', '', None)
-    cfg.set('Main', '# Below here, you can add your own configuration. This varies module to module, but all modules'
-                    ' check if they are enabled.', None)
-    cfg.set('Main', '# If you want to disable a module, create a section with [Module Name] and set \"enabled\" to'
-                    ' \"false\"', None)
-    cfg.set('Main', '# [FTP Banner]', None)
-    cfg.set('Main', '# enabled=false', None)
 
     # TODO: Stop convert to lowercase
     # cfg.optionxform = str
@@ -72,7 +61,7 @@ def load_config():
 
 def module_enabled(name: str) -> bool:
     global config
-    return get_module_value(name, "enabled", "true") == "true"
+    return get_module_value(name, "enabled", "yes") == "yes"
 
 
 def get_module_value(name: str, value: str, default: str = "") -> str:

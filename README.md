@@ -9,28 +9,19 @@
   <a href="#usage">Usage</a>
 </p>
 
-|Branch|Status|Coverage|Code Quality|Last Commit|
-|---|---|---|---|---|
-|Master|[![Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=master)](https://travis-ci.com/Stormy102/Lancer) |[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)|[![Master Code Quality](https://codebeat.co/badges/08113589-61c1-418c-8f2e-bffcc5562425)](https://codebeat.co/projects/github-com-stormy102-lancer-master)|[![Last Master Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer.svg)](https://github.com/Stormy102/Lancer/commits/master)
-|Develop|[![Develop Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=develop)](https://travis-ci.com/Stormy102/Lancer)|[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg?branch=develop)](https://coveralls.io/github/Stormy102/Lancer?branch=develop)|[![Develop Code Quality](https://codebeat.co/badges/10ed4785-93e2-47ad-8504-827f22c74aa1.svg)](https://codebeat.co/projects/github-com-stormy102-lancer-develop)|[![Last Develop Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer/develop.svg)](https://github.com/Stormy102/Lancer/commits/develop)|
+|Branch|Status|Coverage|Code Quality|Last Commit|Commits since last release|
+|---|---|---|---|---|---|
+|Master|[![Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=master)](https://travis-ci.com/Stormy102/Lancer) |[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)|[![Master Code Quality](https://codebeat.co/badges/08113589-61c1-418c-8f2e-bffcc5562425)](https://codebeat.co/projects/github-com-stormy102-lancer-master)|[![Last Master Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer.svg)](https://github.com/Stormy102/Lancer/commits/master)|[![Commits since release](https://img.shields.io/github/commits-since/Stormy102/Lancer/master?label=Commits%20since%20last%20release)]()|
+|Develop|[![Develop Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=develop)](https://travis-ci.com/Stormy102/Lancer)|[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg?branch=develop)](https://coveralls.io/github/Stormy102/Lancer?branch=develop)|[![Develop Code Quality](https://codebeat.co/badges/10ed4785-93e2-47ad-8504-827f22c74aa1.svg)](https://codebeat.co/projects/github-com-stormy102-lancer-develop)|[![Last Develop Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer/develop.svg)](https://github.com/Stormy102/Lancer/commits/develop)|[![Commits since release](https://img.shields.io/github/commits-since/Stormy102/Lancer/develop?label=Commits%20since%20last%20release)]()|
 
 [![Licence](https://img.shields.io/github/license/Stormy102/Lancer)](#licence)
-[![Status](https://img.shields.io/badge/status-Pre%20Release-red.svg)](https://github.com/Stormy102/Lancer/releases)
 [![Releases](https://img.shields.io/github/v/release/Stormy102/Lancer?include_prereleases)](https://github.com/Stormy102/Lancer/releases)
-![GitHub commits since tagged version (branch)](https://img.shields.io/github/commits-since/Stormy102/Lancer/v0.0.2-alpha/develop)
-![GitHub All Releases](https://img.shields.io/github/downloads/Stormy102/Lancer/total)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Stormy102/Lancer)
-[![Contributors](https://img.shields.io/github/contributors/Stormy102/Lancer.svg)](https://github.com/Stormy102/Lancer/graphs/contributors)
-![Supported OSs](https://img.shields.io/badge/OS-Windows%20%7C%20Linux%20%7C%20Mac%20OS%20X-blue.svg)
-<!--- See for dropping Python 3.5 support https://devguide.python.org/#status-of-python-branches -->
-![Python Versions](https://img.shields.io/badge/python-3.5|3.6|3.7|3.8-blue.svg) 
-[![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
+![GitHub Downloads](https://img.shields.io/github/downloads/Stormy102/Lancer/total)
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
 [![Known Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/Stormy102/Lancer/requirements.txt.svg)](https://snyk.io/test/github/Stormy102/Lancer?targetFile=requirements.txt)
-[![Issues](https://img.shields.io/github/issues/Stormy102/Lancer.svg)](https://github.com/Stormy102/Lancer/issues)
-![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/Stormy102/Lancer)
-![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/Stormy102/Lancer)
-![GitHub repo size](https://img.shields.io/github/repo-size/Stormy102/Lancer)
+![Supported OSs](https://img.shields.io/badge/Supported%20OSs-Windows%207+%20%7C%20Ubuntu/Debian-purple.svg)
+![Python Versions](https://img.shields.io/badge/python-3.5+-yellow.svg) <!--- See for dropping Python 3.5 support https://devguide.python.org/#status-of-python-branches -->
+[![PEP8](https://img.shields.io/badge/code%20style-pep8-darkred.svg)](https://www.python.org/dev/peps/pep-0008/)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Stormy102/Lancer)
 
 ## Introduction

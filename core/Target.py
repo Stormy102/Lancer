@@ -42,6 +42,8 @@ class Target(object):
                   .format(TARGET=self.hostname, TIME=self.time_taken))
 
     def get_address(self) -> str:
-        if self.hostname is None:
-            return str(self.ip)
-        return self.hostname
+        # TODO: Dynamic ip/hostname returning dependent on module
+        # if self.hostname is None:
+        #     return str(self.ip)
+        # return self.hostname
+        return str(self.ip)

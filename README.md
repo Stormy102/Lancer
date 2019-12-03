@@ -64,6 +64,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [X] Disable modules from `config.ini` _Added in 0.0.3_
 * [X] Output results via terminal console _Added in 0.0.3_
 * [X] Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Added for 0.0.3_
+* [X] Clear cache command line option - `--clear-cache` _Added in 0.0.3_
 * [ ] Improved modularity by shifting to an OOP module approach _Coming in 0.0.3_
     
 </details>
@@ -89,7 +90,6 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] Generate HTML report _Planned for 0.0.4_
 * [ ] Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.4_
 * [ ] SMB enumeration with SMBClient/smbmap _Planned for 0.0.4_
-* [ ] Clear cache command line option - `--clear-cache` _Planned for 0.0.4_
 * [ ] Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.0.4_
 * [ ] IPv6 support _Planned for 0.0.4_
 * [ ] CPE detection module (making up for removal of old CPE logic) _Coming in 0.0.4_
@@ -196,14 +196,16 @@ The program takes the following arguments:
 
 ```text
 usage: lancer.py (-T TARGET | -TF FILE | -TN FILE) [--cache-root PATH]
-                 [-L LEVEL] [--skip-ports PORTS [PORTS ...]] [-v | -vv]
-                 [-o FILE] [--version] [-l LANGUAGE] [-h] [--udp]
-                 [--wordlist WORDLIST]
+                 [-L LEVEL] [-a IP] [--skip-ports PORTS [PORTS ...]]
+                 [-v | -vv] [-o FILE] [--version] [-l LANGUAGE] [-h]
+                 [--clear-cache]
 
 [+] Lancer - system vulnerability scanner
-[+] See the config.ini file at C:\Users\Matthew\.lancer\config.ini for more options
+[+] See the config.ini file at C:\Users\Matthew\.lancer\config.ini for more options.
 
 Required Arguments:
+  Specify the target or targets that Lancer will scan.
+
   -T TARGET, --target TARGET
                         The hostname, IPv4 address or a subnet of of IPv4
                         addresses you wish to analyse.
@@ -227,7 +229,9 @@ Module Arguments (Coming soon):
                         intrusive exploits will be run against the computer to
                         determine how vulnerable it is. A full list of modules
                         and their intrusion levels can be found on the Github
-                        Wiki.
+                        Wiki. This defaults to 3 - moderately intrusive.
+  -a IP, --address IP   [NOT YET IMPLEMENTED] Overrides the detected IP
+                        address with your own which is supplied.
   --skip-ports PORTS [PORTS ...]
                         [NOT YET IMPLEMENTED] Set the ports to ignore. These
                         ports will have no enumeration taken against them,
@@ -237,6 +241,8 @@ Module Arguments (Coming soon):
                         nmap.
 
 Output Arguments:
+  Control the output of Lancer.
+
   -v, --verbose         Use a verbose output. This will output results and
                         information as modules run, which can be useful if you
                         don't wish to wait for a report at the end.
@@ -255,19 +261,12 @@ Optional Arguments:
                         in. The language code uses ISO 639-1. Defaults to
                         English.
   -h, --help            Shows the different arguments available for Lancer.
-
-Obsolete Arguments
-These arguments will be removed in the next update and will reside in config.ini:
-  --udp                 Scan for UDP ports as well as TCP when using Nmap.
-                        This will look for more ports but will result in a
-                        much longer scan time
-  --wordlist WORDLIST   The wordlist to use.
+  --clear-cache         Clear the cache before executing
 
 Examples:
-
-[+] ./lancer -T 10.10.10.100 -v -l de
-[+] ./lancer -TF targets.lan --vv --cache-root ./cache/
-[+] ./lancer.py -TN nmap-10.0.0.1.xml --skip-ports 445 8080 -L 5
+[+] ./lancer -T 10.10.10.100 -v -l de -a 10.8.0.1
+[+] ./lancer -TF targets.lan -vv --cache-root ./cache/
+[+] ./lancer -TN nmap-10.0.0.1.xml --skip-ports 445 80 -L 5
 ```
 
 ## Contributing

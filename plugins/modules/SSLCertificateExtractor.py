@@ -193,10 +193,8 @@ class SSLCertificateExtractor(BaseModule):
             return True
         if port == 8443:
             return True
-        if service == "ssl/https":
+        if "ssl" in service:
             return True
-        if service == "https":
-            return True
-        if service == "https-alt":
+        if "https" in service:
             return True
         return False

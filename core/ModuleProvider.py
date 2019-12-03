@@ -8,26 +8,43 @@
 from core.CriticalProgramNotInstalled import CriticalProgramNotInstalled
 from core import utils, config
 from core.ModuleExecuteState import ModuleExecuteState
+from core.Target import Target
+from core.ExitCode import ExitCode
 
 import sys
 import importlib.util
 import os
 import operator
 
-
 LOADED_INIT_MODULES = []
 LOADED_MODULES = []
 
 logger = None
 
+# TODO: Make a class
+
 
 def load():
     global logger
     logger = config.get_logger("Module Provider")
-    # __load_abstract_modules()
+    __check_plugin_folder()
     __load_init_modules()
     __load_modules()
     __check_module_dependencies()
+    module = next(x for x in LOADED_MODULES if x.name == "Geolocate IP")
+    module.execute("127.0.0.1", 0)
+
+
+def __check_plugin_folder() -> None:
+    """
+        Checks that the plugin folder exists. If not, it quits with the corresponding exit code
+    """
+    if not os.path.exists("plugins"):
+        sys.exit(ExitCode.PluginDirectoryMissing)
+    if not os.path.exists("plugins/initmodules"):
+        sys.exit(ExitCode.EntryPointModulesNotLoaded)
+    if not os.path.exists("plugins/modules"):
+        sys.exit(ExitCode.ModuleDirectoryMissing)
 
 
 def __load_init_modules():
@@ -77,37 +94,36 @@ def __check_module_dependencies():
         run_state = module.can_execute_module()
         if run_state is ModuleExecuteState.CannotExecute:
             logger.error("Required {PROGRAM} is not installed, quitting...".format(PROGRAM=module.name))
-            sys.exit(1)
+            sys.exit(ExitCode.CriticalDependencyNotInstalled)
         elif run_state is ModuleExecuteState.SkipExecute:
             logger.warning("{PROGRAM} is not installed, this module will be disabled".format(PROGRAM=module.name))
     print()
 
 
-def main():
+def analyse(target: Target):
     global logger
     logger = config.get_logger("Module Provider")
-    try:
-        load()
 
-        initialise_provider()
-        execute_modules()
-    except CriticalProgramNotInstalled as err:
-        print(utils.warning_message(), err)
+    __execute_init_module(target)
+    __execute_modules(target)
 
 
-def initialise_provider():
-    # TODO: Instead of having an Nmap script as a module, instead, have nmap
-    #       be an EntryPointModule which will make it more extensible in the
-    #       future, such as quiet Nmap and loud Nmap scans
-    nmap = Nmap()
+def __execute_init_module(target: Target):
+    if len(LOADED_INIT_MODULES) > 0:
+        module = LOADED_INIT_MODULES[0]
 
-    if nmap.can_execute_module() is ModuleExecuteState.CanExecute:
-        nmap.execute("127.0.0.1", 0)
+        if module.can_execute_module() is ModuleExecuteState.CanExecute:
+            module.execute(target.get_address(), 0)
+        else:
+            print(utils.error_message(), "Unable to meet dependencies for {MODULE}. Quitting"
+                  .format(MODULE=module.name))
+            sys.exit(ExitCode.CriticalDependencyNotInstalled)
     else:
-        raise CriticalProgramNotInstalled("Nmap is not installed")
+        print(utils.error_message(), "No Init Modules loaded. Quitting")
+        sys.exit(ExitCode.EntryPointModulesNotLoaded)
 
 
-def execute_modules():
+def __execute_modules(target: Target):
     global LOADED_MODULES
     # Order according to priority
     LOADED_MODULES = sorted(LOADED_MODULES, key=operator.attrgetter('priority'), reverse=True)
@@ -126,5 +142,3 @@ def execute_modules():
 
         elif run_state is ModuleExecuteState.CannotExecute:
             raise CriticalProgramNotInstalled("{PROGRAM} is not installed".format(PROGRAM=module.name))
-        else:
-            print(utils.warning_message(), "{PROGRAM} is not installed, skipping...".format(PROGRAM=module.name))

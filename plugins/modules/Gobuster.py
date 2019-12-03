@@ -33,6 +33,11 @@ class Gobuster(GenericWebServiceModule):
 
         filename = os.path.join(config.get_module_cache(self.name, ip), "gobuster-{PORT}.log".format(PORT=port))
 
+        wordlist_path = config.get_module_value(self.name,
+                                                "wordlist",
+                                                "/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt")
+        extensions = config.get_module_value(self.name, "extensions", ".php,.txt")
+
         with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
             # Arguments:
             # -e - expanded URL (whole path is shown)
@@ -44,15 +49,13 @@ class Gobuster(GenericWebServiceModule):
             # -u - URL
             # -w - Wordlist
             command = "gobuster dir -z -q -e -k -u {URL} -w {WORDLIST} -x {EXTENSIONS}" \
-                .format(URL=url,
-                        WORDLIST="C:\\Users\\Matthew\\Downloads\\Gobuster\\small.txt",
-                        EXTENSIONS=".php")
+                .format(URL=url, WORDLIST=wordlist_path, EXTENSIONS=extensions)
             process = subprocess.Popen(command, stdout=writer)
 
             # While the process return code is None
             while process.poll() is None:
                 time.sleep(0.5)
-            responses = reader.read().decode("ascii").splitlines()
+            responses = reader.read().decode("UTF-8").splitlines()
             for response in responses:
                 if response.strip() is not "":
                     # Get the response code (last three chars but one)
@@ -64,3 +67,6 @@ class Gobuster(GenericWebServiceModule):
                     # Add to the loot
                     result = {"Path": response_dir, "Code": code, "Code Value": human_readable_code}
                     Loot.loot[ip][str(port)][self.loot_name].append(result)
+
+    def should_execute(self, service: str, port: int) -> bool:
+        return True

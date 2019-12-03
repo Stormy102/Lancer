@@ -19,7 +19,8 @@ import mimetypes
 class FTPAnonymousAccess(BaseModule):
     def __init__(self):
         super(FTPAnonymousAccess, self).__init__(name="FTP Anonymous Access",
-                                                 description="Enumerates an Anonymous access",
+                                                 description="Enumerates an FTP server with Anonymous access and "
+                                                             "downloads files",
                                                  loot_name="Anonymous FTP Download",
                                                  multithreaded=False,
                                                  intrusive=True,
@@ -142,7 +143,7 @@ class FTPAnonymousAccess(BaseModule):
         # Return all of the files we have in the form of their local paths
         return files
 
-    def download_file(self, ip, ftp_client, filename):
+    def download_file(self, ip: str, port: str, ftp_client: ftplib.FTP, filename: str) -> None:
         try:
             file_size = ftp_client.size(filename) / 1024 / 1024
         except ftplib.error_perm:
@@ -155,7 +156,7 @@ class FTPAnonymousAccess(BaseModule):
 
         with Spinner():
 
-            local_filename = os.path.join(config.get_module_cache(self.name, ip), filename)
+            local_filename = os.path.join(config.get_module_cache(self.name, ip, port), filename)
 
             if not os.path.exists(os.path.dirname(local_filename)):
                 os.mkdir(os.path.dirname(local_filename))

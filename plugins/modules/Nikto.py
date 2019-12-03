@@ -5,10 +5,18 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from plugins.abstractmodules.BaseModule import BaseModule
+from plugins.abstractmodules.GenericWebServiceModule import GenericWebServiceModule
+from core.config import get_module_cache
+from core import utils
+from xml.dom import minidom
+
+import os
+import io
+import subprocess
+import time
 
 
-class Nikto(BaseModule):
+class Nikto(GenericWebServiceModule):
     def __init__(self):
         super(Nikto, self).__init__(name="Nikto",
                                     description="Scans the given web server",
@@ -21,22 +29,28 @@ class Nikto(BaseModule):
     def execute(self, ip: str, port: int) -> None:
         self.create_loot_space(ip, port)
 
-        self.logger.debug("Starting Nikto against {IP}:{PORT}".format(IP=ip, PORT=port))
+        url = self.get_url(ip, port)
+        output_filename = os.path.join(get_module_cache(self.name, ip, ""), "nmap")
+        filename = os.path.join(get_module_cache(self.name, ip, ""), "nmap.log")
 
-        self.logger.error("Functionality not yet ported over to the new module system")
+        self.logger.debug("Writing XML output to {PATH}.xml|.nmap|.gnmap".format(PATH=output_filename))
 
-    def should_execute(self, service: str, port: int) -> bool:
-        # Check if this module is disabled in the config.ini file
-        if not super(Nikto, self).should_execute(service, port):
-            return False
-        if service is "http":
-            return True
-        if service is "ssl/https":
-            return True
-        if port is 80:
-            return True
-        if port is 8008:
-            return True
-        if port is 8080:
-            return True
-        return False
+        self.logger.info("Starting Nmap scan of {TARGET}".format(TARGET=ip))
+        with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
+            # Arguments:
+            # -host - Run default scripts
+            # -sV - Version detection
+            # -oA - Output in all formats
+            # -sC -sV
+            command = "nikto -host {URL} -Format xml -o {OUTPUT} -ask no"\
+                .format(URL=url, OUTPUT=output_filename)
+            process = subprocess.Popen(command, stdout=writer)
+            # While the process return code is None
+            while process.poll() is None:
+                time.sleep(0.5)
+            # output = reader.read().decode("UTF-8").splitlines()
+
+        xmldoc = minidom.parse(output_filename)
+        nikto_items = xmldoc.getElementsByTagName('item')
+        for item in nikto_items:
+            print(utils.warning_message(), item.getElementsByTagName("description")[0].firstChild.wholeText)

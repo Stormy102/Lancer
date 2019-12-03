@@ -1,5 +1,3 @@
-from modules.legacy import gobuster, nikto
-
 from core import config, utils
 import platform
 import cpe_utils
@@ -44,27 +42,6 @@ def detect_service(openport):
                     print(script.attributes['id'])
                     if script.attributes['id'] == 'fingerprint-strings':
                         print(script.getElementsByTagName('elem')[0].text)"""
-            # Some kind of http service
-            if service_type == "http":
-                print(utils.warning_message(), service_name, "is recognised by nmap as a http program")
-                if not config.args.quiet:
-                    print("")
-                    url = "http://" + config.current_target + ":" + str(port)
-                    # Scan using gobuster
-                    gobuster.exec(url)
-                    # Scan using nikto
-                    nikto.exec(url)
-            # Some kind of HTTPS server
-            if service_type == "ssl/https" or port == 443:
-                print(utils.warning_message(), service_name, "is recognised by nmap as a ssl/https program")
-                # See for extracting cert details for hostname leakage https://stackoverflow.com/questions/7689941/
-                if not config.args.quiet:
-                    print("")
-                    url = "http://" + config.current_target + ":" + str(port)
-                    # Scan using gobuster
-                    gobuster.exec(url)
-                    # Scan using nikto
-                    nikto.exec(url)
             # MySQL server
             if service_name == "mysql":
                 print(utils.warning_message(), service_name, "is recognised by nmap as a MySQL server...")

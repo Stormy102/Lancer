@@ -11,10 +11,9 @@
 # Make sure to update the README.MD when changing this
 __version__ = "0.0.3 Alpha"
 
-from core import utils
+from core import ArgHandler
 from core.LogFormatter import LogFormatter
 
-import argparse
 import os
 import configparser
 import pathlib
@@ -22,7 +21,10 @@ import logging
 import datetime
 
 
-# TODO: Make class instance
+class Config(object):
+    # TODO: Make class instance
+    pass
+
 
 def get_config_parser():
     cfg = configparser.ConfigParser(allow_no_value=True)
@@ -42,10 +44,6 @@ def get_config_parser():
                     ' \"false\"', None)
     cfg.set('Main', '# [FTP Banner]', None)
     cfg.set('Main', '# enabled=false', None)
-
-    cfg['Web'] = {}
-    cfg.set('Web', '# The wordlist that is used by Gobuster when enumerating a HTTP/HTTPS service', None)
-    cfg['Web']['DefaultWordlist'] = '/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt'
 
     # TODO: Stop convert to lowercase
     # cfg.optionxform = str
@@ -74,11 +72,25 @@ def load_config():
 
 def module_enabled(name: str) -> bool:
     global config
+    return get_module_value(name, "enabled", "true") == "true"
 
-    if name in config:
-        if "enabled" in config[name]:
-            return config[name]["enabled"].lower() == "true"
-    return True
+
+def get_module_value(name: str, value: str, default: str = "") -> str:
+    """
+    Get the value held for a specific module in the config.ini file
+
+    :param name: The name of the module
+    :param value: The dictionary value you want to get
+    :param default: The default value to return if that is not found
+    :return: The value held in the dictionary - if not found the default value will be returned instead
+    """
+    global config
+
+    if name not in config:
+        config[name] = {}
+        if value not in config[name]:
+            config[name][value] = default
+    return config[name][value]
 
 
 def get_lancer_conf_dir() -> str:
@@ -94,12 +106,6 @@ def get_lancer_conf_dir() -> str:
 
 def get_config_path() -> str:
     return os.path.join(get_lancer_conf_dir(), "config.ini")
-
-
-def get_log_path() -> str:
-    global folder_name
-
-    return os.path.join(get_current_cache_path(), "lancer.log".format(TIME=folder_name))
 
 
 def get_cache_path() -> str:
@@ -118,6 +124,12 @@ def get_current_cache_path() -> str:
     return path
 
 
+def get_log_path() -> str:
+    global folder_name
+
+    return os.path.join(get_current_cache_path(), "lancer.log".format(TIME=folder_name))
+
+
 def get_current_target_cache(target: str) -> str:
     path = os.path.join(get_current_cache_path(), target)
     if not os.path.exists(path):
@@ -125,10 +137,14 @@ def get_current_target_cache(target: str) -> str:
     return path
 
 
-def get_module_cache(name: str, target: str) -> str:
+def get_module_cache(name: str, target: str, port: str) -> str:
     path = os.path.join(get_current_target_cache(target), name)
     if not os.path.exists(path):
         os.mkdir(path)
+    if not port:
+        path = os.path.join(path, port)
+        if not os.path.exists(path):
+            os.mkdir(path)
     return path
 
 
@@ -145,9 +161,9 @@ def get_logger(name: str) -> logging.Logger:
     console_logger.setFormatter(LogFormatter())
     console_logger.setLevel(logging.WARNING)
 
-    if args.verbose:
+    if ArgHandler.get_verbose():
         console_logger.setLevel(logging.INFO)
-    elif args.very_verbose:
+    elif ArgHandler.get_very_verbose():
         console_logger.setLevel(logging.DEBUG)
 
     logger.addHandler(console_logger)
@@ -157,7 +173,6 @@ def get_logger(name: str) -> logging.Logger:
     return logger
 
 
-args = argparse.Namespace
 config = get_config_parser()
 current_target = None
 

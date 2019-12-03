@@ -6,28 +6,9 @@ import sys
 
 
 @pytest.mark.core
-def test_closes_critical_program_not_installed():
-    ArgHandler.parse_arguments(['-T', '127.0.0.1', '-v'])
-    with pytest.raises(SystemExit):
-        utils.program_installed("program_that_doesnt_exist", True)
-
-
-@pytest.mark.core
-def test_non_critical_program_not_installed():
-    ArgHandler.parse_arguments(['-T', '127.0.0.1', '-v'])
-    assert utils.program_installed("program_that_doesnt_exist", False) is False
-
-
-@pytest.mark.core
-def test_non_critical_program_installed():
-    ArgHandler.parse_arguments(['-T', '127.0.0.1', '-v'])
-    assert utils.program_installed("python", False) is True
-
-
-@pytest.mark.core
 def test_signal_handler_quits():
     with pytest.raises(SystemExit):
-        utils.signal_handler(None, None)
+        utils.signal_handler(0, None)
 
 
 @pytest.mark.core
@@ -55,15 +36,6 @@ def test_version():
     utils.display_header()
     sys.stdout = sys.__stdout__
     assert config.__version__ in captured_output.getvalue()
-
-
-@pytest.mark.core
-def test_line_break():
-    captured_output = io.StringIO()
-    sys.stdout = captured_output
-    utils.line_break(1)
-    sys.stdout = sys.__stdout__
-    assert "\n" in captured_output.getvalue()
 
 
 @pytest.mark.core

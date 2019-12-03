@@ -7,7 +7,7 @@
 
 from core.ModuleExecuteState import ModuleExecuteState
 from shutil import which
-from core import Loot, config
+from core import Loot
 from core.config import get_logger, module_enabled
 
 import logging
@@ -16,7 +16,7 @@ import logging
 class BaseModule(object):
 
     def __init__(self, name: str, description: str, loot_name: str, multithreaded: bool, intrusive: bool,
-                 critical: bool):
+                 critical: bool, intrusion_level:int = 3, priority: int = 1):
         self.name = name
         self.description = description
         self.loot_name = loot_name
@@ -25,8 +25,8 @@ class BaseModule(object):
 
         self.multithreaded = multithreaded
         self.intrusive = intrusive
-        self.intrusion_level = 0  # TODO: Intrusion level for all modules instead of bool
-        self.priority = 1  # TODO: Execute priority - some modules should execute after others have ran
+        self.intrusion_level = intrusion_level # TODO: Intrusion level for all modules instead of bool
+        self.priority = priority  # TODO: Execute priority - some modules should execute after others have ran
         self.critical_module = critical
 
         self.logger = get_logger(name)

@@ -1,41 +1,47 @@
 import argparse
-from core import config, utils
+from core.utils import normal_message, error_message, terminal_width_string
+from core.config import __version__, get_config_path
 import sys
 import time
 
+__args = argparse.Namespace()
+__args.verbose = None
+__args.very_verbose = None
+
 
 def parse_arguments(args):
+    global __args
     parser = create_parser()
 
     if len(args) is 0:
-        print(utils.error_message(), "No arguments supplied, showing help...\n")
+        print(error_message(), "No arguments supplied, showing help...\n")
         time.sleep(0.5)
         parser.print_help()
         sys.exit(1)
 
     if len(args) is 1 and "--version" in args:
-        print(utils.normal_message(), "Lancer {VERSION}".format(VERSION=config.__version__))
+        print(normal_message(), "Lancer {VERSION}".format(VERSION=__version__))
         sys.exit(0)
 
     if len(args) is 1 and "-h" or "--help" in args:
         parser.print_help()
         sys.exit(0)
 
-    config.args = parser.parse_args(args)
+    __args = parser.parse_args(args)
 
 
 def create_parser():
     example = 'Examples:\n'
-    example += utils.normal_message() + ' ./lancer -T 10.10.10.100 -v -l de -a 10.8.0.1\n'
-    example += utils.normal_message() + ' ./lancer -TF targets.lan -vv --cache-root ./cache/\n'
-    example += utils.terminal_width_string(
-        utils.normal_message() + ' ./lancer -TN nmap-10.0.0.1.xml --skip-ports 445 80 -L 5'
+    example += normal_message() + ' ./lancer -T 10.10.10.100 -v -l de -a 10.8.0.1\n'
+    example += normal_message() + ' ./lancer -TF targets.lan -vv --cache-root ./cache/\n'
+    example += terminal_width_string(
+        normal_message() + ' ./lancer -TN nmap-10.0.0.1.xml --skip-ports 445 80 -L 5'
     )
 
-    description = utils.normal_message() + " Lancer - system vulnerability scanner\n"
-    description += utils.terminal_width_string(
-        utils.normal_message() + " See the config.ini file at {CONFIG_PATH} for more options."
-        .format(CONFIG_PATH=config.get_config_path())
+    description = normal_message() + " Lancer - system vulnerability scanner\n"
+    description += terminal_width_string(
+        normal_message() + " See the config.ini file at {CONFIG_PATH} for more options."
+        .format(CONFIG_PATH=get_config_path())
     )
 
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -109,3 +115,45 @@ def create_parser():
     obsolete.add_argument("--wordlist", metavar="WORDLIST", dest='webWordlist', default='', help="The wordlist to use.")
 
     return parser
+
+
+def get_target():
+    global __args
+    if __args.target is None:
+        return None
+    return __args.target
+
+
+def get_target_file():
+    global __args
+    if __args.host_file is None:
+        return None
+    return __args.host_file
+
+
+def get_nmap_file():
+    global __args
+    if __args.nmapFile is None:
+        return None
+    return __args.nmapFile
+
+
+def get_verbose() -> bool:
+    global __args
+    if __args.verbose is None:
+        return False
+    return __args.verbose
+
+
+def get_very_verbose() -> bool:
+    global __args
+    if __args.very_verbose is None:
+        return False
+    return __args.very_verbose
+
+
+def get_language_code() -> str:
+    global __args
+    if __args.language_code is None:
+        return "en"
+    return __args.language_code

@@ -103,9 +103,5 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# Custom
-gobuster-*-*.log # Gobuster output logs
-gobuster.exe
-
 # PyCharm
 .idea/

@@ -15,7 +15,7 @@ import sys
 @pytest.mark.core
 def test_parse_arguments():
     ArgHandler.parse_arguments(["-T", "127.0.0.1"])
-    assert config.args.target is not None
+    assert ArgHandler.get_target() is not None
 
 
 @pytest.mark.core

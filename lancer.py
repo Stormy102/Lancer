@@ -8,10 +8,10 @@
 
 __license__ = "GPL-3.0"
 
-from core import ArgHandler, config, winutils, utils, ModuleProvider
-from modules.legacy import nmap
+from core import ArgHandler, config, utils, ModuleProvider
 from core.Target import Target
 from pathlib import Path
+from core.ExitCode import ExitCode
 
 import sys
 import signal
@@ -19,45 +19,23 @@ import time
 import platform
 import ipaddress
 import socket
+import traceback
 
-
-def main():
-    disclaimer = utils.terminal_width_string(
-        "Legal Disclaimer: Usage of Lancer for attacking targets without prior mutual"
-        " authorisation is illegal. It is the end user's responsibility to adhere to all local"
-        " and international laws. The developers of this tool assume no liability and are not"
-        " responsible for any misuse or damage caused by the use of this program."
-    )
-    print(utils.error_message(), disclaimer)
-    print()
-
-    cache_size_check()
-
-    admin_check()
-
-    ip_address = utils.terminal_width_string(
-        "Your IP Address has been detected as {IP}. This can be changed with -a [IP]"
-    )
-    print(utils.normal_message(), ip_address.format(IP=get_ip()))
-    print()
-
-    ModuleProvider.load()
-
-    # Get start time
-    start_time = time.monotonic()
-
-    scan_targets()
-
-    print(utils.normal_message(), "Lancer has finished system scanning")
-    elapsed_time = time.monotonic() - start_time
-
-    print(utils.normal_message(), "Lancer took {TIME} to complete".
-          format(TIME=time.strftime("%H:%M:%S", time.gmtime(elapsed_time))))
-
-    sys.exit(0)
+logger = None
 
 
 def init():
+    """
+        Initialise all of the needed prerequisites for Lancer. This should:
+
+        - Register the signal handler for Ctrl+C
+        - Load the config file
+        - Parse command line arguments
+        - Show the header
+        - Check that we're on a supported Python version
+        - Show an option to update the VirtualTerminal registry key if on Win 10
+        - Show a warning that localisation support is not yet implemented if there is a non-default -l parameter
+    """
     # Register the signal handler for a more graceful Ctrl+C
     signal.signal(signal.SIGINT, utils.signal_handler)
 
@@ -69,6 +47,7 @@ def init():
 
     # Display the header
     utils.display_header()
+    time.sleep(1.25)
 
     # Check we're on a supported Python version
     utils.python_version()
@@ -76,22 +55,48 @@ def init():
     # Update the Windows virtual terminal if necessary
     # If we're on Windows 10, import winutils
     if platform.system().lower() == "windows" and platform.release() == "10":
-        winutils.update_windows_virtual_terminal()
+        from core.winutils import update_windows_virtual_terminal
+        update_windows_virtual_terminal()
 
     # Language warning - not yet implemented
-    if config.args.language_code != 'en':
+    if ArgHandler.get_language_code() != 'en':
         print(utils.error_message(), "Multi-language support is not yet implemented...")
 
+    # Show a legal disclaimer
+    disclaimer = utils.terminal_width_string(
+        "Legal Disclaimer: Usage of Lancer for attacking targets without prior mutual"
+        " authorisation is illegal. It is the end user's responsibility to adhere to all local"
+        " and international laws. The developers of this tool assume no liability and are not"
+        " responsible for any misuse or damage caused by the use of this program."
+    )
+    print(utils.error_message(), disclaimer)
+    print()
 
-def admin_check():
-    if utils.is_user_admin() is False:
+    # Cache warning
+    # If it is more than 500, we display a warning
+    root_directory = Path(config.get_cache_path())
+    size = sum(f.stat().st_size for f in root_directory.glob('**/*') if f.is_file()) / 1048576  # Bytes -> Mb
+    if size >= 500:
+        print(utils.warning_message(), "Cache is {SIZE}mb in size".format(SIZE="{:.1f}".format(size)))
+
+    # Check if we are admin, display a relevant message
+    if utils.is_user_admin():
+        print(utils.normal_message(), "Lancer running with elevated permissions")
+    else:
         non_admin_warning = utils.terminal_width_string("Lancer doesn't appear to being run with elevated"
                                                         " permissions. Some functionality may not work"
                                                         " correctly")
         print(utils.warning_message(), non_admin_warning)
-    else:
-        print(utils.normal_message(), "Lancer running with elevated permissions")
+
+    # Display warning about your IP address
+    ip_address = utils.terminal_width_string(
+        "Your IP Address has been detected as {IP}. This can be changed with -a [IP]"
+    )
+    print(utils.normal_message(), ip_address.format(IP=get_ip()))
     print()
+
+    # Preload all of the modules
+    ModuleProvider.load()
 
 
 def get_ip():
@@ -112,21 +117,28 @@ def get_ip():
     return ip
 
 
-def cache_size_check():
-    root_directory = Path(config.get_cache_path())
-    size = sum(f.stat().st_size for f in root_directory.glob('**/*') if f.is_file())
-    kb = size / 1024
-    mb = kb / 1024
-    if mb >= 500:
-        print(utils.warning_message(), "Cache is {SIZE}mb in size".format(SIZE="{:.1f}".format(mb)))
-        print()
+def main():
+    """
+        Start Lancer
+    """
+
+    # Get start time
+    start_time = time.monotonic()
+
+    scan_targets()
+
+    print(utils.normal_message(), "Lancer has finished system scanning")
+    elapsed_time = time.monotonic() - start_time
+
+    print(utils.normal_message(), "Lancer took {TIME} to complete".
+          format(TIME=time.strftime("%H:%M:%S", time.gmtime(elapsed_time))))
 
 
 def scan_targets():
     # Detect if we have a target list or just a single target
-    if config.args.host_file is not None:
+    if ArgHandler.get_target_file() is not None:
         # Target list
-        targets = config.args.host_file.read().splitlines()
+        targets = ArgHandler.get_target_file().read().splitlines()
 
         for target in targets:
             if len(target.strip()) == 0:
@@ -136,11 +148,12 @@ def scan_targets():
                 continue
 
             scan_target(target)
-    elif config.args.nmapFile is not None:
+    elif ArgHandler.get_nmap_file() is not None:
         print(utils.normal_message(), "Loading nmap file")
-        nmap.parse_nmap_scan(config.args.nmapFile)
+        raise NotImplementedError("Loading from an Nmap file with -TF is not yet implemented")
+        # nmap.parse_nmap_scan(ArgHandler.get_nmap_file())
     else:
-        scan_target(config.args.target)
+        scan_target(ArgHandler.get_target())
 
 
 def scan_target(target: str):
@@ -148,13 +161,12 @@ def scan_target(target: str):
         # See if the target is an IP network
         ip_network = ipaddress.ip_network(target, strict=False)
         if ip_network.version is 6:
-            print(utils.error_message(), "IPv6 addresses are not yet supported\n")
-            return
+            raise NotImplementedError("IPv6 addresses are not yet supported")
         for x in range(ip_network.num_addresses):
             ip = ip_network[x]
-            target = Target("", ip)
-            execute(target)
-            target.stop_timer()
+            tgt = Target(None, ip)
+            ModuleProvider.analyse(tgt)
+            tgt.stop_timer()
     except ValueError:
         # It's not an IP address or a subnet,
         # so most likely a hostname
@@ -175,19 +187,27 @@ def scan_target(target: str):
 
         hostname_info = socket.getaddrinfo(target, None, socket.AF_INET)
         ip = ipaddress.ip_address(hostname_info[0][4][0])
-        target = Target(target, ip)
-        execute(target)
-        target.stop_timer()
+        tgt = Target(target, ip)
+        ModuleProvider.analyse(tgt)
+        tgt.stop_timer()
     print()
 
 
-def execute(target: Target):
-    # TODO: Use hostname if module allows it
-    config.current_target = str(target.ip)
-    nmap.nmap_scan()
-
-
 if __name__ == "__main__":
-    """`Lancer` entry point"""
     init()
-    main()
+    logger = config.get_logger("Main")
+    try:
+        main()
+        print()
+    except NotImplementedError as e:
+        logger.error(e)
+        sys.exit(ExitCode.NotImplemented)
+    except Exception as e:
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        tb = traceback.format_exception(exc_type, exc_value, exc_traceback)
+        print(utils.error_message(), "Unknown error encountered ({ERR}) - please report this via Github\n{EXCEPTION}"
+              .format(ERR=e.args[0], EXCEPTION="".join(tb)))
+        sys.exit(ExitCode.UnknownError)
+    finally:
+        print(utils.normal_message(), "Thank you for using Lancer")
+        config.save_config()

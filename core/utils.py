@@ -1,7 +1,17 @@
-from shutil import which, get_terminal_size
+# -*- coding: utf-8 -*-
+
+"""
+    Copyright (c) 2019 Lancer developers
+    See the file 'LICENCE' for copying permissions
+
+    This is the config module.
+    This holds all of the key information which should be accessed globally across Lancer.
+"""
+
+from shutil import get_terminal_size
 from http.client import responses
 
-from core import config
+import core.config
 import time
 import sys
 import platform
@@ -16,23 +26,6 @@ def signal_handler(signal: int, frame):
     sys.exit(1)
 
 
-def program_installed(name, critical):
-    if config.args.verbose:
-        print(normal_message(), "Checking if {PROGRAM} is installed...".format(PROGRAM=name))
-
-    if which(name.lower()) is None:
-        if critical:
-            print(error_message(), "{PROGRAM} is not installed, halting...\n".format(PROGRAM=name))
-            sys.exit(1)
-        else:
-            print(warning_message(), "{PROGRAM} is not installed, skipping...".format(PROGRAM=name))
-            return False
-
-    if config.args.verbose:
-        print(normal_message(), "{PROGRAM} is installed, continuing...".format(PROGRAM=name))
-    return True
-
-
 def python_version():
     py_version = sys.version.split()[0]
     if py_version < "3.5":
@@ -40,32 +33,52 @@ def python_version():
         sys.exit(1)
 
 
-def normal_message():
+def normal_message() -> str:
+    """
+        Generates an info prefix string, which is a green [+]
+        :return: Formatted string
+    """
     return color("[+]", "Green")
 
 
-def warning_message():
+def warning_message() -> str:
+    """
+        Generates a warning prefix string, which is a yellow [*]
+        :return: Formatted string
+    """
     return color("[*]", "Yellow")
 
 
 def error_message():
+    """
+        Generates an error prefix string, which is a red [!]
+        :return: Formatted string
+    """
     return color("[!]", "Red")
 
 
-def input_message(message):
+def input_message(message: str) -> str:
+    """
+        Generates an input prefix string, is a purple [>]
+        :param message: The message you want to display to the user
+        :return: Text entered into the input
+    """
     print(color("[>]", "Purple") + " " + message, end=' ')
     return input()
 
 
-def color(string, foreground=None, background=None, style=None):
+def color(string, foreground=None, background=None, style=None) -> str:
     """
         This function styles the output to the specified format, background and foreground colours
 
-        style - takes either bold, underline, negative1 or negative2. If no value is supplied, it defaults to normal
-        foreground - takes either red, green, yellow, blue, purple, cyan or black. If no value is supplied,
+        :param string: The string which needs formatting
+        :param style: Takes either bold, underline, negative1 or negative2. If no value is supplied, it defaults to
+        normal
+        :param foreground: Takes either red, green, yellow, blue, purple, cyan or black. If no value is supplied,
         it defaults to white
-        background - takes either red, green, yellow, blue, purple, cyan or white. If no value is supplied,
+        :param background: Takes either red, green, yellow, blue, purple, cyan or white. If no value is supplied,
         it defaults to black
+        :return: The formatted string with the requested attributes
     """
 
     attr = []
@@ -194,36 +207,31 @@ def print_header():
 
 
 def display_header():
-    show_header = config.config['Main']['ShowHeader']
+    show_header = core.config.config['Main']['ShowHeader']
     if show_header != 'no':
         print_header()
     print(normal_message(), "Initialising Lancer {VERSION} on {OS} {OS_VERSION}".
-          format(VERSION=config.__version__,
+          format(VERSION=core.config.__version__,
                  OS=platform.system(),
                  OS_VERSION=platform.release()))
-    time.sleep(1.25)
+    print()
 
 
 def terminal_width_string(text: str) -> str:
+    """
+        Formats the given text to fit into the current terminal window size
+        :param text: The text you want to format
+        :return: The formatted string
+    """
     term_size = get_terminal_size((80, 24))
     width = term_size.columns - 4
     resultant_array = textwrap.wrap(text, width)
+    # 4 characters for "[+] " padding
     return "\n    ".join(resultant_array)
 
 
 def clear_screen():
     print("\033[H\033[J")
-
-
-def line_break(count):
-    """
-        Prints the specified number of line breaks
-
-        count - the number of line breaks to print
-    """
-
-    for i in range(0, count):
-        print("")
 
 
 def get_http_code(code):
@@ -241,21 +249,13 @@ def is_valid_target(target):
         return False
 
 
-class AdminStateUnknownError(Exception):
-    """Cannot determine whether the user is an admin."""
-    pass
-
-
-def is_user_admin():
+def is_user_admin() -> bool:
     """
-        Taken from
-        https://stackoverflow.com/questions/1026431/cross-platform-way-to-check-admin-rights-in-a-python-script-under-windows
-    """
-    # type: () -> bool
-    """Return True if user has admin privileges.
+        Checks if the program is running with elevated privileges
 
-    Raises:
-        AdminStateUnknownError if user privileges cannot be determined.
+        Taken from https://stackoverflow.com/questions/1026431/cross-platform-way-to-check-admin-rights-in-a-python-script-under-windows
+
+        :return: True if running with elevated privileges
     """
     try:
         return os.getuid() == 0
@@ -264,4 +264,5 @@ def is_user_admin():
     try:
         return ctypes.windll.shell32.IsUserAnAdmin() == 1
     except AttributeError:
-        raise AdminStateUnknownError
+        print(error_message(), "Unable to determine if Lancer is running with elevated privileges ")
+    return False

@@ -23,11 +23,11 @@ def test_disabled_config():
 
     if module.name not in config.config:
         config.config.add_section(module.name)
-    config.config.set(module.name, "enabled", "False")
+    config.config.set(module.name, "enabled", "no")
 
-    result = module.should_execute("", 0)
+    result = module.should_execute("http", 80)
 
-    config.config.set(module.name, "enabled", "True")
+    config.config.set(module.name, "enabled", "yes")
 
     assert result is False
 

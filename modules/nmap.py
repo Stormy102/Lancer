@@ -73,6 +73,6 @@ def searchsploit_nmap_scan(nmap_file):
     # searchsploit -t [PROGRAM]
     if utils.program_installed("searchsploit", False):
         searchsploit_output = subprocess.check_output(['searchsploit', '--nmap', nmap_file]).decode('UTF-8')
-        print("")
+        print()
         print(searchsploit_output)
     print("")

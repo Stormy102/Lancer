@@ -16,7 +16,7 @@ class HTTPOptions(GenericWebServiceModule):
 
     def __init__(self):
         super(HTTPOptions, self).__init__(name="HTTP Options",
-                                          description="Checks the HTTP Options available for a server",
+                                          description="Checks the HTTP Options available for a web server",
                                           loot_name="http-options",
                                           multithreaded=False,
                                           intrusive=False,
@@ -39,6 +39,7 @@ class HTTPOptions(GenericWebServiceModule):
                 self.logger.info("Server responded to OPTIONS: {OPTIONS}".format(OPTIONS=allowed))
             else:
                 self.logger.info("OPTIONS HTTP verb not allowed for {URL}".format(URL=ip))
+                # TODO: Brute Force different options
         # except http.client.BadStatusLine:
         #     self.logger.error("Unable to parse HTTP status line")
         except socket.error:

@@ -6,7 +6,7 @@
 """
 
 from core.LogFormatter import LogFormatter
-from core import config, utils
+from core import utils, ArgHandler
 
 import pytest
 import logging
@@ -25,7 +25,7 @@ def test_normal_message():
 @pytest.mark.core
 def test_warning_message_non_verbose():
     formatter = LogFormatter()
-    config.args.verbose = False
+    ArgHandler.parse_arguments(["-T", "127.0.0.1"])
     record = logging.LogRecord(name="TEST", level=logging.WARNING, pathname=None, lineno=1, msg="Testing", args=None,
                                exc_info=None)
     assert "[TEST]" not in formatter.format(record)
@@ -36,7 +36,7 @@ def test_warning_message_non_verbose():
 @pytest.mark.core
 def test_warning_message_verbose():
     formatter = LogFormatter()
-    config.args.verbose = True
+    ArgHandler.parse_arguments(["-T", "127.0.0.1", "-v"])
     record = logging.LogRecord(name="TEST", level=logging.WARNING, pathname=None, lineno=1, msg="Testing", args=None,
                                exc_info=None)
     assert "[TEST]" in formatter.format(record)
@@ -47,7 +47,7 @@ def test_warning_message_verbose():
 @pytest.mark.core
 def test_exception_message():
     formatter = LogFormatter()
-    config.args.verbose = True
+    ArgHandler.parse_arguments(["-T", "127.0.0.1", "-v"])
     record = logging.LogRecord(name="TEST", level=logging.ERROR, pathname=None, lineno=1, msg="Testing", args=None,
                                exc_info=None)
     assert "[TEST]" in formatter.format(record)

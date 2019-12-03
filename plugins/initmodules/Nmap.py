@@ -4,34 +4,52 @@
     Copyright (c) 2019 Lancer developers
     See the file 'LICENCE' for copying permissions
 """
+from core.spinner import Spinner
+from plugins.abstractmodules.BaseModule import BaseModule
 from core.ModuleExecuteState import ModuleExecuteState
+from core.config import get_module_cache
 from shutil import which
 
+import os
+import io
+import subprocess
+import time
 
-class Nmap(object):
+
+class Nmap(BaseModule):
 
     def __init__(self):
-        self.name = "Nmap"
-        self.description = "Scans the specified hostname/IP for open ports"
-        self.loot_name = "nmap"
-        self.multithreaded = False
-        self.intrusive = True
-        self.critical = True
-        self.priority = 999
+        super(Nmap, self).__init__(name="Nmap",
+                                   description="Scans the specified hostname/IP/IP subnet for open ports",
+                                   loot_name="nmap",
+                                   multithreaded=False,
+                                   intrusive=False,
+                                   critical=True)
 
     def execute(self, ip: str, port: int) -> None:
-        # out_file = os.path.join(config.nmap_cache(), "nmap-{TARGET}.xml".format(TARGET=ip))
+        # Don't specify filename on output_filename as all formats are specified
+        output_filename = os.path.join(get_module_cache(self.name, ip, ""), "nmap")
+        filename = os.path.join(get_module_cache(self.name, ip, ""), "nmap.log")
 
-        """nmap_args = ['nmap', '-sC', '-sV', '-oX', out_file, config.current_target]
+        self.logger.debug("Writing XML output to {PATH}.xml|.nmap|.gnmap".format(PATH=output_filename))
 
-        if config.args.scan_udp:
-            print(utils.normal_message(), "Scanning UDP ports, this may take a long time")
-            nmap_args.append('-sU')
-
-        print(utils.normal_message(), "Scanning open ports on", config.current_target + "...", end=' ')
-
-        # with Spinner():
-        output = subprocess.check_output(nmap_args).decode('UTF-8')"""
+        self.logger.info("Starting Nmap scan of {TARGET}".format(TARGET=ip))
+        with Spinner():
+            with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
+                # Arguments:
+                # -sC - Run default scripts
+                # -sV - Version detection
+                # -oA - Output in all formats
+                # -sC -sV
+                command = "nmap -v -oA {OUTPUT_FILE} {TARGET}".format(TARGET=ip, OUTPUT_FILE=output_filename)
+                process = subprocess.Popen(command, stdout=writer)
+                # While the process return code is None
+                while process.poll() is None:
+                    time.sleep(0.5)
+                # output = reader.read().decode("UTF-8").splitlines()
+        print()
+        self.logger.info("Finished Nmap scan of {TARGET}".format(TARGET=ip))
+        print()
 
     def should_execute(self, service: str, port: int) -> bool:
         return True

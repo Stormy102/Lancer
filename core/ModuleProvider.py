@@ -31,8 +31,6 @@ def load():
     __load_init_modules()
     __load_modules()
     __check_module_dependencies()
-    module = next(x for x in LOADED_MODULES if x.name == "Geolocate IP")
-    module.execute("127.0.0.1", 0)
 
 
 def __check_plugin_folder() -> None:
@@ -133,7 +131,7 @@ def __execute_modules(target: Target):
         run_state = module.can_execute_module()
         if run_state is ModuleExecuteState.CanExecute:
             service = "service"
-            ip = "127.0.0.1"
+            ip = str(target.ip)
             port = 0
 
             if module.should_execute(service, port):

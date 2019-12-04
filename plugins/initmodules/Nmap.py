@@ -4,7 +4,7 @@
     Copyright (c) 2019 Lancer developers
     See the file 'LICENCE' for copying permissions
 """
-from core.spinner import Spinner
+
 from plugins.abstractmodules.BaseModule import BaseModule
 from core.ModuleExecuteState import ModuleExecuteState
 from core.config import get_module_cache
@@ -36,25 +36,20 @@ class Nmap(BaseModule):
         # TODO: UDP scan - different Nmap entry point module that executes?
 
         self.logger.info("Starting Nmap scan of {TARGET}".format(TARGET=ip))
-        with Spinner():
-            with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
-                # Arguments:
-                # -sC - Run default scripts
-                # -sV - Version detection
-                # -oA - Output in all formats
-                # -sC -sV
-                command = "nmap -v -oA {OUTPUT_FILE} {TARGET}".format(TARGET=ip, OUTPUT_FILE=output_filename)
-                process = subprocess.Popen(command, stdout=writer)
-                # While the process return code is None
-                while process.poll() is None:
-                    time.sleep(0.5)
-                # output = reader.read().decode("UTF-8").splitlines()
+        # with Spinner():
+        with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
+            # Arguments:
+            # -v  - Verbose output
+            # -oA - Output in all formats
+            command = "nmap -v -oA {OUTPUT_FILE} {TARGET}".format(TARGET=ip, OUTPUT_FILE=output_filename)
+            process = subprocess.Popen(command, stdout=writer)
+            # While the process return code is None
+            while process.poll() is None:
+                time.sleep(0.5)
+            # output = reader.read().decode("UTF-8").splitlines()
         print()
         self.logger.info("Finished Nmap scan of {TARGET}".format(TARGET=ip))
         print()
-
-    def should_execute(self, service: str, port: int) -> bool:
-        return True
 
     def can_execute_module(self) -> ModuleExecuteState:
         """

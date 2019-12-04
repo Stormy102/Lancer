@@ -33,66 +33,6 @@ def test_disabled_config():
 
 
 @pytest.mark.module
-def test_should_execute_service_http():
-    links = GetWebsiteLinks()
-    assert links.should_execute("http", 1337) is True
-
-
-@pytest.mark.module
-def test_should_execute_service_https():
-    links = GetWebsiteLinks()
-    assert links.should_execute("ssl/https", 1337) is True
-
-
-@pytest.mark.module
-def test_should_execute_service_http_proxy():
-    links = GetWebsiteLinks()
-    assert links.should_execute("http-proxy", 1337) is True
-
-
-@pytest.mark.module
-def test_should_execute_service_https_alt():
-    links = GetWebsiteLinks()
-    assert links.should_execute("https-alt", 1337) is True
-
-
-@pytest.mark.module
-def test_should_execute_port_80():
-    links = GetWebsiteLinks()
-    assert links.should_execute("web-service", 80) is True
-
-
-@pytest.mark.module
-def test_should_execute_port_443():
-    links = GetWebsiteLinks()
-    assert links.should_execute("web-service", 443) is True
-
-
-@pytest.mark.module
-def test_should_execute_port_8008():
-    links = GetWebsiteLinks()
-    assert links.should_execute("web-service", 8008) is True
-
-
-@pytest.mark.module
-def test_should_execute_port_8080():
-    links = GetWebsiteLinks()
-    assert links.should_execute("web-service", 8080) is True
-
-
-@pytest.mark.module
-def test_should_execute_port_8443():
-    links = GetWebsiteLinks()
-    assert links.should_execute("web-service", 8443) is True
-
-
-@pytest.mark.module
-def test_should_not_execute():
-    links = GetWebsiteLinks()
-    assert links.should_execute("unknown-service", 1337) is False
-
-
-@pytest.mark.module
 def test_is_internal_url_same_tld():
     links = GetWebsiteLinks()
     assert links.is_internal_url("test.com", "example.test.com") is True

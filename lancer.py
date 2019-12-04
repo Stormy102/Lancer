@@ -8,7 +8,9 @@
 
 __license__ = "GPL-3.0"
 
-from core import ArgHandler, config, utils, ModuleProvider
+from core import ArgHandler, config, utils, ModuleProvider, Loot
+from core.reports.JSONReport import JSONReport
+from core.reports.TerminalReport import TerminalReport
 from core.Target import Target
 from pathlib import Path
 from core.ExitCode import ExitCode
@@ -143,6 +145,8 @@ def main():
     print(utils.normal_message(), "Lancer has finished system scanning")
     elapsed_time = time.monotonic() - start_time
 
+    generate_reports()
+
     print(utils.normal_message(), "Lancer took {TIME} to complete".
           format(TIME=time.strftime("%H:%M:%S", time.gmtime(elapsed_time))))
 
@@ -204,6 +208,15 @@ def scan_target(target: str):
         ModuleProvider.analyse(tgt)
         tgt.stop_timer()
     print()
+
+
+def generate_reports():
+    logger.debug("Generating reports")
+    report = JSONReport()
+    report.generate_report(Loot.loot)
+    report = TerminalReport()
+    report.generate_report(Loot.loot)
+    logger.debug("Finished generating reports")
 
 
 if __name__ == "__main__":

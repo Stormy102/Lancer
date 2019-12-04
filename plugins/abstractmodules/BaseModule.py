@@ -53,7 +53,7 @@ class BaseModule(object):
                           .format(NAME=self.name, IP=ip, PORT=port, LOOT=self.loot_name))
 
     def should_execute(self, service: str, port: int) -> bool:
-        # Check if a module is disabled in the config.ini file
+        # Check if this module is disabled in the config.ini file
         return module_enabled(self.name)
 
     def can_execute_module(self) -> ModuleExecuteState:

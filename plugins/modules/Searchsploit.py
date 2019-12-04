@@ -18,10 +18,3 @@ class Searchsploit(BaseModule):
                                            intrusive=False,
                                            critical=False)
         self.required_programs = ["searchsploit"]
-
-    def should_execute(self, service: str, port: int) -> bool:
-        # Check if this module is disabled in the config.ini file
-        if not super(Searchsploit, self).should_execute(service, port):
-            return False
-        return True
-

@@ -54,7 +54,7 @@ class FTPAnonymousAccess(BaseModule):
         except ConnectionRefusedError:
             # Log of some kind
             self.logger.error("Failed to connect: Connection refused")
-        except TimeoutError:
+        except (TimeoutError, socket.timeout):
             # Log of some kind
             self.logger.error("Failed to connect: Connection timed out")
 

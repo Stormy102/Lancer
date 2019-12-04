@@ -9,16 +9,16 @@ omit =
 	tests/*
 	core/winutils.py
 	core/spinner.py
-	modules/legacy/*
+	modules/*
 	*__init__*
 	conftest.py
 	
 	core/localisation.py
 	core/CriticalProgramNotInstalled.py
 	core/ModuleProvider.py
-	modules/FTPAnonymousAccess.py
-	modules/Gobuster.py
-	modules/Nikto.py
-	modules/Nmap.py
+	plugins/modules/FTPAnonymousAccess.py
+	plugins/modules/Gobuster.py
+	plugins/modules/Nikto.py
+	plugins/modules/Nmap.py
 	lancer.py
 	Test.py

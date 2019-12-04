@@ -8,6 +8,7 @@
 
 from core import config, ArgHandler
 
+import argparse
 import os
 import pytest
 import logging
@@ -83,10 +84,19 @@ def test_get_module_cache_no_port():
 
 
 @pytest.mark.core
-def test_get_logger_very_verbose():
+def test_get_logger_verbose():
     ArgHandler.parse_arguments(["-T", "::1", "-v"])
     logger = config.get_logger("TestVerbose")
     assert logger.handlers[0].level is logging.INFO
+
+
+@pytest.mark.core
+def test_get_logger_verbose_no_parse():
+    ArgHandler.__args = argparse.Namespace()
+    ArgHandler.__args.verbose = None
+    ArgHandler.__args.very_verbose = None
+    logger = config.get_logger("TestVerboseNoParse")
+    assert logger.handlers[0].level is logging.WARNING
 
 
 @pytest.mark.core
@@ -94,3 +104,12 @@ def test_get_logger_very_verbose():
     ArgHandler.parse_arguments(["-T", "::1", "-vv"])
     logger = config.get_logger("TestVeryVerbose")
     assert logger.handlers[0].level is logging.DEBUG
+
+
+@pytest.mark.core
+def test_get_logger_very_verbose_no_parse():
+    ArgHandler.__args = argparse.Namespace()
+    ArgHandler.__args.verbose = None
+    ArgHandler.__args.very_verbose = None
+    logger = config.get_logger("TestVeryVerboseNoParse")
+    assert logger.handlers[0].level is logging.WARNING

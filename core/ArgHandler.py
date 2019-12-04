@@ -157,13 +157,9 @@ def get_very_verbose() -> bool:
 
 def get_language_code() -> str:
     global __args
-    if __args.language_code is None:
-        return "en"
     return __args.language_code
 
 
 def get_clear_cache() -> bool:
     global __args
-    if __args.clear_cache is None:
-        return False
     return __args.clear_cache

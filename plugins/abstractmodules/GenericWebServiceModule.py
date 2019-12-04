@@ -30,7 +30,7 @@ class GenericWebServiceModule(BaseModule):
                                                       critical=critical)
 
     # noinspection PyMethodMayBeStatic
-    def get_url(self, ip, port) -> str:
+    def get_url(self, ip: str, port: int) -> str:
         """
         Get the IP/Hostname and port as a HTTP/HTTPS string. Useful for web requests/enumeration
 

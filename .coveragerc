@@ -21,7 +21,7 @@ omit =
 	core/ModuleProvider.py
 	plugins/modules/FTPAnonymousAccess.py
 	plugins/modules/Gobuster.py
-	plugins/initmodules/Nikto.py
-	plugins/modules/Nmap.py
+	plugins/modules/Nikto.py
+	plugins/initmodules/Nmap.py
 	lancer.py
 	Test.py

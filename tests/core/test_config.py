@@ -84,6 +84,13 @@ def test_get_module_cache_no_port():
 
 @pytest.mark.core
 def test_get_logger_very_verbose():
+    ArgHandler.parse_arguments(["-T", "::1", "-v"])
+    logger = config.get_logger("TestVerbose")
+    assert logger.handlers[0].level is logging.INFO
+
+
+@pytest.mark.core
+def test_get_logger_very_verbose():
     ArgHandler.parse_arguments(["-T", "::1", "-vv"])
     logger = config.get_logger("TestVeryVerbose")
     assert logger.handlers[0].level is logging.DEBUG

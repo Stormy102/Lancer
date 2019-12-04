@@ -118,7 +118,7 @@ def test_remove_files_over_size():
     except TimeoutError:
         warnings.warn("Connection timed out. Test unable to complete")
     except ftplib.error_temp as e:
-        warnings.warn("Unable to connect - " + e.args)
+        warnings.warn("Unable to connect - " + e.args[0])
 
 
 @pytest.mark.module

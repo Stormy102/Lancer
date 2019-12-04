@@ -91,7 +91,7 @@ def test_download_files():
     module = FTPAnonymousAccess()
     try:
         ftp_client = ftplib.FTP()
-        ftp_client.connect("speedtest.tele2.net", 21)
+        ftp_client.connect("speedtest.tele2.net", 21, timeout=15)
         ftp_client.login()
         ftp_files = ftp_client.nlst()
         # 2048 bytes is only bigger than one of the files available - 1KB.zip
@@ -100,7 +100,7 @@ def test_download_files():
         assert os.path.exists(local_filename)
         ftp_client.quit()
     except TimeoutError:
-        warnings.warn("Connection timed out. Test unable to complete")"""
+        warnings.warn("Connection timed out. Test unable to complete")
 
 
 @pytest.mark.module
@@ -108,7 +108,7 @@ def test_remove_files_over_size():
     module = FTPAnonymousAccess()
     try:
         ftp_client = ftplib.FTP()
-        ftp_client.connect("speedtest.tele2.net", 21)
+        ftp_client.connect("speedtest.tele2.net", 21, timeout=15)
         ftp_client.login()
         ftp_files = ftp_client.nlst()
         # 2048 bytes is only bigger than one of the files available - 1KB.zip
@@ -118,7 +118,7 @@ def test_remove_files_over_size():
     except TimeoutError:
         warnings.warn("Connection timed out. Test unable to complete")
     except ftplib.error_temp as e:
-        warnings.warn("Unable to connect - " + e.args[0])
+        warnings.warn("Unable to connect - " + e.args[0])"""
 
 
 @pytest.mark.module

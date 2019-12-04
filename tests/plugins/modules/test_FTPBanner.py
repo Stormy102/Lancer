@@ -124,7 +124,7 @@ def test_get_banner_timeout():
     banner = FTPBanner()
     Loot.reset()
 
-    hostname = "256.128.63.32"
+    hostname = "1.1.1.1"
     port = 21
 
     banner.execute(hostname, port)

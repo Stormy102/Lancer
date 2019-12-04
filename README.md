@@ -24,6 +24,8 @@
 |Master|[![Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=master)](https://travis-ci.com/Stormy102/Lancer) |[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg)](https://coveralls.io/github/Stormy102/Lancer)|[![Master Code Quality](https://codebeat.co/badges/08113589-61c1-418c-8f2e-bffcc5562425)](https://codebeat.co/projects/github-com-stormy102-lancer-master)|[![Last Master Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer.svg)](https://github.com/Stormy102/Lancer/commits/master)|[![Commits since release](https://img.shields.io/github/commits-since/Stormy102/Lancer/master?label=Commits%20since%20last%20release)]()|
 |Develop|[![Develop Build Status](https://travis-ci.com/Stormy102/Lancer.svg?branch=develop)](https://travis-ci.com/Stormy102/Lancer)|[![Coverage Status](https://coveralls.io/repos/github/Stormy102/Lancer/badge.svg?branch=develop)](https://coveralls.io/github/Stormy102/Lancer?branch=develop)|[![Develop Code Quality](https://codebeat.co/badges/10ed4785-93e2-47ad-8504-827f22c74aa1.svg)](https://codebeat.co/projects/github-com-stormy102-lancer-develop)|[![Last Develop Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer/develop.svg)](https://github.com/Stormy102/Lancer/commits/develop)|[![Commits since release](https://img.shields.io/github/commits-since/Stormy102/Lancer/develop?label=Commits%20since%20last%20release)]()|
 
+<sub>N.B Due to the nature of some modules, they are currently unable to be tested due to the nature of their program dependencies. Look in [.coveragerc](.coveragerc) for more info regarding code not included in coverage.</sub>
+
 ## Introduction
 
 ### What is this?

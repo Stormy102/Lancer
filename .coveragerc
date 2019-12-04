@@ -3,6 +3,8 @@
 # =========================================================================
 # LANGUAGE: Python
 # =========================================================================
+# Visit https://coveralls.io/github/Stormy102/Lancer for coverage
+# =========================================================================
 
 [run]
 omit = 
@@ -24,4 +26,3 @@ omit =
 	plugins/modules/Nikto.py
 	plugins/initmodules/Nmap.py
 	lancer.py
-	Test.py

@@ -39,6 +39,9 @@ def init():
         - Check that we're on a supported Python version
         - Show an option to update the VirtualTerminal registry key if on Win 10
         - Show a warning that localisation support is not yet implemented if there is a non-default -l parameter
+        - Display a legal disclaimer about using Lancer for illegal use
+        - Warn if the cache is over 500mb in size
+        - Clear the cache if we want to
     """
     # Register the signal handler for a more graceful Ctrl+C
     signal.signal(signal.SIGINT, utils.signal_handler)
@@ -48,17 +51,6 @@ def init():
 
     # Parse the arguments
     ArgHandler.parse_arguments(sys.argv[1:])
-
-    if ArgHandler.get_clear_cache():
-        for filename in os.listdir(config.get_cache_path()):
-            file_path = os.path.join(config.get_cache_path(), filename)
-
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path) and file_path != config.get_current_cache_path():
-                print(file_path)
-                print(config.get_current_cache_path())
-                shutil.rmtree(file_path)
 
     # Display the header
     utils.display_header()
@@ -93,6 +85,18 @@ def init():
     size = sum(f.stat().st_size for f in root_directory.glob('**/*') if f.is_file()) / 1048576  # Bytes -> Mb
     if size >= 500:
         print(utils.warning_message(), "Cache is {SIZE}mb in size".format(SIZE="{:.1f}".format(size)))
+
+    # Clear the cache
+    if ArgHandler.get_clear_cache():
+        files = os.listdir(config.get_cache_path())
+        for filename in files:
+            file_path = os.path.join(config.get_cache_path(), filename)
+
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path) and file_path != config.get_current_cache_path():
+                shutil.rmtree(file_path)
+        print(utils.normal_message(), "Removed {NUM} items from the cache".format(NUM=len(files)))
 
     # Check if we are admin, display a relevant message
     if utils.is_user_admin():
@@ -224,7 +228,6 @@ if __name__ == "__main__":
     logger = config.get_logger("Main")
     try:
         main()
-        print()
     except NotImplementedError as e:
         logger.error(e)
         sys.exit(ExitCode.NotImplemented)
@@ -235,5 +238,6 @@ if __name__ == "__main__":
               .format(ERR=e.args[0], EXCEPTION="".join(tb)))
         sys.exit(ExitCode.UnknownError)
     finally:
+        print()
         print(utils.normal_message(), "Thank you for using Lancer")
         config.save_config()

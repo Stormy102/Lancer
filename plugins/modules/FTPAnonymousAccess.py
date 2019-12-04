@@ -44,7 +44,7 @@ class FTPAnonymousAccess(BaseModule):
             ftp_client.sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 60)
 
             self.logger.debug("Starting to downloading files under 50mb from {IP}:{PORT}".format(IP=ip, PORT=port))
-            self.download_files(ip, ftp_client, Loot.loot[ip][str(port)][self.loot_name])
+            self.download_files(ip, str(port), ftp_client, Loot.loot[ip][str(port)][self.loot_name])
             self.logger.info("Finished downloading files under 50mb from {IP}:{PORT}".format(IP=ip, PORT=port))
             ftp_client.quit()
             self.logger.debug("Disconnected from {IP}:{PORT}".format(IP=ip, PORT=port))
@@ -58,7 +58,7 @@ class FTPAnonymousAccess(BaseModule):
             # Log of some kind
             self.logger.error("Failed to connect: Connection timed out")
 
-    def download_files(self, ip, ftp_client, dictionary: dict):
+    def download_files(self, ip, port, ftp_client, dictionary: dict):
         files = self.get_folder_contents(ip, ftp_client)
 
         self.logger.info("{FILE_COUNT} files found".format(FILE_COUNT=len(files)))
@@ -69,9 +69,6 @@ class FTPAnonymousAccess(BaseModule):
                 dictionary["Files"].append(filename)
             # TODO: Customise file size limit instead of defaulting to 50mb
             sanitised_ftp_files, files_too_large = self.remove_files_over_size(ftp_client, files)
-
-            self.logger.info("{FILE_COUNT} file(s) under 50mb".format(FILE_COUNT=len(sanitised_ftp_files)))
-            self.logger.info("{FILE_COUNT} file(s) bigger or equal to 50mb".format(FILE_COUNT=len(files_too_large)))
 
             for large_file in files_too_large:
                 file_name, file_ext = os.path.splitext(large_file)
@@ -87,7 +84,7 @@ class FTPAnonymousAccess(BaseModule):
             for filename in sanitised_ftp_files:
                 dictionary["Downloaded Files"].append(filename)
 
-                self.download_file(ip, ftp_client, filename)
+                self.download_file(ip, port, ftp_client, filename)
             self.logger.info("Finished downloading all files under 50mb to FTP cache")
         else:
             self.logger.info("No files to download")
@@ -166,17 +163,16 @@ class FTPAnonymousAccess(BaseModule):
                 ftp_client.retrbinary('RETR ' + filename, file.write)
 
                 # Clear the "Downloading..." file line
-                sys.stdout.write('\x1b[2K\r')
-                sys.stdout.flush()
-
+                # sys.stdout.write('\x1b[2K\r')
+                # sys.stdout.flush()
                 msg = "Downloaded {FILE} ({SIZE}mb) to FTP cache".format(
                     FILE=filename, SIZE="{:.1f}mb".format(file_size))
                 self.logger.info(msg)
                 print(utils.normal_message(), msg)
             except ftplib.error_perm:
                 # Clear the "Downloading..." file line
-                sys.stdout.write('\x1b[2K\r')
-                sys.stdout.flush()
+                # sys.stdout.write('\x1b[2K\r')
+                # sys.stdout.flush()
 
                 self.logger.error("Permission denied to access {FILE}".format(FILE=filename))
             file.close()
@@ -194,6 +190,8 @@ class FTPAnonymousAccess(BaseModule):
             except ftplib.error_perm:
                 print(utils.warning_message(), "Don't have permission to access", utils.color(file, None, None, "bold")
                       + ",", "could be a directory or a file we don't have permission to access")
+        self.logger.info("{FILE_COUNT} file(s) under 50mb".format(FILE_COUNT=len(sanitised_files)))
+        self.logger.info("{FILE_COUNT} file(s) bigger or equal to 50mb".format(FILE_COUNT=len(large_files)))
         return sanitised_files, large_files
 
     def should_execute(self, service: str, port: int) -> bool:

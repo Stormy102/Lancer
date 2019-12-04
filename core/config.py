@@ -126,11 +126,11 @@ def get_current_target_cache(target: str) -> str:
     return path
 
 
-def get_module_cache(name: str, target: str, port: str) -> str:
+def get_module_cache(name: str, target: str, port: str = "") -> str:
     path = os.path.join(get_current_target_cache(target), name)
     if not os.path.exists(path):
         os.mkdir(path)
-    if not port:
+    if port != "":
         path = os.path.join(path, port)
         if not os.path.exists(path):
             os.mkdir(path)

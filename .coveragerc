@@ -12,13 +12,16 @@ omit =
 	modules/*
 	*__init__*
 	conftest.py
-	
+
+	core/ExitCode.py
+	core/ModuleExecuteState.py
+
 	core/localisation.py
 	core/CriticalProgramNotInstalled.py
 	core/ModuleProvider.py
 	plugins/modules/FTPAnonymousAccess.py
 	plugins/modules/Gobuster.py
-	plugins/modules/Nikto.py
+	plugins/initmodules/Nikto.py
 	plugins/modules/Nmap.py
 	lancer.py
 	Test.py

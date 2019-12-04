@@ -1,6 +1,15 @@
-import argparse
+# -*- coding: utf-8 -*-
+
+"""
+    Copyright (c) 2019 Lancer developers
+    See the file 'LICENCE' for copying permissions
+"""
+
 from core.utils import normal_message, error_message, terminal_width_string
 from core.config import __version__, get_config_path
+
+import argparse
+import io
 import sys
 import time
 
@@ -84,10 +93,10 @@ def create_parser():
     output = parser.add_argument_group("Output Arguments")
     output.description = "Control the output of Lancer."
     verbose_group = output.add_mutually_exclusive_group(required=False)
-    verbose_group.add_argument("-v", "--verbose", dest='verbose', action="store_true", default='',
+    verbose_group.add_argument("-v", "--verbose", dest='verbose', action="store_true", default=False,
                                help="Use a verbose output. This will output results and information as modules run,"
                                     " which can be useful if you don't wish to wait for a report at the end.")
-    verbose_group.add_argument("-vv", "--very-verbose", dest='very_verbose', action="store_true", default='',
+    verbose_group.add_argument("-vv", "--very-verbose", dest='very_verbose', action="store_true", default=False,
                                help="Use a very verbose output. This will output virtually every single event that"
                                     " Lancer logs. Useful for debugging.")
     output.add_argument("-o", "--output", metavar="FILE", dest="host_file", type=argparse.FileType('w'),
@@ -111,21 +120,21 @@ def create_parser():
     return parser
 
 
-def get_target():
+def get_target() -> str:
     global __args
     if __args.target is None:
         return None
     return __args.target
 
 
-def get_target_file():
+def get_target_file() -> io.FileIO:
     global __args
     if __args.host_file is None:
         return None
     return __args.host_file
 
 
-def get_nmap_file():
+def get_nmap_file() -> io.FileIO:
     global __args
     if __args.nmapFile is None:
         return None

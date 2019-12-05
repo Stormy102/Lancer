@@ -30,6 +30,21 @@ def test_should_not_execute():
 
 
 @pytest.mark.module
+def test_disabled_config():
+    module = GeolocateIP()
+
+    if module.name not in config.config:
+        config.config.add_section(module.name)
+    config.config.set(module.name, "enabled", "no")
+
+    result = module.should_execute("", 0)
+
+    config.config.set(module.name, "enabled", "yes")
+
+    assert result is False
+
+
+@pytest.mark.module
 def test_create_loot_space():
     geolocate_ip = GeolocateIP()
 

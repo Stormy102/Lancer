@@ -28,7 +28,8 @@ def test_generate_report():
 
     hostname = {"Hostname": "TEST-HOSTNAME", "Aliases": []}
 
-    sub_dict = {"Subsubdict": {}, "Lots of depth": {"More depth": "Ok, that's enough"}, "Empty Str": "", "Non-Str": 0}
+    sub_dict = {"Subsubdict": {}, "Lots of depth": {"More depth": "Ok, that's enough"}, "Empty Str": "", "Non-Str": 0,
+                "ListOfDicts": [{"Key1": "Value1"}, {"Key2": "Value2"}]}
 
     geo_service = {"host": "example.com", "ip": "127.0.0.1", "SubDict": sub_dict}
 

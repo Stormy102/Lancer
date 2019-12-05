@@ -53,8 +53,8 @@ def test_should_not_run():
     assert module.should_execute("ssh", 22) is False
 
 
-# Disabled as sys.stdout.write causes an OSError on Pytest
-"""@pytest.mark.timeout(60)
+"""@pytest.mark.noci
+@pytest.mark.timeout(60)
 @pytest.mark.module
 def test_download_files():
     module = FTPAnonymousAccess()
@@ -74,6 +74,7 @@ def test_download_files():
 
 
 @pytest.mark.timeout(15)
+@pytest.mark.noci
 @pytest.mark.module
 def test_download_files():
     module = FTPAnonymousAccess()
@@ -100,9 +101,10 @@ def test_download_files():
         assert os.path.exists(local_filename)
         ftp_client.quit()
     except TimeoutError:
-        warnings.warn("Connection timed out. Test unable to complete")
+        warnings.warn("Connection timed out. Test unable to complete")"""
 
 
+@pytest.mark.noci
 @pytest.mark.module
 def test_remove_files_over_size():
     module = FTPAnonymousAccess()
@@ -118,7 +120,7 @@ def test_remove_files_over_size():
     except TimeoutError:
         warnings.warn("Connection timed out. Test unable to complete")
     except ftplib.error_temp as e:
-        warnings.warn("Unable to connect - " + e.args[0])"""
+        warnings.warn("Unable to connect - " + e.args[0])
 
 
 @pytest.mark.module

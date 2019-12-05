@@ -13,7 +13,7 @@ import queue
 
 @pytest.mark.core
 def test_event():
-    event: Event = Event(service="ftp", port=21, version="cpe:2.3:a:microsoft:iis", vulnerability="")
+    event = Event(service="ftp", port=21, version="cpe:2.3:a:microsoft:iis", vulnerability="")
     assert event
     assert event.service == "ftp"
     assert event.port == 21

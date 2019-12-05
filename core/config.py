@@ -77,8 +77,8 @@ def get_module_value(name: str, value: str, default: str = "") -> str:
 
     if name not in config:
         config[name] = {}
-        if value not in config[name]:
-            config[name][value] = default
+    if value not in config[name]:
+        config[name][value] = default
     return config[name][value]
 
 

@@ -5,8 +5,8 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from core.CriticalProgramNotInstalled import CriticalProgramNotInstalled
-from core import utils, config
+from core.EventQueue import EventQueue
+from core import utils, config, ArgHandler
 from core.ModuleExecuteState import ModuleExecuteState
 from core.Target import Target
 from core.ExitCode import ExitCode
@@ -111,6 +111,7 @@ def __execute_init_module(target: Target):
         module = LOADED_INIT_MODULES[0]
 
         if module.can_execute_module() is ModuleExecuteState.CanExecute:
+            print(utils.normal_message(), "Executing {PROGRAM}".format(PROGRAM=module.name))
             module.execute(target.get_address(), 0)
         else:
             print(utils.error_message(), "Unable to meet dependencies for {MODULE}. Quitting"
@@ -123,20 +124,30 @@ def __execute_init_module(target: Target):
 
 def __execute_modules(target: Target):
     global LOADED_MODULES
+    global logger
+
     # Order according to priority
     LOADED_MODULES = sorted(LOADED_MODULES, key=operator.attrgetter('priority'), reverse=True)
-    # Iterate through every single instance of our modules
-    for module in LOADED_MODULES:
-        # Check if we can run it
-        run_state = module.can_execute_module()
-        if run_state is ModuleExecuteState.CanExecute:
-            service = "service"
-            ip = str(target.ip)
-            port = 0
 
-            if module.should_execute(service, port):
-                print(utils.normal_message(), "Executing {PROGRAM}".format(PROGRAM=module.name))
-                module.execute(ip, port)
+    # Add null service and port to ensure that the Hostname/Geo modules always run
+    # TODO: Convert to InitModules
+    EventQueue.push("", 0)
 
-        elif run_state is ModuleExecuteState.CannotExecute:
-            raise CriticalProgramNotInstalled("{PROGRAM} is not installed".format(PROGRAM=module.name))
+    # Get the current event from the Queue
+    while EventQueue.events_in_queue():
+
+        current_event = EventQueue.pop()
+
+        logger.info("Processing {SERVICE}:{PORT}".format(SERVICE=current_event.service, PORT=current_event.port))
+
+        if current_event.port not in ArgHandler.get_skip_ports():
+            # Iterate through every single instance of our modules
+            for module in LOADED_MODULES:
+                # Check if we can run it
+                run_state = module.can_execute_module()
+                if run_state is ModuleExecuteState.CanExecute:
+                    ip = str(target.ip)
+
+                    if module.should_execute(current_event.service, current_event.port):
+                        print(utils.normal_message(), "Executing {PROGRAM}".format(PROGRAM=module.name))
+                        module.execute(ip, current_event.port)

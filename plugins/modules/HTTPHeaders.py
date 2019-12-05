@@ -6,9 +6,10 @@
 """
 
 from plugins.abstractmodules.GenericWebServiceModule import GenericWebServiceModule
-from core import Loot
+from core import Loot, config
 
 import requests
+import os
 
 
 class HTTPHeaders(GenericWebServiceModule):
@@ -28,14 +29,25 @@ class HTTPHeaders(GenericWebServiceModule):
         self.logger.debug("Sending request to {URL}".format(URL=url))
         try:
             response = requests.head(url, allow_redirects=True)
-            Loot.loot[ip][str(port)][self.loot_name] = dict(response.headers)
+
+            headers = dict(response.headers)
+
+            Loot.loot[ip][str(port)][self.loot_name] = headers
 
             if len(response.history) > 0:
                 self.logger.info("Redirected from {ORIG} to {URL}"
                                  .format(ORIG=response.history[0].url, URL=response.url))
 
             self.logger.info("Successfully retrieved HTTP headers")
-            if "server" in response.headers:
-                self.logger.info("Server header present: {SERVER}".format(SERVER=response.headers["server"]))
+            if "Server" in headers:
+                self.logger.info("Server header present: {SERVER}".format(SERVER=headers["Server"]))
+            if "X-Powered-By" in response.headers:
+                self.logger.info("Powered-By header present: {POWERED_BY}".format(POWERED_BY=headers["X-Powered-By"]))
+
+            with open(os.path.join(config.get_module_cache(self.name, ip, str(port)), "headers.txt"), "w") \
+                    as file:
+                for item in dict(response.headers):
+                    file.write("{KEY}: {VALUE}\n".format(KEY=item, VALUE=response.headers[item]))
+
         except requests.exceptions.ConnectionError:
             self.logger.error("Unable to connect to {URL}".format(URL=url))

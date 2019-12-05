@@ -18,6 +18,18 @@ def test_module_creation():
 
 
 @pytest.mark.module
+def test_should_execute():
+    module = GetHostname()
+    assert module.should_execute("", 0)
+
+
+@pytest.mark.module
+def test_should_not_execute():
+    module = GetHostname()
+    assert not module.should_execute("", 21)
+
+
+@pytest.mark.module
 def test_get_valid_hostname():
     hostname = GetHostname()
 

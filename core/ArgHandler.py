@@ -85,8 +85,7 @@ def create_parser():
                          help="[NOT YET IMPLEMENTED] "
                               "Overrides the detected IP address with your own which is supplied.")
     modules.add_argument("--skip-ports", nargs='+', type=int, metavar="PORTS", dest='skipPorts', default=[],
-                         help="[NOT YET IMPLEMENTED] "
-                              "Set the ports to ignore. These ports will have no enumeration taken against them,"
+                         help="Set the ports to ignore. These ports will have no enumeration taken against them,"
                               " except for the initial discovery via Nmap. This can be used to run a custom scan and"
                               " pass the results to Lancer. Best used in conjunction with -TN/--target-nmap.")
 
@@ -163,3 +162,8 @@ def get_language_code() -> str:
 def get_clear_cache() -> bool:
     global __args
     return __args.clear_cache
+
+
+def get_skip_ports() -> list:
+    global __args
+    return __args.skipPorts

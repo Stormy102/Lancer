@@ -30,7 +30,7 @@ def test_eventqueue_push():
 
 @pytest.mark.core
 def test_eventqueue_pop():
-    EventQueue.event_queue = queue.SimpleQueue()
+    EventQueue.event_queue = queue.Queue()
     EventQueue.event_queue.put(Event("ftp", 21))
     EventQueue.event_queue.put(Event("http", 80))
 
@@ -40,3 +40,12 @@ def test_eventqueue_pop():
     popped_event = EventQueue.event_queue.get()
     assert popped_event.service != "ftp"
     assert popped_event.service != 21
+
+
+@pytest.mark.core
+def test_eventqueue_events_in_queue():
+    EventQueue.event_queue = queue.Queue()
+    EventQueue.event_queue.put(Event("ftp", 21))
+    assert EventQueue.events_in_queue()
+    EventQueue.pop()
+    assert EventQueue.events_in_queue() is False

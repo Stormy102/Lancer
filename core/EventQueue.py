@@ -18,7 +18,7 @@ class Event(object):
 
 
 class EventQueue(object):
-    event_queue = queue.SimpleQueue()
+    event_queue = queue.Queue()
 
     @staticmethod
     def push(service: str, port: int) -> None:
@@ -31,7 +31,3 @@ class EventQueue(object):
     @staticmethod
     def events_in_queue() -> bool:
         return EventQueue.event_queue.qsize() > 0
-
-    @staticmethod
-    def peek() -> Event:
-        return EventQueue.event_queue[0]

@@ -57,6 +57,19 @@ def test_get_valid_hostname():
 
 
 @pytest.mark.module
+def test_get_valid_hostname_no_aliases():
+    hostname = GetHostname()
+
+    ip = "1.1.1.1"
+
+    hostname.execute(ip, 0)
+
+    assert "Hostname" in Loot.loot[ip][hostname.loot_name]
+    assert Loot.loot[ip][hostname.loot_name]["Hostname"] is not None
+    assert not Loot.loot[ip][hostname.loot_name]["Aliases"]
+
+
+@pytest.mark.module
 def test_get_invalid_ip():
     hostname = GetHostname()
 

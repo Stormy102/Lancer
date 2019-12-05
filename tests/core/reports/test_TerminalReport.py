@@ -33,7 +33,10 @@ def test_generate_report():
 
     geo_service = {"host": "example.com", "ip": "127.0.0.1", "SubDict": sub_dict}
 
-    ports = {"21": ftp_service, "geo": geo_service, "hostname": hostname}
+    gobuster = []
+    result = {"Path": "http://127.0.0.1/index.html", "Code": "200", "Code Value": "OK"}
+    gobuster.append(result)
+    ports = {"21": ftp_service, "80": {"Gobuster": gobuster}, "geo": geo_service, "hostname": hostname}
 
     root = {"example.com": ports}
 
@@ -51,3 +54,4 @@ def test_generate_report():
     assert "- GET" in out
     assert "host: example.com" in out
     assert "ip: 127.0.0.1" in out
+    assert "http://127.0.0.1/index.html" in out

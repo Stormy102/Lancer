@@ -31,11 +31,18 @@ class Gobuster(GenericWebServiceModule):
 
         url = self.get_url(ip, port)
 
-        filename = os.path.join(config.get_module_cache(self.name, ip), "gobuster-{PORT}.log".format(PORT=port))
+        filename = os.path.join(config.get_module_cache(self.name, ip), "enum-{PORT}.log".format(PORT=port))
 
-        wordlist_path = config.get_module_value(self.name,
-                                                "wordlist",
+        wordlist_path = config.get_module_value(self.name, "wordlist",
                                                 "/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt")
+
+        if not os.path.exists(wordlist_path):
+            msg = utils.terminal_width_string(
+                "Unable to find Gobuster wordlist at {PATH}".format(PATH=wordlist_path)
+            )
+            self.logger.error(msg)
+            return
+
         extensions = config.get_module_value(self.name, "extensions", ".php,.txt")
 
         with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
@@ -44,8 +51,7 @@ class Gobuster(GenericWebServiceModule):
             # -z - Don't display the progress (X/Y Z%)
             # -q - Don't print the banner for Gobuster
             # -k - Skip SSL Cert verification
-            # -x - File extension(s) to scan for. By default we just scan for .php
-            #                                     TODO: Add ability to select extensions
+            # -x - File extension(s) to scan for. Value loaded from config.ini with .php,.txt as default
             # -u - URL
             # -w - Wordlist
             command = "gobuster dir -z -q -e -k -u {URL} -w {WORDLIST} -x {EXTENSIONS}" \
@@ -67,6 +73,3 @@ class Gobuster(GenericWebServiceModule):
                     # Add to the loot
                     result = {"Path": response_dir, "Code": code, "Code Value": human_readable_code}
                     Loot.loot[ip][str(port)][self.loot_name].append(result)
-
-    def should_execute(self, service: str, port: int) -> bool:
-        return True

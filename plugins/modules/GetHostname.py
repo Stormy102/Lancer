@@ -6,9 +6,10 @@
 """
 
 from plugins.abstractmodules.BaseModule import BaseModule
-from core import Loot
+from core import Loot, config
 
 import socket
+import os
 
 
 class GetHostname(BaseModule):
@@ -29,6 +30,14 @@ class GetHostname(BaseModule):
             result = socket.gethostbyaddr(ip)
             Loot.loot[ip][self.loot_name]["Hostname"] = result[0]
             Loot.loot[ip][self.loot_name]["Aliases"] = result[1]
+
+            with open(os.path.join(config.get_current_target_cache(ip), "hostname.txt"), "w") as file:
+                file.write("Hostname: {HOST}\n".format(HOST=result[0]))
+                aliases = " ".join(result[1])
+                if not aliases:
+                    aliases = "No results"
+                file.write("Aliases: {HOST}".format(HOST=aliases))
+
             self.logger.info("Successfully retrieved potential hostname for {IP}".format(IP=ip))
         except socket.herror:
             self.logger.error("Unable to resolve any hostnames for {IP}".format(IP=ip))
@@ -38,3 +47,10 @@ class GetHostname(BaseModule):
             Loot.loot[ip] = {}
         if self.loot_name not in Loot.loot[ip]:
             Loot.loot[ip][self.loot_name] = {}
+
+    def should_execute(self, service: str, port: int) -> bool:
+        if not super(GetHostname, self).should_execute(service, port):
+            return False
+        if port == 0:
+            return True
+        return False

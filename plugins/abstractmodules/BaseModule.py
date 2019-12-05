@@ -38,6 +38,7 @@ class BaseModule(object):
 
     def execute(self, ip: str, port: int) -> None:
         # Add to central repository of loot
+        # TODO: Test all modules write their output
         pass
 
     def create_loot_space(self, ip: str, port: int) -> None:

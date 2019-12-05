@@ -8,8 +8,9 @@
 from plugins.abstractmodules.GenericWebServiceModule import GenericWebServiceModule
 from bs4 import BeautifulSoup, SoupStrainer
 from urllib.parse import urlparse
-from core import Loot
+from core import Loot, config
 
+import os
 import requests
 
 
@@ -41,17 +42,25 @@ class GetWebsiteLinks(GenericWebServiceModule):
             response = requests.get(url, allow_redirects=True)
 
             for link in BeautifulSoup(response.text, features="html.parser", parse_only=SoupStrainer('a')):
-                if hasattr(link, 'href'):
+                if link.has_attr('href'):
                     parse = urlparse(link['href'])
                     loot_url = parse[1] + parse[2]
                     if self.is_internal_url(ip, parse[1]):
                         if loot_url not in Loot.loot[ip][str(port)][self.loot_name]["Internal"]:
                             self.logger.debug("{URL} is an internal URL".format(URL=loot_url))
                             Loot.loot[ip][str(port)][self.loot_name]["Internal"].append(loot_url)
+
+                            with open(os.path.join(config.get_module_cache(self.name, ip, str(port)), "internal.txt"),
+                                      "a") as file:
+                                file.write("{URL}\n".format(URL=loot_url))
                     else:
                         if loot_url not in Loot.loot[ip][str(port)][self.loot_name]["External"]:
                             self.logger.debug("{URL} is an external URL".format(URL=loot_url))
                             Loot.loot[ip][str(port)][self.loot_name]["External"].append(loot_url)
+
+                            with open(os.path.join(config.get_module_cache(self.name, ip, str(port)), "external.txt"),
+                                      "a") as file:
+                                file.write("{URL}\n".format(URL=loot_url))
 
             self.logger.info("Found {INTERNAL} internal links and {EXTERNAL} external links"
                              .format(INTERNAL=len(Loot.loot[ip][str(port)][self.loot_name]["Internal"]),

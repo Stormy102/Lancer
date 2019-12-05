@@ -50,7 +50,14 @@ class TerminalReport(Report):
                 print(" " * depth + "{ITEM}:".format(ITEM=item))
                 if data[item]:
                     for entry in data[item]:
-                        print(" " * (depth + 3) + "- {ENTRY}".format(ENTRY=entry))
+                        if isinstance(entry, dict):
+                            if entry:
+                                for value in entry:
+                                    print(" " * (depth + 3) + "{ITEM}: {VALUE}".format(ITEM=value, VALUE=entry[value]))
+                            else:
+                                print(" " * (depth + 3) + "No results")
+                        else:
+                            print(" " * (depth + 3) + "- {ENTRY}".format(ENTRY=entry))
                 else:
                     print(" " * (depth + 3) + "No results")
             else:

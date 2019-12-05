@@ -94,20 +94,27 @@ class FTPAnonymousAccess(BaseModule):
         files = []
 
         # Right, a little explanation for how we parse the files and directories
-        # Every single file listing is in this format:
+        # Every single file listing is in this format for Linux-based FTP servers:
         # drwxr-xr-x 1 ftp ftp              0 Aug 24 12:52 Backups
         # -r--r--r-- 1 ftp ftp       20971520 Aug 21       TestFile.zip
+        # And this format for Windows-based FTP servers:
+        # 12-05-19  11:24AM       <DIR>          Test
+        # 12-05-19  10:51AM                   13 text.txt
         captured_output = io.StringIO()
         sys.stdout = captured_output
-        ftp_client.dir(path)
-        sys.stdout = sys.__stdout__
+        try:
+            ftp_client.dir(path)
+        except TimeoutError:
+            self.logger.error("Timed out retrieving directory listing")
+        finally:
+            sys.stdout = sys.__stdout__
         directory_listing = captured_output.getvalue().splitlines()
 
         known_directories = []
         # If the output starts with a d, we know its a directory. So loop through
         # all of the lines in the output and add them to the list
         for directory in directory_listing:
-            if directory.startswith("d", 0, 9):
+            if directory.startswith("d", 0, 9) or "<DIR>" in directory:
                 known_directories.append(directory)
 
         # Loop through everything returned in an NLIST command
@@ -147,35 +154,24 @@ class FTPAnonymousAccess(BaseModule):
             self.logger.error("Permission denied to access {FILE}".format(FILE=filename))
             return
 
-        msg = "Downloading {FILE} size {SIZE}".format(FILE=filename, SIZE="{:.1f}mb".format(file_size))
-        print(utils.normal_message(), msg, end=' ')
-        self.logger.debug(msg)
+        self.logger.debug("Downloading {FILE} size {SIZE}".format(FILE=filename, SIZE="{:.1f}mb".format(file_size)))
 
-        with Spinner():
+        #with Spinner():
 
-            local_filename = os.path.join(config.get_module_cache(self.name, ip, port), filename)
+        local_filename = os.path.join(config.get_module_cache(self.name, ip, port), filename)
 
-            if not os.path.exists(os.path.dirname(local_filename)):
-                os.mkdir(os.path.dirname(local_filename))
-            file = open(local_filename, 'wb')
-            # TODO: Sometimes hangs when it reaches a file that it can't download. Find a fix (parse ftp.dir?)
-            try:
-                ftp_client.retrbinary('RETR ' + filename, file.write)
+        if not os.path.exists(os.path.dirname(local_filename)):
+            os.mkdir(os.path.dirname(local_filename))
+        file = open(local_filename, 'wb')
+        # TODO: Sometimes hangs when it reaches a file that it can't download. Find a fix (parse ftp.dir?)
+        try:
+            ftp_client.retrbinary('RETR ' + filename, file.write)
+            self.logger.info("Downloaded {FILE} ({SIZE}mb) to FTP cache".format(
+                    FILE=filename, SIZE="{:.1f}mb".format(file_size)))
+        except ftplib.error_perm:
 
-                # Clear the "Downloading..." file line
-                # sys.stdout.write('\x1b[2K\r')
-                # sys.stdout.flush()
-                msg = "Downloaded {FILE} ({SIZE}mb) to FTP cache".format(
-                    FILE=filename, SIZE="{:.1f}mb".format(file_size))
-                self.logger.info(msg)
-                print(utils.normal_message(), msg)
-            except ftplib.error_perm:
-                # Clear the "Downloading..." file line
-                # sys.stdout.write('\x1b[2K\r')
-                # sys.stdout.flush()
-
-                self.logger.error("Permission denied to access {FILE}".format(FILE=filename))
-            file.close()
+            self.logger.error("Permission denied to access {FILE}".format(FILE=filename))
+        file.close()
 
     def remove_files_over_size(self, ftp_client, files, size=1024 * 1024 * 50):
         sanitised_files = []

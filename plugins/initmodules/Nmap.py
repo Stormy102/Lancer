@@ -5,10 +5,14 @@
     See the file 'LICENCE' for copying permissions
 """
 
+from core.EventQueue import EventQueue
 from plugins.abstractmodules.BaseModule import BaseModule
 from core.ModuleExecuteState import ModuleExecuteState
 from core.config import get_module_cache
+from core import Loot
 from shutil import which
+from xml.dom import minidom
+from cpe_utils import CPE
 
 import os
 import io
@@ -31,7 +35,7 @@ class Nmap(BaseModule):
         output_filename = os.path.join(get_module_cache(self.name, ip, ""), "nmap")
         filename = os.path.join(get_module_cache(self.name, ip, ""), "nmap.log")
 
-        self.logger.debug("Writing XML output to {PATH}.xml|.nmap|.gnmap".format(PATH=output_filename))
+        self.logger.debug("Writing output to {PATH}.xml|.nmap|.gnmap".format(PATH=output_filename))
 
         # TODO: UDP scan - different Nmap entry point module that executes?
 
@@ -40,16 +44,43 @@ class Nmap(BaseModule):
         with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
             # Arguments:
             # -v  - Verbose output
+            # -sT - TCP scan
+            # -sV - Version detection
             # -oA - Output in all formats
-            command = "nmap -v -oA {OUTPUT_FILE} {TARGET}".format(TARGET=ip, OUTPUT_FILE=output_filename)
+            command = "nmap -v -sT -sV -oA {OUTPUT_FILE} {TARGET}".format(TARGET=ip, OUTPUT_FILE=output_filename)
             process = subprocess.Popen(command, stdout=writer)
             # While the process return code is None
             while process.poll() is None:
                 time.sleep(0.5)
             # output = reader.read().decode("UTF-8").splitlines()
-        print()
         self.logger.info("Finished Nmap scan of {TARGET}".format(TARGET=ip))
-        print()
+
+        xml = minidom.parse("{FILE}.xml".format(FILE=output_filename))
+        hostslist = xml.getElementsByTagName('hosts')
+        # We only scan one host at a time
+        if int(hostslist[0].attributes['down'].value) > 0:
+            self.logger.warning("{TARGET} was unreachable".format(TARGET=ip))
+        else:
+            port_list = xml.getElementsByTagName('port')
+            self.logger.info("{PORT_COUNT} ports are open".format(PORT_COUNT=len(port_list)))
+
+            cpe_list = list(dict.fromkeys([x.firstChild.nodeValue for x in xml.getElementsByTagName('cpe')]))
+            for cpe in cpe_list:
+                self.logger.info("Detected {CPE}".format(CPE=CPE(cpe).human()))
+
+            # searchsploit_nmap_scan(out_file)
+
+            for open_port in port_list:
+                for svc in open_port.getElementsByTagName('service'):
+                    service = svc.attributes['name'].value
+                    port = open_port.attributes['portid'].value
+
+                    if ip not in Loot.loot:
+                        Loot.loot[ip] = {}
+                    if port not in Loot.loot[ip]:
+                        Loot.loot[ip][port] = {}
+
+                    EventQueue.push(service=service, port=int(port))
 
     def can_execute_module(self) -> ModuleExecuteState:
         """

@@ -132,3 +132,22 @@ def test_get_clear_cache():
 def test_get_clear_cache_none():
     ArgHandler.parse_arguments(["-T", "127.0.0.1"])
     assert ArgHandler.get_clear_cache() is False
+
+
+@pytest.mark.core
+def test_get_skip_ports_empty():
+    ArgHandler.parse_arguments(["-T", "127.0.0.1"])
+    assert not ArgHandler.get_skip_ports()
+
+
+@pytest.mark.core
+def test_get_skip_ports():
+    ArgHandler.parse_arguments(["-T", "127.0.0.1", "--skip-ports", "80"])
+    assert 80 in ArgHandler.get_skip_ports()
+
+
+@pytest.mark.core
+def test_get_multiple_skip_ports():
+    ArgHandler.parse_arguments(["-T", "127.0.0.1", "--skip-ports", "80", "8080"])
+    assert 80 in ArgHandler.get_skip_ports()
+    assert 8080 in ArgHandler.get_skip_ports()

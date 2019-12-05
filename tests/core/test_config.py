@@ -59,7 +59,11 @@ def test_get_module_value():
 
 @pytest.mark.core
 def test_get_module_value_doesnt_exist():
+    config.config["FakeModule"] = {}
+
     assert config.get_module_value("FakeModule", "FakeKey", "fakevalue") == "fakevalue"
+
+    assert config.get_module_value("NonExistentFakeModule", "FakeKey", "fakevalue") == "fakevalue"
 
 
 @pytest.mark.core

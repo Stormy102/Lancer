@@ -29,6 +29,9 @@ python:
   - "3.8-dev"
   - "nightly"
 
+git:
+  quiet: true
+
 matrix:
   fast_finish: true
   # Allow failures for the development versions of Python

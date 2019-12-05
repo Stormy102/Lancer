@@ -1,5 +1,7 @@
 # Lancer v0.0.3 Alpha
 
+![Lancer in action](.github/images/lancer-header.png)
+
 <p align="center">
     <a href="LICENCE" alt="Licence">
         <img src="https://img.shields.io/github/license/Stormy102/Lancer?style=flat-square" /></a>
@@ -26,8 +28,6 @@
             alt="commits to be deployed"></a>
 </p>
 
-![Lancer in action](.github/images/lancer-header.png)
-
 <p align="center">
   <a href="#introduction">Introduction</a> •
   <a href="#limitations--upcoming-features">Features</a> •
@@ -40,7 +40,7 @@
 |Master|[![Build Status](https://img.shields.io/travis/com/Stormy102/Lancer?style=flat-square)](https://travis-ci.com/Stormy102/Lancer) |[![Coverage Status](https://img.shields.io/coveralls/github/Stormy102/Lancer?style=flat-square)](https://coveralls.io/github/Stormy102/Lancer)|[![Master Code Quality](https://codebeat.co/badges/08113589-61c1-418c-8f2e-bffcc5562425)](https://codebeat.co/projects/github-com-stormy102-lancer-master)|[![Last Master Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer?style=flat-square)](https://github.com/Stormy102/Lancer/commits/master)|![Commits since release](https://img.shields.io/github/commits-since/Stormy102/Lancer/master?label=Commits%20since%20last%20release&style=flat-square)|
 |Develop|[![Develop Build Status](https://img.shields.io/travis/com/Stormy102/Lancer/develop?style=flat-square)](https://travis-ci.com/Stormy102/Lancer)|[![Coverage Status](https://img.shields.io/coveralls/github/Stormy102/Lancer/develop?style=flat-square)](https://coveralls.io/github/Stormy102/Lancer?branch=develop)|[![Develop Code Quality](https://codebeat.co/badges/10ed4785-93e2-47ad-8504-827f22c74aa1.svg)](https://codebeat.co/projects/github-com-stormy102-lancer-develop)|[![Last Develop Commit](https://img.shields.io/github/last-commit/Stormy102/Lancer/develop?style=flat-square)](https://github.com/Stormy102/Lancer/commits/develop)|[![Commits since release](https://img.shields.io/github/commits-since/Stormy102/Lancer/develop?label=Commits%20since%20last%20release&style=flat-square)](https://github.com/Stormy102/Lancer/compare/master...develop)|
 
-<sub>N.B Due to the nature of some modules, they are currently unable to be tested due to the nature of their program dependencies. Look in [.coveragerc](.coveragerc) for more info regarding code not included in coverage.</sub>
+<sub>Due to the nature of some modules, they are currently unable to be tested due to the nature of their program dependencies. Look in [.coveragerc](.coveragerc) for more info regarding code not included in coverage.</sub>
 
 ## Introduction
 
@@ -74,36 +74,39 @@ As Lancer is still very much in active development, there is currently limited f
 * [X] Output results via terminal console _Added in 0.0.3_
 * [X] Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Added for 0.0.3_
 * [X] Clear cache command line option - `--clear-cache` _Added in 0.0.3_
-* [ ] Improved modularity by shifting to an OOP module approach _Coming in 0.0.3_
+* [X] Improved modularity by shifting to an OOP module approach _Added in 0.0.3_
+* [X] Specify ports to skip scanning _Added in 0.0.3_
+* [X] Event-driven system instead of single port loop _Added in 0.0.3_
+* [ ] Improved code coverage and code comments/documentation _Coming in 0.0.3_
     
 </details>
 
 <details>
     <summary>Planned Features</summary>
 
+* [ ] Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.0.4_
 * [ ] Split into blind and targeted modules - blind modules require only a hostname/IP and port, while targeted modules can execute after the blind modules using information potentially harvested from blind modules _Planned for 0.0.4_
+* [ ] Configure intrusiveness level with `-L`/`--level` _Planned for 0.0.4_
+* [ ] Change cache root with `--cache-root` _Planned for 0.0.4_
+* [ ] IPv6 support _Planned for 0.0.4_
+* [ ] Page Links Module use recursion to iterate every available internal link _Planned for 0.0.4_
+* [ ] Generate HTML report _Planned for 0.0.4_
+* [ ] Specify custom warning cache size _Planned for 0.0.4_
+* [ ] Specify custom download size for FTP Anonymous Download _Planned for 0.0.4_
 * [ ] Modules use hostname and/or IP address correctly _Planned for 0.0.4_
+* [ ] Quiet Nmap scan using -sS _Planned for 0.0.4_
+* [ ] Option for Nmap UDP _Planned for 0.0.4_
+* [ ] Option for full Nmap port scan _Planned for 0.0.4_
 * [ ] MS08-067 vulnerability scan _Planned for 0.0.4_
 * [ ] MS17-010 vulnerability scan _Planned for 0.0.4_
 * [ ] BlueKeep vulnerability scan _Planned for 0.0.4_
+* [ ] [SSL version detection/vulnerabilities](https://pypi.org/project/sslscan/) _Planned for 0.0.4_
+* [ ] SMB Null Session module _Planned for 0.0.4_
+* [ ] SMB Shares module _Planned for 0.0.4_
+* [ ] SMB Get OS Version _Planned for 0.0.4_
+* [ ] CPE detection module (making up for removal of old CPE logic) _Coming in 0.0.4_
 * [ ] RPCClient Null Session module _Planned for 0.0.4_
 * [ ] RPCClient User Enumeration _Planned for 0.0.4_
-* [ ] Configure intrusiveness level with `-L`/`--level` _Planned for 0.0.4_
-* [ ] Change cache root with `--cache-root` _Planned for 0.0.4_
-* [ ] Write output to file via `-o` parameter _Planned for 0.0.4_
-* [ ] Specify custom warning cache size _Planned for 0.0.4_
-* [ ] Specify custom download size for FTP Anonymous Download _Planned for 0.0.4_
-* [ ] Specify ports to skip scanning _Planned for 0.0.4_
-* [ ] Page Links Module use recursion to iterate every available internal link _Planned for 0.0.4_
-* [ ] Anonymous LDAP _Planned for 0.0.4_
-* [ ] SSLScan for HTTPS _Planned for 0.0.4_
-* [ ] SSH support - display fingerprint and SSH version _Planned for 0.0.4_
-* [ ] Generate HTML report _Planned for 0.0.4_
-* [ ] Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.4_
-* [ ] SMB enumeration with SMBClient/smbmap _Planned for 0.0.4_
-* [ ] Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.0.4_
-* [ ] IPv6 support _Planned for 0.0.4_
-* [ ] CPE detection module (making up for removal of old CPE logic) _Coming in 0.0.4_
 
 </details>
 
@@ -111,10 +114,14 @@ As Lancer is still very much in active development, there is currently limited f
     <summary>Features under evaluation</summary>
 
 * [ ] Localisation support _Planned for 0.0.5_
+* [ ] SSH support - display fingerprint and SSH version _Planned for 0.0.5_
+* [ ] Write output to file via `-o` parameter _Planned for 0.0.5_
+* [ ] Anonymous LDAP _Planned for 0.0.5_
 * [ ] Dig zone transfer _Planned for 0.0.5_
 * [ ] WhoIs Module (Maybe use https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.0.5_
 * [ ] Web service screenshots (See [selenium](https://pypi.org/project/selenium/)) _Planned for 0.0.5_
 * [ ] Nmap script level _Planned for 0.0.5_
+* [ ] Limited target attacks. Scans and enumerates specific services only _Planned for 0.0.5_
 * [ ] enum4linux support _Planned for 0.0.5_
 * [ ] Email report _Planned for 0.0.6_
 * [ ] WPScan support _Planned for 0.0.6_

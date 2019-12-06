@@ -27,6 +27,11 @@ class Nikto(GenericWebServiceModule):
         self.required_programs = ["nikto"]
 
     def execute(self, ip: str, port: int) -> None:
+        """
+        Scan the web server using Nikto
+        :param ip: IP to use
+        :param port: Port to use
+        """
         self.create_loot_space(ip, port)
 
         url = self.get_url(ip, port)

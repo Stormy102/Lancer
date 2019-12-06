@@ -20,6 +20,12 @@ class SMBClient(BaseModule):
         self.required_programs = ["smbclient"]
 
     def should_execute(self, service: str, port: int) -> bool:
+        """
+        Should the SMB Client module be executed
+        :param service: The service to check
+        :param port: The port to check
+        :return: Boolean if this module should be executed
+        """
         # Check if this module is disabled in the config.ini file
         if not super(SMBClient, self).should_execute(service, port):
             return False

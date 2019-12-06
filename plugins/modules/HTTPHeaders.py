@@ -22,6 +22,11 @@ class HTTPHeaders(GenericWebServiceModule):
                                           critical=False)
 
     def execute(self, ip: str, port: int) -> None:
+        """
+        Get the HTTP headers from the default webpage
+        :param ip: IP to use
+        :param port: Port to use
+        """
         self.create_loot_space(ip, port)
 
         url = self.get_url(ip, port)

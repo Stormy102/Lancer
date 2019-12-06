@@ -23,6 +23,12 @@ class HTTPOptions(GenericWebServiceModule):
                                           critical=False)
 
     def execute(self, ip: str, port: int) -> None:
+        """
+        Gets the available HTTP options from the web server
+        :param ip: IP to use
+        :param port: Port to use
+        """
+
         self.create_loot_space(ip, port)
         Loot.loot[ip][str(port)][self.loot_name] = []
 

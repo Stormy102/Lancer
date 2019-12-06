@@ -9,7 +9,7 @@ from core.EventQueue import EventQueue
 from plugins.abstractmodules.BaseModule import BaseModule
 from core.ModuleExecuteState import ModuleExecuteState
 from core.config import get_module_cache
-from core import Loot
+from core import Loot, utils
 from shutil import which
 from xml.dom import minidom
 from cpe_utils import CPE
@@ -51,8 +51,28 @@ class Nmap(BaseModule):
             process = subprocess.Popen(command, stdout=writer)
             # While the process return code is None
             while process.poll() is None:
-                time.sleep(0.5)
-            # output = reader.read().decode("UTF-8").splitlines()
+                # Parse the program as it runs
+                output = reader.read().decode("UTF-8").splitlines()
+                for line in output:
+                    # If we've got an open port, print it
+                    if line.startswith("Discovered open port "):
+                        port = line[21:line.index("/")]
+                        print(utils.warning_message(), "Discovered port open on {PORT}".format(PORT=port))
+                    # Get time remaining so there is still some output
+                    if " done; ETC: " in line:
+                        # TODO: Regex instead of this disgusting mess
+                        percentage_index = line.index("%")
+                        # Get 5 characters before the percentage (xx.xx and the percent)
+                        percentage = line[percentage_index-5:percentage_index+1]
+                        # Get time remaining in format x:xx:xx
+                        time_left = line.replace(" remaining)", "")
+                        time_left = time_left[-7:]
+
+                        print(utils.warning_message(), "Scan {PERC} complete - {TIME} left"
+                              .format(PERC=percentage, TIME=time_left))
+
+                # Wait for 0.25 seconds
+                time.sleep(0.25)
         self.logger.info("Finished Nmap scan of {TARGET}".format(TARGET=ip))
 
         # Parse the XML output
@@ -70,9 +90,9 @@ class Nmap(BaseModule):
         self.logger.info("{PORT_COUNT} ports are open".format(PORT_COUNT=len(port_list)))
 
         # Get all of the CPE versions detected
-        cpe_list = list(dict.fromkeys([x.firstChild.nodeValue for x in xml.getElementsByTagName('cpe')]))
-        for cpe in cpe_list:
-            self.logger.info("Detected {CPE}".format(CPE=CPE(cpe).human()))
+        # cpe_list = list(dict.fromkeys([x.firstChild.nodeValue for x in xml.getElementsByTagName('cpe')]))
+        # for cpe in cpe_list:
+        #    self.logger.info("Detected {CPE}".format(CPE=CPE(cpe).human()))
 
         # searchsploit_nmap_scan(out_file)
 

@@ -31,7 +31,7 @@ class FTPAnonymousAccess(BaseModule):
         Attempt to download all FTP files under the specified size using anonymous login
         :param ip: IP to use
         :param port: Port to use
-                """
+        """
         self.create_loot_space(ip, port)
         try:
             ftp_client = ftplib.FTP()

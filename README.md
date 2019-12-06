@@ -90,6 +90,7 @@ As Lancer is still very much in active development, there is currently limited f
 
 <details>
     <summary>Upcoming Features in 0.2.0 (Alpha)</summary> 
+
 * [ ] Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.2.0_
 * [ ] Split into blind and targeted modules - blind modules require only a hostname/IP and port, while targeted modules can execute after the blind modules using information potentially harvested from blind modules _Planned for 0.2.0_
 * [ ] Configure intrusiveness level with `-L`/`--level` _Planned for 0.2.0_
@@ -114,6 +115,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] CPE detection module (making up for removal of old CPE logic) _Coming in 0.2.0_
 * [ ] RPCClient Null Session module _Planned for 0.2.0_
 * [ ] RPCClient User Enumeration _Planned for 0.2.0_
+
 </details>
 
 <details>
@@ -167,7 +169,7 @@ As Lancer is still very much in active development, there is currently limited f
 
 </details>
 
-Any other features you want to see? Open a Github Issue or a pull request
+Any other features you want to see? Open a Github Issue or a pull request.
 
 ## Installation
 

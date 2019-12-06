@@ -37,10 +37,10 @@ class Nmap(BaseModule):
 
         self.logger.debug("Writing output to {PATH}.xml|.nmap|.gnmap".format(PATH=output_filename))
 
-        # TODO: UDP scan - different Nmap entry point module that executes?
+        # TODO: Optional UDP scan
 
         self.logger.info("Starting Nmap scan of {TARGET}".format(TARGET=ip))
-        # with Spinner():
+
         with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
             # Arguments:
             # -v  - Verbose output
@@ -55,32 +55,43 @@ class Nmap(BaseModule):
             # output = reader.read().decode("UTF-8").splitlines()
         self.logger.info("Finished Nmap scan of {TARGET}".format(TARGET=ip))
 
+        # Parse the XML output
         xml = minidom.parse("{FILE}.xml".format(FILE=output_filename))
+        # Get the host scanned
         hostslist = xml.getElementsByTagName('hosts')
         # We only scan one host at a time
         if int(hostslist[0].attributes['down'].value) > 0:
+            # Unreachable, return rest of the processing
             self.logger.warning("{TARGET} was unreachable".format(TARGET=ip))
-        else:
-            port_list = xml.getElementsByTagName('port')
-            self.logger.info("{PORT_COUNT} ports are open".format(PORT_COUNT=len(port_list)))
+            return
 
-            cpe_list = list(dict.fromkeys([x.firstChild.nodeValue for x in xml.getElementsByTagName('cpe')]))
-            for cpe in cpe_list:
-                self.logger.info("Detected {CPE}".format(CPE=CPE(cpe).human()))
+        # Get all of the open ports
+        port_list = xml.getElementsByTagName('port')
+        self.logger.info("{PORT_COUNT} ports are open".format(PORT_COUNT=len(port_list)))
 
-            # searchsploit_nmap_scan(out_file)
+        # Get all of the CPE versions detected
+        cpe_list = list(dict.fromkeys([x.firstChild.nodeValue for x in xml.getElementsByTagName('cpe')]))
+        for cpe in cpe_list:
+            self.logger.info("Detected {CPE}".format(CPE=CPE(cpe).human()))
 
-            for open_port in port_list:
-                for svc in open_port.getElementsByTagName('service'):
-                    service = svc.attributes['name'].value
-                    port = open_port.attributes['portid'].value
+        # searchsploit_nmap_scan(out_file)
 
-                    if ip not in Loot.loot:
-                        Loot.loot[ip] = {}
-                    if port not in Loot.loot[ip]:
-                        Loot.loot[ip][port] = {}
+        # Loop through the open ports
+        for open_port in port_list:
+            # Get the service type
+            for svc in open_port.getElementsByTagName('service'):
+                # Parse the values
+                service = svc.attributes['name'].value
+                port = open_port.attributes['portid'].value
 
-                    EventQueue.push(service=service, port=int(port))
+                # If the IP/port is not in the Loot dictionary, add it
+                if ip not in Loot.loot:
+                    Loot.loot[ip] = {}
+                if port not in Loot.loot[ip]:
+                    Loot.loot[ip][port] = {}
+
+                # Add to the event Queue so we get a notification
+                EventQueue.push(service=service, port=int(port))
 
     def can_execute_module(self) -> ModuleExecuteState:
         """

@@ -37,11 +37,21 @@ class BaseModule(object):
         logging.getLogger("urllib3").setLevel(logging.WARNING)
 
     def execute(self, ip: str, port: int) -> None:
+        """
+        Execute the module
+        :param ip: IP to use
+        :param port: Port to use
+        """
         # Add to central repository of loot
         # TODO: Test all modules write their output
         pass
 
     def create_loot_space(self, ip: str, port: int) -> None:
+        """
+        Create a loot space in the dictionary
+        :param ip: The IP to use
+        :param port:  The port to use
+        """
         # TODO: Move generation of loot spaces to Loot::create_loot_space() -> dict
         str_port = str(port)
         if ip not in Loot.loot:
@@ -54,6 +64,12 @@ class BaseModule(object):
                           .format(NAME=self.name, IP=ip, PORT=port, LOOT=self.loot_name))
 
     def should_execute(self, service: str, port: int) -> bool:
+        """
+        Should this module be executed for this given service and port
+        :param service: The service to check
+        :param port: The port to check
+        :return: Boolean if this module should be executed
+        """
         # Check if this module is disabled in the config.ini file
         return module_enabled(self.name)
 

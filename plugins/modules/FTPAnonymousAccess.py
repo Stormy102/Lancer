@@ -27,6 +27,11 @@ class FTPAnonymousAccess(BaseModule):
                                                  critical=False)
 
     def execute(self, ip: str, port: int) -> None:
+        """
+        Attempt to download all FTP files under the specified size using anonymous login
+        :param ip: IP to use
+        :param port: Port to use
+                """
         self.create_loot_space(ip, port)
         try:
             ftp_client = ftplib.FTP()
@@ -58,7 +63,14 @@ class FTPAnonymousAccess(BaseModule):
             # Log of some kind
             self.logger.error("Failed to connect: Connection timed out")
 
-    def download_files(self, ip, port, ftp_client, dictionary: dict):
+    def download_files(self, ip: str, port: str, ftp_client: ftplib.FTP, dictionary: dict) -> None:
+        """
+        Download all of the files
+        :param ip: The IP of the server
+        :param port: The FTP server port
+        :param ftp_client: Reference to the FTP client
+        :param dictionary: Loot dictionary
+        """
         files = self.get_folder_contents(ip, ftp_client)
 
         self.logger.info("{FILE_COUNT} files found".format(FILE_COUNT=len(files)))
@@ -89,7 +101,14 @@ class FTPAnonymousAccess(BaseModule):
         else:
             self.logger.info("No files to download")
 
-    def get_folder_contents(self, ip, ftp_client, path=''):
+    def get_folder_contents(self, ip, ftp_client, path='') -> list:
+        """
+
+        :param ip: The IP of the server
+        :param ftp_client: The FTP client we are using
+        :param path: Path to the folder we want to retrive the contents of
+        :return: List of files in that directory
+        """
         directories = []
         files = []
 
@@ -148,6 +167,13 @@ class FTPAnonymousAccess(BaseModule):
         return files
 
     def download_file(self, ip: str, port: str, ftp_client: ftplib.FTP, filename: str) -> None:
+        """
+        Download the specified file
+        :param ip: IP of the FTP server
+        :param port: Port of the server
+        :param ftp_client: Reference to FTP client
+        :param filename: Filename path we want
+        """
         try:
             file_size = ftp_client.size(filename) / 1024 / 1024
         except ftplib.error_perm:
@@ -173,7 +199,14 @@ class FTPAnonymousAccess(BaseModule):
             self.logger.error("Permission denied to access {FILE}".format(FILE=filename))
         file.close()
 
-    def remove_files_over_size(self, ftp_client, files, size=1024 * 1024 * 50):
+    def remove_files_over_size(self, ftp_client, files, size=1024 * 1024 * 50) -> (list, list):
+        """
+        Remove any files over the specified size
+        :param ftp_client: Reference to the FTP client
+        :param files: Files we have retrieved from the FTP server
+        :param size: The maximum size. Any files BELOW this will be accepted, any EQUAL or ABOVE will be rejected
+        :return: Two lists, containing sanitised and large files respectively
+        """
         sanitised_files = []
         large_files = []
         for file in files:
@@ -191,6 +224,12 @@ class FTPAnonymousAccess(BaseModule):
         return sanitised_files, large_files
 
     def should_execute(self, service: str, port: int) -> bool:
+        """
+        Should the FTP Anonymous Access module be executed
+        :param service: The service to check
+        :param port: The port to check
+        :return: Boolean if this module should be executed
+        """
         # Check if this module is disabled in the config.ini file
         if not super(FTPAnonymousAccess, self).should_execute(service, port):
             return False

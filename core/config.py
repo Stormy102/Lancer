@@ -9,7 +9,7 @@
 """
 
 # Make sure to update the README.MD when changing this
-__version__ = "0.0.3 Alpha"
+__version__ = "0.1.0 Alpha"
 
 from core import ArgHandler
 from core.LogFormatter import LogFormatter

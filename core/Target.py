@@ -28,7 +28,10 @@ class Target(object):
             print(utils.normal_message(), "Starting analysis of {HOST} ({IP})..."
                   .format(HOST=self.hostname, IP=self.ip))
 
-    def stop_timer(self):
+    def stop_timer(self) -> None:
+        """
+        Stop the target timer
+        """
         self.finish_time = time.monotonic()
         self.elapsed_time = self.finish_time - self.start_time
         self.time_taken = time.strftime("%H:%M:%S", time.gmtime(self.elapsed_time))
@@ -42,6 +45,10 @@ class Target(object):
                   .format(TARGET=self.hostname, TIME=self.time_taken))
 
     def get_address(self) -> str:
+        """
+        Get the IP address for the target
+        :return: IP address as a string
+        """
         # TODO: Dynamic ip/hostname returning dependent on module
         # if self.hostname is None:
         #     return str(self.ip)

@@ -18,7 +18,12 @@ __args.verbose = None
 __args.very_verbose = None
 
 
-def parse_arguments(args):
+def parse_arguments(args) -> None:
+    """
+    Parse the command line arguments
+    :param args: The arguments to parse
+    """
+
     global __args
     parser = create_parser()
 
@@ -39,7 +44,11 @@ def parse_arguments(args):
     __args = parser.parse_args(args)
 
 
-def create_parser():
+def create_parser() -> argparse.ArgumentParser:
+    """
+    Create a parser with the current command line options
+    :return: Configured ArgumentParser
+    """
     example = 'Examples:\n'
     example += normal_message() + ' ./lancer -T 10.10.10.100 -v -l de -a 10.8.0.1\n'
     example += normal_message() + ' ./lancer -TF targets.lan -vv --cache-root ./cache/\n'
@@ -119,20 +128,32 @@ def create_parser():
 
 
 def get_target() -> str:
+    """
+    Get the current target (-T)
+    :return: The Target as a string or None if no target
+    """
     global __args
     if __args.target is None:
         return None
     return __args.target
 
 
-def get_target_file() -> io.FileIO:
+def get_target_file() -> io.RawIOBase:
+    """
+    Get the target file
+    :return: The target file if passed, None if not
+    """
     global __args
     if __args.host_file is None:
         return None
     return __args.host_file
 
 
-def get_nmap_file() -> io.FileIO:
+def get_nmap_file() -> io.RawIOBase:
+    """
+    Get the Nmap file
+    :return: The Nmap file if passed, None if not
+    """
     global __args
     if __args.nmapFile is None:
         return None
@@ -140,6 +161,10 @@ def get_nmap_file() -> io.FileIO:
 
 
 def get_verbose() -> bool:
+    """
+    Check if the -v argument has been passed
+    :return: Bool if true or false - returns false if not found
+    """
     global __args
     if __args.verbose is None:
         return False
@@ -147,6 +172,10 @@ def get_verbose() -> bool:
 
 
 def get_very_verbose() -> bool:
+    """
+        Check if the -vv argument has been passed
+        :return: Bool if true or false - returns false if not found
+    """
     global __args
     if __args.very_verbose is None:
         return False
@@ -154,15 +183,27 @@ def get_very_verbose() -> bool:
 
 
 def get_language_code() -> str:
+    """
+    Parse the language code (ISO 639-1)
+    :return: The shortened language code. Defaults to "en"
+    """
     global __args
     return __args.language_code
 
 
 def get_clear_cache() -> bool:
+    """
+    Check if the --clear-cache argument has been passed
+    :return: Bool if we have asked to clear the cache or not
+    """
     global __args
     return __args.clear_cache
 
 
 def get_skip_ports() -> list:
+    """
+    Get the ports that have been passed to skip
+    :return: List of int ports to skip. Empty array if none passed
+    """
     global __args
     return __args.skipPorts

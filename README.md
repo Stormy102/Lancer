@@ -18,7 +18,7 @@
         <img src="https://img.shields.io/github/downloads/Stormy102/Lancer/total?style=flat-square" /></a>
     <a href="https://github.com/Stormy102/Lancer/pulse" alt="Maintenance">
         <img src="https://img.shields.io/maintenance/yes/2019?style=flat-square" /></a>
-    <a href="https://snyk.io/test/github/Stormy102/Lancer?targetFile=requirements.txt&style=flat-square" alt="Vulnerabilities">
+    <a href="https://snyk.io/test/github/Stormy102/Lancer?targetFile=requirements.txt" alt="Vulnerabilities">
         <img src="https://img.shields.io/snyk/vulnerabilities/github/Stormy102/Lancer/requirements.txt?style=flat-square" alt="Vulnerabilities"></a>
     <a href="#installation" alt="Supported OSs">
         <img src="https://img.shields.io/badge/Supported%20OSs-Windows%207+%20%7C%20Ubuntu/Debian-purple.svg?style=flat-square"
@@ -52,7 +52,7 @@ Lancer is a pentesting tool written in [Python 3](https://www.python.org/) which
 
 ### *Sigh*... Another pentesting tool? Why should I use this?
 
-The basis of Lancer is to take several tools which already exist, such as [Gobuster](https://github.com/OJ/gobuster/), [Nmap](https://github.com/nmap/nmap), [SMBMap](https://github.com/ShawnDEvans/smbmap) and [many](https://github.com/portcullislabs/enum4linux) [more](https://github.com/sullo/nikto), and intelligently detect which tools should be used depending on the results of a scan, as well as using custom modules to detect other information, such as Geolocation, SSL certificate extraction and more.
+The basis of Lancer is to take several tools which already exist, such as [Gobuster](https://github.com/OJ/gobuster/), [Nmap](https://github.com/nmap/nmap), [smbclient](https://www.samba.org/samba/docs/current/man-html/smbclient.1.html) and [many](https://github.com/portcullislabs/enum4linux) [more](https://github.com/sullo/nikto), and intelligently detect which tools should be used depending on the results of a scan, as well as using custom modules to detect other information, such as Geolocation, SSL certificate extraction and more.
 
 This is designed to automate enumeration and analysis of a target/group of targets and make the process of finding vulnerabilities a bit easier.
 
@@ -60,14 +60,36 @@ This is designed to automate enumeration and analysis of a target/group of targe
 
 As Lancer is still very much in active development, there is currently limited functionality and it is not recommended for use in a commercial or real-world environment.
 
-<!--<details>
-    <summary>Upcoming Features in 0.2.0 (Alpha)</summary> 
-    
-</details>-->
+<details>
+    <summary>Completed Features</summary>
+
+* [X] HTTPS support - certificate extraction, normal HTTP services scanning and enumeration _Added in 0.1.0_
+* [X] Multiple targets from file support _Added in 0.1.0_
+* [X] Convert domain name to IP _Added in 0.1.0_
+* [X] IPv4/IPv6 subnet support - `./lancer -T 192.168.0.0/24` _Added in 0.1.0_
+* [X] HTTP Service Headers _Added in 0.1.0_
+* [X] Get Host Name Module _Added in 0.1.0_
+* [X] HTTP method options module _Added in 0.1.0_
+* [X] Page Links Module _Added in 0.1.0_
+* [X] Output results via JSON to `~/.lancer/cache/[SCAN TIME]/loot.json` _Added in 0.1.0_
+* [X] Disable modules from `config.ini` _Added in 0.1.0_
+* [X] Output results via terminal console _Added in 0.1.0_
+* [X] Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Added for 0.1.0_
+* [X] Clear cache command line option - `--clear-cache` _Added in 0.1.0_
+* [X] Improved modularity by shifting to an OOP module approach _Added in 0.1.0_
+* [X] Specify ports to skip scanning _Added in 0.1.0_
+* [X] Event-driven system instead of single port scan loop _Added in 0.1.0_
+* [X] Configuration file (.ini) for persistent configuration _Added in 0.0.2_
+* [X] FTP scanning/downloading files < 50mb _Added in 0.0.2_
+* [X] Nikto support _Added in 0.0.2_
+* [X] Nmap scanning _Added in 0.0.1_
+* [X] Gobuster enumeration _Added in 0.0.1_
+* [X] Searchsploit Nmap results _Added in 0.0.1_
+
+</details>
 
 <details>
-    <summary>Planned Features</summary>
-
+    <summary>Upcoming Features in 0.2.0 (Alpha)</summary> 
 * [ ] Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.2.0_
 * [ ] Split into blind and targeted modules - blind modules require only a hostname/IP and port, while targeted modules can execute after the blind modules using information potentially harvested from blind modules _Planned for 0.2.0_
 * [ ] Configure intrusiveness level with `-L`/`--level` _Planned for 0.2.0_
@@ -92,12 +114,12 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] CPE detection module (making up for removal of old CPE logic) _Coming in 0.2.0_
 * [ ] RPCClient Null Session module _Planned for 0.2.0_
 * [ ] RPCClient User Enumeration _Planned for 0.2.0_
-
 </details>
 
 <details>
-    <summary>Features under evaluation</summary>
+    <summary>Planned features</summary>
 
+* [ ] Greater extension support/documentation - add your own custom report generators and modules _Planned for 0.3.0_
 * [ ] Localisation support _Planned for 0.3.0_
 * [ ] SSH support - display fingerprint and SSH version _Planned for 0.3.0_
 * [ ] Write output to file via `-o` parameter _Planned for 0.3.0_
@@ -112,7 +134,6 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] WPScan support _Planned for 0.4.0_
 * [ ] Open X11 module _Planned for 0.4.0_
 * [ ] Metasploit RPC support _Planned for 0.5.0_
-* [ ] Extension support - add your own custom report generators and modules _Planned for 0.5.0_
 * [ ] Further services detection _Coming soon_
     * SQL
     * Telnet
@@ -143,35 +164,6 @@ As Lancer is still very much in active development, there is currently limited f
     * sqlmap
     * sqlninja/sqlsus
     * WhatWeb
-
-</details>
-
-<details>
-    <summary>Completed Features</summary>
-
-* [X] HTTPS support - certificate extraction, normal HTTP services scanning and enumeration _Added in 0.1.0_
-* [X] Multiple targets from file support _Added in 0.1.0_
-* [X] Convert domain name to IP _Added in 0.1.0_
-* [X] IPv4/IPv6 subnet support - `./lancer -T 192.168.0.0/24` _Added in 0.1.0_
-* [X] HTTP Service Headers _Added in 0.1.0_
-* [X] Get Host Name Module _Added in 0.1.0_
-* [X] HTTP method options module _Added in 0.1.0_
-* [X] Page Links Module _Added in 0.1.0_
-* [X] Output results via JSON to `~/.lancer/cache/[SCAN TIME]/loot.json` _Added in 0.1.0_
-* [X] Disable modules from `config.ini` _Added in 0.1.0_
-* [X] Output results via terminal console _Added in 0.1.0_
-* [X] Write verbose info to log file - outputs info with `-v` and debug with `-vv` _Added for 0.1.0_
-* [X] Clear cache command line option - `--clear-cache` _Added in 0.1.0_
-* [X] Improved modularity by shifting to an OOP module approach _Added in 0.1.0_
-* [X] Specify ports to skip scanning _Added in 0.1.0_
-* [X] Event-driven system instead of single port scan loop _Added in 0.1.0_
-* [ ] Improved code coverage and code comments/documentation _Coming in 0.1.0_
-* [X] Configuration file (.ini) for persistent configuration _Added in 0.0.2_
-* [X] FTP scanning/downloading files < 50mb _Added in 0.0.2_
-* [X] Nikto support _Added in 0.0.2_
-* [X] Nmap scanning _Added in 0.0.1_
-* [X] Gobuster enumeration _Added in 0.0.1_
-* [X] Searchsploit Nmap results _Added in 0.0.1_
 
 </details>
 

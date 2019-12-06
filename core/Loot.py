@@ -11,5 +11,8 @@ loot = {}
 
 
 def reset():
+    """
+    Resets the loot to a new dictionary
+    """
     global loot
     loot = {}

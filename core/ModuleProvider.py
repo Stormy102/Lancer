@@ -24,7 +24,10 @@ logger = None
 # TODO: Make a class
 
 
-def load():
+def load() -> None:
+    """
+    Load all of the modules from the folder
+    """
     global logger
     logger = config.get_logger("Module Provider")
     __check_plugin_folder()
@@ -35,7 +38,7 @@ def load():
 
 def __check_plugin_folder() -> None:
     """
-        Checks that the plugin folder exists. If not, it quits with the corresponding exit code
+    Checks that the plugin folder exists. If not, it quits with the corresponding exit code
     """
     if not os.path.exists("plugins"):
         sys.exit(ExitCode.PluginDirectoryMissing)
@@ -45,7 +48,10 @@ def __check_plugin_folder() -> None:
         sys.exit(ExitCode.ModuleDirectoryMissing)
 
 
-def __load_init_modules():
+def __load_init_modules() -> None:
+    """
+    Load all of the Init Modules
+    """
     global logger
     path = "plugins/initmodules"
     for file in os.listdir(path):
@@ -65,7 +71,10 @@ def __load_init_modules():
     print(utils.normal_message(), "Successfully imported {COUNT} init modules".format(COUNT=len(LOADED_INIT_MODULES)))
 
 
-def __load_modules():
+def __load_modules() -> None:
+    """
+    Load all of the Modules
+    """
     path = "plugins/modules"
     for file in os.listdir(path):
         if not os.path.isfile(os.path.join(path, file)):
@@ -84,7 +93,10 @@ def __load_modules():
     print(utils.normal_message(), "Successfully imported {COUNT} modules".format(COUNT=len(LOADED_MODULES)))
 
 
-def __check_module_dependencies():
+def __check_module_dependencies() -> None:
+    """
+    Check that all of the module dependencies are installed
+    """
     global logger
     # Iterate through every single subclass of BaseModule
     for module in LOADED_MODULES:
@@ -98,15 +110,20 @@ def __check_module_dependencies():
     print()
 
 
-def analyse(target: Target):
-    global logger
-    logger = config.get_logger("Module Provider")
-
+def analyse(target: Target) -> None:
+    """
+    Analyse the target with InitModules and Modules
+    :param target: The target object to scan
+    """
     __execute_init_module(target)
     __execute_modules(target)
 
 
-def __execute_init_module(target: Target):
+def __execute_init_module(target: Target) -> None:
+    """
+    Run InitModules against the Target
+    :param target: Target object to scan
+    """
     if len(LOADED_INIT_MODULES) > 0:
         module = LOADED_INIT_MODULES[0]
 
@@ -123,6 +140,10 @@ def __execute_init_module(target: Target):
 
 
 def __execute_modules(target: Target):
+    """
+    Run Modules against the Target
+    :param target: Target object to scan
+    """
     global LOADED_MODULES
     global logger
 

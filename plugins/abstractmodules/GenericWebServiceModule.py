@@ -33,7 +33,6 @@ class GenericWebServiceModule(BaseModule):
     def get_url(self, ip: str, port: int) -> str:
         """
         Get the IP/Hostname and port as a HTTP/HTTPS string. Useful for web requests/enumeration
-
         :param ip: The IP or hostname
         :param port: The port to use in the URL
         :return: Returns the correctly formatted string prefixed with the correct protocol
@@ -49,6 +48,12 @@ class GenericWebServiceModule(BaseModule):
         return url
 
     def should_execute(self, service: str, port: int) -> bool:
+        """
+        Should this module be executed for this given service and port
+        :param service: The service to check
+        :param port: The port to check
+        :return: Boolean if this module should be executed
+        """
         # Check if this module is disabled in the config.ini file
         if not super(GenericWebServiceModule, self).should_execute(service, port):
             return False

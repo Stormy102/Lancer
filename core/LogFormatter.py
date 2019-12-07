@@ -13,8 +13,13 @@ import logging
 
 class LogFormatter(logging.Formatter):
 
-    def format(self, record: logging.LogRecord):
-        # TODO: Fix cyclic imports - this will probably come back and bite us in the arse
+    def format(self, record: logging.LogRecord) -> str:
+        """
+        Custom formatter for the stdout logging
+        :param record: The Log to format
+        :return: The formatted string
+        """
+        # TODO: Fix cyclic imports
         from core.utils import warning_message, error_message, normal_message
         from core.ArgHandler import get_verbose, get_very_verbose
 

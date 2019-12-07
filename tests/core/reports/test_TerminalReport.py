@@ -36,7 +36,11 @@ def test_generate_report():
     gobuster = []
     result = {"Path": "http://127.0.0.1/index.html", "Code": "200", "Code Value": "OK"}
     gobuster.append(result)
-    ports = {"21": ftp_service, "80": {"Gobuster": gobuster}, "geo": geo_service, "hostname": hostname}
+    empty_list = []
+    result = {}
+    empty_list.append(result)
+    ports = {"21": ftp_service, "80": {"Gobuster": gobuster, "Empty": empty_list}, "geo": geo_service,
+             "hostname": hostname}
 
     root = {"example.com": ports}
 

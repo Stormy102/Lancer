@@ -18,7 +18,12 @@ __args.verbose = None
 __args.very_verbose = None
 
 
-def parse_arguments(args):
+def parse_arguments(args) -> None:
+    """
+    Parse the command line arguments
+    :param args: The arguments to parse
+    """
+
     global __args
     parser = create_parser()
 
@@ -39,7 +44,11 @@ def parse_arguments(args):
     __args = parser.parse_args(args)
 
 
-def create_parser():
+def create_parser() -> argparse.ArgumentParser:
+    """
+    Create a parser with the current command line options
+    :return: Configured ArgumentParser
+    """
     example = 'Examples:\n'
     example += normal_message() + ' ./lancer -T 10.10.10.100 -v -l de -a 10.8.0.1\n'
     example += normal_message() + ' ./lancer -TF targets.lan -vv --cache-root ./cache/\n'
@@ -65,25 +74,24 @@ def create_parser():
                            help="File containing a list of target IP addresses.")
     mex_group.add_argument("-TN", "--target-nmap", metavar="FILE", dest='nmapFile', type=str,
                            help="Skip an internal Nmap scan by providing the path to an Nmap XML file. It is"
-                                " recommended to run common scripts (-sC argument) and version detection (-sV"
-                                " argument)")
+                                " recommended to run version detection (-sV argument)")
 
-    modules = parser.add_argument_group("Module Arguments (Coming soon)")
-    modules.add_argument("--cache-root", metavar="PATH", dest='cache_root', default='',
-                         help="[NOT YET IMPLEMENTED] "
-                              "The root of the cache. This is where all of the data for the programs run is stored,"
-                              " which may be useful if you wish to document or save all of the data in a separate"
-                              " location.")
-    modules.add_argument("-L", "--level", metavar="LEVEL", dest='intrusive_level', default=3,
-                         help="[NOT YET IMPLEMENTED] "
-                              "The intrusion level of this iteration. A level of 1 means the least intrusive scripts"
-                              " will be run, such as Nmap on quiet mode and a few HTTP requests. A level of 5 will mean"
-                              " that intrusive exploits will be run against the computer to determine how vulnerable it"
-                              " is. A full list of modules and their intrusion levels can be found on the Github Wiki."
-                              " This defaults to 3 - moderately intrusive.")
-    modules.add_argument("-a", "--address", metavar="IP", dest='address', default='',
-                         help="[NOT YET IMPLEMENTED] "
-                              "Overrides the detected IP address with your own which is supplied.")
+    modules = parser.add_argument_group("Module Arguments")
+    #modules.add_argument("--cache-root", metavar="PATH", dest='cache_root', default='',
+    #                     help="[NOT YET IMPLEMENTED] "
+    #                          "The root of the cache. This is where all of the data for the programs run is stored,"
+    #                          " which may be useful if you wish to document or save all of the data in a separate"
+    #                          " location.")
+    #modules.add_argument("-L", "--level", metavar="LEVEL", dest='intrusive_level', default=3,
+    #                     help="[NOT YET IMPLEMENTED] "
+    #                          "The intrusion level of this iteration. A level of 1 means the least intrusive scripts"
+    #                          " will be run, such as Nmap on quiet mode and a few HTTP requests. A level of 5 will mean"
+    #                          " that intrusive exploits will be run against the computer to determine how vulnerable it"
+    #                          " is. A full list of modules and their intrusion levels can be found on the Github Wiki."
+    #                          " This defaults to 3 - moderately intrusive.")
+    #modules.add_argument("-a", "--address", metavar="IP", dest='address', default='',
+    #                     help="[NOT YET IMPLEMENTED] "
+    #                          "Overrides the detected IP address with your own which is supplied.")
     modules.add_argument("--skip-ports", nargs='+', type=int, metavar="PORTS", dest='skipPorts', default=[],
                          help="Set the ports to ignore. These ports will have no enumeration taken against them,"
                               " except for the initial discovery via Nmap. This can be used to run a custom scan and"
@@ -98,10 +106,10 @@ def create_parser():
     verbose_group.add_argument("-vv", "--very-verbose", dest='very_verbose', action="store_true", default=False,
                                help="Use a very verbose output. This will output virtually every single event that"
                                     " Lancer logs. Useful for debugging.")
-    output.add_argument("-o", "--output", metavar="FILE", dest="host_file", type=argparse.FileType('w'),
-                        help="[NOT YET IMPLEMENTED] "
-                             "Output the human-readable contents of the Lancer scan to a file. Best used in "
-                             " conjunction with -v/-vv")
+    #output.add_argument("-o", "--output", metavar="FILE", dest="host_file", type=argparse.FileType('w'),
+    #                    help="[NOT YET IMPLEMENTED] "
+    #                         "Output the human-readable contents of the Lancer scan to a file. Best used in "
+    #                         " conjunction with -v/-vv")
     output.add_argument("--version", dest='show_version', action="store_true", default='',
                         help="Shows the current version of Lancer.")
 
@@ -120,20 +128,32 @@ def create_parser():
 
 
 def get_target() -> str:
+    """
+    Get the current target (-T)
+    :return: The Target as a string or None if no target
+    """
     global __args
     if __args.target is None:
         return None
     return __args.target
 
 
-def get_target_file() -> io.FileIO:
+def get_target_file() -> io.RawIOBase:
+    """
+    Get the target file
+    :return: The target file if passed, None if not
+    """
     global __args
     if __args.host_file is None:
         return None
     return __args.host_file
 
 
-def get_nmap_file() -> io.FileIO:
+def get_nmap_file() -> io.RawIOBase:
+    """
+    Get the Nmap file
+    :return: The Nmap file if passed, None if not
+    """
     global __args
     if __args.nmapFile is None:
         return None
@@ -141,6 +161,10 @@ def get_nmap_file() -> io.FileIO:
 
 
 def get_verbose() -> bool:
+    """
+    Check if the -v argument has been passed
+    :return: Bool if true or false - returns false if not found
+    """
     global __args
     if __args.verbose is None:
         return False
@@ -148,6 +172,10 @@ def get_verbose() -> bool:
 
 
 def get_very_verbose() -> bool:
+    """
+        Check if the -vv argument has been passed
+        :return: Bool if true or false - returns false if not found
+    """
     global __args
     if __args.very_verbose is None:
         return False
@@ -155,15 +183,27 @@ def get_very_verbose() -> bool:
 
 
 def get_language_code() -> str:
+    """
+    Parse the language code (ISO 639-1)
+    :return: The shortened language code. Defaults to "en"
+    """
     global __args
     return __args.language_code
 
 
 def get_clear_cache() -> bool:
+    """
+    Check if the --clear-cache argument has been passed
+    :return: Bool if we have asked to clear the cache or not
+    """
     global __args
     return __args.clear_cache
 
 
 def get_skip_ports() -> list:
+    """
+    Get the ports that have been passed to skip
+    :return: List of int ports to skip. Empty array if none passed
+    """
     global __args
     return __args.skipPorts

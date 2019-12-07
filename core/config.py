@@ -9,7 +9,7 @@
 """
 
 # Make sure to update the README.MD when changing this
-__version__ = "0.0.3 Alpha"
+__version__ = "0.1.0 Alpha"
 
 from core import ArgHandler
 from core.LogFormatter import LogFormatter
@@ -26,7 +26,11 @@ class Config(object):
     pass
 
 
-def get_config_parser():
+def get_config_parser() -> configparser.ConfigParser:
+    """
+    Get the config parser
+    :return: Config parser with default values
+    """
     cfg = configparser.ConfigParser(allow_no_value=True)
     cfg['Main'] = {}
     cfg.set('Main', '# Language for Lancer to be in. Use language code', None)
@@ -39,7 +43,10 @@ def get_config_parser():
     return cfg
 
 
-def save_config():
+def save_config() -> None:
+    """
+    Write the config file to disk
+    """
     global config
 
     config_file_path = get_config_path()
@@ -47,7 +54,10 @@ def save_config():
         config.write(config_file)
 
 
-def load_config():
+def load_config() -> None:
+    """
+    Load the config file from disk. If it doesn't exist, a default one is written to disk anyway
+    """
     global config
 
     config_file_path = get_config_path()
@@ -60,6 +70,11 @@ def load_config():
 
 
 def module_enabled(name: str) -> bool:
+    """
+    Checks if a module is enabled. Wrapper for get_module_value(name, "enabled", "yes")
+    :param name: The name of the module. Use self.name or module.name
+    :return: Boolean if the module is enabled or not
+    """
     global config
     return get_module_value(name, "enabled", "yes") == "yes"
 
@@ -83,6 +98,10 @@ def get_module_value(name: str, value: str, default: str = "") -> str:
 
 
 def get_lancer_conf_dir() -> str:
+    """
+    Gets the Lancer configuration directory
+    :return: Path to to ~/.lancer/
+    """
     # Convert pathlib.Path.home() to str to avoid join error
     # as pathlib.Path.home() appears to be a PosixPath instead
     # of a string in Python 3.5
@@ -94,10 +113,18 @@ def get_lancer_conf_dir() -> str:
 
 
 def get_config_path() -> str:
+    """
+    Get the config.ini path
+    :return: Path to ~/.lancer/config.ini
+    """
     return os.path.join(get_lancer_conf_dir(), "config.ini")
 
 
 def get_cache_path() -> str:
+    """
+    Get the cache path
+    :return: Path to ~/.lancer/cache/
+    """
     path = os.path.join(get_lancer_conf_dir(), "cache")
     if not os.path.exists(path):
         os.mkdir(path)
@@ -105,6 +132,10 @@ def get_cache_path() -> str:
 
 
 def get_current_cache_path() -> str:
+    """
+    Get the current cache path
+    :return: Path to ~/.lancer/cache/[SCAN TIME]/
+    """
     global folder_name
 
     path = os.path.join(get_cache_path(), folder_name)
@@ -114,12 +145,20 @@ def get_current_cache_path() -> str:
 
 
 def get_log_path() -> str:
+    """
+    Get the path to the current log
+    :return: Path to ~/.lancer/cache/[SCAN TIME]/lancer.log
+    """
     global folder_name
 
     return os.path.join(get_current_cache_path(), "lancer.log".format(TIME=folder_name))
 
 
 def get_current_target_cache(target: str) -> str:
+    """
+    Get the path to the current target cache
+    :return: Path to ~/.lancer/cache/[SCAN TIME]/[TARGET]/
+    """
     path = os.path.join(get_current_cache_path(), target)
     if not os.path.exists(path):
         os.mkdir(path)
@@ -127,6 +166,11 @@ def get_current_target_cache(target: str) -> str:
 
 
 def get_module_cache(name: str, target: str, port: str = "") -> str:
+    """
+    Get the path to the current module cache
+    :return: Path to ~/.lancer/cache/[SCAN TIME]/[TARGET]/[MODULE]/[PORT]/ or
+    ~/.lancer/cache/[SCAN TIME]/[TARGET]/[MODULE]/ if no port is provided
+    """
     path = os.path.join(get_current_target_cache(target), name)
     if not os.path.exists(path):
         os.mkdir(path)
@@ -138,6 +182,10 @@ def get_module_cache(name: str, target: str, port: str = "") -> str:
 
 
 def get_report_folder() -> str:
+    """
+    Get the path to the current report folder
+    :return: Path to ~/.lancer/cache/[SCAN TIME]/reports/
+    """
     path = os.path.join(get_current_cache_path(), "reports")
     if not os.path.exists(path):
         os.mkdir(path)
@@ -145,6 +193,11 @@ def get_report_folder() -> str:
 
 
 def get_logger(name: str) -> logging.Logger:
+    """
+    Get a logger for the current module/class
+    :param name: The name of the logger - this appears in the logs
+    :return: Logger instance to store
+    """
     logger = logging.getLogger(name)
     console_logger = logging.StreamHandler()
     console_logger.setFormatter(LogFormatter())

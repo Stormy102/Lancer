@@ -26,6 +26,13 @@ class GetWebsiteLinks(GenericWebServiceModule):
                                               critical=False)
 
     def execute(self, ip: str, port: int) -> None:
+        """
+        Get all of the webpage links (non recursive for now)
+        :param ip: IP to use
+        :param port: Port to use
+        :return:
+        """
+
         self.create_loot_space(ip, port)
 
         Loot.loot[ip][str(port)][self.loot_name]["Internal"] = []
@@ -69,6 +76,12 @@ class GetWebsiteLinks(GenericWebServiceModule):
             self.logger.error("Unable to connect to {URL}".format(URL=url))
 
     def is_internal_url(self, base_url, url) -> bool:
+        """
+        Checks if the URL is internal
+        :param base_url: The base URL we are analysing
+        :param url: The URL to check if it is internal or not
+        :return: True if the URL is internal, false if not
+        """
         if url != "":
             self.logger.debug("Checking if {URL} is an internal URL to {BASE}".format(URL=url, BASE=base_url))
         if url == "":

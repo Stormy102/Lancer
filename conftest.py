@@ -1,7 +1,11 @@
 import pytest
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser) -> None:
+    """
+    Add options to the command line parser
+    :param parser: Parser to add items to
+    """
     parser.addoption(
         "--run-modules", action="store_true", default=False, help="Run the module tests only"
     )
@@ -13,11 +17,16 @@ def pytest_addoption(parser):
     )
 
 
-def pytest_configure(config):
-    config.addinivalue_line("markers", "slow: mark test as slow to run")
+def pytest_collection_modifyitems(config, items) -> None:
+    """
+    Filter the tests by arguments passed:
 
-
-def pytest_collection_modifyitems(config, items):
+    - --run-no-ci will run non-default tests not run on public CI servers
+    - --run-core will only run the core tests
+    - --run-modules will run all module tests
+    :param config: Command line parser
+    :param items: Test items
+    """
 
     # TODO: Tests for modules that are not run by default
     if not config.getoption("--run-no-ci"):

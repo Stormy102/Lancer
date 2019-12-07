@@ -123,7 +123,11 @@ def init():
     ModuleProvider.load()
 
 
-def get_ip():
+def get_ip() -> str:
+    """
+    Get the current machine's IP address
+    :return: Current IP address
+    """
     # https://stackoverflow.com/a/28950776/4524180
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -160,7 +164,10 @@ def main():
           format(TIME=time.strftime("%H:%M:%S", time.gmtime(elapsed_time))))
 
 
-def scan_targets():
+def scan_targets() -> None:
+    """
+    Open the target file, Nmap file or get the target to scan
+    """
     # Detect if we have a target list or just a single target
     if ArgHandler.get_target_file() is not None:
         # Target list
@@ -182,7 +189,11 @@ def scan_targets():
         scan_target(ArgHandler.get_target())
 
 
-def scan_target(target: str):
+def scan_target(target: str) -> None:
+    """
+    Scan the target passed
+    :param target: Target IP/hostname to scan
+    """
     try:
         # See if the target is an IP network
         ip_network = ipaddress.ip_network(target, strict=False)
@@ -219,7 +230,11 @@ def scan_target(target: str):
     print()
 
 
-def generate_reports():
+def generate_reports() -> None:
+    """
+    Generate the reports
+    """
+    # TODO: Load report generators dynamicaly
     logger.debug("Generating reports")
     report = JSONReport()
     report.generate_report(Loot.loot)

@@ -25,6 +25,11 @@ class Gobuster(GenericWebServiceModule):
         self.required_programs = ["gobuster"]
 
     def execute(self, ip: str, port: int) -> None:
+        """
+        Enumerates files and directories on the given web server
+        :param ip: IP to use
+        :param port: Port to use
+        """
         self.create_loot_space(ip, port)
         # List of dictionary results
         Loot.loot[ip][str(port)][self.loot_name] = []
@@ -61,15 +66,17 @@ class Gobuster(GenericWebServiceModule):
             # While the process return code is None
             while process.poll() is None:
                 time.sleep(0.5)
-            responses = reader.read().decode("UTF-8").splitlines()
-            for response in responses:
-                if response.strip() is not "":
-                    # Get the response code (last three chars but one)
-                    code = int(response[-4:-1])
-                    # Get this as a human readable response
-                    human_readable_code = utils.get_http_code(code)
-                    # Get the directory
-                    response_dir = response.split('(')[0].strip()
-                    # Add to the loot
-                    result = {"Path": response_dir, "Code": code, "Code Value": human_readable_code}
-                    Loot.loot[ip][str(port)][self.loot_name].append(result)
+                responses = reader.read().decode("UTF-8").splitlines()
+                for response in responses:
+                    if response.strip() is not "":
+                        # Get the response code (last three chars but one)
+                        code = int(response[-4:-1])
+                        # Get this as a human readable response
+                        human_readable_code = utils.get_http_code(code)
+                        # Get the directory
+                        response_dir = response.split('(')[0].strip()
+                        # Add to the loot
+                        result = {"Path": response_dir, "Code": code, "Code Value": human_readable_code}
+                        Loot.loot[ip][str(port)][self.loot_name].append(result)
+                        print(utils.warning_message(), "Found directory at {PATH} with {CODE} ({CODE_VALUE}"
+                              .format(PATH=response_dir, CODE=code, CODE_VALUE=human_readable_code))

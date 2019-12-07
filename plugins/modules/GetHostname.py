@@ -23,6 +23,12 @@ class GetHostname(BaseModule):
                                           critical=False)
 
     def execute(self, ip: str, port: int) -> None:
+        """
+        Attempt to get the hostname of the target computer via it's IP address
+        :param ip: IP to use
+        :param port: Port to use
+        """
+
         self.create_loot_space(ip, port)
 
         self.logger.debug("Attempting to retrieve potential hostname(s) for {IP}".format(IP=ip))
@@ -43,12 +49,24 @@ class GetHostname(BaseModule):
             self.logger.error("Unable to resolve any hostnames for {IP}".format(IP=ip))
 
     def create_loot_space(self, ip: str, port: int):
+        """
+        Create a loot space in the dictionary
+        :param ip: The IP to use
+        :param port:  The port to use
+        """
+
         if ip not in Loot.loot:
             Loot.loot[ip] = {}
         if self.loot_name not in Loot.loot[ip]:
             Loot.loot[ip][self.loot_name] = {}
 
     def should_execute(self, service: str, port: int) -> bool:
+        """
+        Should the Get Hostname module be executed
+        :param service: The service to check
+        :param port: The port to check
+        :return: Boolean if this module should be executed
+        """
         if not super(GetHostname, self).should_execute(service, port):
             return False
         if port == 0:

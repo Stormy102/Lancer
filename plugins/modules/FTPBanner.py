@@ -22,6 +22,12 @@ class FTPBanner(BaseModule):
                                         critical=False)
 
     def execute(self, ip: str, port: int) -> None:
+        """
+        Attempt to get the banner of an FTP server
+        :param ip: IP to use
+        :param port: Port to use
+        """
+
         self.create_loot_space(ip, port)
 
         ftp_client = ftplib.FTP()
@@ -46,6 +52,12 @@ class FTPBanner(BaseModule):
             self.logger.error("Failed to connect: Connection timed out")
 
     def should_execute(self, service: str, port: int) -> bool:
+        """
+        Should the FTP Banner module be executed
+        :param service: The service to check
+        :param port: The port to check
+        :return: Boolean if this module should be executed
+        """
         # Check if this module is disabled in the config.ini file
         if not super(FTPBanner, self).should_execute(service, port):
             return False

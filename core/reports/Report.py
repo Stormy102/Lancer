@@ -18,4 +18,8 @@ class Report(object):
         self.logger.debug("Created {NAME} report instance".format(NAME=name))
 
     def generate_report(self, data: dict) -> None:
+        """
+        Generate a report
+        :param data: Data to use
+        """
         pass

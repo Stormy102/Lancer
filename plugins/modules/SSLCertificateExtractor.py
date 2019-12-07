@@ -27,6 +27,12 @@ class SSLCertificateExtractor(BaseModule):
                                                       critical=False)
 
     def execute(self, ip: str, port: int) -> None:
+        """
+        Run the SSL Certificate Extraction
+        :param ip: IP to use
+        :param port: Port to use
+        """
+
         # A lot of the work getting this to work with SNI
         # certificates came from gdamjan. Many thanks!
         # https://gist.github.com/gdamjan/55a8b9eec6cf7b771f92021d93b87b2c
@@ -186,6 +192,12 @@ class SSLCertificateExtractor(BaseModule):
         self.logger.info("Successfully extracted SSL Certificate information")
 
     def should_execute(self, service: str, port: int) -> bool:
+        """
+        Should the FTP Banner module be executed
+        :param service: The service to check
+        :param port: The port to check
+        :return: Boolean if this module should be executed
+        """
         # Check if this module is disabled in the config.ini file
         if not super(SSLCertificateExtractor, self).should_execute(service, port):
             return False

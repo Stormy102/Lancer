@@ -18,6 +18,10 @@ class JSONReport(Report):
         self.filename = "output.json"
 
     def generate_report(self, data: dict) -> None:
+        """
+        Generate a JSON file with the loot data in
+        :param data:
+        """
         path = os.path.join(config.get_report_folder(), self.filename)
         with open(path, "w") as file:
             json_data = json.dumps(data, sort_keys=False, indent=4)

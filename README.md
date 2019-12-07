@@ -289,7 +289,7 @@ If you find a bug, crash or any other unintended issue when running the program,
 
 ## Credits
 
-See [Credits.md](CREDITS.MD) for the credits
+See [Credits.md](.github/CREDITS.MD) for the credits
 
 ## License
 

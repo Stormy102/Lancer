@@ -5,7 +5,6 @@
     See the file 'LICENCE' for copying permissions
 """
 
-# Created by Stormy102 (https://github.com/Stormy102/Lancer)
 # With thanks to
 # - https://labs.portcullis.co.uk/tools/ms08-067-check/
 # - https://labs.f-secure.com/assets/BlogFiles/hello-ms08-067-my-old-friend.pdf
@@ -29,7 +28,7 @@ class MS08_067(BaseModule):
 
     def __init__(self):
         super(MS08_067, self).__init__(name="MS08-067 Scanner",
-                                       description="Scans for CVE 2008-4250 aka. MS08-067",
+                                       description="Scans for MS08-067/CVE 2008-4250",
                                        loot_name="ms08-067",
                                        multithreaded=False,
                                        critical=False,
@@ -37,6 +36,11 @@ class MS08_067(BaseModule):
                                        intrusion_level=5)
 
     def execute(self, ip: str, port: int) -> None:
+        """
+        Scan to see if the target computer is vulnerable to MS08-067
+        :param ip: The IP to use
+        :param port: The port to use
+        """
         self.create_loot_space(ip, port)
 
         try:
@@ -78,12 +82,11 @@ class MS08_067(BaseModule):
         vulnerable = struct.pack('<L', 0)
         # The target is vulnerable if the NetprPathCompare response field
         # 'Windows Error' is WERR_OK (0x00000000)
-        # TODO:
         if resp == vulnerable:
             msg = "Likely vulnerable to MS08-067/CVE 2008-4250. Received response: WERR_OK ({RESPONSE})" \
                 .format(RESPONSE=resp.hex())
             Loot.loot[ip][str(port)][self.loot_name] = msg
-            self.logger.info(msg)
+            self.logger.warning(msg)
         else:
             msg = "Does not appear vulnerable to MS08-067/CVE 2008-4250. Received response: {RESPONSE}" \
                 .format(RESPONSE=resp.hex())
@@ -102,7 +105,7 @@ class MS08_067(BaseModule):
 
 # TODO: Transition from the legacy PyMSRPC classes to the newer impacket classes
 class NDRUtils(object):
-    def get_ndr_wstring(data):
+    def get_ndr_wstring(data: str):
         align_byte = b"\xaa"
 
         # Add our wide null because it gets counted
@@ -157,7 +160,7 @@ class NDRUtils(object):
             pass
 
     class ndr_unique(ndr_container):
-        def __init__(self, data="", align_byte=b"\xaa", pointer_value=0x41424344):
+        def __init__(self, data: str = "", align_byte: str = b"\xaa", pointer_value: int = 0x41424344):
             self.data = data
             self.align_byte = align_byte
             self.pointer_value = pointer_value

@@ -1,0 +1,26 @@
+# Example targetlist for Lancer
+# Lancer target files can take comments
+# starting with a hashtag, similar to 
+# Python. Each IP address must be on a 
+# new line. No ports are allowed to be
+# specified. IPv6 addresses not yet 
+# supported
+
+# Scan the local device
+127.0.0.1
+# Scan the gateway
+10.0.0.1
+# Subnet masks are also supported
+192.168.0.0/24
+# Passing host bits in the IP will result
+# in it being converted to a normal subnet
+# e.g. 192.168.0.2/24 -> 192.168.0.0/24
+192.168.0.2/24
+# Invalid address - will throw non-fatal warning
+256.512.1024.2048
+# URLs are also supported supported, although
+# they will just convert to the IPv4 address
+www.google.com
+# IPv6 addresses are not supported yet but will be 
+# in the future
+::1

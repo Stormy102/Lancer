@@ -3,9 +3,26 @@
 # =========================================================================
 # LANGUAGE: Python
 # =========================================================================
+# Visit https://coveralls.io/github/Stormy102/Lancer for coverage
+# =========================================================================
 
 [run]
 omit = 
-	Lancer/tests/*
-	Lancer/test_init.py
-	Lancer/winutils.py # Cannot test on non-Windows platforms
+	tests/*
+	core/winutils.py
+	core/spinner.py
+	modules/*
+	*__init__*
+	conftest.py
+
+	core/ExitCode.py
+	core/ModuleExecuteState.py
+
+	core/localisation.py
+	core/CriticalProgramNotInstalled.py
+	core/ModuleProvider.py
+	plugins/modules/FTPAnonymousAccess.py
+	plugins/modules/Gobuster.py
+	plugins/modules/Nikto.py
+	plugins/initmodules/Nmap.py
+	lancer.py

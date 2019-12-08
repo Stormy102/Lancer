@@ -30,6 +30,7 @@ class SSHBanner(BaseModule):
         self.create_loot_space(ip, port)
 
         sock = socket.socket()
+        sock.settimeout(15)
 
         try:
             self.logger.debug("Connecting to {IP}:{PORT}".format(IP=ip, PORT=port))

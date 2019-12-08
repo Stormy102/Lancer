@@ -36,9 +36,8 @@ matrix:
   fast_finish: true
   # Allow failures for the development versions of Python
   allow_failures:
-  - python:
-    - "3.8-dev"
-    - "nightly"
+  - python: "3.8-dev"
+  - python: "nightly"
 # Install Linux dependencies
 before_install:
   - sudo apt update

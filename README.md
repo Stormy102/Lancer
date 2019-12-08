@@ -106,6 +106,8 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] Quiet Nmap scan using -sS _Planned for 0.2.0_
 * [ ] Option for Nmap UDP _Planned for 0.2.0_
 * [ ] Option for full Nmap port scan _Planned for 0.2.0_
+* [ ] SSH support - display banner, fingerprint and SSH version _Planned for 0.2.0_
+* [ ] Telnet banner support _Planned for 0.2.0_
 * [X] MS08-067 vulnerability scan _Planned for 0.2.0_
 * [X] MS17-010 vulnerability scan _Planned for 0.2.0_
 * [ ] BlueKeep vulnerability scan _Planned for 0.2.0_
@@ -124,7 +126,6 @@ As Lancer is still very much in active development, there is currently limited f
 
 * [ ] Greater extension support/documentation - add your own custom report generators and modules _Planned for 0.3.0_
 * [ ] Localisation support _Planned for 0.3.0_
-* [ ] SSH support - display fingerprint and SSH version _Planned for 0.3.0_
 * [ ] Write output to file via `-o` parameter _Planned for 0.3.0_
 * [ ] Anonymous LDAP _Planned for 0.3.0_
 * [ ] Dig zone transfer _Planned for 0.3.0_

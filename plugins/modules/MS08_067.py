@@ -13,9 +13,7 @@
 
 from plugins.abstractmodules.BaseModule import BaseModule
 from core import Loot
-from impacket import smb
-from impacket import smbconnection
-from impacket import uuid
+from impacket import smb, smbconnection, uuid, nmb
 from impacket.dcerpc.v5 import transport
 from string import ascii_letters
 from random import choice
@@ -77,7 +75,13 @@ class MS08_067(BaseModule):
         self.logger.info("Sending " + stub.hex() + " to NetPathCanonicalize")
 
         dce.call(32, stub)  # NetPathCanonicalize
-        resp = dce.recv()
+        try:
+            resp = dce.recv()
+        except nmb.NetBIOSTimeout:
+            self.logger.error("NetBIOS connection timed out - this could be due to the OS being Windows XP SP2/3, in"
+                              " which scanning can lead to a race condition and heap corruption in the svchost.exe"
+                              " process, ultimately causing the process to crash")
+            return
 
         vulnerable = struct.pack('<L', 0)
         # The target is vulnerable if the NetprPathCompare response field

@@ -15,6 +15,7 @@ The following Pip packages are used in this project
 The following projects have been partially adapted, converted or inspiration taken from, for use with Lancer
 
 - [SSL Check](https://gist.github.com/gdamjan/55a8b9eec6cf7b771f92021d93b87b2c)
+- [PyMSRPC](https://github.com/daemitus/pymsrpc)
 
 The following projects are used within Lancer
 

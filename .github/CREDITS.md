@@ -11,6 +11,7 @@ The following Pip packages are used in this project
 - [cryptography](https://pipy.org/project/cryptography/)
 - [BeautifulSoup4](https://pipy.org/project/beautifulsoup4/)
 - [Pyfiglet](https://pipy.org/project/pyfiglet/)
+- [Packaging](https://pypi.org/project/packaging/)
 
 The following projects have been partially adapted, converted or inspiration taken from, for use with Lancer
 

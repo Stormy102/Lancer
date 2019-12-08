@@ -10,3 +10,4 @@ cryptography==2.8
 beautifulsoup4==4.8.1
 pyfiglet==0.8.post1
 impacket==0.9.20
+packaging==19.2

@@ -6,7 +6,6 @@
 """
 
 from core.utils import normal_message, error_message, terminal_width_string
-from core.config import __version__, get_config_path
 
 import argparse
 import io
@@ -34,6 +33,7 @@ def parse_arguments(args) -> None:
         sys.exit(1)
 
     if len(args) is 1 and "--version" in args:
+        from core.config import __version__
         print(normal_message(), "Lancer {VERSION}".format(VERSION=__version__))
         sys.exit(0)
 
@@ -55,6 +55,8 @@ def create_parser() -> argparse.ArgumentParser:
     example += terminal_width_string(
         normal_message() + ' ./lancer -TN nmap-10.0.0.1.xml --skip-ports 445 80 -L 5'
     )
+
+    from core.config import get_config_path
 
     description = normal_message() + " Lancer - system vulnerability scanner\n"
     description += terminal_width_string(

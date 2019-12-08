@@ -24,5 +24,6 @@ omit =
 	plugins/modules/FTPAnonymousAccess.py
 	plugins/modules/Gobuster.py
 	plugins/modules/Nikto.py
+	plugins/modules/MS08_067.py
 	plugins/initmodules/Nmap.py
 	lancer.py

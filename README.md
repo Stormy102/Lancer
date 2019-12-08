@@ -106,7 +106,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] Quiet Nmap scan using -sS _Planned for 0.2.0_
 * [ ] Option for Nmap UDP _Planned for 0.2.0_
 * [ ] Option for full Nmap port scan _Planned for 0.2.0_
-* [ ] MS08-067 vulnerability scan _Planned for 0.2.0_
+* [X] MS08-067 vulnerability scan _Planned for 0.2.0_
 * [ ] MS17-010 vulnerability scan _Planned for 0.2.0_
 * [ ] BlueKeep vulnerability scan _Planned for 0.2.0_
 * [ ] [SSL version detection/vulnerabilities](https://pypi.org/project/sslscan/) _Planned for 0.2.0_

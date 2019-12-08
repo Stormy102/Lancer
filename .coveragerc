@@ -26,4 +26,5 @@ omit =
 	plugins/modules/Nikto.py
 	plugins/modules/MS08_067.py
 	plugins/initmodules/Nmap.py
+	plugins/modules/MS17_010.py
 	lancer.py

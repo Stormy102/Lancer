@@ -54,7 +54,7 @@ class MS17_010(BaseModule):
         # SMB - Negotiate Protocol Request
         try:
             self.logger.debug("Generating Negotiate Proto Request packet")
-            raw_proto = negotiate_proto_request()
+            raw_proto = MS17_010Utils.negotiate_proto_request()
             client.send(raw_proto)
             client.recv(buffersize)
         except ConnectionResetError:
@@ -67,7 +67,7 @@ class MS17_010(BaseModule):
         try:
             # SMB - Session Setup AndX Request
             self.logger.debug("Generating Session Setup AndX Request")
-            raw_proto = session_setup_andx_request()
+            raw_proto = MS17_010Utils.session_setup_andx_request()
             client.send(raw_proto)
             tcp_response = client.recv(buffersize)
 
@@ -87,7 +87,7 @@ class MS17_010(BaseModule):
 
             # SMB - Tree Connect AndX Request
             self.logger.debug("Generating and sending Tree Connect AndX Request")
-            raw_proto = tree_connect_andx_request(ip, user_id)
+            raw_proto = MS17_010Utils.tree_connect_andx_request(ip, user_id)
             ipc = "\\\\{}\IPC$\x00".format(ip)
             self.logger.debug("Connecting to {}with UID {}".format(ipc, user_id.hex()))
             client.send(raw_proto)
@@ -114,7 +114,7 @@ class MS17_010(BaseModule):
 
             # SMB - PeekNamedPipe Request
             self.logger.debug("Generating and sending PeekNamedPipe Request")
-            raw_proto = peeknamedpipe_request(tree_id, process_id, user_id, multiplex_id)
+            raw_proto = MS17_010Utils.peeknamedpipe_request(tree_id, process_id, user_id, multiplex_id)
             client.send(raw_proto)
             tcp_response = client.recv(buffersize)
 
@@ -123,13 +123,13 @@ class MS17_010(BaseModule):
 
             nt_status = struct.pack('<BBH', smb.error_class, smb.reserved1, smb.error_code)
 
-            # 0xC0000205 - STATUS_INSUFF_SERVER_RESOURCES - vulnerable
+            # If the response code is 0xC0000205 - STATUS_INSUFF_SERVER_RESOURCES - this machine is vulnerable
+            # If the response code is any of the following, the machine is likely patched:
             # 0xC0000008 - STATUS_INVALID_HANDLE - not vulnerable
             # 0xC0000022 - STATUS_ACCESS_DENIED - not vulnerable
-            # If it's the STATUS_INSUFF_SERVER_RESOURCES we are VULN
 
             # TODO: Use struct to convert to little-endian
-            nt_status = to_litte_endien(nt_status.hex())
+            nt_status = MS17_010Utils.to_litte_endien(nt_status.hex())
 
             if nt_status == str(SMBError.STATUS_INSUFF_SERVER_RESOURCES):
                 msg = "Likely vulnerable to MS17-010/CVE 2017-0144"
@@ -138,7 +138,7 @@ class MS17_010(BaseModule):
 
                 # vulnerable to MS17-010, check for DoublePulsar infection
                 self.logger.debug("Generating Tran2 Request")
-                raw_proto = trans2_request(tree_id, process_id, user_id, multiplex_id)
+                raw_proto = MS17_010Utils.trans2_request(tree_id, process_id, user_id, multiplex_id)
                 client.send(raw_proto)
                 tcp_response = client.recv(buffersize)
 
@@ -146,7 +146,7 @@ class MS17_010(BaseModule):
                 smb = SMB_HEADER(smb_header)
 
                 if smb.multiplex_id == 0x0051:
-                    key = calculate_doublepulsar_xor_key(smb.signature)
+                    key = MS17_010Utils.calculate_doublepulsar_xor_key(smb.signature)
                     self.logger.info("Host is likely INFECTED with DoublePulsar! - XOR Key: {}".format(key.decode()))
             else:
                 if nt_status == str(SMBError.STATUS_INVALID_HANDLE):
@@ -166,8 +166,6 @@ class MS17_010(BaseModule):
                         .format(STATUS=SMBError(nt_status).name)
                     self.logger.info(msg)
                     Loot.loot[ip][str(port)][self.loot_name] = msg
-        except Exception as err:
-            print(err)
         finally:
             client.close()
 
@@ -195,7 +193,8 @@ class SMBError(Enum):
 
 
 class SMB_HEADER(Structure):
-    """SMB Header decoder.
+    """
+    SMB Header decoder.
     """
 
     _pack_ = 1  # Alignment
@@ -224,256 +223,262 @@ class SMB_HEADER(Structure):
         pass
 
 
-def generate_smb_proto_payload(*protos):
-    """Generate SMB Protocol. Pakcet protos in order.
-    """
-    hexdata = []
-    for proto in protos:
-        hexdata.extend(proto)
-    return b"".join(hexdata)
+class MS17_010Utils(object):
 
+    @staticmethod
+    def generate_smb_proto_payload(*protos):
+        """
+        Generate SMB Protocol. Packet protos in order.
+        """
+        hexdata = []
+        for proto in protos:
+            hexdata.extend(proto)
+        return b"".join(hexdata)
 
-def calculate_doublepulsar_xor_key(s):
-    """Calaculate Doublepulsar Xor Key
-    """
-    x = (2 * s ^ (((s & 0xff00 | (s << 16)) << 8) | (((s >> 16) | s & 0xff0000) >> 8)))
-    x = x & 0xffffffff  # this line was added just to truncate to 32 bits
-    return x
+    @staticmethod
+    def negotiate_proto_request():
+        """
+        Generate a negotiate_proto_request packet.
+        """
+        netbios = [
+            b'\x00',  # 'Message_Type'
+            b'\x00\x00\x54'  # 'Length'
+        ]
 
+        smb_header = [
+            b'\xFF\x53\x4D\x42',  # 'server_component': .SMB
+            b'\x72',  # 'smb_command': Negotiate Protocol
+            b'\x00\x00\x00\x00',  # 'nt_status'
+            b'\x18',  # 'flags'
+            b'\x01\x28',  # 'flags2'
+            b'\x00\x00',  # 'process_id_high'
+            b'\x00\x00\x00\x00\x00\x00\x00\x00',  # 'signature'
+            b'\x00\x00',  # 'reserved'
+            b'\x00\x00',  # 'tree_id'
+            b'\x2F\x4B',  # 'process_id'
+            b'\x00\x00',  # 'user_id'
+            b'\xC5\x5E'  # 'multiplex_id'
+        ]
 
-def negotiate_proto_request():
-    """Generate a negotiate_proto_request packet.
-    """
-    netbios = [
-        b'\x00',  # 'Message_Type'
-        b'\x00\x00\x54'  # 'Length'
-    ]
+        negotiate_proto_request = [
+            b'\x00',  # 'word_count'
+            b'\x31\x00',  # 'byte_count'
 
-    smb_header = [
-        b'\xFF\x53\x4D\x42',  # 'server_component': .SMB
-        b'\x72',  # 'smb_command': Negotiate Protocol
-        b'\x00\x00\x00\x00',  # 'nt_status'
-        b'\x18',  # 'flags'
-        b'\x01\x28',  # 'flags2'
-        b'\x00\x00',  # 'process_id_high'
-        b'\x00\x00\x00\x00\x00\x00\x00\x00',  # 'signature'
-        b'\x00\x00',  # 'reserved'
-        b'\x00\x00',  # 'tree_id'
-        b'\x2F\x4B',  # 'process_id'
-        b'\x00\x00',  # 'user_id'
-        b'\xC5\x5E'  # 'multiplex_id'
-    ]
+            # Requested Dialects
+            b'\x02',  # 'dialet_buffer_format'
+            b'\x4C\x41\x4E\x4D\x41\x4E\x31\x2E\x30\x00',  # 'dialet_name': LANMAN1.0
 
-    negotiate_proto_request = [
-        b'\x00',  # 'word_count'
-        b'\x31\x00',  # 'byte_count'
+            b'\x02',  # 'dialet_buffer_format'
+            b'\x4C\x4D\x31\x2E\x32\x58\x30\x30\x32\x00',  # 'dialet_name': LM1.2X002
 
-        # Requested Dialects
-        b'\x02',  # 'dialet_buffer_format'
-        b'\x4C\x41\x4E\x4D\x41\x4E\x31\x2E\x30\x00',  # 'dialet_name': LANMAN1.0
+            b'\x02',  # 'dialet_buffer_format'
+            b'\x4E\x54\x20\x4C\x41\x4E\x4D\x41\x4E\x20\x31\x2E\x30\x00',  # 'dialet_name3': NT LANMAN 1.0
 
-        b'\x02',  # 'dialet_buffer_format'
-        b'\x4C\x4D\x31\x2E\x32\x58\x30\x30\x32\x00',  # 'dialet_name': LM1.2X002
+            b'\x02',  # 'dialet_buffer_format'
+            b'\x4E\x54\x20\x4C\x4D\x20\x30\x2E\x31\x32\x00'  # 'dialet_name4': NT LM 0.12
+        ]
 
-        b'\x02',  # 'dialet_buffer_format'
-        b'\x4E\x54\x20\x4C\x41\x4E\x4D\x41\x4E\x20\x31\x2E\x30\x00',  # 'dialet_name3': NT LANMAN 1.0
+        return MS17_010Utils.generate_smb_proto_payload(netbios, smb_header, negotiate_proto_request)
 
-        b'\x02',  # 'dialet_buffer_format'
-        b'\x4E\x54\x20\x4C\x4D\x20\x30\x2E\x31\x32\x00'  # 'dialet_name4': NT LM 0.12
-    ]
+    @staticmethod
+    def session_setup_andx_request():
+        """Generate session setuo andx request.
+        """
+        netbios = [
+            b'\x00',  # 'Message_Type'
+            b'\x00\x00\x63'  # 'Length'
+        ]
 
-    return generate_smb_proto_payload(netbios, smb_header, negotiate_proto_request)
+        smb_header = [
+            b'\xFF\x53\x4D\x42',  # 'server_component': .SMB
+            b'\x73',  # 'smb_command': Session Setup AndX
+            b'\x00\x00\x00\x00',  # 'nt_status'
+            b'\x18',  # 'flags'
+            b'\x01\x20',  # 'flags2'
+            b'\x00\x00',  # 'process_id_high'
+            b'\x00\x00\x00\x00\x00\x00\x00\x00',  # 'signature'
+            b'\x00\x00',  # 'reserved'
+            b'\x00\x00',  # 'tree_id'
+            b'\x2F\x4B',  # 'process_id'
+            b'\x00\x00',  # 'user_id'
+            b'\xC5\x5E'  # 'multiplex_id'
+        ]
 
+        session_setup_andx_request = [
+            b'\x0D',  # Word Count
+            b'\xFF',  # AndXCommand: No further command
+            b'\x00',  # Reserved
+            b'\x00\x00',  # AndXOffset
+            b'\xDF\xFF',  # Max Buffer
+            b'\x02\x00',  # Max Mpx Count
+            b'\x01\x00',  # VC Number
+            b'\x00\x00\x00\x00',  # Session Key
+            b'\x00\x00',  # ANSI Password Length
+            b'\x00\x00',  # Unicode Password Length
+            b'\x00\x00\x00\x00',  # Reserved
+            b'\x40\x00\x00\x00',  # Capabilities
+            b'\x26\x00',  # Byte Count
+            b'\x00',  # Account
+            b'\x2e\x00',  # Primary Domain
+            b'\x57\x69\x6e\x64\x6f\x77\x73\x20\x32\x30\x30\x30\x20\x32\x31\x39\x35\x00',  # Native OS: Windows 2000 2195
+            b'\x57\x69\x6e\x64\x6f\x77\x73\x20\x32\x30\x30\x30\x20\x35\x2e\x30\x00',  # Native OS: Windows 2000 5.0
+        ]
 
-def session_setup_andx_request():
-    """Generate session setuo andx request.
-    """
-    netbios = [
-        b'\x00',  # 'Message_Type'
-        b'\x00\x00\x63'  # 'Length'
-    ]
+        return MS17_010Utils.generate_smb_proto_payload(netbios, smb_header, session_setup_andx_request)
 
-    smb_header = [
-        b'\xFF\x53\x4D\x42',  # 'server_component': .SMB
-        b'\x73',  # 'smb_command': Session Setup AndX
-        b'\x00\x00\x00\x00',  # 'nt_status'
-        b'\x18',  # 'flags'
-        b'\x01\x20',  # 'flags2'
-        b'\x00\x00',  # 'process_id_high'
-        b'\x00\x00\x00\x00\x00\x00\x00\x00',  # 'signature'
-        b'\x00\x00',  # 'reserved'
-        b'\x00\x00',  # 'tree_id'
-        b'\x2F\x4B',  # 'process_id'
-        b'\x00\x00',  # 'user_id'
-        b'\xC5\x5E'  # 'multiplex_id'
-    ]
+    @staticmethod
+    def tree_connect_andx_request(ip, userid):
+        """Generate tree connect andx request.
+        """
 
-    session_setup_andx_request = [
-        b'\x0D',  # Word Count
-        b'\xFF',  # AndXCommand: No further command
-        b'\x00',  # Reserved
-        b'\x00\x00',  # AndXOffset
-        b'\xDF\xFF',  # Max Buffer
-        b'\x02\x00',  # Max Mpx Count
-        b'\x01\x00',  # VC Number
-        b'\x00\x00\x00\x00',  # Session Key
-        b'\x00\x00',  # ANSI Password Length
-        b'\x00\x00',  # Unicode Password Length
-        b'\x00\x00\x00\x00',  # Reserved
-        b'\x40\x00\x00\x00',  # Capabilities
-        b'\x26\x00',  # Byte Count
-        b'\x00',  # Account
-        b'\x2e\x00',  # Primary Domain
-        b'\x57\x69\x6e\x64\x6f\x77\x73\x20\x32\x30\x30\x30\x20\x32\x31\x39\x35\x00',  # Native OS: Windows 2000 2195
-        b'\x57\x69\x6e\x64\x6f\x77\x73\x20\x32\x30\x30\x30\x20\x35\x2e\x30\x00',  # Native OS: Windows 2000 5.0
-    ]
+        netbios = [
+            b'\x00',  # 'Message_Type'
+            b'\x00\x00\x47'  # 'Length'
+        ]
 
-    return generate_smb_proto_payload(netbios, smb_header, session_setup_andx_request)
+        smb_header = [
+            b'\xFF\x53\x4D\x42',  # 'server_component': .SMB
+            b'\x75',  # 'smb_command': Tree Connect AndX
+            b'\x00\x00\x00\x00',  # 'nt_status'
+            b'\x18',  # 'flags'
+            b'\x01\x20',  # 'flags2'
+            b'\x00\x00',  # 'process_id_high'
+            b'\x00\x00\x00\x00\x00\x00\x00\x00',  # 'signature'
+            b'\x00\x00',  # 'reserved'
+            b'\x00\x00',  # 'tree_id'
+            b'\x2F\x4B',  # 'process_id'
+            userid,  # 'user_id'
+            b'\xC5\x5E'  # 'multiplex_id'
+        ]
 
+        ipc = "\\\\{}\IPC$\x00".format(ip)
 
-def tree_connect_andx_request(ip, userid):
-    """Generate tree connect andx request.
-    """
+        tree_connect_andx_request = [
+            b'\x04',  # Word Count
+            b'\xFF',  # AndXCommand: No further commands
+            b'\x00',  # Reserved
+            b'\x00\x00',  # AndXOffset
+            b'\x00\x00',  # Flags
+            b'\x01\x00',  # Password Length
+            b'\x1A\x00',  # Byte Count
+            b'\x00',  # Password
+            ipc.encode(),  # \\xxx.xxx.xxx.xxx\IPC$
+            b'\x3f\x3f\x3f\x3f\x3f\x00'  # Service
+        ]
 
-    netbios = [
-        b'\x00',  # 'Message_Type'
-        b'\x00\x00\x47'  # 'Length'
-    ]
+        length = len(b"".join(smb_header)) + len(b"".join(tree_connect_andx_request))
+        # netbios[1] = '\x00' + struct.pack('>H', length)
+        netbios[1] = struct.pack(">L", length)[-3:]
 
-    smb_header = [
-        b'\xFF\x53\x4D\x42',  # 'server_component': .SMB
-        b'\x75',  # 'smb_command': Tree Connect AndX
-        b'\x00\x00\x00\x00',  # 'nt_status'
-        b'\x18',  # 'flags'
-        b'\x01\x20',  # 'flags2'
-        b'\x00\x00',  # 'process_id_high'
-        b'\x00\x00\x00\x00\x00\x00\x00\x00',  # 'signature'
-        b'\x00\x00',  # 'reserved'
-        b'\x00\x00',  # 'tree_id'
-        b'\x2F\x4B',  # 'process_id'
-        userid,  # 'user_id'
-        b'\xC5\x5E'  # 'multiplex_id'
-    ]
+        return MS17_010Utils.generate_smb_proto_payload(netbios, smb_header, tree_connect_andx_request)
 
-    ipc = "\\\\{}\IPC$\x00".format(ip)
+    @staticmethod
+    def peeknamedpipe_request(treeid, processid, userid, multiplex_id):
+        """Generate tran2 request
+        """
+        netbios = [
+            b'\x00',  # 'Message_Type'
+            b'\x00\x00\x4a'  # 'Length'
+        ]
 
-    tree_connect_andx_request = [
-        b'\x04',  # Word Count
-        b'\xFF',  # AndXCommand: No further commands
-        b'\x00',  # Reserved
-        b'\x00\x00',  # AndXOffset
-        b'\x00\x00',  # Flags
-        b'\x01\x00',  # Password Length
-        b'\x1A\x00',  # Byte Count
-        b'\x00',  # Password
-        ipc.encode(),  # \\xxx.xxx.xxx.xxx\IPC$
-        b'\x3f\x3f\x3f\x3f\x3f\x00'  # Service
-    ]
+        smb_header = [
+            b'\xFF\x53\x4D\x42',  # 'server_component': .SMB
+            b'\x25',  # 'smb_command': Trans2
+            b'\x00\x00\x00\x00',  # 'nt_status'
+            b'\x18',  # 'flags'
+            b'\x01\x28',  # 'flags2'
+            b'\x00\x00',  # 'process_id_high'
+            b'\x00\x00\x00\x00\x00\x00\x00\x00',  # 'signature'
+            b'\x00\x00',  # 'reserved'
+            treeid,
+            processid,
+            userid,
+            multiplex_id
+        ]
 
-    length = len(b"".join(smb_header)) + len(b"".join(tree_connect_andx_request))
-    # netbios[1] = '\x00' + struct.pack('>H', length)
-    netbios[1] = struct.pack(">L", length)[-3:]
+        tran_request = [
+            b'\x10',  # Word Count
+            b'\x00\x00',  # Total Parameter Count
+            b'\x00\x00',  # Total Data Count
+            b'\xff\xff',  # Max Parameter Count
+            b'\xff\xff',  # Max Data Count
+            b'\x00',  # Max Setup Count
+            b'\x00',  # Reserved
+            b'\x00\x00',  # Flags
+            b'\x00\x00\x00\x00',  # Timeout: Return immediately
+            b'\x00\x00',  # Reversed
+            b'\x00\x00',  # Parameter Count
+            b'\x4a\x00',  # Parameter Offset
+            b'\x00\x00',  # Data Count
+            b'\x4a\x00',  # Data Offset
+            b'\x02',  # Setup Count
+            b'\x00',  # Reversed
+            b'\x23\x00',  # SMB Pipe Protocol: Function: PeekNamedPipe (0x0023)
+            b'\x00\x00',  # SMB Pipe Protocol: FID
+            b'\x07\x00',
+            b'\x5c\x50\x49\x50\x45\x5c\x00'  # \PIPE\
+        ]
 
-    return generate_smb_proto_payload(netbios, smb_header, tree_connect_andx_request)
+        return MS17_010Utils.generate_smb_proto_payload(netbios, smb_header, tran_request)
 
+    @staticmethod
+    def trans2_request(treeid, processid, userid, multiplex_id):
+        """Generate trans2 request.
+        """
+        netbios = [
+            b'\x00',  # 'Message_Type'
+            b'\x00\x00\x4f'  # 'Length'
+        ]
 
-def peeknamedpipe_request(treeid, processid, userid, multiplex_id):
-    """Generate tran2 request
-    """
-    netbios = [
-        b'\x00',  # 'Message_Type'
-        b'\x00\x00\x4a'  # 'Length'
-    ]
+        smb_header = [
+            b'\xFF\x53\x4D\x42',  # 'server_component': .SMB
+            b'\x32',  # 'smb_command': Trans2
+            b'\x00\x00\x00\x00',  # 'nt_status'
+            b'\x18',  # 'flags'
+            b'\x07\xc0',  # 'flags2'
+            b'\x00\x00',  # 'process_id_high'
+            b'\x00\x00\x00\x00\x00\x00\x00\x00',  # 'signature'
+            b'\x00\x00',  # 'reserved'
+            treeid,
+            processid,
+            userid,
+            multiplex_id
+        ]
 
-    smb_header = [
-        b'\xFF\x53\x4D\x42',  # 'server_component': .SMB
-        b'\x25',  # 'smb_command': Trans2
-        b'\x00\x00\x00\x00',  # 'nt_status'
-        b'\x18',  # 'flags'
-        b'\x01\x28',  # 'flags2'
-        b'\x00\x00',  # 'process_id_high'
-        b'\x00\x00\x00\x00\x00\x00\x00\x00',  # 'signature'
-        b'\x00\x00',  # 'reserved'
-        treeid,
-        processid,
-        userid,
-        multiplex_id
-    ]
+        trans2_request = [
+            b'\x0f',  # Word Count
+            b'\x0c\x00',  # Total Parameter Count
+            b'\x00\x00',  # Total Data Count
+            b'\x01\x00',  # Max Parameter Count
+            b'\x00\x00',  # Max Data Count
+            b'\x00',  # Max Setup Count
+            b'\x00',  # Reserved
+            b'\x00\x00',  # Flags
+            b'\xa6\xd9\xa4\x00',  # Timeout: 3 hours, 3.622 seconds
+            b'\x00\x00',  # Reversed
+            b'\x0c\x00',  # Parameter Count
+            b'\x42\x00',  # Parameter Offset
+            b'\x00\x00',  # Data Count
+            b'\x4e\x00',  # Data Offset
+            b'\x01',  # Setup Count
+            b'\x00',  # Reserved
+            b'\x0e\x00',  # subcommand: SESSION_SETUP
+            b'\x00\x00',  # Byte Count
+            b'\x0c\x00' + b'\x00' * 12
+        ]
 
-    tran_request = [
-        b'\x10',  # Word Count
-        b'\x00\x00',  # Total Parameter Count
-        b'\x00\x00',  # Total Data Count
-        b'\xff\xff',  # Max Parameter Count
-        b'\xff\xff',  # Max Data Count
-        b'\x00',  # Max Setup Count
-        b'\x00',  # Reserved
-        b'\x00\x00',  # Flags
-        b'\x00\x00\x00\x00',  # Timeout: Return immediately
-        b'\x00\x00',  # Reversed
-        b'\x00\x00',  # Parameter Count
-        b'\x4a\x00',  # Parameter Offset
-        b'\x00\x00',  # Data Count
-        b'\x4a\x00',  # Data Offset
-        b'\x02',  # Setup Count
-        b'\x00',  # Reversed
-        b'\x23\x00',  # SMB Pipe Protocol: Function: PeekNamedPipe (0x0023)
-        b'\x00\x00',  # SMB Pipe Protocol: FID
-        b'\x07\x00',
-        b'\x5c\x50\x49\x50\x45\x5c\x00'  # \PIPE\
-    ]
+        return MS17_010Utils.generate_smb_proto_payload(netbios, smb_header, trans2_request)
 
-    return generate_smb_proto_payload(netbios, smb_header, tran_request)
+    @staticmethod
+    def to_litte_endien(str: str):
+        big = int.from_bytes(bytes.fromhex(str), "big")
+        return "0x" + big.to_bytes((big.bit_length() + 7) // 8, "little").hex()
 
-
-def trans2_request(treeid, processid, userid, multiplex_id):
-    """Generate trans2 request.
-    """
-    netbios = [
-        b'\x00',  # 'Message_Type'
-        b'\x00\x00\x4f'  # 'Length'
-    ]
-
-    smb_header = [
-        b'\xFF\x53\x4D\x42',  # 'server_component': .SMB
-        b'\x32',  # 'smb_command': Trans2
-        b'\x00\x00\x00\x00',  # 'nt_status'
-        b'\x18',  # 'flags'
-        b'\x07\xc0',  # 'flags2'
-        b'\x00\x00',  # 'process_id_high'
-        b'\x00\x00\x00\x00\x00\x00\x00\x00',  # 'signature'
-        b'\x00\x00',  # 'reserved'
-        treeid,
-        processid,
-        userid,
-        multiplex_id
-    ]
-
-    trans2_request = [
-        b'\x0f',  # Word Count
-        b'\x0c\x00',  # Total Parameter Count
-        b'\x00\x00',  # Total Data Count
-        b'\x01\x00',  # Max Parameter Count
-        b'\x00\x00',  # Max Data Count
-        b'\x00',  # Max Setup Count
-        b'\x00',  # Reserved
-        b'\x00\x00',  # Flags
-        b'\xa6\xd9\xa4\x00',  # Timeout: 3 hours, 3.622 seconds
-        b'\x00\x00',  # Reversed
-        b'\x0c\x00',  # Parameter Count
-        b'\x42\x00',  # Parameter Offset
-        b'\x00\x00',  # Data Count
-        b'\x4e\x00',  # Data Offset
-        b'\x01',  # Setup Count
-        b'\x00',  # Reserved
-        b'\x0e\x00',  # subcommand: SESSION_SETUP
-        b'\x00\x00',  # Byte Count
-        b'\x0c\x00' + b'\x00' * 12
-    ]
-
-    return generate_smb_proto_payload(netbios, smb_header, trans2_request)
-
-
-def to_litte_endien(str):
-    big = int.from_bytes(bytes.fromhex(str), "big")
-    return "0x" + big.to_bytes((big.bit_length() + 7) // 8, "little").hex()
+    @staticmethod
+    def calculate_doublepulsar_xor_key(s):
+        """
+        Calaculate Doublepulsar Xor Key
+        """
+        x = (2 * s ^ (((s & 0xff00 | (s << 16)) << 8) | (((s >> 16) | s & 0xff0000) >> 8)))
+        x = x & 0xffffffff  # this line was added just to truncate to 32 bits
+        return x

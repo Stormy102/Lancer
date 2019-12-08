@@ -25,5 +25,5 @@ omit =
 	plugins/modules/Gobuster.py
 	plugins/modules/Nikto.py
 	plugins/initmodules/Nmap.py
-	plugins/modules/MS17-010.py
+	plugins/modules/MS17_010.py
 	lancer.py

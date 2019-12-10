@@ -46,7 +46,7 @@ class Nmap(BaseModule):
             # -sT - TCP scan
             # -sV - Version detection
             # -oA - Output in all formats
-            command = "nmap -v -sT -sV -oA {OUTPUT_FILE} {TARGET}".format(TARGET=ip, OUTPUT_FILE=output_filename)
+            command = ["nmap", "-v", "-sT", "-sV", "-oA", output_filename, ip]
             process = subprocess.Popen(command, stdout=writer)
             # While the process return code is None
             while process.poll() is None:

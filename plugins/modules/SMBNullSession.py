@@ -40,7 +40,7 @@ class SMBNullSession(BaseModule):
             # -N - no password
             # //{IP}/ipc$ - the path to the share to access
             # -c 'help - the command to execute upon connection
-            command = "smbclient -U '' -N //{IP}/ipc$ -c 'help'".format(IP=ip)
+            command = ["smbclient", "-U", "''", "-N", "//{IP}/ipc$".format(IP=ip), "-c", "'help'"]
             process = subprocess.Popen(command, stdout=writer)
             # While the process return code is None
             while process.poll() is None:

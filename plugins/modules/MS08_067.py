@@ -82,6 +82,11 @@ class MS08_067(BaseModule):
                               " which scanning can lead to a race condition and heap corruption in the svchost.exe"
                               " process, ultimately causing the process to crash")
             return
+        except TypeError:
+            self.logger.error("NetBIOS connection timed out - this could be due to the OS being Windows XP SP2/3, in"
+                              " which scanning can lead to a race condition and heap corruption in the svchost.exe"
+                              " process, ultimately causing the process to crash")
+            return
 
         vulnerable = struct.pack('<L', 0)
         # The target is vulnerable if the NetprPathCompare response field

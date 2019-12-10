@@ -115,16 +115,16 @@ def get_text_style(style: str) -> str:
     :param style: The style you want - either "bold", "underline", "negative1" or "negative2"
     :return: The style value to format
     """
-    if style.lower() == "bold":
-        return "1"
-    elif style.lower() == "underline":
-        return "2"
-    elif style.lower() == "negative1":
-        return "3"
-    elif style.lower() == "negative2":
-        return "5"
-    else:
-        return "0"
+    style = style.lower()
+    styles = {
+        "bold": "1",
+        "underline": "2",
+        "negative1": "3",
+        "negative2": "5"
+    }
+    if style in styles:
+        return styles[style]
+    return "0"
 
 
 def get_foreground_color(foreground: str) -> str:
@@ -134,22 +134,19 @@ def get_foreground_color(foreground: str) -> str:
     "white"
     :return: The foreground value to format
     """
-    if foreground.lower() == "red":
-        return "31"
-    elif foreground.lower() == "green":
-        return "32"
-    elif foreground.lower() == "yellow":
-        return "33"
-    elif foreground.lower() == "blue":
-        return "34"
-    elif foreground.lower() == "purple":
-        return "35"
-    elif foreground.lower() == "cyan":
-        return "36"
-    elif foreground.lower() == "black":
-        return "30"
-    else:
-        return "37"
+    foreground = foreground.lower()
+    foreground_colours = {
+        "red": "31",
+        "green": "32",
+        "yellow": "33",
+        "blue": "34",
+        "purple": "35",
+        "cyan": "36",
+        "black": "30"
+    }
+    if foreground in foreground_colours:
+        return foreground_colours[foreground]
+    return "37"
 
 
 def get_background_color(background: str) -> str:
@@ -159,22 +156,19 @@ def get_background_color(background: str) -> str:
     "white"
     :return: The background value to format
     """
-    if background.lower() == "red":
-        return "41"
-    elif background.lower() == "green":
-        return "42"
-    elif background.lower() == "yellow":
-        return "43"
-    elif background.lower() == "blue":
-        return "44"
-    elif background.lower() == "purple":
-        return "45"
-    elif background.lower() == "cyan":
-        return "46"
-    elif background.lower() == "white":
-        return "47"
-    else:
-        return "40"
+    background = background.lower()
+    background_colours = {
+        "red": "41",
+        "green": "42",
+        "yellow": "43",
+        "blue": "44",
+        "purple": "45",
+        "cyan": "46",
+        "white": "47"
+    }
+    if background in background_colours:
+        return background_colours[background]
+    return "40"
 
 
 def print_header() -> None:

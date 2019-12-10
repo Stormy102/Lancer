@@ -38,12 +38,14 @@ def pytest_collection_modifyitems(config, items) -> None:
 
     if config.getoption("--run-modules"):
         skip_not_module = pytest.mark.skip(reason="Only running module tests - run with no args to run all tests")
-        for item in items:
-            if "module" not in item.keywords:
-                item.add_marker(skip_not_module)
+        mark_skip(items, "module", skip_not_module)
 
     if config.getoption("--run-core"):
         skip_not_core = pytest.mark.skip(reason="Only running core tests - run with no args to run all tests")
-        for item in items:
-            if "core" not in item.keywords:
-                item.add_marker(skip_not_core)
+        mark_skip(items, "core", skip_not_core)
+
+
+def mark_skip(items, keyword: str, skip_marker):
+    for item in items:
+        if keyword not in item.keywords:
+            item.add_marker(skip_marker)

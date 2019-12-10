@@ -8,7 +8,6 @@
 from core.ModuleExecuteState import ModuleExecuteState
 from shutil import which
 from core import Loot
-from core.config import get_logger, module_enabled
 
 import logging
 
@@ -16,6 +15,8 @@ import logging
 class BaseModule(object):
 
     def __init__(self, name: str, description: str, loot_name: str, intrusion_level: int, critical: bool = False):
+        from core.config import get_logger
+
         self.name = name
         self.description = description
         self.loot_name = loot_name
@@ -66,6 +67,7 @@ class BaseModule(object):
         :param port: The port to check
         :return: Boolean if this module should be executed
         """
+        from core.config import module_enabled
         # Check if this module is disabled in the config.ini file
         return module_enabled(self.name)
 

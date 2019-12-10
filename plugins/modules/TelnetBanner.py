@@ -17,9 +17,6 @@ class TelnetBanner(BaseModule):
         super(TelnetBanner, self).__init__(name="Telnet Banner",
                                            description="Gets the banner for the Telnet server",
                                            loot_name="telnet-banner",
-                                           multithreaded=False,
-                                           intrusive=True,
-                                           critical=False,
                                            intrusion_level=2)
 
     def execute(self, ip: str, port: int) -> None:

@@ -16,10 +16,8 @@ class FTPBanner(BaseModule):
     def __init__(self):
         super(FTPBanner, self).__init__(name="FTP Banner",
                                         description="Gets the banner for the FTP server",
-                                        loot_name="FTP Banner",
-                                        multithreaded=False,
-                                        intrusive=True,
-                                        critical=False)
+                                        loot_name="ftp-banner",
+                                        intrusion_level=2)
 
     def execute(self, ip: str, port: int) -> None:
         """

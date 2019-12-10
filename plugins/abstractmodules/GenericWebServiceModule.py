@@ -20,14 +20,12 @@ import requests
 
 
 class GenericWebServiceModule(BaseModule):
-    def __init__(self, name: str, description: str, loot_name: str, multithreaded: bool, intrusive: bool,
-                 critical: bool):
+    def __init__(self, name: str, description: str, loot_name: str, intrusion_level: int, critical: bool = False):
         super(GenericWebServiceModule, self).__init__(name=name,
                                                       description=description,
                                                       loot_name=loot_name,
-                                                      multithreaded=multithreaded,
-                                                      intrusive=intrusive,
-                                                      critical=critical)
+                                                      critical=critical,
+                                                      intrusion_level=intrusion_level)
 
     # noinspection PyMethodMayBeStatic
     def get_url(self, ip: str, port: int) -> str:
@@ -57,22 +55,10 @@ class GenericWebServiceModule(BaseModule):
         # Check if this module is disabled in the config.ini file
         if not super(GenericWebServiceModule, self).should_execute(service, port):
             return False
-        if service == "http":
+        # If any of the strings are in the service name
+        if any(svc in service for svc in ["http", "http-proxy", "ssl", "https"]):
             return True
-        if "ssl" in service:
-            return True
-        if "https" in service:
-            return True
-        if service == "http-proxy":
-            return True
-        if port == 80:
-            return True
-        if port == 443:
-            return True
-        if port == 8080:
-            return True
-        if port == 8008:
-            return True
-        if port == 8443:
+        # if any of the ports are the same as the port
+        if any(prt == port for prt in [80, 443, 8080, 8008, 8443]):
             return True
         return False

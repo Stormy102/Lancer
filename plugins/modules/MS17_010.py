@@ -23,9 +23,6 @@ class MS17_010(BaseModule):
         super(MS17_010, self).__init__(name="MS17-010",
                                        description="Scans for MS17-010/CVE 2017-0144",
                                        loot_name="ms17-010",
-                                       multithreaded=False,
-                                       intrusive=False,
-                                       critical=False,
                                        intrusion_level=4)
 
     def execute(self, ip: str, port: int) -> None:

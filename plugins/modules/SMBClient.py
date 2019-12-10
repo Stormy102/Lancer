@@ -14,9 +14,7 @@ class SMBClient(BaseModule):
         super(SMBClient, self).__init__(name="SMB Client",
                                         description="Enumerates SMB shares",
                                         loot_name="smb",
-                                        multithreaded=False,
-                                        intrusive=True,
-                                        critical=False)
+                                        intrusion_level=3)
         self.required_programs = ["smbclient"]
 
     def should_execute(self, service: str, port: int) -> bool:

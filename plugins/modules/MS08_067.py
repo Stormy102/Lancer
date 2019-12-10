@@ -28,9 +28,6 @@ class MS08_067(BaseModule):
         super(MS08_067, self).__init__(name="MS08-067 Scanner",
                                        description="Scans for MS08-067/CVE 2008-4250",
                                        loot_name="ms08-067",
-                                       multithreaded=False,
-                                       critical=False,
-                                       intrusive=True,
                                        intrusion_level=5)
 
     def execute(self, ip: str, port: int) -> None:

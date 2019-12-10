@@ -16,9 +16,6 @@ class SSHBanner(BaseModule):
         super(SSHBanner, self).__init__(name="SSH Banner",
                                         description="Gets the banner for the SSH server",
                                         loot_name="ssh-banner",
-                                        multithreaded=False,
-                                        intrusive=True,
-                                        critical=False,
                                         intrusion_level=2)
 
     def execute(self, ip: str, port: int) -> None:

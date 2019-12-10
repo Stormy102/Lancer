@@ -21,10 +21,8 @@ class SSLCertificateExtractor(BaseModule):
     def __init__(self):
         super(SSLCertificateExtractor, self).__init__(name="SSL Certificate Extractor",
                                                       description="Extracts an SSL certificate from a HTTP server",
-                                                      loot_name="SSL Cert Extract",
-                                                      multithreaded=False,
-                                                      intrusive=False,
-                                                      critical=False)
+                                                      loot_name="ssl-cert",
+                                                      intrusion_level=2)
 
     def execute(self, ip: str, port: int) -> None:
         """
@@ -201,12 +199,10 @@ class SSLCertificateExtractor(BaseModule):
         # Check if this module is disabled in the config.ini file
         if not super(SSLCertificateExtractor, self).should_execute(service, port):
             return False
-        if port == 443:
+        # If any of the strings are in the service name
+        if any(svc in service for svc in ["ssl", "https"]):
             return True
-        if port == 8443:
-            return True
-        if "ssl" in service:
-            return True
-        if "https" in service:
+        # if any of the ports are the same as the port
+        if any(prt == port for prt in [443, 8443]):
             return True
         return False

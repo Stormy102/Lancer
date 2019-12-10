@@ -21,10 +21,8 @@ class FTPAnonymousAccess(BaseModule):
         super(FTPAnonymousAccess, self).__init__(name="FTP Anonymous Access",
                                                  description="Enumerates an FTP server with Anonymous access and "
                                                              "downloads files",
-                                                 loot_name="Anonymous FTP Download",
-                                                 multithreaded=False,
-                                                 intrusive=True,
-                                                 critical=False)
+                                                 loot_name="ftp-anon",
+                                                 intrusion_level=3)
 
     def execute(self, ip: str, port: int) -> None:
         """

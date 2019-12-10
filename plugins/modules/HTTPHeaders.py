@@ -17,9 +17,7 @@ class HTTPHeaders(GenericWebServiceModule):
         super(HTTPHeaders, self).__init__(name="HTTP Headers",
                                           description="Pulls all of the HTTP Headers for useful information",
                                           loot_name="http-headers",
-                                          multithreaded=False,
-                                          intrusive=False,
-                                          critical=False)
+                                          intrusion_level=2)
 
     def execute(self, ip: str, port: int) -> None:
         """

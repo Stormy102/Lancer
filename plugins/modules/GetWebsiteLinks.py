@@ -21,9 +21,7 @@ class GetWebsiteLinks(GenericWebServiceModule):
                                               description="Scrapes all of the internal and external links from a"
                                                           " website",
                                               loot_name="links",
-                                              multithreaded=False,
-                                              intrusive=False,
-                                              critical=False)
+                                              intrusion_level=2)
 
     def execute(self, ip: str, port: int) -> None:
         """
@@ -38,12 +36,7 @@ class GetWebsiteLinks(GenericWebServiceModule):
         Loot.loot[ip][str(port)][self.loot_name]["Internal"] = []
         Loot.loot[ip][str(port)][self.loot_name]["External"] = []
 
-        if port == 443:
-            url = "https://{IP}".format(IP=ip)
-        elif port == 80:
-            url = "http://{IP}".format(IP=ip)
-        else:
-            url = "http://{IP}:{PORT}".format(IP=ip, PORT=port)
+        url = self.get_url(ip, port)
 
         try:
             response = requests.get(url, allow_redirects=True)
@@ -53,27 +46,49 @@ class GetWebsiteLinks(GenericWebServiceModule):
                     parse = urlparse(link['href'])
                     loot_url = parse[1] + parse[2]
                     if self.is_internal_url(ip, parse[1]):
-                        if loot_url not in Loot.loot[ip][str(port)][self.loot_name]["Internal"]:
-                            self.logger.debug("{URL} is an internal URL".format(URL=loot_url))
-                            Loot.loot[ip][str(port)][self.loot_name]["Internal"].append(loot_url)
-
-                            with open(os.path.join(config.get_module_cache(self.name, ip, str(port)), "internal.txt"),
-                                      "a") as file:
-                                file.write("{URL}\n".format(URL=loot_url))
+                        self.log_internal_url(ip, port, loot_url)
                     else:
-                        if loot_url not in Loot.loot[ip][str(port)][self.loot_name]["External"]:
-                            self.logger.debug("{URL} is an external URL".format(URL=loot_url))
-                            Loot.loot[ip][str(port)][self.loot_name]["External"].append(loot_url)
-
-                            with open(os.path.join(config.get_module_cache(self.name, ip, str(port)), "external.txt"),
-                                      "a") as file:
-                                file.write("{URL}\n".format(URL=loot_url))
+                        self.log_external_url(ip, port, loot_url)
 
             self.logger.info("Found {INTERNAL} internal links and {EXTERNAL} external links"
                              .format(INTERNAL=len(Loot.loot[ip][str(port)][self.loot_name]["Internal"]),
                                      EXTERNAL=len(Loot.loot[ip][str(port)][self.loot_name]["External"])))
         except requests.exceptions.ConnectionError:
             self.logger.error("Unable to connect to {URL}".format(URL=url))
+
+    def log_internal_url(self, ip: str, port: int, loot_url: str) -> None:
+        """
+        Adds an internal URL to the dictionary and avoids duplication
+        :param ip: IP
+        :param port: Port
+        :param loot_url: Loot URL to store
+        """
+        # Check that the URL isn't a duplicate
+        if loot_url not in Loot.loot[ip][str(port)][self.loot_name]["Internal"]:
+            self.logger.debug("{URL} is an internal URL".format(URL=loot_url))
+            Loot.loot[ip][str(port)][self.loot_name]["Internal"].append(loot_url)
+
+            with open(os.path.join(config.get_module_cache(self.name, ip, str(port)), "internal.txt"),"a") as file:
+                file.write("{URL}\n".format(URL=loot_url))
+        else:
+            self.logger.debug("Internal URL {URL} has already been seen".format(URL=loot_url))
+
+    def log_external_url(self, ip: str, port: int, loot_url: str) -> None:
+        """
+        Adds an external URL to the dictionary and avoids duplication
+        :param ip: IP
+        :param port: Port
+        :param loot_url: Loot URL to store
+        """
+        # Check that the URL isn't a duplicate
+        if loot_url not in Loot.loot[ip][str(port)][self.loot_name]["External"]:
+            self.logger.debug("{URL} is an external URL".format(URL=loot_url))
+            Loot.loot[ip][str(port)][self.loot_name]["External"].append(loot_url)
+
+            with open(os.path.join(config.get_module_cache(self.name, ip, str(port)), "external.txt"), "a") as file:
+                file.write("{URL}\n".format(URL=loot_url))
+        else:
+            self.logger.debug("External URL {URL} has already been seen".format(URL=loot_url))
 
     def is_internal_url(self, base_url, url) -> bool:
         """

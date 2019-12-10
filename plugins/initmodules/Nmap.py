@@ -26,8 +26,7 @@ class Nmap(BaseModule):
         super(Nmap, self).__init__(name="Nmap",
                                    description="Scans the specified hostname/IP/IP subnet for open ports",
                                    loot_name="nmap",
-                                   multithreaded=False,
-                                   intrusive=False,
+                                   intrusion_level=3,
                                    critical=True)
 
     def execute(self, ip: str, port: int) -> None:

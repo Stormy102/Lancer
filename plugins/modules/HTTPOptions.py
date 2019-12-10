@@ -18,9 +18,7 @@ class HTTPOptions(GenericWebServiceModule):
         super(HTTPOptions, self).__init__(name="HTTP Options",
                                           description="Checks the HTTP Options available for a web server",
                                           loot_name="http-options",
-                                          multithreaded=False,
-                                          intrusive=False,
-                                          critical=False)
+                                          intrusion_level=2)
 
     def execute(self, ip: str, port: int) -> None:
         """

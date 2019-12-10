@@ -18,9 +18,7 @@ class GetHostname(BaseModule):
                                           description="Attempts to get a machine's hostname, as well as any other"
                                                       " aliases",
                                           loot_name="hostname",
-                                          multithreaded=False,
-                                          intrusive=False,
-                                          critical=False)
+                                          intrusion_level=1)
 
     def execute(self, ip: str, port: int) -> None:
         """

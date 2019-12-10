@@ -16,9 +16,8 @@ def create_module(required: bool = False) -> GenericWebServiceModule:
     return GenericWebServiceModule(name="Test",
                                    description="Test",
                                    loot_name="Test",
-                                   multithreaded=False,
-                                   critical=required,
-                                   intrusive=False)
+                                   intrusion_level=3,
+                                   critical=required)
 
 
 @pytest.mark.module

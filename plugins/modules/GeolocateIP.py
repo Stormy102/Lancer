@@ -18,9 +18,7 @@ class GeolocateIP(BaseModule):
         super(GeolocateIP, self).__init__(name="Geolocate IP",
                                           description="Geolocates a given IP or DNS name",
                                           loot_name="geo",
-                                          multithreaded=False,
-                                          intrusive=False,
-                                          critical=False)
+                                          intrusion_level=1)
 
     def execute(self, ip: str, port: int) -> None:
         """

@@ -19,9 +19,7 @@ class Gobuster(GenericWebServiceModule):
         super(Gobuster, self).__init__(name="Gobuster",
                                        description="Enumerate a web server's directories to find hidden files",
                                        loot_name="directory/file enumeration",
-                                       multithreaded=False,
-                                       intrusive=True,
-                                       critical=False)
+                                       intrusion_level=3)
         self.required_programs = ["gobuster"]
 
     def execute(self, ip: str, port: int) -> None:

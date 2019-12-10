@@ -21,9 +21,7 @@ class Nikto(GenericWebServiceModule):
         super(Nikto, self).__init__(name="Nikto",
                                     description="Scans the given web server",
                                     loot_name="nikto",
-                                    multithreaded=False,
-                                    intrusive=False,
-                                    critical=False)
+                                    intrusion_level=3)
         self.required_programs = ["nikto"]
 
     def execute(self, ip: str, port: int) -> None:

@@ -14,7 +14,5 @@ class Searchsploit(BaseModule):
         super(Searchsploit, self).__init__(name="Searchsploit",
                                            description="Looks up detected services on exploit-db",
                                            loot_name="exploit-db",
-                                           multithreaded=False,
-                                           intrusive=False,
-                                           critical=False)
+                                           intrusion_level=1)
         self.required_programs = ["searchsploit"]

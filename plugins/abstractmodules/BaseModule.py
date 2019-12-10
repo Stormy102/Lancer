@@ -15,18 +15,14 @@ import logging
 
 class BaseModule(object):
 
-    def __init__(self, name: str, description: str, loot_name: str, multithreaded: bool, intrusive: bool,
-                 critical: bool, intrusion_level:int = 3, priority: int = 1):
+    def __init__(self, name: str, description: str, loot_name: str, intrusion_level: int, critical: bool = False):
         self.name = name
         self.description = description
         self.loot_name = loot_name
 
         self.required_programs = []
 
-        self.multithreaded = multithreaded
-        self.intrusive = intrusive
-        self.intrusion_level = intrusion_level # TODO: Intrusion level for all modules instead of bool
-        self.priority = priority  # TODO: Execute priority - some modules should execute after others have ran
+        self.intrusion_level = intrusion_level
         self.critical_module = critical
 
         self.logger = get_logger(name)

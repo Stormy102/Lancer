@@ -45,7 +45,6 @@ class Nikto(GenericWebServiceModule):
             # -Format - the format of the output file
             # -o - the output path
             # -ask no - don't do anything which requires user input
-            # -sC -sV
             command = "nikto -host {URL} -Format xml -o {OUTPUT} -ask no"\
                 .format(URL=url, OUTPUT=output_filename)
             process = subprocess.Popen(command, stdout=writer)

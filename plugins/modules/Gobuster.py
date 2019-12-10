@@ -57,8 +57,7 @@ class Gobuster(GenericWebServiceModule):
             # -x - File extension(s) to scan for. Value loaded from config.ini with .php,.txt as default
             # -u - URL
             # -w - Wordlist
-            command = "gobuster dir -z -q -e -k -u {URL} -w {WORDLIST} -x {EXTENSIONS}" \
-                .format(URL=url, WORDLIST=wordlist_path, EXTENSIONS=extensions)
+            command = ["gobuster", "dir", "-z", "-q", "-e", "-k", "-u", url, "-w", wordlist_path, "-x", extensions]
             process = subprocess.Popen(command, stdout=writer)
 
             # While the process return code is None

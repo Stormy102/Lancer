@@ -111,6 +111,7 @@ class MS08_067(BaseModule):
 
 # TODO: Transition from the legacy PyMSRPC classes to the newer impacket classes
 class NDRUtils(object):
+    @staticmethod
     def get_ndr_wstring(data: str):
         align_byte = b"\xaa"
 
@@ -226,11 +227,7 @@ class NDRUtils(object):
             length = int(len(data) / 2)
             pad = self.pad(data)
 
-            return struct.pack("<L", length) \
-                   + struct.pack("<L", 0) \
-                   + struct.pack("<L", length) \
-                   + data \
-                   + pad
+            return struct.pack("<L", length) + struct.pack("<L", 0) + struct.pack("<L", length) + data + pad
 
     class ndr_long(ndr_primitive):
         """

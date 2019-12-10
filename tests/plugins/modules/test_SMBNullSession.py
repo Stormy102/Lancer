@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from plugins.modules.SMBClient import SMBClient
+from plugins.modules.SMBNullSession import SMBNullSession
 from core import config
 
 import pytest
@@ -13,13 +13,13 @@ import pytest
 
 @pytest.mark.module
 def test_module_creation():
-    smb = SMBClient()
+    smb = SMBNullSession()
     assert smb is not None
 
 
 @pytest.mark.module
 def test_disabled_config():
-    module = SMBClient()
+    module = SMBNullSession()
 
     if module.name not in config.config:
         config.config.add_section(module.name)
@@ -34,7 +34,7 @@ def test_disabled_config():
 
 @pytest.mark.module
 def test_should_run_service():
-    smb = SMBClient()
+    smb = SMBNullSession()
 
     result = smb.should_execute("microsoft-ds", 4455)
 
@@ -43,7 +43,7 @@ def test_should_run_service():
 
 @pytest.mark.module
 def test_should_run_port():
-    smb = SMBClient()
+    smb = SMBNullSession()
 
     result = smb.should_execute("ms-ds", 445)
 
@@ -52,7 +52,7 @@ def test_should_run_port():
 
 @pytest.mark.module
 def test_should_not_run():
-    smb = SMBClient()
+    smb = SMBNullSession()
 
     result = smb.should_execute("msrpc", 139)
 

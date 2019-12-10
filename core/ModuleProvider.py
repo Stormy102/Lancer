@@ -147,9 +147,6 @@ def __execute_modules(target: Target):
     global LOADED_MODULES
     global logger
 
-    # Order according to priority
-    LOADED_MODULES = sorted(LOADED_MODULES, key=operator.attrgetter('priority'), reverse=True)
-
     # Add null service and port to ensure that the Hostname/Geo modules always run
     # TODO: Convert to InitModules
     EventQueue.push("", 0)

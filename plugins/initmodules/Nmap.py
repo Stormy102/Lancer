@@ -65,7 +65,7 @@ class Nmap(BaseModule):
                         percentage = line[percentage_index-5:percentage_index+1]
                         # Get time remaining in format x:xx:xx
                         time_left = line.replace(" remaining)", "")
-                        time_left = time_left[-7:]
+                        time_left = time_left[-7:].strip()
 
                         print(utils.warning_message(), "Scan {PERC} complete - {TIME} left"
                               .format(PERC=percentage, TIME=time_left))

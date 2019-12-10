@@ -8,7 +8,7 @@
 
 __license__ = "GPL-3.0"
 
-from core import ArgHandler, config, utils, ModuleProvider, Loot
+from core import ArgHandler, config, utils, ModuleProvider, Loot, updater
 from core.reports.JSONReport import JSONReport
 from core.reports.TerminalReport import TerminalReport
 from core.Target import Target
@@ -36,6 +36,7 @@ def init():
         - Load the config file
         - Parse command line arguments
         - Show the header
+        - Check for updates
         - Check that we're on a supported Python version
         - Show an option to update the VirtualTerminal registry key if on Win 10
         - Show a warning that localisation support is not yet implemented if there is a non-default -l parameter
@@ -58,6 +59,15 @@ def init():
 
     # Check we're on a supported Python version
     utils.python_version()
+
+    # Check for updates
+    latest_version, prerelease = updater.get_latest_version()
+    if updater.check_if_update_available(latest_version):
+        print(utils.warning_message(), "Update available - reported version from Github is {VERSION}"
+              .format(VERSION=latest_version))
+    else:
+        # logger.log("No update found - latest version is {VERSION}".format(VERSION=latest_version))
+        print(utils.normal_message(), "No update found - latest version is {VERSION}".format(VERSION=latest_version))
 
     # Update the Windows virtual terminal if necessary
     # If we're on Windows 10, import winutils

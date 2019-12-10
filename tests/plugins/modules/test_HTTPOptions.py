@@ -32,6 +32,7 @@ def test_disabled_config():
     assert result is False
 
 
+@pytest.mark.flaky(reruns=2)
 @pytest.mark.module
 def test_get_valid_options():
     options = HTTPOptions()
@@ -48,6 +49,7 @@ def test_get_valid_options():
     assert "OPTIONS" in Loot.loot[hostname][port][options.loot_name]
 
 
+@pytest.mark.flaky(reruns=2)
 @pytest.mark.module
 def test_get_invalid_options():
     options = HTTPOptions()

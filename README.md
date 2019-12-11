@@ -101,7 +101,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] Auto-updater from Github _Planned for 0.2.0_
 * [X] Specify custom cache notification/warning size _Planned for 0.2.0_
 * [ ] HTTP Options brute forcing _Planned for 0.2.0_
-* [ ] Specify custom download size for FTP Anonymous Download _Planned for 0.2.0_
+* [X] Specify custom download size for FTP Anonymous Download _Planned for 0.2.0_
 * [ ] Modules use hostname and/or IP address correctly _Planned for 0.2.0_
 * [ ] Quiet Nmap scan using -sS _Planned for 0.2.0_
 * [ ] Option for Nmap UDP _Planned for 0.2.0_

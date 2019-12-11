@@ -4,8 +4,8 @@
     Copyright (c) 2019 Lancer developers
     See the file 'LICENCE' for copying permissions
 """
+
 from plugins.abstractmodules.BaseModule import BaseModule
-from core.spinner import Spinner
 from core import config, utils, Loot
 
 import ftplib
@@ -77,8 +77,9 @@ class FTPAnonymousAccess(BaseModule):
             dictionary["Files"] = []
             for filename in files:
                 dictionary["Files"].append(filename)
-            # TODO: Customise file size limit instead of defaulting to 50mb
-            sanitised_ftp_files, files_too_large = self.remove_files_over_size(ftp_client, files)
+
+            max_size = int(config.get_module_value(self.name, "DownloadSizeLimit", "50")) * 1024 * 1024
+            sanitised_ftp_files, files_too_large = self.remove_files_over_size(ftp_client, files, max_size)
 
             for large_file in files_too_large:
                 file_name, file_ext = os.path.splitext(large_file)
@@ -180,8 +181,6 @@ class FTPAnonymousAccess(BaseModule):
 
         self.logger.debug("Downloading {FILE} size {SIZE}".format(FILE=filename, SIZE="{:.1f}mb".format(file_size)))
 
-        #with Spinner():
-
         local_filename = os.path.join(config.get_module_cache(self.name, ip, port), filename)
 
         if not os.path.exists(os.path.dirname(local_filename)):
@@ -197,7 +196,7 @@ class FTPAnonymousAccess(BaseModule):
             self.logger.error("Permission denied to access {FILE}".format(FILE=filename))
         file.close()
 
-    def remove_files_over_size(self, ftp_client, files, size=1024 * 1024 * 50) -> (list, list):
+    def remove_files_over_size(self, ftp_client: ftplib.FTP, files: list, size: int) -> (list, list):
         """
         Remove any files over the specified size
         :param ftp_client: Reference to the FTP client

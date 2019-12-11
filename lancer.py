@@ -91,7 +91,7 @@ def init():
     print()
 
     # Cache warning
-    # If it is more than 1GB, we display an error-style warning
+    # If it is more than the warning size, we display an error-style warning
     root_directory = Path(config.get_cache_path())
     size = sum(f.stat().st_size for f in root_directory.glob('**/*') if f.is_file()) / 1048576  # Bytes -> MB
     if size >= config.get_cache_notification_size():

@@ -89,7 +89,7 @@ def get_cache_notification_size() -> int:
     :return: Size of the cache notification size in MB
     """
     global config
-    return int(config["CacheNotificationSize"])
+    return int(config["Main"]["CacheNotificationSize"])
 
 
 def get_cache_warning_size() -> int:
@@ -98,7 +98,7 @@ def get_cache_warning_size() -> int:
     :return: Size of the cache warning size in MB
     """
     global config
-    return int(config["CacheWarningSize"])
+    return int(config["Main"]["CacheWarningSize"])
 
 
 def get_module_value(name: str, value: str, default: str = "") -> str:

@@ -28,7 +28,6 @@ def pytest_collection_modifyitems(config, items) -> None:
     :param items: Test items
     """
 
-    # TODO: Tests for modules that are not run by default
     if not config.getoption("--run-no-ci"):
         skip_non_travis = pytest.mark.skip(reason="Non-Travis tests do not run by default - run with --run-no-ci"
                                                   " to run these tests.")

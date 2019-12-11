@@ -63,7 +63,6 @@ class SMBListShares(BaseModule):
                             "Description": share_desc,
                             "Type": share_type
                         }
-                        print(data)
                         Loot.loot[ip][str(port)][self.loot_name].append(data)
                 # self.logger.log("Discovered {LEN} shares".format(LEN=len(Loot.loot[ip][str(port)][self.loot_name])))
             else:

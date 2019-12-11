@@ -29,6 +29,6 @@ omit =
 	plugins/modules/MS17_010.py
 	plugins/modules/SSHBanner.py
 	plugins/modules/TelnetBanner.py
-	plugins/modules/SMBNullSession
+	plugins/modules/SMBNullSession.py
 	plugins/modules/SMBListShares.py
 	lancer.py

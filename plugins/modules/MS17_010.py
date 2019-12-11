@@ -348,7 +348,7 @@ class MS17_010Utils(object):
             b'\xC5\x5E'  # 'multiplex_id'
         ]
 
-        ipc = "\\\\{}\IPC$\x00".format(ip)
+        ipc = "\\\\{}\\IPC$\x00".format(ip)
 
         tree_connect_andx_request = [
             b'\x04',  # Word Count
@@ -467,8 +467,8 @@ class MS17_010Utils(object):
         return MS17_010Utils.generate_smb_proto_payload(netbios, smb_header, trans2_request)
 
     @staticmethod
-    def to_litte_endien(str: str):
-        big = int.from_bytes(bytes.fromhex(str), "big")
+    def to_litte_endien(hex_input: str):
+        big = int.from_bytes(bytes.fromhex(hex_input), "big")
         return "0x" + big.to_bytes((big.bit_length() + 7) // 8, "little").hex()
 
     @staticmethod

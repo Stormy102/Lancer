@@ -37,6 +37,10 @@ def get_config_parser() -> configparser.ConfigParser:
     cfg['Main']['Language'] = 'en'
     cfg.set('Main', '# Show the Lancer header. \'yes\' or \'no\'', None)
     cfg['Main']['ShowHeader'] = 'yes'
+    cfg.set('Main', '# Set the cache notification size', None)
+    cfg['Main']['CacheNotificationSize'] = '512'
+    cfg.set('Main', '# Set the cache warning size', None)
+    cfg['Main']['CacheWarningSize'] = '2048'
 
     # TODO: Stop convert to lowercase
     # cfg.optionxform = str
@@ -77,6 +81,24 @@ def module_enabled(name: str) -> bool:
     """
     global config
     return get_module_value(name, "enabled", "yes") == "yes"
+
+
+def get_cache_notification_size() -> int:
+    """
+    Get the size of the cache after which we display a notification
+    :return: Size of the cache notification size in MB
+    """
+    global config
+    return int(config["CacheNotificationSize"])
+
+
+def get_cache_warning_size() -> int:
+    """
+    Get the size of the cache after which we display a warning
+    :return: Size of the cache warning size in MB
+    """
+    global config
+    return int(config["CacheWarningSize"])
 
 
 def get_module_value(name: str, value: str, default: str = "") -> str:

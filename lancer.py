@@ -94,11 +94,11 @@ def init():
     # If it is more than 1GB, we display an error-style warning
     root_directory = Path(config.get_cache_path())
     size = sum(f.stat().st_size for f in root_directory.glob('**/*') if f.is_file()) / 1048576  # Bytes -> MB
-    if size >= 2048:
+    if size >= config.get_cache_notification_size():
         print(utils.error_message(), "Cache is {SIZE}gb in size. It is recommended to clear it with --clear-cache."
               .format(SIZE="{:.1f}".format(size / 1024)))
     # If it is more than 500, we display a warning
-    elif size >= 512:
+    elif size >= config.get_cache_warning_size():
         print(utils.warning_message(), "Cache is {SIZE}mb in size. You can clear it with --clear-cache."
               .format(SIZE="{:.1f}".format(size)))
 

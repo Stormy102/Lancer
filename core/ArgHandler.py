@@ -84,13 +84,12 @@ def create_parser() -> argparse.ArgumentParser:
     #                          "The root of the cache. This is where all of the data for the programs run is stored,"
     #                          " which may be useful if you wish to document or save all of the data in a separate"
     #                          " location.")
-    #modules.add_argument("-L", "--level", metavar="LEVEL", dest='intrusive_level', default=3,
-    #                     help="[NOT YET IMPLEMENTED] "
-    #                          "The intrusion level of this iteration. A level of 1 means the least intrusive scripts"
-    #                          " will be run, such as Nmap on quiet mode and a few HTTP requests. A level of 5 will mean"
-    #                          " that intrusive exploits will be run against the computer to determine how vulnerable it"
-    #                          " is. A full list of modules and their intrusion levels can be found on the Github Wiki."
-    #                          " This defaults to 3 - moderately intrusive.")
+    modules.add_argument("-L", "--level", metavar="LEVEL", dest='intrusive_level', default=3, type=int,
+                         help="The intrusion level of this iteration. A level of 1 means the least intrusive scripts"
+                              " will be run, such as Nmap on quiet mode and a few HTTP requests. A level of 5 will mean"
+                              " that intrusive exploits will be run against the computer to determine how vulnerable it"
+                              " is. A full list of modules and their intrusion levels can be found on the Github Wiki."
+                              " This defaults to 3 - moderately intrusive.")
     #modules.add_argument("-a", "--address", metavar="IP", dest='address', default='',
     #                     help="[NOT YET IMPLEMENTED] "
     #                          "Overrides the detected IP address with your own which is supplied.")
@@ -200,6 +199,15 @@ def get_clear_cache() -> bool:
     """
     global __args
     return __args.clear_cache
+
+
+def get_intrusive_level() -> int:
+    """
+    Get the -L intrusion level
+    :return: Intrusion Level. Defaults to 3.
+    """
+    global __args
+    return __args.intrusive_level
 
 
 def get_skip_ports() -> list:

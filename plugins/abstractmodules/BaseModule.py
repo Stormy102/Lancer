@@ -7,7 +7,7 @@
 
 from core.ModuleExecuteState import ModuleExecuteState
 from shutil import which
-from core import Loot
+from core import Loot, ArgHandler
 
 import logging
 
@@ -76,6 +76,11 @@ class BaseModule(object):
         Checks if the current module can be executed
         :return: ModuleExecuteState
         """
+
+        # If the intrusion level is lower than the module's intrusion level
+        if ArgHandler.get_intrusive_level() < self.intrusion_level:
+            return ModuleExecuteState.SkipExecute
+
         # Loop through every program required
         for program in self.required_programs:
 

@@ -43,6 +43,7 @@ def init():
         - Display a legal disclaimer about using Lancer for illegal use
         - Warn if the cache is over 500mb in size
         - Clear the cache if we want to
+        - Display a message about the intrusion level
     """
     # Register the signal handler for a more graceful Ctrl+C
     signal.signal(signal.SIGINT, utils.signal_handler)
@@ -95,7 +96,7 @@ def init():
     size = sum(f.stat().st_size for f in root_directory.glob('**/*') if f.is_file()) / 1048576  # Bytes -> MB
     if size >= 2048:
         print(utils.error_message(), "Cache is {SIZE}gb in size. It is recommended to clear it with --clear-cache."
-              .format(SIZE="{:.1f}".format(size/1024)))
+              .format(SIZE="{:.1f}".format(size / 1024)))
     # If it is more than 500, we display a warning
     elif size >= 512:
         print(utils.warning_message(), "Cache is {SIZE}mb in size. You can clear it with --clear-cache."
@@ -131,6 +132,17 @@ def init():
 
     # Preload all of the modules
     ModuleProvider.load()
+
+    # Display a message about the intrusion level
+    intrusion_level = ArgHandler.get_intrusive_level()
+    if intrusion_level < 5:
+        print(utils.normal_message(), "Intrusion level set to {INTRUSION}. Some modules may not run."
+              .format(INTRUSION=intrusion_level))
+    else:
+        print(utils.warning_message(), "Intrusion level set to {INTRUSION}. All modules will run, including those which"
+                                       " can cause target system instability."
+              .format(INTRUSION=intrusion_level))
+    print()
 
 
 def get_ip() -> str:

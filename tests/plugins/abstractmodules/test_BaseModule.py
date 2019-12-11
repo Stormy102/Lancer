@@ -7,7 +7,7 @@
 
 from core.ModuleExecuteState import ModuleExecuteState
 from plugins.abstractmodules.BaseModule import BaseModule
-from core import Loot, config
+from core import Loot, config, ArgHandler
 
 import pytest
 
@@ -76,10 +76,22 @@ def test_execute():
 @pytest.mark.module
 def test_can_execute_module():
     module = create_module(False)
+    ArgHandler.parse_arguments(["-T", "::1"])
 
     ret = module.can_execute_module()
 
     assert ret is ModuleExecuteState.CanExecute
+
+
+@pytest.mark.module
+def test_cannot_execute_module_intrusiveness_level():
+    module = create_module(False)
+    module.intrusion_level = 5
+    ArgHandler.parse_arguments(["-T", "::1"])
+
+    ret = module.can_execute_module()
+
+    assert ret is ModuleExecuteState.SkipExecute
 
 
 @pytest.mark.module

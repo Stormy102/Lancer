@@ -93,7 +93,7 @@ As Lancer is still very much in active development, there is currently limited f
 
 * [ ] Multi-threading - run all components at the same time, with progress indicator `[!] 3/7 scans complete... /` _Planned for 0.2.0_
 * [ ] Split into blind and targeted modules - blind modules require only a hostname/IP and port, while targeted modules can execute after the blind modules using information potentially harvested from blind modules _Planned for 0.2.0_
-* [ ] Configure intrusiveness level with `-L`/`--level` _Planned for 0.2.0_
+* [X] Configure intrusiveness level with `-L`/`--level` _Planned for 0.2.0_
 * [ ] Change cache root with `--cache-root` _Planned for 0.2.0_
 * [ ] IPv6 support _Planned for 0.2.0_
 * [ ] Page Links Module use recursion to iterate every available internal link _Planned for 0.2.0_
@@ -113,7 +113,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] BlueKeep vulnerability scan _Planned for 0.2.0_
 * [ ] [SSL version detection/vulnerabilities](https://pypi.org/project/sslscan/) _Planned for 0.2.0_
 * [X] SMB Null Session module _Planned for 0.2.0_
-* [ ] SMB Shares module _Planned for 0.2.0_
+* [X] SMB Shares module _Planned for 0.2.0_
 * [ ] SMB Get OS Version _Planned for 0.2.0_
 * [ ] CPE detection module (making up for removal of old CPE logic) _Coming in 0.2.0_
 * [ ] RPCClient Null Session module _Planned for 0.2.0_
@@ -209,13 +209,12 @@ However, Lancer has dependencies on several other external programs being instal
 The program takes the following arguments:
 
 ```text
-usage: lancer.py (-T TARGET | -TF FILE | -TN FILE) [--cache-root PATH]
-                 [-L LEVEL] [-a IP] [--skip-ports PORTS [PORTS ...]]
-                 [-v | -vv] [-o FILE] [--version] [-l LANGUAGE] [-h]
-                 [--clear-cache]
+usage: lancer.py (-T TARGET | -TF FILE | -TN FILE) [-L LEVEL]
+                 [--skip-ports PORTS [PORTS ...]] [-v | -vv] [--version]
+                 [-l LANGUAGE] [-h] [--clear-cache]
 
 [+] Lancer - system vulnerability scanner
-[+] See the config.ini file at C:\Users\Matthew\.lancer\config.ini for more options.
+[+] See the config.ini file at ~/.lancer/config.ini for more options.
 
 Required Arguments:
   Specify the target or targets that Lancer will scan.
@@ -227,10 +226,19 @@ Required Arguments:
                         File containing a list of target IP addresses.
   -TN FILE, --target-nmap FILE
                         Skip an internal Nmap scan by providing the path to an
-                        Nmap XML file. It is recommended to run common scripts
-                        (-sC argument) and version detection (-sV argument)
+                        Nmap XML file. It is recommended to run version
+                        detection (-sV argument)
 
 Module Arguments:
+  -L LEVEL, --level LEVEL
+                        The intrusion level of this iteration. A level of 1
+                        means the least intrusive scripts will be run, such as
+                        Nmap on quiet mode and a few HTTP requests. A level of
+                        5 will mean that intrusive exploits will be run
+                        against the computer to determine how vulnerable it
+                        is. A full list of modules and their intrusion levels
+                        can be found on the Github Wiki. This defaults to 3 -
+                        moderately intrusive.
   --skip-ports PORTS [PORTS ...]
                         Set the ports to ignore. These ports will have no
                         enumeration taken against them, except for the initial
@@ -247,10 +255,6 @@ Output Arguments:
   -vv, --very-verbose   Use a very verbose output. This will output virtually
                         every single event that Lancer logs. Useful for
                         debugging.
-  -o FILE, --output FILE
-                        [NOT YET IMPLEMENTED] Output the human-readable
-                        contents of the Lancer scan to a file. Best used in
-                        conjunction with -v/-vv
   --version             Shows the current version of Lancer.
 
 Optional Arguments:
@@ -263,7 +267,7 @@ Optional Arguments:
 
 Examples:
 [+] ./lancer -T 10.10.10.100 -v -l de -a 10.8.0.1
-[+] ./lancer -TF targets.lan -vv
+[+] ./lancer -TF targets.lan -vv --cache-root ./cache/
 [+] ./lancer -TN nmap-10.0.0.1.xml --skip-ports 445 80 -L 5
 ```
 

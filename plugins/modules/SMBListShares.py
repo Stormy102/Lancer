@@ -22,7 +22,7 @@ class SMBListShares(BaseModule):
                                             description="Gets a list of the publicly available shares",
                                             loot_name="smb-share-list",
                                             intrusion_level=3)
-        # self.required_programs = ["smbclient"]
+        self.required_programs = ["smbclient"]
 
     def execute(self, ip: str, port: int) -> None:
         """

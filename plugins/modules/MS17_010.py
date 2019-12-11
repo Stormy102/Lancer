@@ -85,7 +85,7 @@ class MS17_010(BaseModule):
             # SMB - Tree Connect AndX Request
             self.logger.debug("Generating and sending Tree Connect AndX Request")
             raw_proto = MS17_010Utils.tree_connect_andx_request(ip, user_id)
-            ipc = "\\\\{}\IPC$\x00".format(ip)
+            ipc = "\\\\{}\\IPC$\x00".format(ip)
             self.logger.debug("Connecting to {}with UID {}".format(ipc, user_id.hex()))
             client.send(raw_proto)
             try:

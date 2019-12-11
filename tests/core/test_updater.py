@@ -9,7 +9,9 @@ from core import updater, config
 
 import pytest
 
+
 @pytest.mark.core
+@pytest.mark.flaky(reruns=2)
 def test_get_latest_version():
     latest_version, pre_release = updater.get_latest_version()
     assert latest_version

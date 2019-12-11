@@ -6,7 +6,7 @@
 """
 
 from packaging import version
-from core import config
+from core import config, utils
 
 import json
 import requests
@@ -18,14 +18,18 @@ def get_latest_version() -> (str, bool):
     :return: Tag on the latest release on Github
     """
     request = requests.get("https://api.github.com/repos/Stormy102/Lancer/releases")
-    json_request = json.loads(request.text)
-    # Github is in the format vX.Y.Z(-ALPHA)
-    # Strip the v from the beginning of the tag name
-    latest_version = json_request[0]["tag_name"][1:]
-    if "-" in latest_version:
-        latest_version = latest_version[0:latest_version.index("-")]
-    prerelease = json_request[0]["prerelease"]
-    return latest_version, prerelease
+    if request.ok:
+        json_request = json.loads(request.text)
+        # Github is in the format vX.Y.Z(-ALPHA)
+        # Strip the v from the beginning of the tag name
+        latest_version = json_request[0]["tag_name"][1:]
+        if "-" in latest_version:
+            latest_version = latest_version[0:latest_version.index("-")]
+        prerelease = json_request[0]["prerelease"]
+        return latest_version, prerelease
+    else:
+        print(utils.error_message(), "Unable to get valid response from Github")
+        return config.__version__[0:config.__version__.index(" ")], False
 
 
 def check_if_update_available(latest_version: str) -> bool:

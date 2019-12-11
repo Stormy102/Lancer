@@ -72,6 +72,6 @@ class TelnetBanner(BaseModule):
             return False
         if "telnet" in service:
             return True
-        if port is 23:
+        if port == 23:
             return True
         return False

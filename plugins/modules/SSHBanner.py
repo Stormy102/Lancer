@@ -58,8 +58,8 @@ class SSHBanner(BaseModule):
         # Check if this module is disabled in the config.ini file
         if not super(SSHBanner, self).should_execute(service, port):
             return False
-        if service is "ssh":
+        if service == "ssh":
             return True
-        if port is 22:
+        if port == 22:
             return True
         return False

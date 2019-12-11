@@ -221,7 +221,7 @@ def print_header() -> None:
     for c in header:
         sys.stdout.write(c)
         sys.stdout.flush()
-        if c is '\n':
+        if c == '\n':
             time.sleep(0.005)
 
 

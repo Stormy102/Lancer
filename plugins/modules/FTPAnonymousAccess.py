@@ -231,8 +231,8 @@ class FTPAnonymousAccess(BaseModule):
         # Check if this module is disabled in the config.ini file
         if not super(FTPAnonymousAccess, self).should_execute(service, port):
             return False
-        if service is "ftp":
+        if service == "ftp":
             return True
-        if port is 21:
+        if port == 21:
             return True
         return False

@@ -26,18 +26,18 @@ def parse_arguments(args) -> None:
     global __args
     parser = create_parser()
 
-    if len(args) is 0:
+    if len(args) == 0:
         print(error_message(), "No arguments supplied, showing help...\n")
         time.sleep(0.5)
         parser.print_help()
         sys.exit(1)
 
-    if len(args) is 1 and "--version" in args:
+    if len(args) == 1 and "--version" in args:
         from core.config import __version__
         print(normal_message(), "Lancer {VERSION}".format(VERSION=__version__))
         sys.exit(0)
 
-    if len(args) is 1 and "-h" or "--help" in args:
+    if len(args) == 1 and "-h" or "--help" in args:
         parser.print_help()
         sys.exit(0)
 

@@ -32,7 +32,7 @@ class SMBNullSession(BaseModule):
         """
         self.create_loot_space(ip, port)
 
-        filename = os.path.join(get_module_cache(self.name, ip, ""), "smbclient-nullsession.log")
+        filename = os.path.join(get_module_cache(self.name, ip, str(port)), "smbclient-nullsession.log")
 
         with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
             # Arguments:

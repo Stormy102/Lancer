@@ -45,6 +45,8 @@ class GetWebsiteLinks(GenericWebServiceModule):
                 if link.has_attr('href'):
                     parse = urlparse(link['href'])
                     loot_url = parse[1] + parse[2]
+                    if "@" in loot_url:
+                        continue
                     if self.is_internal_url(ip, parse[1]):
                         self.log_internal_url(ip, port, loot_url)
                     else:
@@ -70,8 +72,8 @@ class GetWebsiteLinks(GenericWebServiceModule):
 
             with open(os.path.join(config.get_module_cache(self.name, ip, str(port)), "internal.txt"),"a") as file:
                 file.write("{URL}\n".format(URL=loot_url))
-        else:
-            self.logger.debug("Internal URL {URL} has already been seen".format(URL=loot_url))
+        # else:
+        #    self.logger.debug("Internal URL {URL} has already been seen".format(URL=loot_url))
 
     def log_external_url(self, ip: str, port: int, loot_url: str) -> None:
         """
@@ -87,8 +89,8 @@ class GetWebsiteLinks(GenericWebServiceModule):
 
             with open(os.path.join(config.get_module_cache(self.name, ip, str(port)), "external.txt"), "a") as file:
                 file.write("{URL}\n".format(URL=loot_url))
-        else:
-            self.logger.debug("External URL {URL} has already been seen".format(URL=loot_url))
+        # else:
+        #    self.logger.debug("External URL {URL} has already been seen".format(URL=loot_url))
 
     def is_internal_url(self, base_url, url) -> bool:
         """

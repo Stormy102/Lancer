@@ -50,6 +50,20 @@ def test_load_config_not_on_disk():
 
 
 @pytest.mark.core
+def test_get_cache_notification_size():
+    config.load_config()
+
+    assert config.get_cache_notification_size()
+
+
+@pytest.mark.core
+def test_get_cache_warning_size():
+    config.load_config()
+
+    assert config.get_cache_warning_size()
+
+
+@pytest.mark.core
 def test_get_module_value():
     config.config["nmap"] = {}
     config.config["nmap"]["enabled"] = "yes"

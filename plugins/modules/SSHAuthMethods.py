@@ -52,7 +52,7 @@ class SSHAuthMethods(SSHModule):
             output = reader.read().decode("UTF-8")
             auth_methods = re.search("\\((.*?)\\)", output)
             if auth_methods:
-                auth_methods.group()
+                auth_methods = auth_methods.group()
                 # Trim the brackets from the text
                 auth_methods = auth_methods[1:-1]
                 # Split by comma

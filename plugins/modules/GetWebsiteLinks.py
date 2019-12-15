@@ -47,6 +47,8 @@ class GetWebsiteLinks(GenericWebServiceModule):
                     loot_url = parse[1] + parse[2]
                     if "@" in loot_url:
                         continue
+                    if loot_url == "./":
+                        continue
                     if self.is_internal_url(ip, parse[1]):
                         self.log_internal_url(ip, port, loot_url)
                     else:

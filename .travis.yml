@@ -41,7 +41,7 @@ matrix:
 # Install Linux dependencies
 before_install:
   - sudo apt update
-  - sudo apt install -f -y smbclient
+  - sudo apt install -f -y smbclient wkhtmltopdf
 # command to install dependencies
 install:
   - pip3 install pytest-cov

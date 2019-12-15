@@ -113,7 +113,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [X] MS08-067 vulnerability scan _Planned for 0.2.0_
 * [X] MS17-010 vulnerability scan _Planned for 0.2.0_
 * [ ] BlueKeep vulnerability scan _Planned for 0.2.0_
-* [ ] [SSL version detection/vulnerabilities](https://pypi.org/project/sslscan/) _Planned for 0.2.0_
+* [ ] Web service screenshots _Planned for 0.2.0_
 * [X] SMB Null Session module _Planned for 0.2.0_
 * [X] SMB Shares module _Planned for 0.2.0_
 * [ ] SMB Get OS Version _Planned for 0.2.0_
@@ -132,7 +132,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] Anonymous LDAP _Planned for 0.3.0_
 * [ ] Dig zone transfer _Planned for 0.3.0_
 * [ ] WhoIs Module (Maybe use https://api.hackertarget.com/whois/?q={HOST}) _Planned for 0.3.0_
-* [ ] Web service screenshots (See [selenium](https://pypi.org/project/selenium/)) _Planned for 0.3.0_
+* [ ] [SSL version detection/vulnerabilities](https://pypi.org/project/sslscan/) _Planned for 0.3.0_
 * [ ] Nmap script level _Planned for 0.3.0_
 * [ ] Limited target attacks. Scans and enumerates specific services only _Planned for 0.3.0_
 * [ ] enum4linux support _Planned for 0.3.0_
@@ -203,6 +203,7 @@ However, Lancer has dependencies on several other external programs being instal
 |[Gobuster](https://github.com/OJ/gobuster/releases)                                     |3.1    |                  |:heavy_check_mark:*|:heavy_check_mark:|:heavy_check_mark:|
 |[Searchsploit](https://github.com/offensive-security/exploitdb/blob/master/searchsploit)|cbf80e3|                  |:heavy_check_mark:*|:heavy_check_mark:|:x:               |
 |[Nikto](https://github.com/sullo/nikto)                                                 |2.1.6  |                  |:heavy_check_mark: |:heavy_check_mark:|:heavy_check_mark:|
+|[Wkhtmltopdf](https://github.com/wkhtmltopdf/wkhtmltopdf)                               |0.12.5 |                  |:heavy_check_mark: |:heavy_check_mark:|:heavy_check_mark:|
 
 *_Recommended program_
 

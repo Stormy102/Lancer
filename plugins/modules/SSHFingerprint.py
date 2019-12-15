@@ -67,8 +67,8 @@ class SSHFingerprint(SSHModule):
                         "Bits": key.bits
                     }
                     Loot.loot[ip][str(port)][self.loot_name].append(results)
-                    self.logger.log("Found {TYPE} key, {BITS} bits with fingerprint {FINGERPRINT}"
-                                    .format(TYPE=type, BITS=key.bits, FINGERPRINT=key_hash))
+                    #self.logger.log("Found {TYPE} key, {BITS} bits with fingerprint {FINGERPRINT}"
+                    #                .format(TYPE=type, BITS=key.bits, FINGERPRINT=key_hash))
                 except InvalidKeyError:
                     self.logger.error("Unable parse key - the host could be down or a malformed output from ssh-keyscan"
                                       " could have been returned.")

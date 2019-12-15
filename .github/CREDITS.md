@@ -6,12 +6,15 @@ The following Pip packages are used in this project
 - [idna](https://pypi.org/project/idna/)
 - [pytest](https://pypi.org/project/pytest/)
 - [pytest-timeout](https://pypi.org/project/pytest-timeout/)
+- [pytest-rerunfailures](https://pypi.org/project/pytest-rerunfailures)
 - [cpe_utils](https://pypi.org/project/cpe_utils/)
 - [pyOpenSSL](https://pypi.org/project/pyOpenSSL/)
 - [cryptography](https://pipy.org/project/cryptography/)
 - [BeautifulSoup4](https://pipy.org/project/beautifulsoup4/)
 - [Pyfiglet](https://pipy.org/project/pyfiglet/)
 - [Packaging](https://pypi.org/project/packaging/)
+- [SSH Pub Keys](https://pypi.org/project/sshpubkeys/)
+- [Imgkit](https://pypi.org/project/imgkit/)
 
 The following projects have been partially adapted, converted or inspiration taken from, for use with Lancer
 

@@ -5,13 +5,13 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from plugins.abstractmodules.BaseModule import BaseModule
+from plugins.abstractmodules.SSHModule import SSHModule
 from core import Loot, config
 
 import socket
 
 
-class SSHBanner(BaseModule):
+class SSHBanner(SSHModule):
     def __init__(self):
         super(SSHBanner, self).__init__(name="SSH Banner",
                                         description="Gets the banner for the SSH server",
@@ -47,19 +47,3 @@ class SSHBanner(BaseModule):
         except (TimeoutError, socket.timeout):
             # Log of some kind
             self.logger.error("Failed to connect: Connection timed out")
-
-    def should_execute(self, service: str, port: int) -> bool:
-        """
-        Should the SSH Banner module be executed
-        :param service: The service to check
-        :param port: The port to check
-        :return: Boolean if this module should be executed
-        """
-        # Check if this module is disabled in the config.ini file
-        if not super(SSHBanner, self).should_execute(service, port):
-            return False
-        if service == "ssh":
-            return True
-        if port == 22:
-            return True
-        return False

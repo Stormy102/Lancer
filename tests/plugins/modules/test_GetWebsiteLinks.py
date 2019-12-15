@@ -18,21 +18,6 @@ def test_module_creation():
 
 
 @pytest.mark.module
-def test_disabled_config():
-    module = GetWebsiteLinks()
-
-    if module.name not in config.config:
-        config.config.add_section(module.name)
-    config.config.set(module.name, "enabled", "no")
-
-    result = module.should_execute("http", 80)
-
-    config.config.set(module.name, "enabled", "yes")
-
-    assert result is False
-
-
-@pytest.mark.module
 def test_is_internal_url_same_tld():
     links = GetWebsiteLinks()
     assert links.is_internal_url("test.com", "example.test.com") is True

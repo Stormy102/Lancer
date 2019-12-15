@@ -50,9 +50,13 @@ class SSHAuthMethods(SSHModule):
                 output += reader.read().decode("UTF-8")
                 time.sleep(0.5)
             output = reader.read().decode("UTF-8")
-            auth_methods = re.search("\\((.*?)\\)", output).group()
-            # Trim the brackets from the text
-            auth_methods = auth_methods[1:-1]
-            # Split by comma
-            auth_methods = auth_methods.split(",")
-            Loot.loot[ip][str(port)][self.loot_name] = auth_methods
+            auth_methods = re.search("\\((.*?)\\)", output)
+            if auth_methods:
+                auth_methods.group()
+                # Trim the brackets from the text
+                auth_methods = auth_methods[1:-1]
+                # Split by comma
+                auth_methods = auth_methods.split(",")
+                Loot.loot[ip][str(port)][self.loot_name] = auth_methods
+            else:
+                self.logger.error("Unable to get authentication types - maybe the host refused to connect")

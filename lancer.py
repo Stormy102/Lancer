@@ -62,6 +62,7 @@ def init():
     utils.python_version()
 
     # Check for updates
+    print(utils.normal_message(), "Checking for updates...")
     latest_version, prerelease = updater.get_latest_version()
     if updater.check_if_update_available(latest_version):
         print(utils.warning_message(), "Update available - reported version from Github is {VERSION}"

@@ -33,12 +33,11 @@ class Nikto(GenericWebServiceModule):
         self.create_loot_space(ip, port)
 
         url = self.get_url(ip, port)
-        output_filename = os.path.join(get_module_cache(self.name, ip, ""), "nmap")
-        filename = os.path.join(get_module_cache(self.name, ip, ""), "nmap.log")
+        output_filename = os.path.join(get_module_cache(self.name, ip, str(port)), "nikto.xml")
+        filename = os.path.join(get_module_cache(self.name, ip, str(port)), "nikto.log")
 
-        self.logger.debug("Writing XML output to {PATH}.xml|.nmap|.gnmap".format(PATH=output_filename))
+        self.logger.debug("Writing XML output to {PATH}".format(PATH=output_filename))
 
-        self.logger.info("Starting Nmap scan of {TARGET}".format(TARGET=ip))
         with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
             # Arguments:
             # -host - the host to scan
@@ -47,7 +46,7 @@ class Nikto(GenericWebServiceModule):
             # -ask no - don't do anything which requires user input
             command = "nikto -host {URL} -Format xml -o {OUTPUT} -ask no"\
                 .format(URL=url, OUTPUT=output_filename)
-            process = subprocess.Popen(command, stdout=writer)
+            process = subprocess.Popen(command, stdout=writer, stderr=writer)
             # While the process return code is None
             while process.poll() is None:
                 time.sleep(0.5)

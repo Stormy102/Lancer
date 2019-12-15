@@ -39,7 +39,7 @@ class HTTPOptions(GenericWebServiceModule):
             self.logger.debug("Received response from {IP}:{PORT}".format(IP=ip, PORT=port))
             allowed = response.getheader('allow')
             if allowed:
-                Loot.loot[ip][str(port)][self.loot_name] = allowed.split(",")
+                Loot.loot[ip][str(port)][self.loot_name] = [x.strip() for x in allowed.split(",")]
                 self.logger.info("Server responded to OPTIONS: {OPTIONS}".format(OPTIONS=allowed))
             else:
                 self.logger.info("OPTIONS HTTP verb not allowed for {URL}".format(URL=ip))

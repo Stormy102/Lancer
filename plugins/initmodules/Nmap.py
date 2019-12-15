@@ -47,7 +47,7 @@ class Nmap(BaseModule):
             # -sV - Version detection
             # -oA - Output in all formats
             command = ["nmap", "-v", "-sT", "-sV", "-oA", output_filename, ip]
-            process = subprocess.Popen(command, stdout=writer)
+            process = subprocess.Popen(command, stdout=writer, stderr=writer)
             # While the process return code is None
             while process.poll() is None:
                 # Parse the program as it runs

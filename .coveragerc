@@ -33,4 +33,5 @@ omit =
 	plugins/modules/TelnetBanner.py
 	plugins/modules/SMBNullSession.py
 	plugins/modules/SMBListShares.py
+	plugins/modules/GetWebsiteScreenshot.py
 	lancer.py

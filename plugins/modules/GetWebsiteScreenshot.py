@@ -27,9 +27,14 @@ class GetWebsiteScreenshot(GenericWebServiceModule):
         :param port: Port to use
         :return:
         """
+        # TODO: Wkhtmltoimage seems veeeeeery slow - maybe evaluate Selenium before release
 
         url = self.get_url(ip, port)
 
         path = os.path.join(config.get_module_cache(self.name, ip, str(port)), "screenshot.png")
-        imgkit.from_url(url, path)
-        self.logger.info("Screenshot saved to {PATH}".format(PATH=path))
+        self.logger.debug("Taking screenshot")
+        try:
+            imgkit.from_url(url, path)
+            self.logger.info("Screenshot saved to {PATH}".format(PATH=path))
+        except OSError:
+            self.logger.error("Unable to connect to {URL}".format(URL=url))

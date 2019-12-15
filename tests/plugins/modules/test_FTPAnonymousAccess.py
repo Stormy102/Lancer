@@ -162,9 +162,10 @@ def test_invalid_target():
 
 
 @pytest.mark.module
-def test_invalid_target():
+def test_timeout():
     module = FTPAnonymousAccess()
     Loot.reset()
+    config.config["Main"]["Timeout"] = "5"
 
     hostname = "1.1.1.1"
     port = 21

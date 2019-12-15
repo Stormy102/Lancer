@@ -6,7 +6,7 @@
 """
 
 from plugins.abstractmodules.BaseModule import BaseModule
-from core import Loot
+from core import Loot, config
 
 import socket
 import ftplib
@@ -31,7 +31,7 @@ class FTPBanner(BaseModule):
         ftp_client = ftplib.FTP()
         try:
             self.logger.debug("Connecting to {IP}:{PORT}".format(IP=ip, PORT=port))
-            ftp_client.connect(ip, port, timeout=15)
+            ftp_client.connect(ip, port, timeout=config.get_timeout())
             self.logger.info("Successfully connected to {IP}:{PORT}".format(IP=ip, PORT=port))
             Loot.loot[ip][str(port)][self.loot_name] = ftp_client.getwelcome()\
                 .replace("220-", "")\

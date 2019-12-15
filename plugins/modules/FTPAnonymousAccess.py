@@ -34,7 +34,7 @@ class FTPAnonymousAccess(BaseModule):
         try:
             ftp_client = ftplib.FTP()
             self.logger.debug("Connecting to {IP}:{PORT}".format(IP=ip, PORT=port))
-            ftp_client.connect(ip, port, timeout=15)
+            ftp_client.connect(ip, port, timeout=config.get_timeout())
             self.logger.info("Successfully connected to {IP}:{PORT}".format(IP=ip, PORT=port))
             self.logger.debug("Attempting to login anonymously")
             ftp_client.login()

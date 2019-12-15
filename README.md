@@ -107,7 +107,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [ ] Option for Nmap UDP _Planned for 0.2.0_
 * [ ] Option for full Nmap port scan _Planned for 0.2.0_
 * [X] SSH banner module _Planned for 0.2.0_
-* [ ] SSH fingerprint module _Planned for 0.2.0_
+* [X] SSH fingerprint module _Planned for 0.2.0_
 * [X] Telnet banner support _Planned for 0.2.0_
 * [X] MS08-067 vulnerability scan _Planned for 0.2.0_
 * [X] MS17-010 vulnerability scan _Planned for 0.2.0_

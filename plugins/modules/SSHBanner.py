@@ -6,7 +6,7 @@
 """
 
 from plugins.abstractmodules.BaseModule import BaseModule
-from core import Loot
+from core import Loot, config
 
 import socket
 
@@ -27,7 +27,7 @@ class SSHBanner(BaseModule):
         self.create_loot_space(ip, port)
 
         sock = socket.socket()
-        sock.settimeout(15)
+        sock.settimeout(config.get_timeout())
 
         try:
             self.logger.debug("Connecting to {IP}:{PORT}".format(IP=ip, PORT=port))

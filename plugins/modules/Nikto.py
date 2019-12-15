@@ -44,8 +44,7 @@ class Nikto(GenericWebServiceModule):
             # -Format - the format of the output file
             # -o - the output path
             # -ask no - don't do anything which requires user input
-            command = "nikto -host {URL} -Format xml -o {OUTPUT} -ask no"\
-                .format(URL=url, OUTPUT=output_filename)
+            command = ["nikto", "-host", url, "-Format", "xml", "-o", output_filename, "-ask", "no"]
             process = subprocess.Popen(command, stdout=writer, stderr=writer)
             # While the process return code is None
             while process.poll() is None:

@@ -6,7 +6,7 @@
 """
 
 from plugins.abstractmodules.BaseModule import BaseModule
-from core import Loot
+from core import Loot, config
 
 import socket
 import telnetlib
@@ -31,7 +31,7 @@ class TelnetBanner(BaseModule):
         telnet = telnetlib.Telnet()
         try:
             self.logger.debug("Connecting to {IP}:{PORT}".format(IP=ip, PORT=port))
-            telnet.open(ip, port, 15)
+            telnet.open(ip, port, config.get_timeout())
             self.logger.info("Successfully connected to {IP}:{PORT}".format(IP=ip, PORT=port))
             raw_banner = telnet.read_until(b"login:", 15).decode("UTF-8")
             if "login:" in raw_banner:

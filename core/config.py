@@ -41,6 +41,8 @@ def get_config_parser() -> configparser.ConfigParser:
     cfg['Main']['CacheNotificationSize'] = '512'
     cfg.set('Main', '# Set the cache warning size', None)
     cfg['Main']['CacheWarningSize'] = '2048'
+    cfg.set('Main', '# Set the timeout for each module', None)
+    cfg['Main']['Timeout'] = '15'
 
     # TODO: Stop convert to lowercase
     # cfg.optionxform = str
@@ -117,6 +119,16 @@ def get_module_value(name: str, value: str, default: str = "") -> str:
     if value not in config[name]:
         config[name][value] = default
     return config[name][value]
+
+
+def get_timeout() -> int:
+    """
+    Get the current timeout for all of the modules
+    :return: The timeout duration
+    """
+    global config
+
+    return int(config["Main"]["Timeout"])
 
 
 def get_lancer_conf_dir() -> str:

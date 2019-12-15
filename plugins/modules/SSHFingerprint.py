@@ -40,7 +40,7 @@ class SSHFingerprint(BaseModule):
         with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
             # Arguments:
             # -p - port to use
-            command = "ssh-keyscan -p {PORT} {IP}".format(IP=ip, PORT=port)
+            command = ["ssh-keyscan", "-p", str(port), ip]
             process = subprocess.Popen(command, stdout=writer, stderr=writer)
             # While the process return code is None
             output = ""

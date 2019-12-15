@@ -124,6 +124,7 @@ def test_get_banner_invalid():
 def test_get_banner_timeout():
     banner = SSHBanner()
     Loot.reset()
+    config.config["Main"]["Timeout"] = "5"
 
     hostname = "1.1.1.1"
     port = 22

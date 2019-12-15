@@ -64,6 +64,13 @@ def test_get_cache_warning_size():
 
 
 @pytest.mark.core
+def test_get_timeout():
+    config.load_config()
+
+    assert config.get_timeout()
+
+
+@pytest.mark.core
 def test_get_module_value():
     config.config["nmap"] = {}
     config.config["nmap"]["enabled"] = "yes"

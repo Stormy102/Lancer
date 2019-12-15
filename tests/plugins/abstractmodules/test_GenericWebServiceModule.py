@@ -5,9 +5,8 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from core.ModuleExecuteState import ModuleExecuteState
 from plugins.abstractmodules.GenericWebServiceModule import GenericWebServiceModule
-from core import Loot, config
+from core import config
 
 import pytest
 
@@ -110,6 +109,21 @@ def test_should_execute_port_8080():
 def test_should_execute_port_8443():
     module = create_module()
     assert module.should_execute("web-service", 8443)
+
+
+@pytest.mark.module
+def test_disabled_config():
+    module = create_module()
+
+    if module.name not in config.config:
+        config.config.add_section(module.name)
+    config.config.set(module.name, "enabled", "no")
+
+    result = module.should_execute("http", 80)
+
+    config.config.set(module.name, "enabled", "yes")
+
+    assert result is False
 
 
 @pytest.mark.module

@@ -18,48 +18,6 @@ def test_module_creation():
     assert banner is not None
 
 
-@pytest.mark.module
-def test_disabled_config():
-    module = SSHBanner()
-
-    if module.name not in config.config:
-        config.config.add_section(module.name)
-    config.config.set(module.name, "enabled", "no")
-
-    result = module.should_execute("ssh", 22)
-
-    config.config.set(module.name, "enabled", "yes")
-
-    assert result is False
-
-
-@pytest.mark.module
-def test_should_run_service():
-    banner = SSHBanner()
-
-    result = banner.should_execute("ssh", 2222)
-
-    assert result is True
-
-
-@pytest.mark.module
-def test_should_run_port():
-    banner = SSHBanner()
-
-    result = banner.should_execute("ssh", 22)
-
-    assert result is True
-
-
-@pytest.mark.module
-def test_should_not_run():
-    banner = SSHBanner()
-
-    result = banner.should_execute("http", 80)
-
-    assert result is False
-
-
 @pytest.mark.noci
 @pytest.mark.module
 def test_get_banner():

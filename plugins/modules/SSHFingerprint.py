@@ -5,7 +5,7 @@
     See the file 'LICENCE' for copying permissions
 """
 
-from plugins.abstractmodules.BaseModule import BaseModule
+from plugins.abstractmodules.SSHModule import SSHModule
 from core.config import get_module_cache
 from core.utils import normal_message
 from core import Loot
@@ -17,7 +17,7 @@ import io
 import time
 
 
-class SSHFingerprint(BaseModule):
+class SSHFingerprint(SSHModule):
 
     def __init__(self):
         super(SSHFingerprint, self).__init__(name="SSH Fingerprint",
@@ -28,10 +28,10 @@ class SSHFingerprint(BaseModule):
 
     def execute(self, ip: str, port: int) -> None:
         """
-                Scan the web server using Nikto
-                :param ip: IP to use
-                :param port: Port to use
-                """
+        Get the key type, bits and MD5 fingerprint of the SSH server
+        :param ip: IP to use
+        :param port: Port to use
+        """
         self.create_loot_space(ip, port)
         Loot.loot[ip][str(port)][self.loot_name] = []
 
@@ -67,25 +67,11 @@ class SSHFingerprint(BaseModule):
                         "Bits": key.bits
                     }
                     Loot.loot[ip][str(port)][self.loot_name].append(results)
-                    print(normal_message(), type, key.hash_md5()[4:])
+                    self.logger.log("Found {TYPE} key, {BITS} bits with fingerprint {FINGERPRINT}"
+                                    .format(TYPE=type, BITS=key.bits, FINGERPRINT=key_hash))
                 except InvalidKeyError:
                     self.logger.error("Unable parse key - the host could be down or a malformed output from ssh-keyscan"
                                       " could have been returned.")
                 except NotImplementedError:
-                    pass
-
-    def should_execute(self, service: str, port: int) -> bool:
-        """
-        Should the SSH Fingerprint module be executed
-        :param service: The service to check
-        :param port: The port to check
-        :return: Boolean if this module should be executed
-        """
-        # Check if this module is disabled in the config.ini file
-        if not super(SSHFingerprint, self).should_execute(service, port):
-            return False
-        if service == "ssh":
-            return True
-        if port == 22:
-            return True
-        return False
+                    self.logger.error("This key is not supported by the Python SSH Pub Keys package. Please create an"
+                                      " issue on Lancer's Github page.")

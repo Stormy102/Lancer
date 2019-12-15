@@ -24,8 +24,8 @@ class GenericWebServiceModule(BaseModule):
         super(GenericWebServiceModule, self).__init__(name=name,
                                                       description=description,
                                                       loot_name=loot_name,
-                                                      critical=critical,
-                                                      intrusion_level=intrusion_level)
+                                                      intrusion_level=intrusion_level,
+                                                      critical=critical)
 
     # noinspection PyMethodMayBeStatic
     def get_url(self, ip: str, port: int) -> str:

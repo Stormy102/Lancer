@@ -18,21 +18,6 @@ def test_module_creation():
 
 
 @pytest.mark.module
-def test_disabled_config():
-    module = HTTPHeaders()
-
-    if module.name not in config.config:
-        config.config.add_section(module.name)
-    config.config.set(module.name, "enabled", "no")
-
-    result = module.should_execute("http", 80)
-
-    config.config.set(module.name, "enabled", "yes")
-
-    assert result is False
-
-
-@pytest.mark.module
 def test_get_http():
     headers = HTTPHeaders()
 

@@ -57,22 +57,22 @@ class SSHFingerprint(BaseModule):
                 # 192.168.0.4 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEGODBKRjsFB/1v3pDRGpA6xR+QpOJg9vat0brlbUNDD root@Svr
                 key_line = line[line.index(" ")+1:]
                 key = SSHKey(key_line)
-                type = key_line[4:key_line.index(" ")]
                 try:
                     key.parse()
+                    type = key_line[4:key_line.index(" ")]
+                    key_hash = key.hash_md5()[4:]
+                    results = {
+                        "SSH Key Fingerprint": key_hash,
+                        "Key Type": type,
+                        "Bits": key.bits
+                    }
+                    Loot.loot[ip][str(port)][self.loot_name].append(results)
+                    print(normal_message(), type, key.hash_md5()[4:])
                 except InvalidKeyError:
-                    print("KEY PARSE ERROR")
+                    self.logger.error("Unable parse key - the host could be down or a malformed output from ssh-keyscan"
+                                      " could have been returned.")
                 except NotImplementedError:
                     pass
-
-                key_hash = key.hash_md5()[4:]
-                results = {
-                    "SSH Key Fingerprint": key_hash,
-                    "Key Type": type,
-                    "Bits": key.bits
-                }
-                Loot.loot[ip][str(port)][self.loot_name].append(results)
-                print(normal_message(), type, key.hash_md5()[4:])
 
     def should_execute(self, service: str, port: int) -> bool:
         """

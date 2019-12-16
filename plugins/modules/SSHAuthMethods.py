@@ -7,7 +7,7 @@
 
 from plugins.abstractmodules.SSHModule import SSHModule
 from core.config import get_module_cache
-from core import Loot
+from core import config, Loot
 from string import ascii_letters
 from random import choice
 
@@ -41,8 +41,9 @@ class SSHAuthMethods(SSHModule):
             random_username = ''.join([choice(ascii_letters) for _ in range(0, 9)])
             # Arguments:
             # -p - port to use
-            command = ["ssh", "-o", "StrictHostKeyChecking=no", "-o", "PreferredAuthentications=none", "-o",
-                       "LogLevel=ERROR", "-p", str(port), "{USER}@{IP}".format(USER=random_username, IP=ip)]
+            command = ["ssh", "-o", "ConnectTimeout={TIMEOUT}".format(TIMEOUT=config.get_timeout()),
+                       "-o", "StrictHostKeyChecking=no", "-o", "PreferredAuthentications=none", "-o", "LogLevel=ERROR",
+                       "-p", str(port), "{USER}@{IP}".format(USER=random_username, IP=ip)]
             process = subprocess.Popen(command, stdout=writer, stderr=writer)
             # While the process return code is None
             output = ""

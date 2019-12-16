@@ -151,3 +151,9 @@ def test_get_multiple_skip_ports():
     ArgHandler.parse_arguments(["-T", "127.0.0.1", "--skip-ports", "80", "8080"])
     assert 80 in ArgHandler.get_skip_ports()
     assert 8080 in ArgHandler.get_skip_ports()
+
+
+@pytest.mark.core
+def test_cache_root():
+    ArgHandler.parse_arguments(["-T", "::1", "--cache-root", "cache"])
+    assert ArgHandler.get_cache_root() == "cache"

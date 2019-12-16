@@ -212,9 +212,9 @@ However, Lancer has dependencies on several other external programs being instal
 The program takes the following arguments:
 
 ```text
-usage: lancer.py (-T TARGET | -TF FILE | -TN FILE) [-L LEVEL]
-                 [--skip-ports PORTS [PORTS ...]] [-v | -vv] [--version]
-                 [-l LANGUAGE] [-h] [--clear-cache]
+usage: lancer.py (-T TARGET | -TF FILE | -TN FILE) [--cache-root PATH]
+                 [-L LEVEL] [--skip-ports PORTS [PORTS ...]] [-v | -vv]
+                 [--version] [-l LANGUAGE] [-h] [--clear-cache]
 
 [+] Lancer - system vulnerability scanner
 [+] See the config.ini file at ~/.lancer/config.ini for more options.
@@ -233,14 +233,19 @@ Required Arguments:
                         detection (-sV argument)
 
 Module Arguments:
+  --cache-root PATH     The root of the cache. This is where all of the data
+                        for the programs run is stored, which may be useful if
+                        you wish to document or save all of the data in a
+                        separate location.
   -L LEVEL, --level LEVEL
                         The intrusion level of this iteration. A level of 1
-                        means the least intrusive scripts will be run, such as
-                        Nmap on quiet mode and a few HTTP requests. A level of
-                        5 will mean that intrusive exploits will be run
-                        against the computer to determine how vulnerable it
-                        is. A full list of modules and their intrusion levels
-                        can be found on the Github Wiki. This defaults to 3 -
+                        means the least intrusive scripts will be run, which
+                        will usually involve no interaction with the target
+                        and mostly be OSINT-based modules. A level of 5 will
+                        mean that intrusive exploits will be run against the
+                        computer to determine how vulnerable it is. A full
+                        list of modules and their intrusion levels can be
+                        found on the Github Wiki. This defaults to 3 -
                         moderately intrusive.
   --skip-ports PORTS [PORTS ...]
                         Set the ports to ignore. These ports will have no

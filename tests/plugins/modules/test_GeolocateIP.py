@@ -64,7 +64,7 @@ def test_get_valid_domain_name():
 
     geolocate_ip.execute(hostname, 0)
 
-    assert "Cloudflare" in Loot.loot[hostname][geolocate_ip.loot_name]["isp"]
+    assert "CLOUDFLARENET" in Loot.loot[hostname][geolocate_ip.loot_name]["isp"]
 
 
 @pytest.mark.module
@@ -76,7 +76,7 @@ def test_get_valid_ip():
 
     geolocate_ip.execute(hostname, 0)
 
-    assert "Cloudflare" in Loot.loot[hostname][geolocate_ip.loot_name]["isp"]
+    assert "CLOUDFLARENET" in Loot.loot[hostname][geolocate_ip.loot_name]["isp"]
 
 
 @pytest.mark.module

@@ -29,6 +29,7 @@ omit =
 	plugins/modules/MS17_010.py
 	plugins/modules/SSHBanner.py
 	plugins/modules/SSHFingerprint.py
+	plugins/modules/SSHUserEnum.py
 	plugins/modules/SSHAuthMethods.py
 	plugins/modules/TelnetBanner.py
 	plugins/modules/SMBNullSession.py

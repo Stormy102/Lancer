@@ -112,6 +112,8 @@ As Lancer is still very much in active development, there is currently limited f
 * [X] Telnet banner support _Planned for 0.2.0_
 * [X] MS08-067 vulnerability scan _Planned for 0.2.0_
 * [X] MS17-010 vulnerability scan _Planned for 0.2.0_
+* [X] OpenSSH CVE 2018-15473 vulnerability scan _Planned for 0.2.0_
+* [ ] CVE 2020-0601/CVE 2020-0610 vulnerability scan _Planned for 0.2.0_
 * [ ] BlueKeep vulnerability scan _Planned for 0.2.0_
 * [ ] Web service screenshots _Planned for 0.2.0_
 * [X] SMB Null Session module _Planned for 0.2.0_

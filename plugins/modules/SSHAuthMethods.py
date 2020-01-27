@@ -37,7 +37,7 @@ class SSHAuthMethods(SSHModule):
 
         filename = os.path.join(get_module_cache(self.name, ip, str(port)), "ssh-auth-methods.log")
 
-        with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
+        with io.open(filename, 'wb', 1) as writer, io.open(filename, 'rb', 1) as reader:
             random_username = ''.join([choice(ascii_letters) for _ in range(0, 9)])
             # Arguments:
             # -p - port to use
@@ -58,6 +58,7 @@ class SSHAuthMethods(SSHModule):
                 auth_methods = auth_methods[1:-1]
                 # Split by comma
                 auth_methods = auth_methods.split(",")
+                self.logger.info("Supported auth methods are {METHODS}".format(METHODS=", ".join(auth_methods)))
                 Loot.loot[ip][str(port)][self.loot_name] = auth_methods
             else:
                 self.logger.error("Unable to get authentication types - maybe the host refused to connect")

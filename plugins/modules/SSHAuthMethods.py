@@ -37,7 +37,7 @@ class SSHAuthMethods(SSHModule):
 
         filename = os.path.join(get_module_cache(self.name, ip, str(port)), "ssh-auth-methods.log")
 
-        with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
+        with io.open(filename, 'wb', 1) as writer, io.open(filename, 'rb', 1) as reader:
             random_username = ''.join([choice(ascii_letters) for _ in range(0, 9)])
             # Arguments:
             # -p - port to use

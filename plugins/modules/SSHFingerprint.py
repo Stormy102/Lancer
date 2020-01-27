@@ -37,7 +37,7 @@ class SSHFingerprint(SSHModule):
 
         filename = os.path.join(get_module_cache(self.name, ip, str(port)), "ssh-fingerprint.log")
 
-        with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
+        with io.open(filename, 'wb', 1) as writer, io.open(filename, 'rb', 1) as reader:
             # Arguments:
             # -p - port to use
             command = ["ssh-keyscan", "-p", str(port), ip]

@@ -6,7 +6,7 @@
 """
 
 from plugins.abstractmodules.SSHModule import SSHModule
-from core import Loot
+from core import config, Loot
 from random import choice as choice
 from random import randint as rand
 
@@ -53,6 +53,7 @@ class SSHUserEnum(SSHModule):
         self.create_loot_space(ip, port)
 
         sock = socket.socket()
+        sock.settimeout(config.get_timeout())
         try:
             sock.connect((ip, port))
             sock.close()
@@ -83,6 +84,7 @@ class SSHUserEnum(SSHModule):
 
     def check_username(self, ip, port, username, tried=0):
         sock = socket.socket()
+        sock.settimeout(config.get_timeout())
         sock.connect((ip, port))
         # instantiate transport
         transport = paramiko.transport.Transport(sock)

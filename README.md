@@ -1,4 +1,4 @@
-# Lancer v0.1.0 Alpha
+# Lancer v0.2.0 Alpha
 
 <p align="center">
   <a href="#introduction">Introduction</a> •
@@ -115,7 +115,7 @@ As Lancer is still very much in active development, there is currently limited f
 * [X] OpenSSH CVE 2018-15473 vulnerability scan _Planned for 0.2.0_
 * [ ] CVE 2020-0601/CVE 2020-0610 vulnerability scan _Planned for 0.2.0_
 * [ ] BlueKeep vulnerability scan _Planned for 0.2.0_
-* [ ] Web service screenshots _Planned for 0.2.0_
+* [X] Web service screenshots _Planned for 0.2.0_
 * [X] SMB Null Session module _Planned for 0.2.0_
 * [X] SMB Shares module _Planned for 0.2.0_
 * [ ] SMB Get OS Version _Planned for 0.2.0_

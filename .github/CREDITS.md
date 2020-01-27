@@ -15,12 +15,14 @@ The following Pip packages are used in this project
 - [Packaging](https://pypi.org/project/packaging/)
 - [SSH Pub Keys](https://pypi.org/project/sshpubkeys/)
 - [Imgkit](https://pypi.org/project/imgkit/)
+- [Paramiko]()
 
 The following projects have been partially adapted, converted or inspiration taken from, for use with Lancer
 
 - [SSL Check](https://gist.github.com/gdamjan/55a8b9eec6cf7b771f92021d93b87b2c)
 - [MS17-010 Check](https://github.com/nixawk/labs/blob/master/MS17_010/smb_exploit.py0)
 - [PyMSRPC](https://github.com/daemitus/pymsrpc)
+- [CVE-2018-15473-Exploit](https://github.com/Rhynorater/CVE-2018-15473-Exploit)
 
 The following projects are used within Lancer
 

@@ -58,6 +58,7 @@ class SSHAuthMethods(SSHModule):
                 auth_methods = auth_methods[1:-1]
                 # Split by comma
                 auth_methods = auth_methods.split(",")
+                self.logger.info("Supported auth methods are {METHODS}".format(METHODS=", ".join(auth_methods)))
                 Loot.loot[ip][str(port)][self.loot_name] = auth_methods
             else:
                 self.logger.error("Unable to get authentication types - maybe the host refused to connect")

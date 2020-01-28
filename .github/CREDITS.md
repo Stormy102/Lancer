@@ -23,6 +23,7 @@ The following projects have been partially adapted, converted or inspiration tak
 - [MS17-010 Check](https://github.com/nixawk/labs/blob/master/MS17_010/smb_exploit.py0)
 - [PyMSRPC](https://github.com/daemitus/pymsrpc)
 - [CVE-2018-15473-Exploit](https://github.com/Rhynorater/CVE-2018-15473-Exploit)
+- [RDG Scanner](https://github.com/MalwareTech/RDGScanner)
 
 The following projects are used within Lancer
 

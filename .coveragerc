@@ -27,6 +27,7 @@ omit =
 	plugins/modules/MS08_067.py
 	plugins/initmodules/Nmap.py
 	plugins/modules/MS17_010.py
+	plugins/modules/RDGScanner.py
 	plugins/modules/SSHBanner.py
 	plugins/modules/SSHFingerprint.py
 	plugins/modules/SSHUserEnum.py

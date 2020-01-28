@@ -15,7 +15,7 @@ The following Pip packages are used in this project
 - [Packaging](https://pypi.org/project/packaging/)
 - [SSH Pub Keys](https://pypi.org/project/sshpubkeys/)
 - [Imgkit](https://pypi.org/project/imgkit/)
-- [Paramiko]()
+- [Paramiko](https://pypi.org/project/paramiko/)
 
 The following projects have been partially adapted, converted or inspiration taken from, for use with Lancer
 

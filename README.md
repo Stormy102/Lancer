@@ -183,12 +183,13 @@ To get started with Lancer, either run `git clone https://github.com/Stormy102/L
 
 Lancer is tested and supported on the following Operating Systems:
   * Windows:
-    * Windows 7
     * Windows 8/8.1/8.1.1
     * Windows 10 (all versions)
   * Linux:
-    * Ubuntu 16.04 and up
-    * Debian 8 and up
+    * Ubuntu 18.04 and up
+    * Debian 9 and up
+
+Please note that Server editions of Windows are not officially supported, although there should be no issues.
 
 Please note that Windows Subsystem for Linux is not officially supported (see [here](https://exploits.run/nmap-wsl/) for techniques to get around the issues present).
 
